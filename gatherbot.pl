@@ -224,6 +224,8 @@ sub said {
     # check if he's actually authed
     if (! exists $qauths{$who}) {
         $self->whoisuser_to_q($who);
+        $self->sayc(__x("Sorry {who} but you're not authed for me. I've asked Q about your AUTH, if you've just authed then please try again", who => $who));
+        return;
     }
     
     # Get the user's access level
@@ -3429,15 +3431,37 @@ sub chanpart {
     my $message = shift;
     my $who = $message->{who};
     my $channel = $message->{channel};
-    
+
     # Check if the part happened in $chan
     if ($channel ne $chan) {
         return;
     }
-    
+
+    # If user had auth, remove it
+    delete $qauths{$who};
+
     # If the player is signed, remove him
     $self->outplayer($who);
-    
+
+    return;
+}
+
+# This subr is called when
+# someone joins the channel
+sub chanjoin {
+    my $self = shift;
+    my $message = shift;
+    my $who = $message->{who};
+    my $channel = $message->{channel};
+
+    # Check if the join happened in $chan
+    if ($channel ne $chan) {
+        return;
+    }
+
+    # Ask Q about AUTH
+    $self->whoisuser_to_q($who);
+
     return;
 }
 
@@ -4935,6 +4959,7 @@ sub check_q_msg {
     my $body = $_[0];
 
     # Split the message by whitespace
+    print STDOUT "DEBUG body $body \n";
     my @words = split ' ', $body;
 
     # If the message contains someone's qauth info
@@ -4951,9 +4976,11 @@ sub check_q_msg {
         # Get the Q-auth name
         my $rpar_index = index $words[6], ')';
         my $authname = substr $words[6], 0, $rpar_index;
+        print STDOUT "DEBUG authname $authname \n";
         
         # If there's existing matching qauth info, return
         if ( exists($qauths{$ircnick}) && $qauths{$ircnick} eq $authname) {
+            print STDOUT "Already exists $ircnick $authname \n";
             return;
         }
         
@@ -5038,6 +5065,7 @@ sub check_q_msg {
         }
         
         # Add (or overwrite) the qauth info
+        print STDOUT "Writing $ircnick $authname \n";
         $qauths{$ircnick} = $authname;
     }
 
