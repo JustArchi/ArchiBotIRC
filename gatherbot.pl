@@ -4955,17 +4955,6 @@ sub whoisuser_to_q {
 	);
 }
 
-sub kickuser {
-	my $self = shift;
-	my $queried = $_[0];
-
-	$self->say(
-		who =>     'Q',
-		channel => 'msg',
-		body =>    "WHOIS $queried",
-	);
-}
-
 sub check_q_msg {
 	my $self = shift;
 	my $body = $_[0];
