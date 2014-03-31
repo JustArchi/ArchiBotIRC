@@ -224,7 +224,7 @@ sub said {
     # check if he's actually authed
     if (! exists $qauths{$who}) {
         $self->whoisuser_to_q($who);
-        $self->sayc(__x("Sorry {who} but you're not authed for me. I've asked Q about your AUTH, if you've just authed then please try again", who => $who));
+        $self->sayc(__x("Sorry {who} but you're not authed for me. I've asked Q about your AUTH right now, if you've just authed then please try again", who => $who));
         return;
     }
     
@@ -759,7 +759,7 @@ sub said {
             
             $lastturn = 1;
         
-          # Or, add the picked player to team2
+        # Or, add the picked player to team2
         } else {
             push @team2, $commands[1];
             
@@ -781,7 +781,7 @@ sub said {
         }
         
         my $outline = __x("{picker} picked {who}.",
-                          picker => $who, who => $commands[1]);
+                        picker => $who, who => $commands[1]);
         
         my $remainingplayercount = $#players + 1;
         my $giveplayerlist = 0;
@@ -888,8 +888,8 @@ sub said {
 
     # command .list
     elsif ($commands[0] eq '.list'        || $commands[0] eq '.ls' ||
-           $commands[0] eq '.listplayers' || $commands[0] eq '.lp' ||
-           $commands[0] eq '.playerlist'  || $commands[0] eq '.pl')  {
+        $commands[0] eq '.listplayers' || $commands[0] eq '.lp' ||
+        $commands[0] eq '.playerlist'  || $commands[0] eq '.pl')  {
     
         my $outline = "";
         
@@ -902,13 +902,13 @@ sub said {
             
             if ($canpick == 0) {
                 $outline = __x("Players: {list} ({pcount}/{pmax})",
-                               list => $list,
-                               pcount => "\x02" . $playercount . "\x0f",
-                               pmax =>   "\x02" . $maxplayers  . "\x0f");
+                            list => $list,
+                            pcount => "\x02" . $playercount . "\x0f",
+                            pmax =>   "\x02" . $maxplayers  . "\x0f");
                 
             } else {
                 $outline = __x("Player pool: {list}",
-                               list => $list);
+                            list => $list);
             }
         }
         
@@ -919,7 +919,7 @@ sub said {
     
     # command .score
     elsif ($commands[0] eq '.score' || $commands[0] eq '.report' ||
-           $commands[0] eq '.result') {
+        $commands[0] eq '.result') {
         
         if ($#commands < 2) {
             $self->sayc(__x("Syntax is {command} <gameno> <{team1}|{team2}|{draw}>",
@@ -1005,8 +1005,8 @@ sub said {
                 }
                 
                 if ($who eq $wascaptain2) {
-                     $captainresults[1] = $cmd2;
-                     $team = $team2;
+                    $captainresults[1] = $cmd2;
+                    $team = $team2;
                 }
                 
                 $captainscorereq{$cmd1} = join ',', @captainresults;
@@ -1225,8 +1225,8 @@ sub said {
     
     # command .out
     elsif ($commands[0] eq '.out' || $commands[0] eq '.remove' ||
-           $commands[0] eq '.rm'  || $commands[0] eq '.del') {
-           
+        $commands[0] eq '.rm'  || $commands[0] eq '.del') {
+        
         if ($canout == 0) {
             $self->sayc(__x("Signing out is not possible at the moment."));
             return;
@@ -1353,7 +1353,7 @@ sub said {
     
     # command .lastgame and .gameinfo
     elsif ($commands[0] eq '.lastgame' || $commands[0] eq '.lg' ||
-           $commands[0] eq '.gameinfo' || $commands[0] eq '.gi') {
+        $commands[0] eq '.gameinfo' || $commands[0] eq '.gi') {
             
         my $query;
         if ($commands[0] eq '.lastgame' || $commands[0] eq '.lg') {
@@ -1663,7 +1663,7 @@ sub said {
             
             if ($samevote == 1) {
                 $outline = __x("{who} has  already voted for {vote} as a captain.",
-                               who => $who, vote => $commands[1]);
+                            who => $who, vote => $commands[1]);
             }
         }
         
@@ -1810,7 +1810,7 @@ sub said {
             
             if ($samevote == 1) {
                 $outline = __x("{who} has already voted for {vote} as a map.",
-                               who => $who, vote => $commands[1]);
+                            who => $who, vote => $commands[1]);
             }
         }
         
@@ -2440,7 +2440,7 @@ sub said {
             
             if ($usersrank != -1) { 
                 $outline = __x("{who} is ranked {rank} with points {points}",
-                               who => $who, rank => $usersrank, points => $temp[1]);
+                            who => $who, rank => $usersrank, points => $temp[1]);
             } else {
                 
                 $outline = __x("{who} is not ranked yet.", who => $who);
@@ -2476,37 +2476,30 @@ sub said {
                 return;
             }
         }
-        
+
         $self->sayc($outline);
         return;
     }
-    
-    
+
+
     # command .shutdown
     elsif ($commands[0] eq '.shutdown') {
-    
-        my $originaladmin = 0;
-        for my $admin (@admins) {
-            if ($who eq $admin) {
-                $originaladmin = 1;
-            }
-        }
-        
-        if ($originaladmin == 0) {
-            $self->sayc(__x("{who} is not an original admin.",
+
+        if ($accesslevel ne 'admin') {
+            $self->sayc(__x("{who} is not an admin.",
                             who => $who));
             return;
         }
-        
+
         $self->save();
         $self->shutdown();
         return;
     }
-    
-    
+
+
     # command .commands
     elsif ($commands[0] eq '.commands' || $commands[0] eq '.commandlist' || 
-           $commands[0] eq '.cmdlist' || $commands[0] eq '.cmds' || $commands[0] eq '.help') {
+        $commands[0] eq '.cmdlist' || $commands[0] eq '.cmds' || $commands[0] eq '.help') {
     
         if ($#commands == 1 && $commands[1] eq 'verbose') {
             my $adddesc = __x("           = Signs you up for the game.");
@@ -2561,8 +2554,8 @@ sub said {
         }
         my $outline = __x("Commands are ");
         $outline .= ".add .list .out .votemap .votecaptain .captain .uncaptain " .
-                       ".rafflecaptain .server .mumble .pick .report .stats .lastgame " .
-                       ".gameinfo .replace .games .rank .top .hl off/on .whois .admincommands";
+                    ".rafflecaptain .server .mumble .pick .report .stats .lastgame " .
+                    ".gameinfo .replace .games .rank .top .hl off/on .whois .admincommands";
                         
         $self->sayc($outline);
         $self->sayc(__x("To get descriptions for the commands, use {command} verbose",
@@ -2712,18 +2705,18 @@ sub said {
         if ($#commands > 0 && $commands[1] eq 'list') {
             
             $outline .= "team1, team2, draw, maxplayers, gameserverip, " .
-                       "gameserverport, gameserverpw, voiceserverip, " .
-                       "voiceserverport, voiceserverpw, neededvotes_captain, " .
-                       "neededvotes_map, neededreq_replace, neededreq_remove, " .
-                       "neededreq_score, neededreq_rafflecapt, neededreq_hl";
+                    "gameserverport, gameserverpw, voiceserverip, " .
+                    "voiceserverport, voiceserverpw, neededvotes_captain, " .
+                    "neededvotes_map, neededreq_replace, neededreq_remove, " .
+                    "neededreq_score, neededreq_rafflecapt, neededreq_hl";
             $self->sayc($outline);
             
             $outline = "initialpoints, pointsonwin, pointsonloss, pointsondraw, " .
-                       "p_scale_factor, p_scale_factor_draw, p_max_variance " .
-                       "topdefaultlength, gamehascaptains, gamehasmap, votecaptaintime, " .
-                       "votemaptime, mutualvotecaptain, mutualvotemap, printpoolafterpick, " .
-                       "givegameserverinfo, givevoiceserverinfo, showinfointopic, " .
-                       "topicdelimiter, remindtovote, websiteurl, locale";
+                    "p_scale_factor, p_scale_factor_draw, p_max_variance " .
+                    "topdefaultlength, gamehascaptains, gamehasmap, votecaptaintime, " .
+                    "votemaptime, mutualvotecaptain, mutualvotemap, printpoolafterpick, " .
+                    "givegameserverinfo, givevoiceserverinfo, showinfointopic, " .
+                    "topicdelimiter, remindtovote, websiteurl, locale";
             $self->sayc($outline);
             
             return;
@@ -3010,8 +3003,8 @@ sub said {
         
         my $playercount = $#players+1;
         my $notice = __x("{chan} - sign up for gather is on! " .
-                         "{pcount}/{pmax} players have signed up.",
-                         chan => $chan, pcount => $playercount, pmax => $maxplayers);
+                        "{pcount}/{pmax} players have signed up.",
+                        chan => $chan, pcount => $playercount, pmax => $maxplayers);
         
         my $chandata = $self->channel_data($chan);
         foreach my $nick_ (keys %$chandata) {
@@ -3070,11 +3063,11 @@ sub said {
                 
                 # Make and give the output
                 my $outline = __x("Highlight have requested: " .
-                                  "{requesters} [{requestersc}/{neededreq}]",
-                                  requesters => $requestersline,
-                                  requestersc => $requesterscount,
-                                  neededreq => $neededreq_hl);
-                                  
+                                "{requesters} [{requestersc}/{neededreq}]",
+                                requesters => $requestersline,
+                                requestersc => $requesterscount,
+                                neededreq => $neededreq_hl);
+                                
                 $self->sayc($outline);
                 
                 # If not enough requesters yet, return
@@ -3437,9 +3430,6 @@ sub chanpart {
         return;
     }
 
-    # If user had auth, remove it
-    delete $qauths{$who};
-
     # If the player is signed, remove him
     $self->outplayer($who);
 
@@ -3461,6 +3451,17 @@ sub chanjoin {
 
     # Ask Q about AUTH
     $self->whoisuser_to_q($who);
+
+    return;
+}
+
+# This subr is called when
+# someone changes the nickname
+sub nick_change {
+    my $self = shift;
+
+    # Ask Q about AUTH
+    $self->whoisuser_to_q($_[1]);
 
     return;
 }
@@ -4119,7 +4120,7 @@ sub voidusersrequests {
         }
     }
     
-   
+
     # Void all remove requests that relate to the given user
     $removereq{$username} = "";
     foreach (keys %removereq) {
@@ -4318,7 +4319,7 @@ sub changecapt1 {
 
 sub changecapt2 {
     my $newcaptain = $_[0];
-     
+    
     # Remove the current captain from his team
     for my $i (0 .. $#team2) {
         if ($team2[$i] eq $captain2) {
@@ -4668,10 +4669,10 @@ sub get_team_skill {
 
 
 sub mode {
-   my $self = shift;
-   my $mode = join ' ', @_;
+my $self = shift;
+my $mode = join ' ', @_;
 
-   $poe_kernel->post ($self->{ircnick} => mode => $mode);
+$poe_kernel->post ($self->{ircnick} => mode => $mode);
 }
 
 
@@ -4731,8 +4732,8 @@ sub get_colored_points {
         return "\x0304" . "$points\x0f";
         
     } elsif ($points > 1010) {
-         return "\x0309" . "$points\x0f";
-         
+        return "\x0309" . "$points\x0f";
+        
     } else {
         return "\x0308" . "$points\x0f";
     }
@@ -4946,7 +4947,18 @@ sub printvoipinfo {
 sub whoisuser_to_q {
     my $self = shift;
     my $queried = $_[0];
-    
+
+    $self->say(
+        who =>     'Q',
+        channel => 'msg',
+        body =>    "WHOIS $queried",
+    );
+}
+
+sub kickuser {
+    my $self = shift;
+    my $queried = $_[0];
+
     $self->say(
         who =>     'Q',
         channel => 'msg',
@@ -4959,7 +4971,6 @@ sub check_q_msg {
     my $body = $_[0];
 
     # Split the message by whitespace
-    print STDOUT "DEBUG body $body \n";
     my @words = split ' ', $body;
 
     # If the message contains someone's qauth info
@@ -4976,42 +4987,40 @@ sub check_q_msg {
         # Get the Q-auth name
         my $rpar_index = index $words[6], ')';
         my $authname = substr $words[6], 0, $rpar_index;
-        print STDOUT "DEBUG authname $authname \n";
         
         # If there's existing matching qauth info, return
         if ( exists($qauths{$ircnick}) && $qauths{$ircnick} eq $authname) {
-            print STDOUT "Already exists $ircnick $authname \n";
             return;
         }
         
         # If there's existing qauth info on this nick
-        # but for a different authname, announce overwrite
+        # but for a different authname, return
         if ( exists($qauths{$ircnick}) && $qauths{$ircnick} ne $authname) {
-            print STDERR "going to overwrite qauth info for nick $ircnick " .
-                         "(oldauth=$qauths{$ircnick} newauth=$authname)\n";
+            $self->kick($chan, $ircnick, "This nick already exists in the database and is owned by $qauths{$ircnick}. Please use another one!");
+            return;
         }
-        
+
         # If there's existing info for this authname
         # but on a different irc-nick, update
         # the info and the user's name in data
         foreach (keys %qauths) {
             if ($qauths{$_} eq $authname && $ircnick ne $_) {
-            
+
                 # Delete the existing qauth info
                 delete $qauths{$_};
-                
+
                 # Copy the user's data under the
                 # new name and delete the old data
                 $users{$ircnick} = $users{$_};
                 delete($users{$_});
-                
+
                 my $oldnick = $_;
-                
+
                 # Also change the player's name in gamedata
                 foreach (keys %games) {
                     $games{$_} =~ s/$oldnick/$ircnick/g;
                 }
-                
+
                 # If the player is signed up,
                 # change the nick there too.
                 #
@@ -5023,7 +5032,7 @@ sub check_q_msg {
                         last;
                     }
                 }
-                
+
                 # Check for the rare case that
                 # the user is now signed twice
                 my $count = 0;
@@ -5032,34 +5041,33 @@ sub check_q_msg {
                     if ($players[$i] eq $ircnick) {
                         $count += 1;
                     }
-                    
+
                     if ($count > 1) {
                         splice @players, $i, 1;
                         last;
                     }
                 }
-                
+
                 # Change the name in %player_pks
                 foreach (keys %player_pks) {
                     if ($_ eq $oldnick) {
                         # Save the pk
                         my $pk = $player_pks{$_};
-                        
+
                         # Delete old key
                         delete $player_pks{$_};
-                        
+
                         # Save the new key
                         $player_pks{$ircnick} = $pk;
-                        
+
                         # Break the loop
                         last;
                     }
                 }
-                
+
                 $self->sayc(__x("{who} was identified as user {old} via " .
                                 "Q-auth; username changed to {who}",
                                 who => $ircnick, old => $_));
-                
                 last;
             }
         }
@@ -5515,13 +5523,13 @@ sub writecfg {
     
     if ($cfgheader eq '') {
         $cfgheader = "# gatherbot settings\n" .
-                     "#\n" .
-                     "# The settings here are read on init and overwritten on shutdown.\n" .
-                     "#\n" .
-                     "# Syntax:\n" .
-                     "# variable = value\n" .
-                     "#    OR\n" .
-                     "# variable = list of values, separated by whitespace\n";
+                    "#\n" .
+                    "# The settings here are read on init and overwritten on shutdown.\n" .
+                    "#\n" .
+                    "# Syntax:\n" .
+                    "# variable = value\n" .
+                    "#    OR\n" .
+                    "# variable = list of values, separated by whitespace\n";
     }
     
     my $chan_wo_fence = substr($chan, 1);
@@ -5558,57 +5566,57 @@ sub writecfg {
 
     
     print $cfgfile "$cfgheader" .
-                   "\n" .
-                   "\n" .
-                   "# Bot related settings\n" .
-                   "server               = $server\n" .
-                   "chan                 = $chan_wo_fence\n" .
-                   "nick                 = $nick\n" .
-                   "authname             = $authname\n" .
-                   "authpw               = $authpw\n" .
-                   "\n" .
-                   "# Gather related settings\n" .
-                   "team1                = $team1\n" .
-                   "team2                = $team2\n" .
-                   "draw                 = $draw\n" .
-                   "maxplayers           = $maxplayers\n" .
-                   "admins               = @admins\n" .
-                   "maps                 = @maps\n" .
-                   "gameserverip         = $gameserverip\n" .
-                   "gameserverport       = $gameserverport\n" .
-                   "gameserverpw         = $gameserverpw\n" .
-                   "voiceserverip        = $voiceserverip\n" .
-                   "voiceserverport      = $voiceserverport\n" .
-                   "voiceserverpw        = $voiceserverpw\n" .
-                   "neededvotes_captain  = $neededvotes_captain\t\t\t$neededvotes_captaindesc\n" .
-                   "neededvotes_map      = $neededvotes_map\t\t\t$neededvotes_mapdesc\n" .
-                   "neededreq_replace    = $neededreq_replace\t\t\t$neededreq_replacedesc\n" .
-                   "neededreq_remove     = $neededreq_remove\t\t\t$neededreq_removedesc\n" .
-                   "neededreq_score      = $neededreq_score\t\t\t$neededreq_scoredesc\n" .
-                   "neededreq_rafflecapt = $neededreq_rafflecapt\t\t\t$neededreq_rafflecaptdesc\n" .
-                   "neededreq_hl         = $neededreq_hl\t\t\t$neededreq_hldesc\n" .
-                   "initialpoints        = $initialpoints\t\t\t$initialpointsdesc\n" .
-                   "pointsonwin          = $pointsonwin\t\t\t$pointsonwindesc\n" .
-                   "pointsonloss         = $pointsonloss\t\t\t$pointsonlossdesc\n" .
-                   "pointsondraw         = $pointsondraw\t\t\t$pointsondrawdesc\n" .
-                   "p_scale_factor       = $p_scale_factor\t\t\t$p_scale_factordesc\n" .
-                   "p_scale_factor_draw  = $p_scale_factor_draw\t\t\t$p_scale_factor_drawdesc\n" .
-                   "p_max_variance       = $p_max_variance\t\t\t$p_max_variancedesc\n" .
-                   "topdefaultlength     = $topdefaultlength\t\t\t$topdefaultlengthdesc\n" .
-                   "gamehascaptains      = $gamehascaptains\t\t\t$gamehascaptainsdesc\n" .
-                   "gamehasmap           = $gamehasmap\t\t\t$gamehasmapdesc\n" .
-                   "votecaptaintime      = $votecaptaintime\t\t\t$votecaptaintimedesc\n" .
-                   "votemaptime          = $votemaptime\t\t\t$votemaptimedesc\n" .
-                   "mutualvotecaptain    = $mutualvotecaptain\t\t\t$mutualvotecaptaindesc\n" .
-                   "mutualvotemap        = $mutualvotemap\t\t\t$mutualvotemapdesc\n" .
-                   "printpoolafterpick   = $printpoolafterpick\t\t\t$printpoolafterpickdesc\n" .
-                   "givegameserverinfo   = $givegameserverinfo\t\t\t$givegameserverinfodesc\n" .
-                   "givevoiceserverinfo  = $givevoiceserverinfo\t\t\t$givevoiceserverinfodesc\n" .
-                   "showinfointopic      = $showinfointopic\t\t\t$showinfointopicdesc\n" .
-                   "topicdelimiter       = $topicdelimiter\t\t\t$topicdelimiterdesc\n" .
-                   "remindtovote         = $remindtovote\t\t\t$remindtovotedesc\n" .
-                   "websiteurl           = $websiteurl\t\t\t$websiteurldesc\n" .
-                   "locale               = $locale\t\t\t$localedesc\n";
+                "\n" .
+                "\n" .
+                "# Bot related settings\n" .
+                "server               = $server\n" .
+                "chan                 = $chan_wo_fence\n" .
+                "nick                 = $nick\n" .
+                "authname             = $authname\n" .
+                "authpw               = $authpw\n" .
+                "\n" .
+                "# Gather related settings\n" .
+                "team1                = $team1\n" .
+                "team2                = $team2\n" .
+                "draw                 = $draw\n" .
+                "maxplayers           = $maxplayers\n" .
+                "admins               = @admins\n" .
+                "maps                 = @maps\n" .
+                "gameserverip         = $gameserverip\n" .
+                "gameserverport       = $gameserverport\n" .
+                "gameserverpw         = $gameserverpw\n" .
+                "voiceserverip        = $voiceserverip\n" .
+                "voiceserverport      = $voiceserverport\n" .
+                "voiceserverpw        = $voiceserverpw\n" .
+                "neededvotes_captain  = $neededvotes_captain\t\t\t$neededvotes_captaindesc\n" .
+                "neededvotes_map      = $neededvotes_map\t\t\t$neededvotes_mapdesc\n" .
+                "neededreq_replace    = $neededreq_replace\t\t\t$neededreq_replacedesc\n" .
+                "neededreq_remove     = $neededreq_remove\t\t\t$neededreq_removedesc\n" .
+                "neededreq_score      = $neededreq_score\t\t\t$neededreq_scoredesc\n" .
+                "neededreq_rafflecapt = $neededreq_rafflecapt\t\t\t$neededreq_rafflecaptdesc\n" .
+                "neededreq_hl         = $neededreq_hl\t\t\t$neededreq_hldesc\n" .
+                "initialpoints        = $initialpoints\t\t\t$initialpointsdesc\n" .
+                "pointsonwin          = $pointsonwin\t\t\t$pointsonwindesc\n" .
+                "pointsonloss         = $pointsonloss\t\t\t$pointsonlossdesc\n" .
+                "pointsondraw         = $pointsondraw\t\t\t$pointsondrawdesc\n" .
+                "p_scale_factor       = $p_scale_factor\t\t\t$p_scale_factordesc\n" .
+                "p_scale_factor_draw  = $p_scale_factor_draw\t\t\t$p_scale_factor_drawdesc\n" .
+                "p_max_variance       = $p_max_variance\t\t\t$p_max_variancedesc\n" .
+                "topdefaultlength     = $topdefaultlength\t\t\t$topdefaultlengthdesc\n" .
+                "gamehascaptains      = $gamehascaptains\t\t\t$gamehascaptainsdesc\n" .
+                "gamehasmap           = $gamehasmap\t\t\t$gamehasmapdesc\n" .
+                "votecaptaintime      = $votecaptaintime\t\t\t$votecaptaintimedesc\n" .
+                "votemaptime          = $votemaptime\t\t\t$votemaptimedesc\n" .
+                "mutualvotecaptain    = $mutualvotecaptain\t\t\t$mutualvotecaptaindesc\n" .
+                "mutualvotemap        = $mutualvotemap\t\t\t$mutualvotemapdesc\n" .
+                "printpoolafterpick   = $printpoolafterpick\t\t\t$printpoolafterpickdesc\n" .
+                "givegameserverinfo   = $givegameserverinfo\t\t\t$givegameserverinfodesc\n" .
+                "givevoiceserverinfo  = $givevoiceserverinfo\t\t\t$givevoiceserverinfodesc\n" .
+                "showinfointopic      = $showinfointopic\t\t\t$showinfointopicdesc\n" .
+                "topicdelimiter       = $topicdelimiter\t\t\t$topicdelimiterdesc\n" .
+                "remindtovote         = $remindtovote\t\t\t$remindtovotedesc\n" .
+                "websiteurl           = $websiteurl\t\t\t$websiteurldesc\n" .
+                "locale               = $locale\t\t\t$localedesc\n";
     return;
 }
 
@@ -5693,8 +5701,8 @@ sub senddata {
 
             # - ADD GAME TO THE DATA -
             push(@jsons, '{"pk": ' . $gameno . ', "model": "gathers.game", "fields": {"date": "' . $datestr .
-                         '", "map": ' . $map_pk . ', "result": ' . $result . ', "t1_skill": ' . $t1_skill . 
-                         ', "t2_skill": ' . $t2_skill . '}}');
+                        '", "map": ' . $map_pk . ', "result": ' . $result . ', "t1_skill": ' . $t1_skill . 
+                        ', "t2_skill": ' . $t2_skill . '}}');
             
             # Get the players that played in this game
             my @plist = get_players_by_gameno($gameno);
@@ -5728,8 +5736,8 @@ sub senddata {
                 
                 # - ADD PLAYER ENTRY TO THE DATA -
                 push(@jsons, '{"pk": ' . $player_pk . ', "model": "gathers.player", "fields": {"points": ' . $userdata[1] .
-                             ', "wins": ' . $userdata[2] . ', "losses": ' . $userdata[3] . ', "draws": ' . $userdata[4] .
-                             ', "accesslevel": "' . $userdata[0] . '", "name": "' . $player . '"}}');
+                            ', "wins": ' . $userdata[2] . ', "losses": ' . $userdata[3] . ', "draws": ' . $userdata[4] .
+                            ', "accesslevel": "' . $userdata[0] . '", "name": "' . $player . '"}}');
                 
                 # Get game_player primary key
                 my $gp_pk = gethighest_pk('game_player');
@@ -5755,8 +5763,8 @@ sub senddata {
                 
                 # - ADD GAME_PLAYER ENTRY TO THE DATA -
                 push(@jsons, '{"pk": ' . $gp_pk . ', "model": "gathers.game_player", "fields": {"pointsdelta": ' . $pointsdelta .
-                             ', "pointsbefore": ' . $pointsbefore . ', "player": ' . $player_pk . ', "game": ' . $gameno . 
-                             ', "team": ' . $team . ', "captain": ' . $captain . '}}');
+                            ', "pointsbefore": ' . $pointsbefore . ', "player": ' . $player_pk . ', "game": ' . $gameno . 
+                            ', "team": ' . $team . ', "captain": ' . $captain . '}}');
             }
         }
     }
