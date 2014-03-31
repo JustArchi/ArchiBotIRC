@@ -1,0 +1,146 @@
+Name Yellow
+Version 1.1
+NNTVersion 1.03
+Author greeny (ported to NNT by Phreak)
+Email phreak@nnscript.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 8[HH8:nn8:ss8]
+
+NickColSelf 9
+NickColOp 8
+NickColVoice 7
+NickColRegular 15
+NickColProtect none
+NickColIgnore 4
+
+Brackets 07(00<text>07)
+LineSep 8×-----------------7-------------8--------7---8-- -7---8- --7- -- -8- -7- 8- 7 -
+Prefix     Ø
+
+GenEcho 8<pre> Info: <text>
+GenError 8<pre> Error: <text>
+GenHighlight 07(00<text>07)
+
+ChanText 8<cmode><nick> 8)7) <text>
+ChanTextOwn 8<cmode><me> 8)7) <text>
+ChanAction Ø <cmode><nick> <text>
+ChanActionOwn Ø <cmode><me> <text>
+
+QueryText <nick> 8)7) <text>
+QueryTextOwn <me> 8)7) <text>
+QueryAction Ø <nick> <text>
+QueryActionOwn Ø <me> <text>
+
+Msg 8•<nick>8• <text>
+MsgOwn 8<pre> Messaging <target>: <text>
+Action 8Ø<nick>8Ø <text>
+ActionOwn 8<pre> Describing <target>: <text>
+
+ChanNotice 4-0<nick>:<chan>4-0 <text>
+Notice 4-0<nick>4-0 <text>
+NoticeOwn -<gt> -15<target>- <text>
+ServerNotice 4-0<server>4-0 <text>
+
+CTCP 4!0<nick>4!0 <ctcp>
+CTCPOwn 8<pre> CTCPing <target>: <ctcp> <text>
+ChanCTCP 4!0<nick>:<chan> <ctcp>4!0 <text>
+CTCPReply 8<pre> CTCP: <ctcp brackets="1"> reply by <nick brackets="1">: <text>
+CTCPReplyOwn 8<pre> CTCP: <ctcp brackets="1"> reply to <target brackets="1">: <text>
+
+Join 8<pre> Join: <nick brackets="1"> <address brackets="1">
+JoinOwn <linesep>8<pre> Now talking in: <chan brackets="1"><linesep>!if <topic> 8<pre> Topic is: <topic brackets="1">!if <topic> 8<pre> Set by: <topicnick brackets="1"> on <topicdate brackets="1">8<pre> Users: <users> users, <oppedusers> ops <oppeduserspercent brackets="1">, <voicedusers> voiced <voiceduserspercent brackets="1">, <regusers> regulars <reguserspercent brackets="1">8<pre> Join synched in: <synctime brackets="1"> second(s)<linesep>
+Part 8<pre> Part: <nick brackets="1"> <address brackets="1"> <message brackets="1">
+Quit 8<pre> Quit: <nick brackets="1"> <address brackets="1"> <message brackets="1">
+Nick 8<pre> Nick: <nick brackets="1"> is now known as <newnick brackets="1">
+NickOwn 8<pre> Nick: <nick brackets="1"> is now known as <newnick brackets="1">
+Mode 8<pre> Mode: <nick brackets="1"> sets mode: <mode brackets="1">
+UserMode 8<pre> Mode: <me brackets="1"> sets <mode brackets="1">
+Kick 8<pre> Kick: <kickednick brackets="1"> was kicked by <nick brackets="1"> <message brackets="1">
+KickOwn 8<pre> Kick: You were kicked from <chan brackets="1"> by <nick brackets="1"> <message brackets="1">
+WallOp 8<pre> Wallop: <nick brackets="1"> <text>
+
+DNS 8<pre> DNS: resolving <address>
+DNSError 8<pre> DNS Error: unable to resolve <address brackets="1">
+DNSResolve 8<pre> DNS Report: <address brackets="1"> resolved to <raddress brackets="1">
+
+Notify 8<pre> Notify: <nick brackets="1"> is on IRC!
+UnNotify 8<pre> Notify: <nick brackets="1"> has left IRC!
+
+LUsers1 8<pre> There are <users brackets="1"> users and <invisible brackets="1"> invisible on <servers brackets="1"> servers
+LUsers2 8<pre> There are <operators brackets="1"> operator(s) online
+LUsers3 8<pre> There are <connections brackets="1"> unknown connection(s)
+LUsers4 8<pre> There are <channels brackets="1"> channels formed
+LUsers5 8<pre> I have <clients brackets="1"> clients and <servers brackets="1"> servers
+
+Welcome1 8<pre> Welcome to the Internet Relay Network, <nick>
+Welcome2 8<pre> Your host is <host brackets="1">, running version <version brackets="1">
+Welcome3 8<pre> This server was created <created brackets="1">
+Welcome4 8<pre> Server: <server brackets="1"> version: <version brackets="1"> usermodes: <usermodes brackets="1"> chanmodes: <chanmodes brackets="1">
+SupportedInfo <protocols> are supported by this server
+
+ChannelModes 8<pre> <chan> modes: <modes>
+ChannelCreation 8<pre> <chan> created : <created>
+Bans 8<pre> <chan> <ban> <nick> <banned>
+BansEnd 8<pre> <chan> End of Channel Ban List
+UnableToSend 8<pre> Error: Unable to message <chan brackets="1">
+NotOpped 8<pre> Error: you're not a channel operator
+HiddenHost 8<pre> Hidden host: <host brackets="1">
+RegisterFirst 8<pre> Error: Register first!
+
+WhoisStart <linesep>8<pre> Whois report for (0<nick>)
+WhoisAddress 8<pre> Address: <address>8<pre> Name: <name>
+WhoisChans 8<pre> Channels: <chans>
+WhoisServer 8<pre> Server: <server>, <info>
+WhoisStatus 8<pre> Status: <status>
+WhoisAway 8<pre> Away: <reason>
+WhoisAuth 8<pre> Auth: <auth>
+WhoisRealIP 8<pre> Address: <address>, <ip>
+WhoisIdle 8<pre> Idle: <idle>8<pre> Signed on: signed on <signontime>
+WhoisEnd <linesep>
+
+WhowasStart <linesep>8<pre> Whowas report for (0<nick>)
+WhowasAddress 8<pre> Address: <address brackets="1">8<pre> Name: <name brackets="1">
+WhowasServer 8<pre> Server: <server brackets="1"> <info brackets="1">
+WhowasAway 8<pre> Away: <reason>
+WhowasEnd <linesep>
+
+Who 8<pre> Who: <nick brackets="1"> <address brackets="1"> is in <chan brackets="1">, real name: <name brackets="1">, server: <server brackets="1">
+WhoEnd 8<pre> End of /who list
+
+Invite 8<pre> Invitation: <nick brackets="1"> wants you to join <chan brackets="1">
+InviteOwn 8<pre> Invitation: You sent <nick brackets="1"> an invitation to join <chan brackets="1">
+InviteAlreadyOnChan 8<pre> Error: <nick brackets="1"> is already on that channel
+
+NoTopic 8<pre> Error: no topic in <chan brackets="1"> set
+Topic <linesep>8<pre> Topic on <chan> is: <topic brackets="1">
+TopicBy 8<pre> Set by: <nick brackets="1"> on <date brackets="1"><linesep>
+TopicChange 8<pre> Topic: <nick brackets="1"> changes topic to <topic brackets="1">
+
+Names 8<pre> <chan> <names>
+NamesEnd 8<pre> <chan> End of /NAMES list.
+
+UnknownCmd 8<pre> Error: Unknown command <cmd brackets="1">
+NickInUse 8<pre> Error: nickname <nick brackets="1"> already in use
+AwayStatus 8<pre> Away: <nick> is marked as being away <reason brackets="1">
+ChanFull 8<pre> Error: cannot join channel <chan> (0full), press (0Control+F2) to keep retrying
+ChanInviteOnly 8<pre> Error: cannot join channel <chan> (0invite only), press (0Control+F2) to keep retrying
+ChanBanned 8<pre> Error: cannot join channel <chan> (0banned), press (0Control+F2) to keep retrying
+ChanKeyRequired 8<pre> Error: cannot join channel <chan> (0need correct key), press (0Control+F2) to keep retrying
+ChanRegOnly 8<pre> Error: cannot join channel <chan> (0registered only), press (0Control+F2) to keep retrying
+NoSuchNick 8<pre> Error: no such nick <nick brackets="1">
+NoSuchChan 8<pre> Error: No such channel <chan brackets="1">
+
+RawDef 8<pre> Info: <numeric>: <text brackets="1">
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 438015 57343 64512 8681216 12694272 16515072 16711935 9079434 13816530 1 7 7 4 7 7 7 7 7 7 7 0 7 7 0 7 7 7 7 7 7 1 8 1 0 7 8 7 1 0
+Scheme1 Lime 16777215 0 8323072 37632 255 127 10223772 65408 384256 64512 8681216 12694272 16515072 16711935 9079434 13816530 1 7 7 4 7 7 7 7 7 7 7 0 7 7 0 7 7 7 7 7 7 1 8 1 0 7 8 7 1 0
+Scheme2 Sky 16777215 0 8323072 37632 255 127 10223772 12481345 13406831 64512 8681216 12694272 16515072 16711935 9079434 13816530 1 7 7 4 7 7 7 7 7 7 7 0 7 7 0 7 7 7 7 7 7 1 8 1 0 7 8 7 1 0
+Scheme3 Tomato 16777215 0 8323072 37632 255 127 10223772 263423 230 64512 8681216 12694272 16515072 16711935 9079434 13816530 1 7 7 4 7 7 7 7 7 7 7 0 7 7 0 7 7 7 7 7 7 1 8 1 0 7 8 7 1 0
+Scheme4 Mint 16777215 0 8323072 37632 255 127 10223772 11858194 10206230 64512 8681216 12694272 16515072 16711935 9079434 13816530 1 7 7 4 7 7 7 7 7 7 7 0 7 7 0 7 7 7 7 7 7 1 8 1 0 7 8 7 1 0
+Scheme5 Stone 16777215 0 8323072 37632 255 127 10223772 10790052 6908265 64512 8681216 12694272 16515072 16711935 9079434 13816530 1 7 7 4 7 7 7 7 7 7 7 0 7 7 0 7 7 7 7 7 7 1 8 1 0 7 8 7 1 0

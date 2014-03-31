@@ -1,0 +1,141 @@
+Name HotPants
+Version 1.0
+NNTVersion 1.03
+Author swarfega
+Email sw4rfega@googlemail.com
+Homepage http://www.nnscript.com
+Description A theme for the ladies ;)
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 04,04 06,05 HH00:06nn00.06ss 04,04  
+
+NickColSelf 5
+NickColOp 6
+NickColVoice 4
+NickColRegular 13
+NickColProtect none
+NickColIgnore none
+
+Brackets 13( 06<text> 13)
+LineSep 04———————————————————————————————
+Prefix 05•04•06•
+
+GenEcho <pre> <text>
+GenError <pre> Error: <text>
+GenHighlight 13<text>
+
+ChanText 06{<cnickcolor><cmode>13<nick>06} <text>
+ChanTextOwn 13{<cmecolor><cmode>06<me>13} <text>
+ChanAction <pre> <cmode><nick> <text>
+ChanActionOwn <pre> <cmode><me> <text>
+
+QueryText {13<nick>} <text>
+QueryTextOwn {13<me>} <text>
+QueryAction <pre> <nick> <text>
+QueryActionOwn <pre> <me> <text>
+
+Msg <pre><nick><pre> <text>
+MsgOwn -<gt> <pre><target><pre> <text>
+Action <pre><nick><pre> <text>
+ActionOwn -<gt> <pre><target><pre> <text>
+
+ChanNotice -<nick>@<chan>- <text>
+Notice -<nick>- <text>
+NoticeOwn -<gt> -<target>- <text>
+ServerNotice -<server>- <text>
+
+CTCP [<nick> <ctcp>] <text>
+CTCPOwn -<gt> [<target>] <ctcp> <text>
+ChanCTCP [<nick>:<chan> <ctcp>] <text>
+CTCPReply [<nick> <ctcp> reply] <text>
+CTCPReplyOwn -<gt> [<target>] <ctcp> <text>
+
+Join <pre> Joins <chan>: 04<nick> $replace(<address brackets="1">,.,00.06,-,00-06,@,00@06,~,05~06)
+JoinOwn <pre> Joining: 05<chan>!if <topic> <linesep>!if <topic> <pre> Channel topic is 06<topic>!if <topic> <pre> Set by 06<topicnick> on 06<topicdate>!if <topic> <linesep><pre> Users: 06<users> users, 06<oppedusers> 13<oppeduserspercent brackets="1"> ops, 06<hoppedusers> half-opped, 06<voicedusers> voiced, 06<regusers> regulars<pre> Channel modes: 06 $chan(<chan>).mode . Available modes: 06 $chanmodes 
+Part <pre> Leaves <chan>: 04<nick> $replace(<address brackets="1">,.,00.06,-,00-06,@,00@06,~,05~06) 05[04<message>05]
+Quit <pre> Quits IRC: 13<nick> $replace(<address brackets="1">,.,00.06,-,00-06,@,00@06,~,05~06)  05[04<message>05]
+Nick <pre> 05<nick> changes their nick to 13<newnick>
+NickOwn <pre> Your nick is now <newnick>
+Mode <pre> 05<nick> changes channel mode to06 $gettok(<mode>,1,32)  for13 $iif($gettok(<mode>,2-,32),$v1 $+ ) in 05<chan>
+UserMode <pre> <me> sets mode: 06<mode>
+Kick <pre> 05<nick> has kicked 06<kickednick> from 05<chan> stating 06<message>
+KickOwn <pre> You were kicked from 05<chan> by <nick> <message brackets="1">
+WallOp !<nick>! <text>
+
+DNS •06• 13 <pre> DNS lookup for 06 $replace(<address>,.,00.06) 
+DNSError •06• 13 <pre> DNS unable to resolve 06 $replace(<address>,.,00.06) 
+DNSResolve •06• 13 <pre> DNS resolved06 $replace(<address>,.,00.06) to $replace(<raddress brackets="1">,.,00.06)
+
+Notify <pre> <nick> is now online
+UnNotify <pre> <nick> is now offline
+
+LUsers1 <pre> There are 06<users> users and 06<invisible> invisible users on 06<servers> servers
+LUsers2 <pre> There are 06<operators> operator(s) online
+LUsers3 <pre> There are 06<connections> unknown connection(s)
+LUsers4 <pre> This network has 06<channels> channels
+LUsers5 <pre> The server you have connected to has 06<clients> clients and 06<servers> servers
+
+Welcome1 Welcome to the Internet Relay Network, <nick>
+Welcome2 Your host is $replace(<host>,.,00.13), running version <version>
+Welcome3 This server was created $replace(<created>,:,00:13)
+Welcome4 $replace(<server>,.,00.13) <version> <usermodes> <chanmodes>
+SupportedInfo <pre> <protocols> are supported by this server
+
+ChannelModes <pre> <chan>: 06<modes>
+ChannelCreation <pre> <chan> created on 06<created>
+Bans <chan> <ban> set by <nick> (<banned>)
+BansEnd <chan> End of Channel Ban List
+UnableToSend <pre> You cannot send a message to 04<chan>
+NotOpped <pre> You require ops to perform this function in 04<chan>
+HiddenHost <pre>04 $replace(<host>,.,00.04) is now your hidden host
+RegisterFirst <pre> You must register first before you can do that.
+
+WhoisStart     •06• 13whois report for 06<nick> <linesep>
+WhoisAddress          •06• <nick>'s address is06 $replace(<address brackets="1">,@,00@06,.,00.06,~,05~06,-,00-06)          •06• <nick>'s realname is 06<name>
+WhoisChans          •06• Common channels: 06 $replace(<chans hlcommon="1">,$chr(35),05 $+ $chr(35) $+ 06,.,00.06,?,13?06,~,13~06,*,~,&,13&06,!,&,@,13@06,%,13%06,+,13+06,$chr(31), $+ $chr(2) $+ ) 
+WhoisServer          •06• <nick> is using the06 $replace(<server>,.,00.06)  05<info brackets="1">
+WhoisStatus          •06• <nick> is an 06<status>
+WhoisAway          •06• <nick> is currently away: 06<reason>
+WhoisAuth          •06• <nick> is logged in as 06<auth>
+WhoisRealIP          •06• <nick>'s true host is06 $replace(<address>,@,00@06,.,00.06,~,05~06,-,00-06) 13 $replace(<ip>,.,00.13)
+WhoisIdle          •06• <nick> has been idle 06<idle>. Signed on06 $replace(<signontime>,:,00:06) 13( 05some <signonago> ago13 )
+WhoisEnd    •06• 13end of whois report for 06<nick> <linesep> 
+
+WhowasStart     •06• 13whowas report for 06<nick> <linesep>
+WhowasAddress          •06• <nick>'s address is06 $replace(<address brackets="1">,@,00@06,.,00.06,~,05~06,-,00-06) 
+WhowasServer          •06• <nick> is using the06 $replace(<server>,.,00.06)  05<info brackets="1">
+WhowasAway          •06• <nick> is currently away: 06<reason>
+WhowasEnd    •06• 13end of whowas report for 06<nick> <linesep> 
+
+Who     •06• 13who report for 06<chan> <nick> <status> $replace(<address>,~,05~04,.,00.04,@,00@04) 13<name>
+WhoEnd    •06• 13end of who report for 06<target> 
+
+Invite <pre> <nick> invites you to join 06<chan>
+InviteOwn <pre> <nick> has been invited to 06<chan>
+InviteAlreadyOnChan <pre> <nick> is already on that channel!
+
+NoTopic <pre> 04<chan> has no topic is set.
+Topic <pre> Topic is '<topic>'
+TopicBy <pre> Set by <nick> on <date>
+TopicChange <pre> <nick> changes topic to '06<topic>'
+
+Names     •06• 13names report for06<chan> $replace(<names>,.,00.04)
+NamesEnd    •06• 13end of names report for 06<chan> 
+
+UnknownCmd <pre> You cannot perform 04<cmd>
+NickInUse <pre> 04<nick> Nickname is already in use, please try another.
+AwayStatus <pre> <nick> is marked as being away: 06<reason>
+ChanFull <pre> You cannot join 04<chan> because it is full.
+ChanInviteOnly <pre> You cannot join 04<chan> as it requires an invite.
+ChanBanned <pre> You cannot join 04<chan> as you are banned.
+ChanKeyRequired <pre> A key is required to join 04<chan>.
+ChanRegOnly <pre> Your nick needs to be registered in order to join 04<chan>.
+NoSuchNick <pre> 04<nick> No such nick currently on this server.
+NoSuchChan <pre> 04<chan> does not currently exist on this network.
+
+RawDef <text>
+
+Scheme0 Default 16777215 2361143 8323072 37632 255 125 12521471 32764 65535 64512 9671424 16776960 16515072 5460991 8355711 13816530 1 13 4 0 13 4 4 13 4 4 4 0 5 7 6 0 13 4 13 5 4 1 0 1 0 14 6 0 1 13

@@ -1,0 +1,1096 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - main stuff - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+dialog cs.add {
+  title "Edit ChanServ channel"
+  size -1 -1 234 90
+  option pixels
+  icon scripts\pics\nntray.ico
+  text "Channel", 1, 6 8 60 16
+  text "Password", 2, 6 30 60 16
+  edit "", 3, 70 4 160 22, autohs limit 100
+  edit "", 4, 70 26 160 22, pass autohs limit 100
+  box "", 5, -10 48 250 80
+  button "&Ok", 6, 66 62 80 24
+  button "&Cancel", 7, 150 62 80 24, cancel
+}
+dialog cprog.add {
+  title "Edit application"
+  size -1 -1 234 130
+  option pixels
+  icon scripts\pics\nntray.ico
+  text "Name", 1, 6 10 40 16
+  text "Path", 2, 6 32 40 16
+  edit "", 3, 50 6 180 22, autohs limit 100
+  edit "", 4, 50 28 150 22, autohs limit 500
+  button "&...", 8, 202 29 26 20
+  box "", 5, -10 88 250 80
+  radio "&Program", 10, 50 52 100 20
+  radio "&mIRC command", 11, 50 70 100 20
+  button "&Ok", 6, 66 102 80 24
+  button "&Cancel", 7, 150 102 80 24, cancel
+  text "Type", 9, 6 54 32 16
+}
+dialog dccstats {
+  title "DCC monitor [/dccs]"
+  size -1 -1 513 256
+  option pixels
+  icon scripts\pics\nntray.ico
+  list 20, 10 31 492 185, size
+  text "? gets, ? sends", 21, 7 233 192 16
+  tab "Gets", 19, 4 4 504 222
+  tab "Sends", 14
+  button "&Show", 15, 335 228 90 24, disable
+  button "&Close", 1, 429 228 80 24, ok
+  menu "&File", 2
+  item "&Close", 3, 2
+  menu "S&ettings", 4
+  menu "&Update delay", 5, 4
+  item "½ &second", 6, 5
+  item "&1 second", 7, 5
+  item "&2 seconds", 8, 5
+  item "&5 seconds", 9, 5
+  item "1&0 seconds", 10, 5
+  item "&Always on top", 11, 4
+  item "S&hutdown when finished", 12, 4
+  menu "&Tools", 16
+  item "&History", 18, 16
+  item "&Relay", 13, 16
+}
+dialog silence {
+  title Silence list on $curconserv [/slnc]
+  size -1 -1 232 166
+  option pixels
+  icon scripts\pics\nntray.ico
+  box "", 7, -10 124 260 80
+  list 1, 2 4 178 122, sort size vsbar
+  button "&Add", 2, 184 6 44 24
+  button "&Rem.", 3, 184 30 44 24
+  button "&Ok", 4, 148 138 80 24, ok
+}
+on *:dialog:silence:*:*:{
+  if ($devent == init) {
+    did -b $dname 1,2,3,4
+    silence
+  }
+  elseif ($devent == sclick) {
+    if ($did == 2) {
+      if ($did(1).lines == %silencenum. [ $+ [ $cid ] ]) { errdialog you can only add a maximum number of $v1 silenced addresses! }
+      else {
+        var %x = $$eddialog(Enter a new silence entry!)
+        if (!$didwm(1,%x)) {
+          did -b $dname 1,2,3,4
+          silence + $+ %x
+        }
+        else { errdialog you already added that address! }
+      }
+    }
+    elseif ($did == 3) {
+      if ($did(1).sel) {
+        did -b $dname 1,2,3,4
+        silence - $+ $did(1).seltext
+      }
+    }
+  }
+}
+dialog cmdlist {
+  title "NNScript/Q/X/psyBNC/sBNC commands [/cmdlist]"
+  size -1 -1 393 254
+  option pixels
+  icon scripts\pics\nntray.ico
+  tab "NNScript", 20, 4 5 384 218
+  tab "Q", 1
+  tab "X", 11
+  tab "psyBNC", 7
+  tab "sBNC", 13
+  text NNScript %version Q/X/psyBNC/sBNC control, 10, 8 230 246 14
+  list 3, 12 46 106 166, sort size vsbar
+  text "Commands", 5, 14 32 56 14
+  text "Description", 6, 124 32 56 14
+  edit "Please choose a command!", 4, 122 46 260 166, read multi return vsbar
+  button "&Close", 9, 309 226 80 24, ok
+}
+on *:dialog:cmdlist:*:*:{
+  if ($devent == sclick) {
+    var %x = $replace($dialog($dname).tab,20,n,11,x,13,s,7,b,1,q)
+    if ($did == 3) { loadbuf $+(-rot,%x,_,$did(3).seltext) $dname 4 scripts\txt\cmdlist.txt }
+    elseif ($istok(1 7 11 13 20,$did,32)) { loadbotcmds %x }
+  }
+}
+dialog dccfin.sd {
+  title "Shutting down"
+  size -1 -1 234 94
+  option pixels
+  icon scripts\pics\nntray.ico
+  text "Warning: all your DCCs are finished and you have chosen to shut your PC down. If you don't press cancel within the next 30 seconds, the shutdown will be performed.", 1, 6 4 222 54
+  text "30 seconds remaining...", 2, 6 70 120 20
+  button "&Cancel", 3, 150 66 80 24, ok
+}
+on *:input:@Wallops[*]:{ if (!$cmdchar($1)) { wallops $$1- } }
+on *:input:@Wallusers[*]:{ if (!$cmdchar($1)) { wallusers $$1- } }
+menu @Notices[*],@Highlight[*],@Wallops[*],@Wallusers[*],@Netsplits[*] {
+  $style(2) $shorten(15,$active) $+ $chr(58):return
+  -
+  Clear:clear $active
+  Close:close -@ $active
+}
+menu @MOTD[*],@Info[*] {
+  $style(2) $shorten(15,$active) $+ $chr(58):return
+  -
+  Close { close -@ $active }
+}
+on *:dialog:cs.add:*:*:{
+  if ($devent == init) {
+    unset %cs.chan %cs.pass
+    if (%cs.edit) {
+      did -a $dname 3 $did(settings,211).seltext
+      did -a $dname 4 $decode(%pass.cs. [ $+ [ $did(settings,54).seltext ] $+ ] . [ $+ [ $did(settings,211).seltext ] ],m)
+    }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 6) {
+      if (!$did(3)) || (!$did(4)) { errdialog you did not enter a channel or password! }
+      else {
+        var %c = $remove($did(3),$chr(32))
+        if (%pass.cs. [ $+ [ $did(settings,54).seltext ] $+ ] . [ $+ [ %c ] ]) && (!%cs.edit) { errdialog this channel is already in the list! }
+        else {
+          set %cs.chan %c
+          set %cs.pass $encode($did(4),m)
+          dialog -c $dname
+        }
+      }
+    }
+  }
+}
+dialog cprog {
+  title "Application quicklaunch [/cprog]"
+  size -1 -1 248 216
+  option pixels
+  icon scripts\pics\nntray.ico
+  list 2, 2 4 158 172, size vsbar
+  button "&Add", 4, 164 6 80 24
+  button "&Edit", 5, 164 38 80 24, disable
+  button "&Remove", 6, 164 70 80 24, disable
+  button "&Clear", 7, 164 94 80 24
+  button "5", 8, 164 126 80 24, disable
+  button "6", 9, 164 150 80 24, disable
+  button "&Ok", 1, 164 188 80 24, ok
+  box "", 3, -10 174 270 80
+}
+on *:dialog:cprog:*:*:{
+  if ($devent == init) {
+    mdx SetFont $dname 8,9 24 300 Webdings
+    if ($isfile(scripts\txt\cprog.txt)) {
+      .fopen cprog scripts\txt\cprog.txt
+      while (!$feof) {
+        var %x = $fread(cprog)
+        if ($gettok(%x,3,160)) { did -a $dname 2 %x }
+      }
+      .fclose cprog
+    }
+    if (!$did(2).lines) { did -b $dname 7 }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 4) { noop $dialog(cprog.add,cprog.add,-4) }
+    elseif ($did == 2) {
+      did $iif($did($did).sel,-e,-b) $dname 5,6,8,9
+      if ($did(2).sel == 1) { did -b $dname 8 }
+      if ($did(2).sel == $did(2).lines) { did -b $dname 9 }
+    }
+    elseif ($did == 5) {
+      set %cprog.edit 1
+      noop $dialog(cprog.add,cprog.add,-4)
+      unset %cprog.edit
+    }
+    elseif ($did == 6) {
+      did -d $dname 2 $did(2).sel
+      did -b $dname 5,6,8,9
+      if (!$did(2).lines) { did -b $dname 7 }
+    }
+    elseif ($did == 7) {
+      if ($ydialog(Do you really want to remove all application quicklaunchs you have added?)) {
+        did -r $dname 2
+        did -b $dname 5,6,7,8,9
+      }
+    }
+    elseif ($did == 8) {
+      var %s = $did(2).sel,%t = $did(2).seltext
+      did -d $dname 2 %s
+      did -ic $dname 2 $calc(%s -1) %t
+      if ($did(2).sel == 1) { did -b $dname $did }
+      if ($did(2).sel != $did(2).lines) { did -e $dname 9 }
+    }
+    elseif ($did == 9) {
+      var %s = $did(2).sel,%t = $did(2).seltext
+      did -d $dname 2 %s
+      did -ic $dname 2 $calc(%s +1) %t
+      if ($did(2).sel != 1) { did -e $dname 8 }
+      if ($did(2).sel == $did(2).lines) { did -b $dname $did }
+    }
+    if ($istok(5 6 7 8 9,$did,32)) { savebuf -o $dname 2 scripts\txt\cprog.txt }
+  }
+  elseif ($devent == dclick) && ($did == 2) && ($did($did).sel) {
+    tokenize 160 $did($did).seltext
+    if ($ydialog(Do you want to run the selected file/command?)) {
+      if ($2) { cprogrun $3- }
+      else { $3- }
+    }
+  }
+}
+on *:dialog:cprog.add:*:*:{
+  if ($devent == init) {
+    if (%cprog.edit) {
+      tokenize 160 $did(cprog,2).seltext
+      did -ra $dname 3 $1
+      did -ra $dname 4 $3
+      did -c $dname $iif($2,10,11)
+      if (!$1) { did -b $dname 8 }
+    }
+    else { did -c $dname 10 }
+    if ($did(11).state) { did -ra $dname 2 Cmd }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 6) {
+      if ($did(3)) && ($did(4)) {
+        var %t = $+($remove($did(3), ),$str( ,100),$did(10).state, ,$did(4))
+        if (%cprog.edit) { did -oc cprog 2 $did(cprog,2).sel %t }
+        else { did -ca cprog 2 %t }
+        if ($did(cprog,2).sel != 1) { did -e cprog 8 }
+        if ($did(cprog,2).sel == $did(cprog,2).lines) { did -b cprog 9 }
+        did -e cprog 7
+        savebuf -o cprog 2 scripts\txt\cprog.txt
+        dialog -x $dname
+      }
+      else { errdialog you have to fill out both editboxes! }
+    }
+    elseif ($did == 8) {
+      did -ra $dname 4 $relpath($$sfile(C:\*.exe,Choose an application to add!,Add))
+      if (!$did(3)) { did -ra $dname 3 $deltok($nopath($did(4)),-1,46) }
+    }
+    elseif ($did == 10) {
+      did -ra $dname 2 Path
+      did -e $dname 8
+    }
+    elseif ($did == 11) {
+      did -ra $dname 2 Cmd
+      did -b $dname 8
+    }
+  }
+}
+on *:dialog:dccfin.sd:*:*:{
+  if ($devent == init) { .timerdccfin.sd 30 1 dccfin.sdt $!timer(dccfin.sd).reps }
+  elseif ($devent == close) { .timerdccfin.sd off }
+}
+on *:dialog:dccstats:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 20 ListView report showsel nosortheader single rowselect > $mdxfile(views)
+    did -i $dname 20 1 headerdims 100:1 60:2 60:3 60:4 52:5 85:6 60:7
+    did -i $dname 20 1 headertext + 0 Filename	+ 0 Nick	+ 0 Elapsed	+ 0 Rate	+ 0 Size	+ 0 Status	+ 0 Time left
+    did -i $dname 20 1 settxt bgcolor none
+    did -c $dname $calc(%curdcc.delay +5)
+    if (!$anydcc) { did -b $dname 12 }
+    if (%dccfin.sd) { did -c $dname 12 }
+    if ($dialog(dccrelay)) { did -c $dname 13 }
+    if (%curdcc.ontop) {
+      did -c $dname 11
+      dialog -o $dname
+    }
+    dccstats.ref
+    initdccstats.timer
+  }
+  elseif ($devent == menu) {
+    if ($did == 3) { dialog -k $dname }
+    elseif ($istok(6 7 8 9 10,$did,32)) {
+      set %curdcc.delay $calc($did -5)
+      did -u $dname 6,7,8,9,10
+      did -c $dname $did
+      initdccstats.timer
+    }
+    elseif ($did == 11) {
+      toggle curdcc.ontop
+      dialog $iif(%curdcc.ontop,-o,-n) $dname
+      did $iif(%curdcc.ontop,-c,-u) $dname $did
+    }
+    elseif ($did == 12) {
+      toggle dccfin.sd
+      did $iif(%dccfin.sd,-c,-u) $dname $did
+    }
+    elseif ($did == 13) { dccrelay }
+    elseif ($did == 18) { dcchist }
+  }
+  elseif ($devent == sclick) {
+    if ($istok(14 19,$did,32)) { dccstats.ref }
+    elseif ($did == 15) {
+      if ($dialog($dname).tab == 14) { saysend -a }
+      else { sayget -a }
+    }
+  }
+  elseif ($devent == close) && ($dialog(dccrelay)) { did -u $dname 13 }
+}
+dialog nickcomp {
+  title "Nick completer"
+  size -1 -1 244 134
+  option pixels
+  icon scripts\pics\nntray.ico
+  list 3, 12 18 130 104, sort size vsbar
+  button "C&omplete", 1, 156 8 84 24, default
+  button "&Don't complete", 4, 156 32 84 24
+  button "&Cancel", 2, 156 106 84 24, cancel
+  box "Choose nick to complete", 5, 4 2 146 128
+}
+on *:dialog:nickcomp:*:*:{
+  if ($devent == sclick) {
+    if ($did == 1) {
+      if ($did(3).seltext) {
+        var %x = $replace(%nickcomp.format,<nick>,$v1)
+        msg %nickcomp.chan $iif($cchan(%nickcomp.chan),$strip(%x),%x) $wd(%nickcomp.text,2-)
+        dialog -c nickcomp
+      }
+    }
+    elseif ($did == 4) {
+      msg %nickcomp.chan %nickcomp.text
+      dialog -c nickcomp
+    }
+  }
+  elseif ($devent == dclick) && ($did == 3) && ($did(3).seltext) {
+    var %x = $replace(%nickcomp.format,<nick>,$did(3).seltext)
+    msg %nickcomp.chan $iif($cchan(%nickcomp.chan),$strip(%x),%x) $wd(%nickcomp.text,2-)
+    dialog -c $dname
+  }
+  elseif ($devent == close) { unset %nickcomp.text %nickcomp.chan }
+}
+dialog netsel {
+  title "Add network"
+  size -1 -1 220 204
+  option pixels
+  icon scripts\pics\nntray.ico
+  list 1, 4 20 126 180, sort size vsbar
+  button "&Ok", 2, 135 147 80 24, disable ok
+  button "&Cancel", 3, 135 175 80 24, cancel
+  text "Select network:", 4, 6 4 82 14
+}
+alias netsel.load {
+  if ($regex(loadnet,$1,/^n\d+=.+SERVER:.+GROUP:(.+)/i)) && ($regml(loadnet,1) !isnum) && (!$hget(servtmp,$v1)) {
+    did -a netsel 1 $regml(loadnet,1)
+    hadd servtmp $regml(loadnet,1) 1
+  }
+}
+on *:dialog:netsel:*:*:{
+  if ($devent == init) {
+    unset %netsel.result
+    if ($ini($serversini,servers,0)) {
+      _hmake servtmp
+      window -h @loadnets
+      loadbuf -tservers @loadnets $serversini
+      filter -k @loadnets netsel.load
+      close -@ @loadnets
+      hfree servtmp
+    }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 1) { did $iif($did($did).sel,-e,-b) $dname 2 }
+    elseif ($did == 2) { set %netsel.result $did(1).seltext }
+  }
+  elseif ($devent == dclick) && ($did == 1) {
+    set %netsel.result $did(1).seltext
+    dialog -c $dname
+  }
+}
+dialog umoded {
+  title User modes on $curconserv [/umoded]
+  size -1 -1 356 168
+  option pixels
+  icon scripts\pics\nntray.ico
+  box "Mode", 10, 4 2 120 132
+  box "Description", 11, 122 2 230 132
+  check "&Invisible (+i)", 1, 12 20 102 16
+  check "&Wallusers (+w)", 2, 12 38 102 16
+  check "&Deaf (+d)", 3, 12 56 102 16
+  check "&Auth'd only (+R)", 20, 12 74 102 16
+  check "&Hide host (+x)", 22, 12 92 102 16
+  check "Oper (+o)", 14, 12 110 102 16, disable
+  text "You aren't shown on WHO lists.", 4, 132 20 210 16
+  text "Receive WALLOPS/WALLUSERS messages.", 5, 132 38 210 16
+  text "Channel text is not received.", 6, 132 56 210 16
+  text "Only queries/notices from authed users.", 21, 132 74 210 16
+  text "Hides your hostmask.", 23, 132 92 210 16
+  text "You are an IRC operator.", 15, 132 110 210 16
+  button "&Ok", 12, 186 140 80 24, ok
+  button "&Cancel", 13, 272 140 80 24, cancel
+}
+on *:dialog:umoded:*:*:{
+  if ($devent == init) {
+    if ($status != connected) {
+      dialog -x $dname
+      errdialog you can only open the usermode dialog if you are connected to the server!
+    }
+    else {
+      var %p = %usermodes. [ $+ [ $cid ] ],%u = $usermode
+      if (i isincs %u) { did -c $dname 1 }
+      elseif (i !isincs %p) { did -b $dname 1,4 }
+      if (w isincs %u) { did -c $dname 2 }
+      elseif (w !isincs %p) { did -b $dname 2,5 }
+      if (d isincs %u) { did -c $dname 3 }
+      elseif (d !isincs %p) { did -b $dname 3,6 }
+      if (o isincs %u) { did -c $dname 14 }
+      elseif (o !isincs %p) { did -b $dname 14,15 }
+      if (R isincs %u) { did -c $dname 20 }
+      elseif (R !isincs %p) { did -b $dname 20,21 }
+      if (x isincs %u) { did -bc $dname 22 }
+      elseif (x !isincs %p) { did -b $dname 22,23 }
+    }
+  }
+  elseif ($devent == sclick) {
+    if ($istok(1 2 3 14 20 22,$did,32)) { set %umod.chgd 1 }
+    elseif ($did == 12) && (%umod.chgd) {
+      if ($did(1).state) { var %m = +i }
+      else { var %m = -i }
+      if ($did(2).state) { var %m = %m $+ +w }
+      else { var %m = %m $+ -w }
+      if ($did(3).state) { var %m = %m $+ +d }
+      else { var %m = %m $+ -d }
+      if ($q.net) {
+        if ($did(20).state) { var %m = %m $+ +R }
+        else { var %m = %m $+ -R }
+      }
+      if ($did(22).state) { var %m = %m $+ +x }
+      mode $me %m
+    }
+  }
+  elseif ($devent == close) { unset %umod.chgd }
+}
+alias checkver {
+  sco checkver nnscript.com 80
+  if (!$show) { sockmark checkver silent }
+  .timercheckver.timeout -io 1 6 $iif(!$show,.) $+ checkver.timeout
+}
+alias checkver.timeout {
+  if ($show) { errdialog an error occured while connecting to the update server! }
+  .timercheckver.timeout off
+  sockclose checkver
+}
+on *:sockopen:checkver:{
+  if ($sockerr) || ($sock($sockname).status != active) { .timercheckver.timeout -io 1 0 $iif($sock(checkver).mark == silent,.) $+ checkver.timeout }
+  else {
+    sockwrite -n $sockname GET /version.txt HTTP/1.0
+    sockwrite -n $sockname Host: nnscript.esnation.com
+    sockwrite -n $sockname User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6)
+    sockwrite -n $sockname
+  }
+}
+on *:sockread:checkver:{
+  var %g,%a
+  sockread -f %g
+  while ($sockbr) {
+    if ($regex(chkv,%g,^CURRENTVERSION=(\d+\.\d+)$)) {
+      .timercheckver.timeout off
+      if ($sock($sockname).mark == silent) {
+        if ($regml(chkv,1) > %version) && ((!%checkver.startup.chkd) || ($regml(chkv,1) > %checkver.startup.chkd)) {
+          set %checkver.startup.chkd $regml(chkv,1)
+          %a = 1
+        }
+      }
+      else {
+        if ($regml(chkv,1) !isnum) { .timer 1 0 errdialog an error occured while connecting to the update server! }
+        if ($regml(chkv,1) > %version) { %a = 1 }
+        else { .timer 1 0 idialog Your version of NNScript $nbr(%version) is up to date. }
+      }
+      if (%a) { .timer 1 0 if ($ydialog(A new version of NNScript is available $nbr($+(v,$regml(chkv,1),!)) Would you like to update now?)) $chr(123) checkver.getupdate $regml(chkv,1) $chr(125) }
+      sockclose $sockname
+    }
+    else { sockread -f %g }
+  }
+}
+on *:sockopen:getip:{
+  if ($sockerr) { thmerror -s Could not get your external IP address. }
+  else {
+    sockwrite -n $sockname GET / HTTP/1.1
+    sockwrite -n $sockname Host: myip.nnscript.com
+    sockwrite -n $sockname User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8)
+    sockwrite -n $sockname
+  }
+}
+on *:sockread:getip:{
+  if ($sockerr) { thmerror -s Could not get your external IP address. }
+  else {
+    var %g
+    sockread -f %g
+    if ($regex(getip,%g,/^<IP>(.+)</IP><HOST>(.*)</HOST>$/)) {
+      set %getip.doupd $iif($regml(getip,2),$v1,$iif($host,$host,$me)) $regml(getip,1)
+      scon -a getip.doupd
+      unset %getip.doupd
+      thmecho -s External IP updated: $thmhl($regml(getip,1)) $+ / $+ $thmhl($regml(getip,2))
+      sockclose $sockname
+    }
+  }
+}
+alias getupdate.timeout {
+  dialog -x updater
+  errdialog an error occured while connecting to the update server!
+  .timergetupdate.timeout off
+  sockclose getupdate.*
+}
+alias checkver.getupdate {
+  set %updateversion $1
+  noop $dialog(updater,updater,-2)
+  unset %updateversion
+}
+on *:sockopen:getupdate.*:{
+  if ($sockerr) || ($sock($sockname).status != active) { .timergetupdate.timeout -io 1 0 getupdate.timeout }
+  else {
+    tokenize 32 $sock($sockname).mark
+    sockwrite -n $sockname GET $2- HTTP/1.0
+    sockwrite -n $sockname Host: $1
+    sockwrite -n $sockname User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6)
+    sockwrite -n $sockname
+  }
+}
+on *:sockread:getupdate.loc:{
+  var %g
+  sockread -f %g
+  while ($sockbr) {
+    if ($regex(gu,%g,^UPDATER=http://([^/]+)(/.+)$)) {
+      .timergetupdate.timeout -io 1 6 getupdate.timeout
+      sco getupdate.fileloc $regml(gu,1) 80
+      sockmark getupdate.fileloc $regml(gu,1) $regml(gu,2)
+      sockclose $sockname
+    }
+    if ($sock($sockname)) { sockread -f %g }
+  }
+}
+on *:sockread:getupdate.fileloc:{
+  if (%getupdate.dl) {
+    sockread 4096 &g
+    .fwrite -b writeupdater &g
+    inc %getupdate.prog 4096
+    did -a updater 9 $int($calc(%getupdate.prog / %getupdate.size *100)) 0 100
+  }
+  else {
+    var %g
+    sockread -f %g
+    while ($sockbr) {
+      if ($regex(fl,%g,^Location: http://([^/]+)(/.+)$)) {
+        .timergetupdate.timeout -io 1 6 getupdate.timeout
+        sco getupdate.fileloc $regml(fl,1) 80
+        sockmark getupdate.fileloc $regml(fl,1) $regml(fl,2)
+      }
+      elseif ($regex(du,%g,^Content-Length: (\d+)$)) {
+        set %getupdate.size $regml(du,1)
+      }
+      elseif (!$len(%g)) {
+        set %getupdate.dl $gettok($sock($sockname).mark,-1,47)
+        set %getupdate.prog 0
+        did -ra updater 8 Downloading %getupdate.dl $+ ...
+        if (!$isdir(updates)) { mkdir updates }
+        .fopen -o writeupdater updates\ $+ %getupdate.dl
+        break
+      }
+      if ($sock($sockname)) { sockread -f %g }
+    }
+  }
+}
+on *:sockclose:getupdate.fileloc:{
+  .fclose writeupdater
+  did -ra updater 8 Starting update...
+  run -p $qt($mircdir $+ updates\ $+ %getupdate.dl) /S $qt($mircexe) $qt($scriptdir)
+  unset %getupdate.*
+  did -ra updater 8 Closing mIRC...
+  exitmirc
+}
+alias exitmirc {
+  if ($os == XP) || ($os == Vista) {
+    run -n cmd.exe /C taskkill /F /IM mirc.exe
+    exit -n
+  }
+}
+dialog updater {
+  title "NNScript updater"
+  size -1 -1 278 183
+  option pixels
+  text "Updating from version", 1, 14 20 120 16
+  edit %version, 2, 176 16 90 22, center
+  text "to", 3, 14 42 16 16
+  edit "", 4, 176 38 90 22, center
+  box "Info", 5, 5 2 269 67
+  box "Progress", 6, 5 74 269 75
+  text "Current action", 7, 14 92 79 16
+  edit "Getting download location...", 8, 95 88 171 21
+  text "", 9, 14 115 251 22
+  button "&Abort", 10, 192 155 81 22
+}
+on *:dialog:updater:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 9 ProgressBar smooth > $mdxfile(ctl_gen)
+    unset %getupdate.dl
+    did -a updater 4 %updateversion
+    sco getupdate.loc nnscript.com 80
+    sockmark getupdate.loc nnscript.esnation.com /autoupdate.txt
+    .timergetupdate.timeout -io 1 6 getupdate.timeout
+  }
+  elseif ($devent == sclick) {
+    if ($did == 10) {
+      dialog -x $dname
+      .timergetupdate.timeout off
+      .sockclose getupdate.*
+      idialog Update aborted.
+    }
+  }
+}
+alias getip.doupd { .localinfo %getip.doupd }
+alias getcountry {
+  if ($sock(getcountry)) { thmerror -a there is another request running, please wait for it to finish before starting another one. }
+  else {
+    if ($ial($1)) { var %p = $gettok($v1,2,64),%d = $1 }
+    elseif (. isin $1) { var %p = $1,%d = %p }
+    else {
+      thmerror -a you entered a user who is not in your IAL! Please turn on the automatic filling of the IAL in the NNScript setup.
+      return
+    }
+    if (*.users.quakenet.org iswm %p) || (*.user.gamesurge iswm %p) || (*.users.undernet.org iswm %p) {
+      thmerror -a the user has registered so you can not see his IP and are unable to resolve where he's coming from.
+      return
+    }
+    thmecho -a Looking up $thmhl(%d) $+ 's country...
+    set -u10 %getcountry %p
+    sco getcountry nnscript.com 80
+    .timergetcountry.timeout -io 1 6 getcountry.timeout
+  }
+}
+alias getcountry.timeout {
+  thmerror -a an error occured while connecting to the server!
+  sockclose getcountry
+  unset %getcountry
+}
+on *:sockopen:getcountry:{
+  if ($sockerr) || ($sock($sockname).status != active) { getcountry.timeout }
+  else {
+    sockwrite -n $sockname GET /lookup.php?ip= $+ %getcountry HTTP/1.0
+    sockwrite -n $sockname Host: nnscript.com
+    sockwrite -n $sockname User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6)
+    sockwrite -n $sockname
+  }
+}
+on *:sockread:getcountry:{
+  var %g
+  sockread %g
+  while ($sockbr) {
+    if ($regex(getc,%g,^([^ ]+)\x09(.+)$)) {
+      .timergetcountry.timeout off
+      sockclose $sockname
+      if ($regml(getc,2) != UNKNOWN) { thmecho -a Country lookup for $thmhl(%getcountry) $+ $iif($regml(getc,1) != %getcountry,/ $+ $thmhl($v1)) finished successfully: $thmhl($cap($regml(getc,2))) }
+      else { thmecho -a Country for $thmhl(%getcountry) $+ $iif($regml(getc,1) != %getcountry,/ $+ $thmhl($v1)) is unknown. }
+      unset %getcountry
+    }
+    else { sockread %g }
+  }
+}
+alias urlfix {
+  if ($os != Vista) { 
+    noop $errdialog(URLFix is only necessary for Windows Vista.)
+    halt
+  }
+  var %key = HKEY_CLASSES_ROOT\https\shell\open\command\\
+  var %key2 = HKEY_CLASSES_ROOT\HTTP\shell\open\command\\
+  var %path = $relpath($$sfile(C:\*.exe,Please Select your Browser,Select))
+  if (($regwrite(%key,%path) != error) && ($regwrite(%key2,%path) != error)) {
+    thmecho -a Changed the default Browser
+  }
+  else {
+    thmerror -a Could not change the default Browser to %path
+  }
+}
+alias regwrite {
+  var %a = regwrite $+ $trnum, %c
+  .comopen %a WScript.Shell
+  if (!$comerr) {
+    var %b = $com(%a,RegWrite,3,bstr,$1,bstr,$2,bstr,REG_SZ)
+    .comclose %a
+    return 1
+  }
+  return error
+}
+on *:sockopen:openad.base.*:{
+  sockwrite -n $sockname GET $openad.getinfo(url) HTTP/1.1
+  if (*clicked* iswm $sockname) sockwrite -n $sockname Cookie: $openad.getinfo(cook1) $openad.getinfo(cook2)
+  sockwrite -n $sockname Host: $openad.getinfo(host)
+  sockwrite -n $sockname User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6)
+  sockwrite -n $sockname
+}
+on *:sockopen:openad.img.*:{
+  sockwrite -n $sockname GET  $openad.getinfo(url) HTTP/1.1
+  sockwrite -n $sockname Host: $openad.getinfo(host)
+  sockwrite -n $sockname User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.6)
+  sockwrite -n $sockname
+}
+on *:sockread:openad.base.*: {
+  var %g
+  sockread %g
+  if (*OAID* iswm %g) {  sockmark $sockname $puttok($sock($sockname).mark,$gettok(%g,2,32),8,32) }
+  if (*OAVARS* iswm %g) {  sockmark $sockname $puttok($sock($sockname).mark,$gettok(%g,2,32),9,32)  }
+  elseif (Location* iswm %g) { 
+    if (*clicked* iswm $sockname)    {      run $gettok(%g,2,32)    }
+    else {    sockmark $sockname $puttok($sock($sockname).mark,$gettok(%g,2,32),7,32)  }
+  }
+}
+on *:sockread:openad.img.*: {
+  var %g
+  if (!$sockerr) {
+    if ($openad.getinfo(load)) {
+      sockread 8192 &g
+      bwrite scripts\pics\ $+ $openad.getinfo(file) -1 &g
+    }
+    else {
+      sockread %g
+      if (*content-length* iswm %g) { 
+        if ($file(scripts\pics\ $+ $openad.getinfo(file)).size == $gettok(%g,2,32)) {
+          set % [ $+  [ $openad.getinfo(dialog) $+ .oa ] ] $openad.getinfo(link) $openad.getinfo(cook1) $openad.getinfo(cook2) 
+          if ($dialog($openad.getinfo(dialog))) {
+            if ($pic(scripts\pics\ $+ $openad.getinfo(file)).width) {
+              did -h $openad.getinfo(dialog) $openad.getinfo(text) $+ , $+ $openad.getinfo(border)
+              did -g $openad.getinfo(dialog) $openad.getinfo(icon) scripts\pics\ $+ $openad.getinfo(file)
+            }
+            else { did -ra $openad.getinfo(dialog) $openad.getinfo(text) Error! }
+          }
+          sockclose $sockname
+        }
+        elseif ($exists(scripts\pics\ $+ $openad.getinfo(file))) { tryremove scripts\pics\ $+ $openad.getinfo(file) }
+      }
+      if (!$len(%g)) { sockmark $sockname $puttok($sock($sockname).mark,1,6,32) }
+    }
+  }
+}
+on *:sockclose:openad.base.*:{
+  if ($openad.getinfo(imgurl)) oa.loadimage $sock($sockname).mark
+}
+on *:sockclose:openad.img.*:{
+  set % [ $+  [ $openad.getinfo(dialog) $+ .oa ] ] $openad.getinfo(link) $openad.getinfo(cook1) $openad.getinfo(cook2) 
+  if ($dialog($openad.getinfo(dialog))) {
+    if ($pic(scripts\pics\ $+ $openad.getinfo(file)).width) {
+      did -h $openad.getinfo(dialog) $openad.getinfo(text) $+ , $+ $openad.getinfo(border)
+      did -g $openad.getinfo(dialog) $openad.getinfo(icon) scripts\pics\ $+ $openad.getinfo(file)
+    }
+    else { did -ra $openad.getinfo(dialog) $openad.getinfo(text) Error! }
+  }
+}
+alias oa.loadimage {
+  var %sn = openad.img. $+ $trnum
+  var %oa.img.host = $gettok($wd($1-,7),2,47)
+  sco %sn %oa.img.host 80
+  sockmark %sn $1-  
+  sockmark %sn $puttok($sock(%sn).mark,$gettok($gettok($wd($1-,7),$numtok($wd($1-,7),47),47),1,63),5,32)
+  sockmark %sn $puttok($sock(%sn).mark,%sn,1,32)
+  sockmark %sn $puttok($sock(%sn).mark,$chr(47) $+ $gettok($wd($1-,7),3-,47),2,32)
+  sockmark %sn $puttok($sock(%sn).mark,%oa.img.host,3,32)
+}
+alias openad.clicked {
+  var %sn = openad.base.clicked. $+ $trnum
+  sco %sn adv.ertisement.com 80
+  sockmark %sn %sn
+  sockmark %sn $sock(%sn).mark $1 adv.ertisement.com 0 0 0 0
+  sockmark %sn $sock(%sn).mark $2
+  sockmark %sn $sock(%sn).mark $3
+}
+alias openad {
+  var %oa.rand  = $rand(0,99999999999)
+  var %oa.link = /www/delivery/ck.php?n=a60dbe78&cb= $+ %oa.rand
+  var %oa.img = /www/delivery/avw.php?zoneid=27&cb= $+ %oa.rand $+ &source=&n=a60dbe78
+  var %sn = openad.base. $+ $trnum
+  sco %sn adv.ertisement.com 80
+  sockmark %sn %sn
+  sockmark %sn $sock(%sn).mark %oa.img
+  sockmark %sn $sock(%sn).mark adv.ertisement.com
+  sockmark %sn $sock(%sn).mark %oa.link
+  sockmark %sn $sock(%sn).mark 0 0 0 0 0 $1 $2 $3 $4
+}
+alias openad.getinfo {
+  if ($1 == name) { return $wd($sock($sockname).mark,1) }
+  elseif ($1 == url) { return $wd($sock($sockname).mark,2) }
+  elseif ($1 == host) { return $wd($sock($sockname).mark,3) }
+  elseif ($1 == link) { return $wd($sock($sockname).mark,4) }
+  elseif ($1 == file) { return $wd($sock($sockname).mark,5) }
+  elseif ($1 == load) { return $wd($sock($sockname).mark,6) }
+  elseif ($1 == imgurl) { return $wd($sock($sockname).mark,7) }
+  elseif ($1 == cook1) { return $wd($sock($sockname).mark,8) }
+  elseif ($1 == cook2) { return $wd($sock($sockname).mark,9) }
+  elseif ($1 == dialog) { return $wd($sock($sockname).mark,10) }
+  elseif ($1 == text) { return $wd($sock($sockname).mark,11) }
+  elseif ($1 == icon) { return $wd($sock($sockname).mark,12) }
+  elseif ($1 == border) { return $wd($sock($sockname).mark,13) }
+}
+alias loadbanner.getinfo {
+  if ($1 == name) { return $wd($sock($sockname).mark,1) }
+  elseif ($1 == dialog) { return $wd($sock($sockname).mark,2) }
+  elseif ($1 == text) { return $wd($sock($sockname).mark,3) }
+  elseif ($1 == icon) { return $wd($sock($sockname).mark,4) }
+  elseif ($1 == border) { return $wd($sock($sockname).mark,5) }
+  elseif ($1 == mod) { return $wd($sock($sockname).mark,6) }
+  elseif ($1 == load) { return $wd($sock($sockname).mark,7) }
+  elseif ($1 == server) { return $wd($sock($sockname).mark,8) }
+  elseif ($1 == url) { return $wd($sock($sockname).mark,9) }
+  elseif ($1 == id) { return $wd($sock($sockname).mark,10) }
+}
+alias loadbanner {
+  var %sn = loadbanner. $+ $trnum
+  sco %sn nnscript.com 80
+  sockmark %sn $1- 1 0
+}
+on *:sockopen:loadbanner.*:{
+  var %url = /dyncontent.php?dialog= $+ $loadbanner.getinfo(name) $+ $chr(38) $+ version= $+ %version 
+  if (!$sockerr) {
+    sockwrite -n $sockname GET %url HTTP/1.1
+    sockwrite -n $sockname Host: nnscript.com
+    sockwrite -n $sockname User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8)
+    sockwrite -n $sockname
+  }
+  elseif ($loadbanner.getinfo(dialog)) && ($dialog($loadbanner.getinfo(dialog))) { 
+    .write -l1 scripts\pics\banner_ $+ $loadbanner.getinfo(name) $+ _link.txt $regml($sockname,3)
+    var %file = scripts\pics\banner_ $+ $loadbanner.getinfo(name) $+ .jpg
+    if ($pic(%file).width) {
+      did -h $loadbanner.getinfo(dialog) $loadbanner.getinfo(text) $+ , $+ $loadbanner.getinfo(border)    
+      did -g $loadbanner.getinfo(dialog) $loadbanner.getinfo(icon) %file
+    }
+    else { did -ra $loadbanner.getinfo(dialog) $loadbanner.getinfo(text) Error! }
+  }
+}
+on *:sockread:loadbanner.*:{
+  var %g
+  sockread %g
+  if ($regex($sockname,%g,/^<server>(.*)</server><img>(.*)</img><link>(.*)</link><id>(.*)</id>)) {
+    .write -l1 scripts\pics\banner_ $+ $loadbanner.getinfo(name) $+ _link.txt $regml($sockname,3)
+    var %file = scripts\pics\banner_ $+ $regml($sockname,4) $+ . $+ $gettok($regml($sockname,2),$numtok($regml($sockname,2),46),46)
+    if ($isfile(%file)) {
+      if ($dialog($loadbanner.getinfo(dialog))) {
+        if ($pic(%file).width) {
+          did -h $loadbanner.getinfo(dialog) $loadbanner.getinfo(text) $+ , $+ $loadbanner.getinfo(border)
+          did -g $loadbanner.getinfo(dialog) $loadbanner.getinfo(icon) %file
+        }
+        else { did -ra $loadbanner.getinfo(dialog) $loadbanner.getinfo(text) Error! }
+      }
+    }
+    else {
+      var %sn = loadbanner_pic. $+ $trnum
+      sco %sn $regml($sockname,1) 80
+      sockmark %sn $sock($sockname).mark $regml($sockname,1) $regml($sockname,2) $regml($sockname,4)
+      sockclose $sockname
+    }
+  }
+}
+on *:sockopen:loadbanner_pic.*:{
+  if (!$sockerr) {
+    sockwrite -n $sockname GET $loadbanner.getinfo(url) HTTP/1.1
+    sockwrite -n $sockname Host: $loadbanner.getinfo(server)
+    sockwrite -n $sockname User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8)
+    sockwrite -n $sockname
+  }
+  elseif ($loadbanner.getinfo(dialog)) && ($dialog($loadbanner.getinfo(dialog))) { 
+    .write -l1 scripts\pics\banner_ $+ $loadbanner.getinfo(name) $+ _link.txt http://www.nnscript.com
+    var %file = scripts\pics\banner_ $+ $loadbanner.getinfo(name) $+ .jpg
+    if ($pic(%file).width) {
+      did -h $loadbanner.getinfo(dialog) $loadbanner.getinfo(text) $+ , $+ $loadbanner.getinfo(border)
+      did -g $loadbanner.getinfo(dialog) $loadbanner.getinfo(icon) %file
+    }
+    else { did -ra $loadbanner.getinfo(dialog) $loadbanner.getinfo(text) Error! }
+  }
+}
+on *:sockread:loadbanner_pic.*:{
+  var %g
+  if (!$sockerr) {
+    if ($loadbanner.getinfo(load)) {
+      if ($loadbanner.getinfo(mod)) { 
+        sockmark $sockname $puttok($sock($sockname).mark,0,6,32)
+      }      
+      sockread 8192 &g
+      if ($loadbanner.getinfo(name) == splash) {
+        set %c_splash scripts\pics\banner_ $+ $loadbanner.getinfo(id) $+ . $+ $gettok($loadbanner.getinfo(url),$numtok($loadbanner.getinfo(url),46),46)
+      }
+      bwrite scripts\pics\banner_ $+ $loadbanner.getinfo(id) $+ . $+ $gettok($loadbanner.getinfo(url),$numtok($loadbanner.getinfo(url),46),46) -1 &g
+    }
+    else {
+      sockread %g
+      if (!$len(%g)) { sockmark $sockname $puttok($sock($sockname).mark,1,7,32) }
+    }
+  }
+}
+on *:sockclose:loadbanner_pic.*:{
+  var %file = scripts\pics\banner_ $+ $loadbanner.getinfo(id) $+ . $+ $gettok($loadbanner.getinfo(url),$numtok($loadbanner.getinfo(url),46),46)
+  if ($loadbanner.getinfo(dialog)) && ($dialog($loadbanner.getinfo(dialog))) {
+    if ($pic(%file).width) {
+      did -h $loadbanner.getinfo(dialog) $loadbanner.getinfo(text) $+ , $+ $loadbanner.getinfo(border)
+      did -g $loadbanner.getinfo(dialog) $loadbanner.getinfo(icon) %file
+    }
+    else { did -ra $loadbanner.getinfo(dialog) $loadbanner.getinfo(text) Error! }
+  }
+}
+on *:signal:xpopup-*:{ if ($1) { %xpopup.tmpcmd. [ $+ [ $1 ] ] } }
+dialog mircbench {
+  title "mIRCbench"
+  size -1 -1 325 167
+  option pixels
+  icon scripts\pics\nntray.ico
+  text "General commands", 4, 16 9 97 15
+  text "Display", 5, 16 55 40 15
+  text "Hard Disk", 6, 16 78 50 15
+  text "Dialogs", 7, 16 32 44 15
+  edit "?", 8, 123 5 110 22, read autohs center
+  edit "?", 9, 123 28 110 22, read autohs center
+  edit "?", 10, 123 51 110 22, read autohs center
+  edit "?", 11, 123 74 110 22, read autohs center
+  edit "?", 12, 123 106 110 23, read autohs center
+  text "Total", 13, 16 110 31 15
+  box "", 14, 6 95 313 40
+  text "mIRCmarks", 15, 237 110 73 16
+  text "mIRCmarks", 16, 237 78 73 16
+  text "mIRCmarks", 17, 237 55 73 16
+  text "mIRCmarks", 18, 237 32 73 16
+  text "mIRCmarks", 19, 237 9 73 16
+  list 21, -200 -200 100 100, sort size vsbar
+  text "Testtext 123", 22, -100 0 100 16
+  text "Testtext 123", 23, -100 0 100 16
+  text "Testtext 123", 24, -100 0 100 16
+  text "Testtext 123", 25, -100 0 100 16
+  text "Testtext 123", 26, -100 0 100 16
+  button "&Run!", 1, 75 139 80 22
+  button "&Post in active", 20, 157 139 80 22, disable
+  button "&Close", 3, 239 139 80 22, ok
+}
+alias mircbench { 
+  set %mircbench.curwin $active
+nndlg -m mircbench }
+on *:dialog:mircbench:*:*:{
+  if ($devent == init) { bold $dname 12,13,15 }
+  elseif ($devent == sclick) {
+    if ($did == 1) { mircbench.start }
+    elseif ($did == 20) {
+      say $sbr(mIRCbench) $did(12) mIRCmarks $nbr(general: $did(8) $+ ; dialogs: $did(9) $+ ; display: $did(10) $+ ; hard disk: $did(11))
+    }
+  }
+}
+alias mircbench.start {
+  !did -b $dname 1,3
+  !did -ra $dname 8 Running tests...
+  !did -ra $dname 1 &Run... 0%
+  !did -ra $dname 9,10,11,12,21 ?
+  !var %oa = $qt($active),%t = 0,%time = $calc($nnticks +2)
+  !while (%time > $nnticks) {
+    !noop $createpass(20)
+    !inc %t
+  }
+  !did -ra $dname 8 %t
+  !did -ra $dname 9 Running tests...
+  !did -ra $dname 1 &Run... 25%
+  !var %t = 0,%time = $calc($nnticks +2)
+  !while (%time > $nnticks) {
+    !did -a $dname 21 Just testing...
+    !did -a $dname 21 $rand(10000,99999) Test $did(4) $did(5) $did(6) $did(7)
+    !did -ra $dname 22,23,24,25,26 Testing... $did(15)
+    !if ($did(21).lines > 50000) { did -r $dname 21 }
+    !inc %t 0.2
+  }
+  !did -ra $dname 9 $int(%t)
+  !did -ra $dname 10 Running tests...
+  !did -ra $dname 1 &Run... 50%
+  !window -dofk0 +f @EchoBench 0 0 500 400 Fixedsys 10
+  !var %t = 0,%time = $calc($nnticks +2)
+  !while (%time > $nnticks) {
+    !window -a @EchoBench
+    !echo @EchoBench %i [ [ $replace(This is just some random text for the benchmark!,, $!+ $!r(0,15) $!+ $chr(32)) ] ]
+    !inc %t
+  }
+  !close -@ @EchoBench
+  !did -ra $dname 10 %t
+  !did -ra $dname 11 Running tests...
+  !did -ra $dname 1 &Run... 75%
+  !var %t = 0,%time = $calc($nnticks +2)
+  !while (%time > $nnticks) {
+    !write nnbench.txt $str(A,500)
+    !noop $read(nnbench.txt) $lines(nnbench.txt)
+    !inc %t
+  }  
+  !.remove nnbench.txt
+  !did -ra $dname 11 $int(%t)
+  !did -ra $dname 12 $calc($did(8) + $did(9) + $did(10) + $did(11))
+  !did -ra $dname 1 &Run!
+  !did -e $dname 1,3
+  !window -a %oa
+  mircbench.chkpost
+  did $iif($istok(channel query chat,$window(%mircbench.curwin).type,32) && $did(mircbench,12) isnum,-e,-b) mircbench 20 
+  unset %mircbench.curwin
+}
+on *:active:*:{ if ($dialog(mircbench)) { unset %mircbench.curwin | mircbench.chkpost } }
+alias mircbench.chkpost {  did $iif($istok(channel query chat,$window($active).type,32) && $did(mircbench,12) isnum,-e,-b) mircbench 20 }
+; DCX aliases
+alias dcx {
+  if ($isid) returnex $dll(scripts\dlls\dcx.dll,$1,$2-)
+  else dll "scripts\dlls\dcx.dll" $1 $2-
+}
+
+alias udcx {
+  if ($dcx(IsUnloadSafe)) $iif($menu, .timer 1 0) dll -u dcx.dll
+  else echo 4 -qmlbfti2 [DCX] Unable to Unload Dll.
+}
+
+alias xdid {
+  if ( $isid ) returnex $dcx( _xdid, $1 $2 $prop $3- )
+  dcx xdid $2 $3 $1 $4-
+}
+
+alias xdialog {
+  if ( $isid ) returnex $dcx( _xdialog, $1 $prop $2- )
+  dcx xdialog $2 $1 $3-
+}
+
+alias xpop {
+  if ( $isid ) returnex $dcx( _xpop, $1 $prop $2- )
+  dcx xpop $2 $1 $3-
+}
+
+alias xpopup {
+  if ( $isid ) returnex $dcx( _xpopup, $1 $prop $2- )
+  dcx xpopup $2 $1 $3-
+}
+
+alias xmenubar {
+  if ($isid) returnex $dcx(_xmenubar, $prop $1-)
+  dcx xmenubar $1-
+}
+
+alias mpopup {
+  dcx mpopup $1 $2
+}
+
+alias xdock {
+  if ($isid) returnex $dcx( _xdock, $1 $prop $2- )
+  dcx xdock $1-
+}
+
+alias xtray {
+  if ($isid) returnex $dcx(TrayIcon, $1 $prop $2-)
+  dcx TrayIcon $1-
+}
+
+alias xstatusbar {
+  !if ($isid) returnex $dcx( _xstatusbar, mIRC $prop $1- )
+  dcx xstatusbar $1-
+}
+
+alias xtreebar {
+  !if ($isid) returnex $dcx( _xtreebar, mIRC $prop $1- )
+  dcx xtreebar $1-
+}
+
+alias dcxml dcx dcxml $1-
+
+alias tab {
+  var %i = 1, %tab
+  while (%i <= $0) {
+    if ($eval($+($,%i),2) != $null) {
+      %tab = $instok(%tab,$eval($+($,%i),2),$calc($numtok(%tab,9) + 1),9)
+    }
+    inc %i
+  }
+  return %tab
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

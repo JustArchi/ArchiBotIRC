@@ -1,0 +1,392 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - away system - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+raw 305:*:{
+  var %t = You are no longer marked as being away $iif($awaytime,after $thmhl($sduration($v1).nosec)) $iif($awaymsg,as $thmhl($v1)) on $thmhl($curconserv) $+ .
+  thmecho $asecho %t
+  if ($window($specialcidwin(Awaylog))) { thmecho $v1 %t }
+  if ($dialog(settings)) {
+    did -ra settings 196 Back
+    did -b settings 198
+  }
+  unset %away.oldnick. $+ $curconserv
+  haltdef
+}
+raw 306:*:{
+  var %t = You have been marked as being away $iif($awaymsg,as $thmhl($v1)) on $thmhl($curconserv) $+ .
+  thmecho $asecho %t
+  if ($window($specialcidwin(Awaylog))) { thmecho $v1 %t }
+  if ($dialog(settings)) {
+    did -ra settings 196 Away: $shorten(20,$awaymsg)
+    did -e settings 198
+  }
+  inc %stat.away
+  haltdef
+}
+alias nick.def {
+  var %n
+  if (%nick.def. [ $+ [ $network ] ]) { %n = $v1 }
+  elseif (%nick.def) { %n = $v1 }
+  if ($isid) { return %n }
+  else {
+    if (%n) { nick $v1 }
+    else { thmerror -a No default nick found. }
+  }
+}
+alias nick.away {
+  var %n
+  if (%nick.away. [ $+ [ $network ] ]) { %n = $v1 }
+  elseif (%nick.away) { %n = $v1 }
+  if ($isid) { return %n }
+  else {
+    if (%n) { nick $v1 }
+    else { thmerror -a No away nick found. }
+  }
+}
+alias aw.chksel {
+  if ($did(154).sel) {
+    tokenize 32 $hget(awaypreset,$replace($did(154).seltext,$chr(32),_))
+    did -ra $dname 187 $1
+    did -ra $dname 186 $2-
+    did -e $dname 186,187,179,175,197
+  }
+  else {
+    did -r $dname 186,187
+    did -b $dname 186,187,179,175,197
+  }
+}
+alias awpreset.clear {
+  if ($ydialog(Do you really want to remove all away presets?)) {
+    hdel -w awaypreset *
+    did -r $dname 154,186,187
+    did -b $dname 186,187,179,180,175
+  }
+}
+alias awpreset.remsel {
+  while ($did(154).sel) {
+    hdel awaypreset $replace($did(154).seltext,$chr(32),_)
+    did -d $dname 154 $did(154).sel
+  }
+  hsave -ob awaypreset scripts\tables\awaypreset.tbl
+  did -r $dname 186,187
+  did -b $dname 186,187,179,175
+  if (!$did(154).lines) { did -b $dname 180 }
+}
+alias awpreset.add {
+  var %r = $$eddialog(Enter a name for a new away preset!),%n = $replace(%r,$chr(32),_)
+  if ($didwm(154,%r)) { errdialog an away preset with the name $qt(%r) already exists! }
+  else {
+    hadd awaypreset %n $iif(%nick.away,$v1,$chkme) %r
+    hsave -ob awaypreset scripts\tables\awaypreset.tbl
+    did -ac $dname 154 %r
+    did -e $dname 180
+    aw.chksel
+  }
+}
+alias awpreset.edit {
+  var %r = $$eddialog(Enter a new name for the away preset $+(",$did(154).seltext,"!),$did(154).seltext),%n = $replace(%r,$chr(32),_),%d = $replace($did(154).seltext,$chr(32),_)
+  if ($didwm(154,%r)) { errdialog an away preset with the name $qt(%r) already exists! }
+  else {
+    hadd awaypreset %n $hget(awaypreset,%d)
+    hdel awaypreset %d
+    hsave -ob awaypreset scripts\tables\awaypreset.tbl
+    did -oc $dname 154 $did(154).sel %r
+    did -e $dname 186,187,179,175
+  }
+}
+dialog idleaway {
+  title "Auto-away"
+  size -1 -1 240 120
+  option pixels
+  icon scripts\pics\nntray.ico
+  text "Warning:", 1, 6 6 46 16
+  text "", 2, 54 6 180 54
+  text "", 3, 54 64 126 16
+  button "&Cancel away", 5, 156 92 80 24, cancel
+  button "&Go away now", 4, 70 92 80 24, ok
+  box "", 6, -2 78 244 8
+}
+on *:dialog:idleaway:*:*:{
+  if ($devent == init) {
+    did -a $dname 2 you have chosen to go auto-away after $calc(%auto.awaytime /60) minutes of idling. If you don't press cancel within the next 20 seconds, you will be set away.
+    did -a $dname 3 20 seconds remaining...
+    .timeridleaway 20 1 aw.idlinc
+  }
+  elseif ($devent == sclick) {
+    if ($did == 4) { aw -i }
+    elseif ($did == 5) { scon -at1 resetidle }
+  }
+  elseif ($devent == close) { .timeridleaway off }
+}
+alias checkidle {
+  if ($dialog(idleaway)) { return }
+  var %x = 0,%t = 0,%z = 1
+  while ($scon(%z)) {
+    scon %z
+    if ($status == connected) {
+      inc %t
+      if ($idle < %auto.awaytime) || ($away) { return }
+    }
+    inc %z
+  }
+  scon -r
+  if (%away.auto.warn) { nndlg -mo idleaway }
+  else { aw -i }
+}
+alias aw.idlinc {
+  if ($dialog(idleaway)) {
+    var %x = $calc($wd($did(idleaway,3),1) -1)
+    if (!%x) {
+      dialog -x idleaway
+      aw -i
+    }
+    else { did -ra idleaway 3 %x seconds remaining... }
+  }
+  else { .timeridleaway off }
+}
+alias sa { .aw $1- }
+alias saw { .aw $1- }
+alias saway { .aw $1- }
+alias a { aw $1- }
+alias aw {
+  if ($1- != $null) {
+    var %i = $scid(0),%n,%r,%t
+    while (%i) {
+      scid $scon(%i)
+      if ($status == connected) {
+        if ($1 == -n) { var %n = $2,%t = $3- }
+        else { var %n = $iif($nick.away,$v1,$me),%t = $1- }
+        if ($hget(awaypreset,$replace(%t,$chr(32),_))) { var %n = $wd($v1,1),%t = $wd($v1,2-) }
+        if ($1 == -i) { var %t = auto-away after $sduration(%auto.awaytime).nosec idle,%r = is now %t }
+        elseif (%t) { %r = is now away: %t }
+        else { %r = is now away! }
+        if (!%away.oldnick. [ $+ [ $curconserv ] ]) { set %away.oldnick. $+ $curconserv $me }
+        !away %t $iif(%away.atime,$nbr(since $asctime(%timeformat)))
+        if ($show) {
+          %n = $replace(%n,<me>,$me,<back>,$nick.def,<away>,$nick.away)
+          if (%n) && (%n !=== $me) { nick %n }
+          if ($1 != -i) || (!%away.auto.nomsg) { aw.domsgs %r }
+        }
+        else { %n = $me }
+      }
+      dec %i
+    }
+    set %away.status $ctime $iif($1 == -i,i,-) %n %t
+  }
+  else { setup -c Awaysystem|Presets }
+}
+alias sre { .back }
+alias sback { .back }
+alias re { back }
+alias back {
+  scon -at1 resetidle
+  tokenize 32 %away.status
+  var %i = $scid(0),%t = $iif($calc($ctime - $1) isnum 0-31536000,$v1,0),%r
+  if ($4-) { %r = is back from: $4- $iif(%t,$nbr(been away for $sduration(%t).nosec)) }
+  elseif ($1) { %r = is back! $iif(%t,$nbr(been away for $sduration(%t).nosec)) }
+  else { %r = is back! }
+  while (%i) {
+    scid $scon(%i)
+    if ($away) {
+      var %t = 1,%n
+      !away
+      if ($show) {
+        if (%away.useold) && (%away.oldnick. [ $+ [ $curconserv ] ]) { %n = $v1 }
+        else { %n = $nick.def }
+        if (%n) && (%n !=== $me) { nick %n }
+        if ($2 != i) || (!%away.auto.nomsg) { aw.domsgs %r }
+      }
+      else { %n = $me }
+    }
+    dec %i
+  }
+  if (!%t) { thmerror -a You are not away! }
+  if (%awaypager.enabled) {
+    if ($isfile(scripts\txt\awpages.txt)) {
+      .fopen pager scripts\txt\awpages.txt
+      while (!$feof) {
+        if (0 * iswm $fread(pager)) {
+          thmecho -a You have unread away pages! Type $thmhl(/pager) to look at them now.
+          break
+        }
+      }
+      .fclose pager
+    }
+  }
+  unset %away.status %away.oldnick.* %aw.reminded.*
+}
+alias aw.domsgs {
+  .timerawmsg.*.* off
+  if (!%away.nomsg) {
+    if (%away.pubmsg == 1) { if ($active != Status Window) && (@* !iswm $active) && ($cid == $activecid) && (!$istok(%away.ad.excl,$active,44)) { describe $active $1- } }
+    else {
+      if (%away.ignorechans) && (%away.ad.excl) {
+        var %c = $chan(0),%q = $query(0),%f = 0
+        while (%c) {
+          if (!$istok(%away.ad.excl,$chan(%c),44)) && ($me ison $chan(%c)) {
+            $+(.timerawmsg.,$cid,.,$chan(%c)) 1 %f if ($chan( $+ %c $+ )) $chr(123) describe $!v1 $1- $chr(125)
+            inc %f 2
+          }
+          dec %c
+        }
+        if (%away.ad.queries) {
+          while (%q) {
+            if (!$istok(%away.ad.excl,$query(%q),44)) {
+              $+(.timerawmsg.,$cid,.,$query(%q)) 1 %f if ($query( $+ %q $+ )) $chr(123) describe $!v1 $1- $chr(125)
+              inc %f 2
+            }
+            dec %q
+          }
+        }
+      }
+      else {
+        if ($chan(0)) { ame $1- }
+        if (%away.ad.queries) && ($query(0)) { qme $1- }
+      }
+    }
+  }
+}
+alias aw.chkhl {
+  if (%away.remind) && ($away) && (!%aw.reminded. [ $+ [ $cid ] $+ ] . [ $+ [ $nick ] ]) && (!%aw.remindflood) {
+    set -u3600 $+(%,aw.reminded.,$cid,.,$nick) 1
+    set -u4 %aw.remindflood 1
+    .notice $nick I have been away for $duration($awaytime) $+ : $awaymsg (one-time response to highlight)
+  }
+}
+menu @awaylog[*] {
+  $style(2) $+([,$shorten(15,$active),]):return
+  -
+  Clear:clear $active
+  Close:close -@ $active
+}
+alias away.chklog {
+  if ($away) && (%away.log) && ((($prop == event) && (%away.log.events)) || (((%away.hllog) && ($isachl($1-))) || ((%away.log.trigger) && ($regex(awlog,$1-,%away.log.trigger))))) {
+    if (!$window($specialcidwin(Awaylog))) {
+      window -nk0 $specialcidwin(Awaylog)
+      thmecho $specialcidwin(Awaylog) Away log window opened on $thmhl($longtime)
+      thmecho $specialcidwin(Awaylog) You are currently marked away as $thmhl($awaymsg)
+      echo $specialcidwin(Awaylog) 
+    }
+    return 1
+  }
+}
+ctcp *:page:?:{
+  if (%awaypager.enabled) {
+    if ($away) {
+      write -il1 scripts\txt\awpages.txt 0 $ctime $iif($ial($nick),$v1,$nick) $strip($2-)
+      if (!%pagerflood. [ $+ [ $cid ] ]) { .notice $nick Thanks for your page! }
+    }
+    elseif (!%pagerflood. [ $+ [ $cid ] ]) { .notice $nick I am not away... }
+    set -u4 %pagerflood. $+ $cid 1
+  }
+}
+alias pager { nndlg -m awaypager }
+dialog awaypager {
+  title "Away pager [/pager]"
+  size -1 -1 396 224
+  option pixels
+  icon scripts\pics\nntray.ico
+  list 1, 12 18 138 164, size
+  box "Choose page", 2, 4 2 154 188
+  box "Page info", 3, 166 2 226 188
+  text "From", 5, 176 22 28 16
+  edit "Select a page!", 8, 214 18 170 22, read autohs
+  text "Rcvd.", 9, 176 44 30 16
+  edit "n/a", 10, 214 40 170 22, read autohs
+  text "At", 12, 176 66 18 16
+  edit "n/a", 13, 214 62 170 22, read autohs
+  edit "n/a", 15, 214 84 170 98, read multi return vsbar
+  text "Text", 16, 176 88 28 16
+  button "&Close", 4, 312 196 80 24, ok
+  menu "&File", 14
+  item "&Close", 18, 14
+  menu "&Pager", 17
+  item "&Refresh pages", 19, 17
+  item break, 20, 17
+  item "R&emove selected pages", 21, 17
+  item "&Clear pages", 22, 17
+}
+on *:dialog:awaypager:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 1 TreeView nohscroll haslines hasbuttons showsel > $mdxfile(views)
+    aw.loadpages
+  }
+  elseif ($devent == sclick) {
+    if ($did == 1) {
+      tokenize 32 $did($did,1)
+      if (slclick select * * * * iswm $1-) {
+        did -i $dname 1 1 cb root $4-5
+        var %t = $did($did,$6)
+        did -i $dname 1 1 replaceitem $6 $puttok($puttok(%t,+s,1,32),Read,6,9)
+        set %away.curpage $mid($gettok($gettok(%t,3,9),1,13),2)
+        tokenize 32 $read(scripts\txt\awpages.txt,n,%away.curpage)
+        did -ra $dname 8 $3
+        did -ra $dname 10 $asctime($2,%dateformat.long)
+        did -ra $dname 13 $asctime($2,%timeformat.short)
+        did -ra $dname 15 $4-
+        did -c $dname 8,10,13,15 1
+        if (!$1) { write -l $+ %away.curpage scripts\txt\awpages.txt $puttok($1-,1,1,32) }
+        did -e $dname 21
+      }
+      elseif (slclick select * * iswm $1-) {
+        unset %away.curpage
+        did -b $dname 21
+        did -ra $dname 8 Select a page!
+        did -ra $dname 10,13,15 n/a
+      }
+    }
+  }
+  elseif ($devent == menu) {
+    if ($did == 19) { aw.loadpages }
+    elseif ($did == 22) {
+      if ($ydialog(Do you really want to remove all away pages?)) {
+        write -c scripts\txt\awpages.txt
+        aw.loadpages
+      }
+    }
+    elseif ($did == 21) {
+      write -dl $+ %away.curpage scripts\txt\awpages.txt
+      aw.loadpages
+    }
+    elseif ($did == 18) { dialog -c $dname }
+  }
+  elseif ($devent == close) { unset %away.curpage }
+}
+alias aw.loadpages {
+  unset %away.curpage
+  did -b awaypager 21
+  var %d,%t,%a,%l = 1,%z
+  did -r awaypager 1
+  did -i awaypager 1 1 cb root
+  did -a awaypager 1 +eb 1 1 0 0 0 Pages
+  did -i awaypager 1 1 cb last
+  if ($isfile(scripts\txt\awpages.txt)) {
+    .fopen pages scripts\txt\awpages.txt
+    while (!$feof) {
+      tokenize 32 $fread(pages)
+      if ($regex($1-,/^0|1 \d+ .+ .+$/)) {
+        %t = $asctime($2,%dateformat)
+        if (%d != %t) {
+          if (%a) { did -i awaypager 1 1 cb up }
+          %z = 1
+          did -a awaypager 1 +e 1 1 0 0 0 %t
+          did -i awaypager 1 1 cb last
+        }
+        var %d = %t,%a = 1
+        did -a awaypager 1 $iif($1,+,+b) 1 1 0 0 0 $+($gettok($3,1,33),	Page:	#,%l,$crlf,From:	,$3,$crlf,Rcvd:	,$asctime($2,%timeformat),$crlf,Status:	,$iif($1,Read,Unread))
+      }
+      inc %l
+    }
+    .fclose pages
+  }
+  if (!%z) {
+    did -b awaypager 22
+    did -a awaypager 1 + 1 1 0 0 0 No pages received.
+  }
+  did -ra awaypager 8 Select a page!
+  did -ra awaypager 10,13,15 n/a
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

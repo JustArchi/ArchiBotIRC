@@ -1,0 +1,156 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - shortcut aliases - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias acro { url -an http://www.acronymfinder.com/af-query.asp?String=exact&Acronym= $+ $htmlfrm($1-) }
+alias cycle { hop $1- }
+alias dict { url -an http://dictionary.reference.com/search?q= $+ $htmlfrm($1-) }
+alias forum { url -an http://www.nnscript.com/forum/ $+ $iif($1,viewforum.php?f= $+ $1) }
+alias google { url -an http://www.google.com/search?q= $+ $htmlfrm($1-) }
+alias youtube { url -an http://www.youtube.com/results?search_query= $+ $htmlfrm($1-) }
+alias wiki {
+  if ($1 == -setlanguage) {
+    set %wikipedia.language $2
+    thmecho -a Wikipedia language set to $qt($2)
+  }
+  else { url -an http:// $+ $iif(%wikipedia.language,$v1,en) $+ .wikipedia.org/wiki/ $+ $htmlfrm($1-) }
+}
+alias i { invite $iif(!$ccontrol($2),$iif($ccontrol($active),$1 $active),$$1-) }
+alias imdb { url -an http://akas.imdb.com/Find? $+ $htmlfrm($1-) }
+alias j { join $$1- }
+alias k { kick $iif($1 !ischan,$$chan) $$1- $kc }
+alias kb {
+  if ($1 ischan) && ($2 ison $1) { ban -k $1-2 %ban.mask $3- $kc }
+  elseif ($1 ison $chan) { ban -k $chan $1 %ban.mask $2- $kc }
+  else { thmerror -a Invalid parameters. }
+}
+alias km { kick $iif($1 !ischan,$$chan $1,$1-2) $kick.msg $kc }
+alias m { if (!$isid) { msg $$1- } }
+alias md { mode $$iif($1 ischan || $active == Status window,$1-,$active $1-) }
+alias n { nick $$1- }
+alias name { nick $1- }
+alias op { smode + o $iif($1 ischan,$1-,$chan $1-) }
+alias v { smode + v $iif($1 ischan,$1-,$chan $1-) }
+alias deop { smode - o $iif($1 ischan,$1-,$chan $1-) }
+alias dev { smode - v $iif($1 ischan,$1-,$chan $1-) }
+alias smode {
+  var %c,%r,%o = 3,%wr,%tm = 0
+  if ($3 ischan) {
+    %c = $3
+    tokenize 32 $1-2 $4-
+  }
+  else { %c = $chan }
+  if (%c ischan) && (($1 == +) || ($1 == -)) && ($2 isin $nickmode) {
+    if ($ccontrol(%c)) {
+      while ($ [ $+ [ %o ] ]) {
+        var %e = $v1
+        if (? isin %e) || (* isin %e) || $ialchan(%e,%c,0) {
+          var %t = $ialchan(%e,%c,0)
+          if (%t <= 2) || ((%t > 2) && ($ydialog(You are about to give mode $1 $+ $2 to up to %t users on %c who are matching %e $+ . Do you really want to continue?))) {
+            if ($ialchan(*,%c,0) != $nick($chan,0)) && (!%wr) {
+              idialog Warning: your internal address list (IAL) for %c is not filled, so this command might not change modes on all users matching your provided hostmask(s). To fill your IAL, type /ialupdate #channel. You can then run the command again to change modes on the remaining users.
+              var %wr = 1
+            }
+            while (%t) {
+              var %rn = $ialchan(%e,%c,%t).nick,%g = $nick(%c,%rn).pnick,%z = $mid($prefix,$pos($nickmode,$2),1)
+              if (%z $iif($1 == +,!) $+ isin %g) && ((%rn != $me) || ($1 == +)) { %r = %r %rn }
+              if ($wd(%r,0) == $modespl) {
+                $iif(%tm,.timer 1 %tm) mode $$chan $1 $+ $str($2,$modespl) %r
+                inc %tm
+                %r = ""
+              }
+              dec %t
+            }
+          }
+        }
+        else {
+
+          var %g = $nick(%c,%e).pnick,%z = $mid($prefix,$pos($nickmode,$2),1)
+
+          if (%z $iif($1 == +,!) $+ isin %g) { %r = %r %e }
+          if ($wd(%r,0) == $modespl) {
+            $iif(%tm,.timer 1 %tm) mode $$chan $1 $+ $str($2,$modespl) %r
+            inc %tm
+            %r = ""
+          }
+        }
+        inc %o
+      }
+      if (%r) { $iif(%tm,.timer 1 %tm) mode $$chan $1 $+ $str($2,$wd(%r,0)) %r }
+    }
+    else { thmerror -a You do not have the necessary rights to do that. }
+  }
+  else { thmerror -a Invalid parameters. }
+}
+alias p { part $iif($1 ischan,$1-,$$chan $1-) }
+alias ping {
+  if (?*.?* iswm $1-) { cping $1- }
+  else { ctcp $1 ping }
+}
+alias q { query $1- }
+alias qry { query $1- }
+alias qw { if ($q.net) { .msg q whois $1 } }
+alias qb {
+  msg q chanlev $iif($$1 ischan,$1-2,$chan $1) +b
+  k $1 Q-banned!
+}
+alias c {
+  if ($1- == $null) { set -n %calctmp $$eddialog(Please enter a calculation.Example: 5+2*3) }
+  else { set -n %calctmp $1- }
+  thmecho -a Calculator: %calctmp = $calc(%calctmp)
+  unset %calctmp
+}
+alias s { server $$1- }
+alias t {
+  if ($1 == -r) {
+    var %c = $iif($2 ischan,$2,$iif($active ischan,$active))
+    if (%c) { topic %c $chan(%c).topic }
+  }
+  else { 
+    var %c = $iif($left($1,1) isin $chantypes,$1-,$iif($active ischan,$active $1-))
+    if (%c) { topic %c }
+  }
+}
+alias b {
+  if ($1 ischan) && ($2 ison $1) { var %c = $1,%n = $2 }
+  elseif ($1 ison $chan) { var %c = $chan,%n = $1 }
+  else {
+    thmerror -a Invalid parameters.
+    return
+  }
+  ban %c %n %ban.mask
+}
+alias tb {
+  if ($1 ischan) && ($2 ison $1) { var %c = $1,%n = $2 }
+  elseif ($1 ison $chan) { var %c = $chan,%n = $1 }
+  else {
+    thmerror -a Invalid parameters.
+    return
+  }
+  var %m = $int($$eddialog(Enter a ban time in minutes!))
+  if (%m !isnum 0-5000) { errdialog please enter a number between 0 and 5000! }
+  else { ban -u $+ $calc(%m *60) %c %n %ban.mask }
+}
+alias tkb {
+  if ($1 ischan) && ($2 ison $1) { var %c = $1,%n = $2,%x = $3- }
+  elseif ($1 ison $chan) { var %c = $chan,%n = $1,%x = $2- }
+  else {
+    thmerror -a Invalid parameters.
+    return
+  }
+  var %m = $int($$eddialog(Enter a ban time in minutes!)),%r
+  if (%m !isnum 0-5000) { errdialog please enter a number between 0 and 5000! }
+  else {
+    if (%x) { %r = %x }
+    else { %r = %m minute ban }
+    ban -ku $+ $calc(%m *60) %c %n %ban.mask %r $kc
+  }
+}
+alias ver { ctcp $$1 version }
+alias umode { mode $me $1- }
+alias w { whois $$1- }
+alias we { whois $$1 $1 }
+alias rejoin { hop $active }
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

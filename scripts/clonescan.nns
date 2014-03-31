@@ -1,0 +1,125 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - clone scanner - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias cscan {
+  if (!$chan(0)) { errdialog you are not on any channel you could scan for clones! }
+  else {
+    if ($1 ischan) { set %cscan.pchan $1 }
+    nndlg -m clonescan
+  }
+}
+dialog clonescan {
+  title CloneScan on $curconserv [/cscan]
+  size -1 -1 364 206
+  option pixels
+  icon scripts\pics\nntray.ico
+  box "Channel", 2, 4 0 144 48
+  combo 7, 12 16 128 144, sort size drop
+  box "Statistics", 5, 4 54 144 118
+  text "Total users", 15, 14 74 58 16
+  edit "", 14, 84 70 56 22, read autohs center
+  text "Clones", 8, 14 98 36 16
+  edit "", 9, 84 94 56 22, read autohs center
+  text "Percentage", 10, 14 122 62 16
+  edit "", 11, 84 118 56 22, read autohs center
+  text "Scan time", 12, 14 146 50 16
+  edit "", 13, 84 142 56 22, read autohs center
+  box "Clones (right-click for options)", 4, 156 0 204 172
+  list 6, 164 16 188 148, size
+  button "&Ok", 1, 280 178 80 24, ok
+  menu "&File", 17
+  item "&Close", 18, 17
+  menu "&Settings", 19
+  item "&Update IAL", 20, 19
+  item "&Refresh clones", 21, 19
+}
+on *:dialog:clonescan:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 6 TreeView haslines hasbuttons showsel nohscroll > $mdxfile(views)
+    var %c = $chan(0)
+    while (%c) {
+      did -a $dname 7 $chan(%c)
+      dec %c
+    }
+    did -c $dname 7 $iif($didwm(7,$iif(%cscan.pchan,$v1,$active)),$v1,1)
+    unset %cscan.pchan
+    cscan.do
+  }
+  elseif ($devent == sclick) {
+    if ($did == 7) { cscan.do }
+    elseif ($did == 6) {
+      tokenize 32 $did($did,1)
+      if ($1 == rclick) && ($5) {
+        did -i $dname $did 1 cb root $3-4
+        did -c $dname 6 $5
+        var %c = $did(7).seltext,%o = $iif(!$ccontrol(%c),+g,+),%n
+        noop $regsub($wd($gettok($gettok($did($did,$5),2,9),1,13),2),$+(/[,$prefix,]/g),,%n)
+        popdll.new
+        popdll.add 1	+g 1 0 $shorten(10,%n) $+ :
+        popdll.add 2	+ 2 0 -
+        popdll.add 3	+ 3 0 Whoiswe %n
+        popdll.add 4	+ 4 0 -
+        popdll.add 5	 $+ %o 5 0 Kickk %c %n Clones are not welcome in %c $+ !
+        popdll.add 6	 $+ %o 6 0 Kickbankb %c %n Clones are not welcome in %c $+ , banned!
+        popdll.add 7	 $+ %o 7 0 Timekickbantkb %c %n Clones are not welcome in %c $+ , tempbanned!
+        popdll.disp
+      }
+    }
+  }
+  elseif ($devent == menu) {
+    if ($did == 20) {
+      if ($remc(who)) { errdialog there is already another /who request going on. Please wait for it to finish. }
+      else { .who $did(7).seltext }
+    }
+    elseif ($did == 18) { dialog -c $dname }
+    elseif ($did == 21) { cscan.do }
+  }
+}
+alias cscan.do {
+  did -r clonescan 6
+  did -i clonescan 6 1 cb root
+  did -a clonescan 6 +be 1 1 0 0 0 Hostnames
+  did -i clonescan 6 1 cb last
+  var %m = $nnticks,%x = $did(clonescan,7).seltext,%s = $ialchan(*,%x,0),%c = 0,%v = $nick(%x,0)
+  did -ra clonescan 14 %v
+  if (%s != %v) {
+    did -a clonescan 6 + 1 1 0 0 0 IAL for %x not filled!
+    did -bra clonescan 9,11,13 n/a
+    did -b clonescan 4,5,6,8,10,12,14,15
+  }
+  else {
+    did -e clonescan 4,5,6,8,9,10,11,12,13,14,15
+    _hmake clonescan
+    while (%s) {
+      hinc clonescan *@ $+ $gettok($ialchan(*,%x,%s),2-,64)
+      dec %s
+    }
+    var %s = $hget(clonescan,0).item
+    while (%s) {
+      var %l = 1,%t = $hget(clonescan,%s).item,%h = $hget(clonescan,%t)
+      if (%h > 1) {
+        did -a clonescan 6 + 1 1 0 0 0 $+($gettok(%t,2-,64),	Host: $gettok(%t,2-,64),$cr,Users:) %h
+        did -i clonescan 6 1 cb last
+        while (%l <= %h) {
+          var %ö = $ialchan(%t,%x,%l).nick,%g = $iif(%ö !isreg %x,$left($nick(%x,%ö).pnick,1)) $+ %ö
+          did -a clonescan 6 + 1 1 0 0 0 $+(%g,	Nickname: $ialchan(%t,%x,%l).nick,$cr,Clone #: %l,/,%h,$cr,Address: $gettok($ialchan(%t,%x,%l),2-,33),$cr,Idle) time: $sduration($nick(%x,%ö).idle)
+          inc %l
+        }
+        did -i clonescan 6 1 sort
+        did -i clonescan 6 1 cb up
+        inc %c $calc(%h -1)
+      }
+      dec %s
+    }
+    if (!%c) { did -a clonescan 6 + 1 1 0 0 0 No clones on %x found. }
+    else { did -i clonescan 6 1 sort }
+    did -ra clonescan 9 %c
+    did -ra clonescan 11 $percent(%c,$nick(%x,0),0)
+    did -ra clonescan 13 $round($calc($nnticks - %m),2) $+ s
+    hfree clonescan
+  }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

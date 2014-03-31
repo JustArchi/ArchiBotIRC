@@ -1,0 +1,17 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - stuff that needs to be loaded first - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+on *:dialog:*:*:*:{
+  if ($devent == init) {
+    mdx SetMircVersion $version
+    mdx MarkDialog $dname $dialog($dname).hwnd
+  }
+  elseif ($devent == close) {
+    close -@ $+(@sprev.,$dname,.*)
+    unset %sortheader. [ $+ [ $dname ] $+ ] .*
+  }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

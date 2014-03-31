@@ -1,0 +1,101 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
+; 
+; Written by Shenghi
+; Contact at irc.quakenet.org -> #help.script
+;
+; $qauth identifier. Will only work on QuakeNet. It will 
+; first try to extract the Q auth from a users host, if 
+; the user has usermode +x set. If it can't, it will then 
+; attempt to get the Q auth from $ial(nick).mark. If the Q 
+; auth is not set as a mark it will send /who nick n%na to 
+; get the Q auth from the server. To prevent having to do this 
+; more than once for each user, the Q auth is saved as ialmark 
+; when it's received from the server.
+;
+; The sleep alias has one annoying side-effect. It prevents the
+; identifier from working correctly in events. To go around this you
+; can put whatever you were going to do in the event in an alias
+; and use /timer 1 0 <alias>.
+;
+;
+; A simple example:
+; The following script might not work correctly.
+; on *:JOIN:#help.script:{ echo -ag $qauth($nick) }
+; 
+; This will work guaranteed.
+; alias echo_auth { echo -ag $qauth($1) }
+; on *:JOIN:#help.script:{ timer 1 0 echo_auth $nick }
+;
+;
+; Usage: 
+; 
+;  $qauth(nick) - Returns the qauth of a user or $null if 
+;                 the user is not authed. 
+; 
+; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
+ 
+;;;;;;;;;; SLEEP ALIAS ;;;;;;;;;; 
+;; Syntax: /sleep N 
+;; Causes a script to 'sleep' N miliseconds. During this time 
+;; server and user raws are processed and events pass. 
+alias -l sleep { 
+  ;; when called as an identifier or the number of miliseconds 
+  ;; to sleep is 0, return 
+  if ($isid) || ($0 != 1) || ($1 !isnum) || ($1 < 1) !return 
+ 
+  ;; otherwise set a unique filename to a var, write the remote script to 
+  ;; that file and execute it using COM objects. 
+  !var %f = $ticks $+ .wsf 
+  !write %f <job id="js"><script language="jscript">WScript.Sleep( $+ $1 $+ );</script></job> 
+  !.comopen %f WScript.Shell 
+  if (!$comerr) .comclose %f $com(%f,Run,3,bstr,%f,uint,0,bool,true) 
+  !.remove %f 
+} 
+ 
+;;;;;;;;;; QAUTH ALIAS ;;;;;;;;;; 
+;; Syntax: $qauth(nick) 
+;; Returns the qauth of a user or $null if the user is not authed -- QuakeNet only 
+alias qauth { 
+  ;; check if used as identifier and if the network used on is quakenet 
+  if (!$isid) || (*.??.quakenet.org !iswm $server) !return 
+ 
+  ;; check if the Q auth could be extracted from the host 
+  if ($ial($1).host) if ($regex($ial($1).host,(.+?)\.users\.quakenet\.org)) !return $regml(1) 
+ 
+  ;; check if the Q auth could be extracted from the ialmark 
+  if ($ial($1).mark) !return $v1 
+ 
+  ;; set a global var and send out a who to get the users Q auth 
+  ;; the while loop waits for the server response 
+  !set %getQauth [ $+ [ $1 ] ] $crlf 
+  !.who $1 n%nat,101 
+  !var %i = 10 
+  while (%i) && (%getQauth [ $+ [ $1 ] ] == $crlf) {  
+    sleep 10  
+    !dec %i 
+  } 
+ 
+  ;; set local return var so the global var can be removed 
+  !var %return = $iif(%getQauth [ $+ [ $1 ] ] == $crlf,$null,$v1) 
+  !unset %getQauth [ $+ [ $1 ] ] 
+ 
+  ;; add q auth to IAL mark 
+  if (%return != -) !.ialmark $1 $v1 
+ 
+  !return $iif(%return != -,$v1,$null)
+} 
+ 
+;;;;;;;;;; RAW 354 - SPECIAL WHO REPLY ;;;;;;;;;; 
+raw 354:& 101 & *:{ 
+  if (%getQauth [ $+ [ $3 ] ]) { 
+    !set %getQauth [ $+ [ $3 ] ] $iif($4,$v1,-) 
+    !haltdef 
+  } 
+} 
+ 
+;;;;;;;;;; RAW 315 - END OF /WHO LIST ;;;;;;;;;; 
+raw 315:*:{ 
+  ;; see whether a Q auth was requested and if so, halt the default output 
+  if (%getQauth [ $+ [ $2 ] ]) !haltdef 
+}

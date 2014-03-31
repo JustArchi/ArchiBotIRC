@@ -1,0 +1,156 @@
+Name echelon
+Version 1.21
+NNTVersion 1.03
+Author greeny
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font IBMPC
+FontSize 12
+
+TimestampEnabled 1
+Timestamp 10(15HH14:15nn10)
+
+NickColSelf 7
+NickColOp 11
+NickColVoice 15
+NickColRegular 14
+NickColProtect none
+NickColIgnore 4
+
+Brackets 14<text>
+LineSep 15þ14ÄÄÄ-15Ä0Ä14ÄÄÄÄÄ15ÄÄ14ÄÄÄ15ÄÄ14ÄÄÄÄÄÄÄÄ15-Ä0Ä15ÄÄ14Ä Ä
+Prefix 14ù11í14ù
+
+GenEcho <pre>15 <text>
+GenError <pre>15 error: <text>
+GenHighlight 14<text>15
+
+ChanText 11<cmode align="1">14/<nick align="15">14<gt> <text>
+ChanTextOwn 11<cmode align="1">14/<me align="15">14<gt> <text>
+ChanAction 11<cmode align="1">14!<nick align="15">  <text>
+ChanActionOwn 11<cmode align="1">14!<me align="15">  <text>
+
+QueryText 14 /<nick align="15">14<gt> <text>
+QueryTextOwn 14 /<me align="15">14<gt> <text>
+QueryAction 14 !<nick align="15">  <text>
+QueryActionOwn 14 !<me align="15">  <text>
+
+Msg <pre> 11message received from11 <nick>!11<address>: <text>
+MsgOwn <pre> 11message sent to11 <target>: <text>
+Action <pre> 11action received from11 <nick>!11<address>: <text>
+ActionOwn <pre> 11action sent to11 <target>: <text>
+
+ChanNotice <pre>11 <chan> notice15 received from11 <nick>15!11<address>15: <text>
+Notice <pre> 11notice15 received from11 <nick>15!11<address>15: <text>
+NoticeOwn <pre> 11notice15 sent to11 <target>15: <text>
+ServerNotice <pre> 11server notice15 received from11 <server>15: <text>
+
+CTCP <pre> 11ctcp15 received from11 <nick>15!11<address>15: <ctcp> <text>
+CTCPOwn <pre> 11ctcp15 sent to11 <target>15: <ctcp> <text>
+ChanCTCP <pre>11 <chan> ctcp15 received from11 <cmode><nick>15!11<address>15: <ctcp> <text>
+CTCPReply <pre> 11ctcpreply15 received from11 <nick>15!11<address>15: <ctcp> <text>
+CTCPReplyOwn <pre> 11ctcpreply15 sent to11 <target>15: <ctcp> <text>
+
+Join <pre>11 join14(<chan>)11<nick align="-15"> 14<address>
+JoinOwn ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ14- Ä15-ÄÄÄÄ00Ä15Ä¿14ÖÄÄÄ-15Ä0Ä14Â15[11join1515]14ÄÄÄ15ÄÄ14ÄÄÄÄÄÄ15ÄÄ14ÄÄÙ14Ç15[11chan15]14´15 <chan>14ÇÄ15ÄÄÄÄÄÅ00ÄÄÄ00ÄÄ15Ä-Ä14--!if <topic> 14Ç15[11topc15]14´15 <topic>!if <topic> 14Ç15[11user15]14´15 <topicnick>!if <topic> 14Ç15[11time15]14´15 <topicdate> 14(15<topicdateago> ago14)!if <topic> 14ÇÄÄÄ15ÄÄÄÅ00ÄÄÄÄ15-ÄÄ14 -14Ç15[11usrs15]14´15 <users> users, <oppedusers> opped, <voicedusers> voiced, <regusers> regulars14Ç15[11sync15]14´15 <synctime>secs14ÓÄ15-14ÄÄÄÄÁ15[11end15]14Ä15ÄÄ00ÄÄ15Ä14Ä15ÄÄÄÄ14Ä-ÿÄ¿ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ14-ÿ-Ä15Ä-00Ä15ÄÄÄÄ14Ù
+Part <pre>11 part14(<chan>)11<nick align="-15"> <message brackets="1">
+Quit <pre>11 quit14(<chan>)11<nick align="-15"> <message brackets="1">
+Nick <pre>11 nick14(<chan>)11<newnick align="-15"> 14<nick>
+NickOwn <pre>11 you are now known as 14<newnick>
+Mode <pre>11 mode14(<chan>)11<nick align="-15"> 14<mode>
+UserMode <pre>11 your usermode is15: <mode>
+Kick <pre>11 kick14(<chan>)11<kickednick align="-15"> 14<nick> (<message>)
+KickOwn <pre>11 you have been kicked out of14 <chan> 11by14 <nick> (<message>)
+WallOp 14 /15<nick align="15">14<gt>15 <text>
+
+DNS <pre>11 dns15: looking up11 <address>15...
+DNSError <pre>11 dns15: unable to resolve11 <address>15!
+DNSResolve <pre>11 dns15: resolved11 <address> 15to11 <raddress>
+
+Notify <pre>11 <nick> 15is now online!
+UnNotify <pre>11 <nick> 15is now offline!
+
+LUsers1 <pre>15 there are11 <users> 15users and11 <invisible> 15invisible on11 <servers> 15servers
+LUsers2 <pre>15 there are11 <operators> 15operators online
+LUsers3 <pre>15 there are11 <connections> 15unknown connections
+LUsers4 <pre>15 there are11 <channels> 15channels formed
+LUsers5 <pre>15 there are11 <clients> 15clients and11 <servers> 15servers
+
+Welcome1 <pre>15 welcome to the internet relay network,11 <nick>15!
+Welcome2 <pre>15 your host is11 <host>15, running version11 <version>
+Welcome3 <pre>15 this server was created11 <created>
+Welcome4 <pre>15 server:11 <server>15, version:11 <version>15, usermodes:11 <usermodes>15, channelmodes:11 <chanmodes>
+SupportedInfo <pre>15 this server supports11 <protocols>
+
+ChannelModes <pre>15 modes on11 <chan>15: <modes>
+ChannelCreation <pre>11 <chan> 15creation time: <created> 14(15<createdago> ago14)
+Bans <pre>15 <banned> 14(15<bannedago> ago14)15:11 <ban>
+BansEnd <pre>15 end of11 <chan> 15ban list!
+UnableToSend <pre>15 unable to send message to11 <chan>
+NotOpped <pre>15 you're not opped on11 <chan>15!
+HiddenHost <pre>11 <host> 15is now your hidden hostname!
+RegisterFirst <pre>15 register first!
+
+WhoisStart ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ14- Ä15-ÄÄÄÄ00Ä15Ä¿14ÖÄÄÄ-15Ä0Ä14Â15[11/whois1515]14ÄÄÄ15ÄÄ14ÄÄÄÄÄÄ15ÄÄ14ÄÄÙ
+WhoisAddress 14Ç15[11nick15]14´15 <nick>11,15 <name>14Ç15[11addy15]14´15 <address>
+WhoisChans 14Ç15[11chan15]14´15 <chans>
+WhoisServer 14Ç15[11serv15]14´15 <server>11,15 <info>
+WhoisStatus 14Ç15[11stat15]14´15 <status>
+WhoisAway 14Ç15[11away15]14´15 <reason>
+WhoisAuth 14Ç15[11auth15]14´15 <auth>
+WhoisRealIP 14Ç15[11real15]14´15 <address> 14(15<ip>14)
+WhoisIdle 14Ç15[11idle15]14´15 <idle>11,15 signed on <signonago> ago
+WhoisEnd 14ÓÄ15-14ÄÄÄÄÁ15[11end15]14Ä15ÄÄ00ÄÄ15Ä14Ä15ÄÄÄÄ14Ä-ÿÄ¿ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ14-ÿ-Ä15Ä-00Ä15ÄÄÄÄ14Ù
+
+WhowasStart ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ14- Ä15-ÄÄÄÄ00Ä15Ä¿14ÖÄÄÄ-15Ä0Ä14Â15[11/whowas1515]14ÄÄÄ15ÄÄ14ÄÄÄÄÄÄ15ÄÄ14ÄÄÙ
+WhowasAddress 14Ç15[11nick15]14´15 <nick>11,15 <name>14Ç15[11addy15]14´15 <address>
+WhowasServer 14Ç15[11serv15]14´15 <server>11,15 <info>
+WhowasAway 14Ç15[11away15]14´15 <reason>
+WhowasEnd 14ÓÄ15-14ÄÄÄÄÁ15[11end15]14Ä15ÄÄ00ÄÄ15Ä14Ä15ÄÄÄÄ14Ä-ÿÄ¿ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ14-ÿ-Ä15Ä-00Ä15ÄÄÄÄ14Ù
+
+Who <pre>11 /who15 listing: 11address15: <nick>11!15<address> on <chan>, 11ident15: <ident>, 11name15: <name>, 11server15: <server>, 11status15: <status>
+WhoEnd <pre>11 /who15: end of list!
+
+Invite <pre>15 you have been invited to join11 <chan> 15by11 <nick>
+InviteOwn <pre>11 <nick> 15has been invited to join11 <chan>
+InviteAlreadyOnChan <pre>11 <nick> 15is already on11 <chan>15!
+
+NoTopic <pre>11 <chan> 15no topic set
+Topic ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ14- Ä15-ÄÄÄÄÄ00Ä15Ä¿14ÖÄÄ15ÄÄÄ14ÄÂ15[11topic15]14ÄÄ15ÄÄÄÄÄ14Ä-ÄÄ Ù14Ç15[11topc15]14´15 <topic>
+TopicBy 14Ç15[11user15]14´15 <nick>14Ç15[11time15]14´15 <date> 14(15<dateago> ago14)14ÓÄÄÄÄÄÄÁ15[11end15]14ÄÄ-ÄÄ15ÄÄÄ0ÄÄ15Ä14ÄÄ¿ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ14- Ä15-ÄÄÄÄ00Ä15ÄÙ
+TopicChange <pre>11 topc14(<chan>)11<nick align="-15"> 14<topic>
+
+Names <pre>11 names15: <names>
+NamesEnd <pre>11 names15: end of list!
+
+UnknownCmd <pre>15 unknown command: <cmd>
+NickInUse <pre>15 nickname11 <nick> 15is already in use!
+AwayStatus <pre> 11<nick> 15is marked as being away: <reason>
+ChanFull <pre>15 can't join11 <chan>15: full!
+ChanInviteOnly <pre>15 can't join11 <chan>15: invite only!
+ChanBanned <pre>15 can't join11 <chan>15: you're banned!
+ChanKeyRequired <pre>15 can't join11 <chan>15: key required!
+ChanRegOnly <pre>15 can't join11 <chan>15: registered only!
+NoSuchNick <pre>11 <nick> 15no such nickname
+NoSuchChan <pre>11 <chan> 15no such channel
+
+RawDef <pre>15 <text>
+
+Scheme0 Default 16777215 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 16580861 7631988 11447982 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15
+Scheme1 Dark_default 16777215 0 10747904 47360 8445 183 14221529 34301 46079 64512 10437120 13262848 15745536 16580861 7631988 11447982 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15
+Scheme2 Red 16777215 0 10747904 47360 8445 183 14221529 34301 46079 64512 204 255 15745536 16580861 7631988 11447982 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15
+Scheme3 Dark_red 16777215 0 10747904 47360 8445 183 14221529 34301 46079 64512 150 180 15745536 16580861 7631988 11447982 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15
+Scheme4 Green 16777215 0 10747904 47360 8445 183 14221529 34301 46079 64512 52224 65280 15745536 16580861 7631988 11447982 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15
+Scheme5 Dark_green 16777215 0 10747904 47360 8445 183 14221529 34301 46079 64512 39680 48640 15745536 16580861 7631988 11447982 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15
+Scheme6 Yellow 16777215 0 10747904 47360 8445 183 14221529 34301 46079 64512 51148 65522 15745536 16580861 7631988 11447982 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15
+Scheme7 Dark_yellow 16777215 0 10747904 47360 8445 183 14221529 34301 46079 64512 38550 48830 15745536 16580861 7631988 11447982 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15
+Scheme8 Grey 16777215 0 10747904 47360 8445 183 14221529 34301 46079 64512 9868950 11842740 15745536 16580861 7631988 11447982 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15
+Scheme9 Dark_grey 16777215 0 10747904 47360 8445 183 14221529 34301 46079 64512 6710886 8355711 15745536 16580861 7631988 11447982 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15
+Scheme10 Teal 16777215 0 10747904 47360 8445 183 14221529 34301 46079 64512 14796800 16770560 15745536 16580861 7631988 11447982 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15
+Scheme11 Dark_teal 16777215 0 10747904 47360 8445 183 14221529 34301 46079 64512 11838464 14074112 15745536 16580861 7631988 11447982 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15
+Scheme12 Orange 16777215 0 10747904 47360 8445 183 14221529 34301 46079 64512 41442 51967 15745536 16580861 7631988 11447982 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15
+Scheme13 Dark_orange 16777215 0 10747904 47360 8445 183 14221529 34301 46079 64512 36556 42751 15745536 16580861 7631988 11447982 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15
+Scheme14 White 16777215 0 10747904 47360 8445 183 14221529 34301 46079 64512 13158600 16777215 15745536 16580861 7631988 11447982 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15
+Scheme15 Inverted 0 15461355 10747904 30464 8445 183 10748068 30433 43248 47872 7947776 9917184 15745536 13762770 7566195 2302755 1 15 15 15 11 11 14 14 14 14 14 15 15 15 15 15 14 14 14 14 14 1 15 1 15 14 1 1 1 15

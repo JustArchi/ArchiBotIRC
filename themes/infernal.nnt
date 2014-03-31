@@ -1,0 +1,168 @@
+Name Infernal
+Version 1.0
+NNTVersion 1.03
+Author greeny
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font bright
+FontSize 12
+
+TimestampEnabled 1
+Timestamp 13(15HH13:15nn13)
+
+NickColSelf 7
+NickColOp 13
+NickColVoice 15
+NickColRegular 14
+NickColProtect none
+NickColIgnore 4
+
+Brackets 13(15<text>13)
+LineSep 13<lt>14ÄÄÄÄÄÄÄÄÄÄÄÄ15ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Ä
+Prefix 14<gt>13<gt>14<gt>
+
+GenEcho <pre> <text>
+GenError <pre> error: <text>
+GenHighlight 13(15<text>13)
+
+ChanText 13<cmode align="1"><nick align="-17">13: <text>
+ChanTextOwn 13<cmode align="1"><me align="-17">13: <text>
+ChanAction 13<cmode align="1"><nick align="-17">  <text>
+ChanActionOwn 13<cmode align="1"><me align="-17">  <text>
+
+QueryText  <nick align="-17">13: <text>
+QueryTextOwn  <me align="-17">13: <text>
+QueryAction  <nick align="-17">  <text>
+QueryActionOwn  <me align="-17">  <text>
+
+Msg <pre> 13message15 from13 <nick>!<address>15: <text>
+MsgOwn <pre> 13message15 sent to13 <target>15: <text>
+Action <pre> 13action15 from13 <nick>!<address>15: <text>
+ActionOwn <pre> 13action15 sent to13 <target>15: <text>
+
+ChanNotice <pre>13 <chan> notice15 from13 <nick>!<address>15: <text>
+Notice <pre> 13notice15 from13 <nick>!<address>15: <text>
+NoticeOwn <pre> 13notice15 sent to13 <target>15: <text>
+ServerNotice <pre> 13notice15 from13 <server>15: <text>
+
+CTCP <pre> 13ctcp15 from13 <nick>!<address>15: <ctcp> <text>
+CTCPOwn <pre> 13ctcp15 to13 <target>15: <ctcp> <text>
+ChanCTCP <pre>13 <chan> ctcp15 from13 <nick>!<address>15: <ctcp> <text>
+CTCPReply <pre> 13ctcpreply15 from13 <nick>!<address>15: <ctcp> <text>
+CTCPReplyOwn <pre> 13ctcpreply15 to13 <target>15: <ctcp> <text>
+
+Join <nick align="-18">  has joined <chan>
+JoinOwn 13 ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿13 ³  15join start 13 ³13 ÀÄÂÄÄÄÄÄÄÂÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Ä  13 ³15 chan 13³15 <chan>!if <topic>   13 ³15 topc 13³15 <topic>!if <topic>   13 ³15 tpcb 13³15 <topicnick> <topicdate brackets="1">  13 ³15 usrs 13³15 <users> 13(15<oppedusers> opped, <voicedusers> voiced, <regusers> regulars13)  13 ³15 sync 13³15 <synctime> seconds13 ÚÄÁÄÄÄÄÄÄÁÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Ä13 ³  15join end 13 ³13 ÀÄÄÄÄÄÄÄÄÄÄÄÄÙ
+Part <nick align="-18">  has left <chan> <message brackets="1">
+Quit <nick align="-18">  has quit <message brackets="1">
+Nick <nick align="-18">  is now known as <newnick>
+NickOwn <pre> you are now known as15 <newnick>
+Mode <nick align="-18">  sets mode <mode>
+UserMode <pre> your usermode is now15 <mode>
+Kick <kickednick align="-18">  was kicked by <nick> (<message>)
+KickOwn <pre> you were kicked out of15 <chan> by15 <nick>
+WallOp  <nick align="-17">13: <text>
+
+DNS <pre>13 dns: looking up15 <address brackets="1">13...
+DNSError <pre>13 dns: unable to resolve15 <address>
+DNSResolve <pre>13 dns: resolved15 <address> 13to15 <raddress>
+
+Notify <pre>15 <nick> 13is now online!
+UnNotify <pre>15 <nick> 13is now offline!
+
+LUsers1 <pre>13 there are15 <users> 13users and15 <invisible> 13invisible on15 <servers> 13servers.
+LUsers2 <pre>13 there are15 <operators> 13operators online
+LUsers3 <pre>13 there are15 <connections> 13unknown connections
+LUsers4 <pre>13 there are15 <channels> 13channels formed
+LUsers5 <pre>13 there are15 <clients> 13clients and15 <servers> 13servers
+
+Welcome1 <pre>13 welcome to the internet relay network15 <nick>
+Welcome2 <pre>13 your host is15 <host> 13running version15 <version>
+Welcome3 <pre>13 this server was created15 <created>
+Welcome4 <pre>13 server:15 <server> 13version:15 <version> 13usermodes:15 <usermodes> 13channelmodes:15 <chanmodes>
+SupportedInfo <pre>13 this server supports15 <protocols>
+
+ChannelModes <pre>13 modes on15 <chan>13:15 <modes>
+ChannelCreation <pre>15 <chan> 13creation time:15 <created>13,15 <createdago> 13ago
+Bans <pre>15 <banned>13:15 <ban> 13by15 <nick>
+BansEnd <pre>13 end of15 <chan> 13ban list!
+UnableToSend <pre>13 unable to send message to15 <chan>
+NotOpped <pre>13 you're not opped on15 <chan>
+HiddenHost <pre>15 <host> 13is now your hidden hostname!
+RegisterFirst <pre>13 register first!
+
+WhoisStart 13 ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿13 ³ /whois start 13³13 ÀÄÂÄÄÄÄÄÄÂÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Ä
+WhoisAddress   13 ³ nick 13³ <nick> 13(<name>13)  13 ³ addy 13³ <address>
+WhoisChans   13 ³ chan 13ÃÄÄÄÂÄÄÄ Ä!if <opchans>   13 ³      13³ @ 13³ <opchans>!if <hopchans>   13 ³      13³ % 13³ <hopchans>!if <vchans>   13 ³      13³ + 13³ <vchans>!if <regchans>   13 ³      13³   13³ <regchans>  13 ³      13ÃÄÄÄÅÄÄÄ Ä  13 ³      13³ ? 13³ <channum> total13, <comchannum> common channel(s)  13 ³      13ÃÄÄÄÁÄÄÄ Ä
+WhoisServer   13 ³ serv 13³ <server> 13(<info>13)
+WhoisStatus   13 ³ stat 13³ <status>
+WhoisAway   13 ³ away 13³ <reason>
+WhoisAuth   13 ³ auth 13³ <auth>
+WhoisRealIP   13 ³ rlip 13³ <address> 13(<ip>13)
+WhoisIdle   13 ³ idle 13³ <idle>  13 ³ conn 13³ <signonago> 13(<signontime>13)
+WhoisEnd 13 ÚÄÁÄÄÄÄÄÄÁÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Ä13 ³ /whois end 13³13 ÀÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+WhowasStart 13 ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿13 ³ /whowas start 13³13 ÀÄÂÄÄÄÄÄÄÂÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Ä
+WhowasAddress   13 ³ nick 13³ <nick> 13(<name>13)  13 ³ addy 13³ <address>
+WhowasServer   13 ³ serv 13³ <server> 13(<info>13)
+WhowasAway   13 ³ away 13³ <reason>
+WhowasEnd 13 ÚÄÁÄÄÄÄÄÄÁÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ Ä13 ³ /whowas end 13³13 ÀÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+Who <pre>13 /who address:15 <nick>13!15<address> 13on15 <chan> 13/ ident:15 <ident> 13/ name:15 <name> 13/ server:15 <server> 13/ status:15 <status>
+WhoEnd <pre>13 /who: 15end13 of list!
+
+Invite <pre>13 you have been invited to join15 <chan> 13by15 <nick>
+InviteOwn <pre>15 <nick> 13has been invited to join15 <chan>
+InviteAlreadyOnChan <pre>15 <nick> 13is already on15 <chan>
+
+NoTopic <pre>13 no topic on15 <chan> 13set
+Topic <pre>13 topic on15 <chan>13:15 <topic>
+TopicBy <pre>13 set by15 <nick> 13on15 <date>13,15 <dateago> 13ago
+TopicChange <nick align="-18">  changes topic to '<topic>'
+
+Names <pre>13 names:15 <names>
+NamesEnd <pre>13 names: 15end13 of list!
+
+UnknownCmd <pre>15 <cmd> 13is an unknown command!
+NickInUse <pre>13 nickname15 <nick> 13is already in use!
+AwayStatus <pre>13 <nick> is marked as being away:15 <reason>
+ChanFull <pre>13 can't join15 <chan>13:15 full!
+ChanInviteOnly <pre>13 can't join15 <chan>13:15 invite only!
+ChanBanned <pre>13 can't join15 <chan>13:15 you're banned!
+ChanKeyRequired <pre>13 can't join15 <chan>13:15 key required!
+ChanRegOnly <pre>13 can't join15 <chan>13:15 registered only!
+NoSuchNick <pre>13 no such nickname:15 <nick>
+NoSuchChan <pre>13 no such channel:15 <chan>
+
+RawDef <pre>13 <text>
+
+Scheme0 Default 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 27645 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme1 Light_red 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 9011967 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme2 Deep_red 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 255 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme3 Wine_red 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 3484581 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme4 Lemongrass 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 3866565 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme5 Neon_green 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 9436994 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme6 Olive_green 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 39028 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme7 Weed 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 47233 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme8 Dark_green 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 30720 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme9 Teal 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 9017344 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme10 Sky_blue 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 16760898 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme11 Ocean_blue 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 15219456 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme12 Purple 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 14155915 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme13 Pink 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 16711935 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme14 Brown 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 30128 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme15 Yellow 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 65535 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme16 Dark_grey 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 6052956 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme17 Grey 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 10526880 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme18 Snow_white 14540253 0 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 16777215 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme19 Inverse_default 0 14540253 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 27645 3947580 5921370 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme20 Inverse_green 0 14540253 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 4751360 3947580 5921370 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme21 Inverse_teal 0 14540253 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 8421376 3947580 5921370 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme22 Inverse_blue 0 14540253 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 7873280 3947580 5921370 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme23 Inverse_purple 0 14540253 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 8388715 3947580 5921370 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme24 Inverse_brown 0 14540253 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 22416 3947580 5921370 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme25 Inverse_black 0 14540253 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 0 3947580 5921370 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme26 Blue_BG 0 13134080 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 0 16771282 16770760 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15
+Scheme27 Grey_BG 0 3289650 10747904 47360 8445 183 14221529 34301 46079 64512 13395456 16744448 15745536 27645 7631988 12698049 1 15 13 0 13 13 13 13 13 13 13 15 13 13 15 0 13 13 13 15 15 1 15 1 15 14 14 1 1 15

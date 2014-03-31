@@ -1,0 +1,149 @@
+Name luminosity
+Version 1.4-NNT
+NNTVersion 1.03
+Author zioxide
+Email zioxideinc@gmail.com
+Homepage http://zioxide.zapto.org
+Description None.
+
+Font Tahoma
+FontSize 10
+
+TimestampEnabled 1
+Timestamp 01,06  h:nnt   
+
+NickColSelf none
+NickColOp 11
+NickColVoice 12
+NickColRegular none
+NickColProtect 11
+NickColIgnore none
+
+Brackets 12(11<text>12)
+LineSep 11 •   12 • 
+Prefix     11• 12•  01
+
+GenEcho <pre> <text>
+GenError <pre> error: <text>
+GenHighlight 12(11<text>12)
+
+ChanText 11(<cmode>01<nick>11) <text>
+ChanTextOwn 11(<cmode>01<me>11) <text>
+ChanAction 11• <nick> <text>
+ChanActionOwn 11• <me> <text>
+
+QueryText 11(01<nick>11) <text>
+QueryTextOwn 11(01<me>11) <text>
+QueryAction 11• <nick> <text>
+QueryActionOwn 11• <me> <text>
+
+Msg 11*01<nick>11* <text>
+MsgOwn 11-<gt> *01<target>11* <text>
+Action 11*01<nick>11 <text>
+ActionOwn 11-<gt> *01<target>11 <text>
+
+ChanNotice 11-01<nick>:<chan>11- <text>
+Notice 11-01<nick> 11(01<address>11)- <text>
+NoticeOwn 11-<gt> -01<target>11- <text>
+ServerNotice 11-01<server>11-01 <text>
+
+CTCP 11[01<nick> <ctcp>11] 01<text>
+CTCPOwn 11-<gt> [01<target> <ctcp>11] 01<text>
+ChanCTCP 11[01<nick>:<chan> <ctcp>11] 01<text>
+CTCPReply 11[01<nick> <ctcp> reply11] 01<text>
+CTCPReplyOwn 11-<gt> [01<target> <ctcp> reply11] 01<text>
+
+Join <pre>01 join: <nick> 12(11<address>12)
+JoinOwn <pre>01 joined <chan>!if <topic> <pre> topic: <topic brackets="1">!if <topic> <pre> set by: <topicnick brackets="1"> on <topicdate brackets="1">
+Part <pre>01 part: <nick> 12(11<address>12) <message brackets="1">
+Quit <pre>01 quit: <nick> 12(11<address>12) <message brackets="1">
+Nick <pre>01 nick: <nick> 12(11<address>12)01 is now <newnick>
+NickOwn <pre>01 nick: <newnick>
+Mode <pre>01 mode: <nick> 12(11<address>12) 01set: <mode>
+UserMode <pre>01 usermode: <mode>
+Kick <pre>01 kick: <nick> 12(11<address>12)01 kicked <kickednick> 12(11<message>12)
+KickOwn <pre>01 You were kicked from <chan> by <nick> 12(11<message>12)
+WallOp 11!01<nick>11!01 <text>
+
+DNS <pre>01 dns: resolving <address>
+DNSError <pre>01 dns: unable to resolve <address>
+DNSResolve <pre>01 dns: resolved <address> to <raddress>
+
+Notify <pre>01 notify: <nick> is on irc
+UnNotify <pre>01 notify: <nick> is off irc
+
+LUsers1 <pre> <users brackets="1"> users, <invisible brackets="1"> invisible on <servers brackets="1"> servers
+LUsers2 <pre> <operators brackets="1"> operators online
+LUsers3 <pre> <connections brackets="1"> unknown connections
+LUsers4 <pre> <channels brackets="1"> channels formed
+LUsers5 <pre> <clients brackets="1"> clients, <servers brackets="1"> servers
+
+Welcome1 <pre> welcome to irc <nick brackets="1">
+Welcome2 <pre> your host is <host brackets="1">, running version <version brackets="1">
+Welcome3 <pre> this server was created <created brackets="1">
+Welcome4 <pre> <server> <version> <usermodes> <chanmodes>
+SupportedInfo <pre> <protocols> are supported by this server
+
+ChannelModes <pre> modes: <modes brackets="1">
+ChannelCreation <pre> channel created: <created brackets="1"> <createdago brackets="1">
+Bans <pre> bans <chan brackets="1">: <ban> by <nick> <banned brackets="1">
+BansEnd <pre> bans <chan brackets="1">: end of ban list
+UnableToSend <pre> error <chan brackets="1">: unable to send message
+NotOpped <pre> error <chan brackets="1">: you aren't an operator
+HiddenHost <pre> hidden host: <host>
+RegisterFirst <pre> Register first!
+
+WhoisStart 11 • 01 whois on <nick> 11 • 
+WhoisAddress <pre>01 <nick> is <name> <address brackets="1">
+WhoisChans $str($chr(160), 14) is on <chans>
+WhoisServer $str($chr(160), 14) is on <server> <info brackets="1">
+WhoisStatus $str($chr(160), 14) is a <status>
+WhoisAway $str($chr(160), 14) is away: <reason>
+WhoisAuth $str($chr(160), 14) is authed as <auth>
+WhoisRealIP $str($chr(160), 14) is connecting from <address> <ip brackets="1">
+WhoisIdle $str($chr(160), 14) signed on <signontime>$str($chr(160), 14) has been idle <idle>
+WhoisEnd 11 • 01end of whois 11 •
+
+WhowasStart 11 • 01whowas on <nick> 11 •
+WhowasAddress <pre>01 <nick> was <name> <address brackets="1">
+WhowasServer $str($chr(160), 14) was on <server> <info brackets="1">
+WhowasAway $str($chr(160), 14) was away: <reason>
+WhowasEnd 11 • 01end of whowas 11 •
+
+Who <pre><chan> <nick> <status> <address> <name>
+WhoEnd <pre> <target brackets="1">: end of /who
+
+Invite <pre> <nick> invites you to join <chan>
+InviteOwn <pre> <nick> invited to <chan>
+InviteAlreadyOnChan <pre> error <chan brackets="1">: <nick> is already on channel
+
+NoTopic <pre> topic <chan brackets="1">: no topic is set.
+Topic <pre> topic: <topic brackets="1">
+TopicBy <pre> set by: <nick brackets="1"> on <date brackets="1">
+TopicChange <pre> <nick> sets topic: <topic brackets="1">
+
+Names <pre> names <chan brackets="1">: <names>
+NamesEnd <pre> <chan brackets="1">: end of names list
+
+UnknownCmd <pre> error: <cmd> unknown command
+NickInUse <pre> error <nick brackets="1">: nickname already in use
+AwayStatus <pre> <nick> is away: <reason>
+ChanFull <pre> error <chan brackets="1">: channel is full
+ChanInviteOnly <pre> error <chan brackets="1">: invite only
+ChanBanned <pre> error <chan brackets="1">: banned from channel
+ChanKeyRequired <pre> error <chan brackets="1">: key required
+ChanRegOnly <pre> error <chan brackets="1">: registered users only
+NoSuchNick <pre> error <nick brackets="1">: no such nickname
+NoSuchChan <pre> error <chan brackets="1">: no such channel
+
+RawDef <pre> <text>
+
+
+Scheme0 Default 4074255 14803425 10983557 37632 255 127 3416844 32764 65535 64512 16739081 11573623 9995367 11965812 4669494 11115405 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 0 0 1
+Scheme1 Beach 15199986 6579300 10983557 37632 255 127 15262685 32764 65535 64512 16739081 11444876 10720636 11965812 4669494 11115405 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 0 0 1
+Scheme2 Lunar 14935011 4934475 10983557 37632 255 127 14145495 32764 65535 64512 16739081 7689767 5257495 11965812 4669494 11115405 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 0 0 1
+Scheme3 Ice 16645629 6579300 10983557 37632 255 127 15262685 32764 65535 64512 16739081 9734774 9076329 11965812 4669494 11115405 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 0 0 1
+Scheme4 Desert 14674416 3355443 10983557 37632 255 127 13555934 32764 65535 64512 16739081 6911616 6187891 11965812 4669494 11115405 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 0 0 1
+Scheme5 Autumn 14674416 3355443 10983557 37632 255 127 13424864 32764 65535 64512 16739081 1984132 4024235 11965812 4669494 11115405 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 0 0 1
+Scheme6 Stone 15790320 2894892 10983557 37632 255 127 15066597 32764 65535 64512 16739081 1052786 658022 11965812 4669494 11115405 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 0 0 1
+Scheme7 Black_Ice 1118481 10526880 10983557 37632 255 127 1842204 32764 65535 64512 16739081 10718326 9534309 9995367 4669494 11115405 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 0 0 1

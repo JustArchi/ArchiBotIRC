@@ -1,0 +1,670 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - channel central - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias cc {
+  if ($1 == -t) { var %c = $iif($2 ischan,$2,$active) }
+  else { var %c = $iif($1 ischan,$1,$active) }
+  if ($status == connected) {
+    if (%c ischan) {
+      if ($me ison %c) {
+        set %chancentral.chan %c
+        set %chancentral.cid $cid
+        set %chancentral.stt $iif($1 == -t,1,0)
+        noop $dialog(chancentral,chancentral,-4)
+      }
+      else { thmerror -a You are currently not in $thmhl(%c) $+ . }
+    }
+    else { thmerror -a This feature is only available on channels. }
+  }
+  else { thmerror -a You are not connected to the server. }
+}
+dialog chancentral {
+  title %chancentral.chan channel central [/cc]
+  size -1 -1 478 448
+  option pixels
+  icon scripts\pics\nntray.ico, 0
+  tab "Channel modes", 16, 4 68 468 348
+  box "General information", 38, 13 95 451 120, tab 16
+  text "Active channel", 44, 23 115 82 14, tab 16
+  edit "", 48, 191 111 264 22, tab 16 read autohs
+  text "Active server/network", 51, 23 139 116 14, tab 16
+  edit "", 50, 191 135 264 22, tab 16 read autohs
+  text "Current modes", 39, 23 163 82 14, tab 16
+  edit "", 40, 191 159 264 22, tab 16 read autohs
+  text "Available modes", 41, 23 187 86 14, tab 16
+  edit + $+ $chanmodes, 42, 191 183 264 22, tab 16 read autohs
+  box "Default channel modes", 24, 13 223 212 180, tab 16
+  check "&Limit to", 26, 23 243 58 18, tab 16
+  edit "", 27, 83 241 78 22, disable tab 16 limit 5
+  check "&Key", 29, 23 265 44 18, tab 16
+  edit "", 30, 83 263 130 22, disable tab 16 pass autohs limit 30
+  edit "", 130, 83 263 130 22, disable tab 16 autohs limit 30
+  check "&Only ops set topic", 31, 23 287 112 18, tab 16
+  check "&No external messages", 32, 23 305 132 18, tab 16
+  check "&Invite only", 33, 23 323 74 18, tab 16
+  check "&Moderated", 36, 23 341 78 18, tab 16
+  check "&Private", 35, 23 359 58 18, tab 16
+  check "S&ecret", 34, 23 377 58 18, tab 16
+  list 25, 246 241 108 150, tab 16 size
+  text "users", 28, 169 245 30 14, tab 16
+  box "Other channel modes", 23, 234 223 132 180, tab 16
+  tab "Bans", 17
+  list 6, 11 97 455 292, tab 17 size
+  text "Current/maximum bans:", 45, 11 393 122 14, tab 17
+  text "unknown", 49, 173 393 290 14, tab 17 right
+  text "", 21, 16 219 444 44, hide tab 17 center
+  tab "Invites", 18
+  list 54, 11 97 455 292, tab 18 size
+  text "Current invites:", 63, 11 393 84 14, tab 18
+  text "unknown", 62, 173 393 290 14, tab 18 right
+  text "", 20, 16 219 444 44, hide tab 18 center
+  tab "Excepts", 43
+  list 55, 11 97 455 292, tab 43 size
+  text "Current excepts:", 65, 11 393 88 14, tab 43
+  text "unknown", 64, 173 393 290 14, tab 43 right
+  text "", 22, 16 219 444 44, hide tab 43 center
+  tab "Topic", 52
+  text "Topics", 4, 23 115 34 16, tab 52
+  box "Topic history", 14, 13 95 452 62, tab 52
+  combo 5, 88 111 368 120, tab 52 drop
+  text "Set on", 10, 23 135 36 14, tab 52
+  box "Current topic", 15, 13 163 452 242, tab 52
+  edit "", 13, 23 179 434 80, tab 52 multi vsbar limit 600
+  button "", 8, 23 263 434 100, tab 52
+  text "Characters available:", 1, 23 369 106 14, tab 52
+  text "", 2, 23 385 431 12, tab 52
+  text "", 3, 147 369 308 14, tab 52 right
+  text "<no topic selected>", 11, 87 135 369 14, tab 52 right
+  button "Clear history", 12, 4 419 80 24, tab 52
+  button "Set w/ &Q", 9, 88 419 80 24, tab 52
+  button "&Set", 7, 172 419 80 24, tab 52 ok
+  tab "Statistics", 53
+  list 46, 11 97 455 214, disable tab 53 size
+  list 47, 11 313 455 93, disable tab 53 size
+  button "&Ok", 19, 309 418 80 24, ok
+  button "&Cancel", 37, 393 418 80 24, cancel
+  icon 56, 4 4 468 60
+  text "Loading...", 57, 66 27 336 16, center
+  box "", 58, 3 -3 471 69
+}
+alias cc.refmodes {
+  var %i = 1,%z = $gettok($chanmodes,-1,44)
+  while ($mid(%z,%i,1)) {
+    if ($regex(cm,$v1,/([^tnimpslkbe])/)) { did -a $dname 25 1 + 0 0 $iif($regml(cm,1) isincs $wd($chan(%chancentral.chan).mode,1),2,1) + $+ $regml(cm,1) }
+    inc %i
+  }
+  var %x = $wd($chan(%chancentral.chan).mode,1)
+  if (t isincs %x) { did -c $dname 31 }
+  if (n isincs %x) { did -c $dname 32 }
+  if (i isincs %x) { did -c $dname 33 }
+  if (m isincs %x) { did -c $dname 36 }
+  if (p isincs %x) { did -c $dname 35 }
+  if (s isincs %x) { did -c $dname 34 }
+  if (l isincs %x) {
+    did -c $dname 26
+    did -ae $dname 27 $chan(%chancentral.chan).limit
+  }
+  if (k isincs %x) {
+    did -c $dname 29
+    did -ae $dname 130,30 $chan(%chancentral.chan).key
+    did -h $dname $iif($gettok($readini($mircini,options,n7),7,44),130,30)
+  }
+}
+alias cc.getbans {
+  did -ra chancentral 6 Refreshing bans...
+  did -ra chancentral 49 unknown/ $+ $iif(%maxbans. [ $+ [ $cid ] ],$v1,unknown)
+  set -u60 %chancentral.getbans %chancentral.chan
+  mode %chancentral.chan +b
+}
+alias cc.refbans {
+  var %c = %chancentral.chan,%i = $ibl(%c,0),%t = %i
+  if (%i) {
+    window -h @loadbans
+    while (%i) {
+      tokenize 33 $ibl(%c,%i).by
+      echo @loadbans 1 + 0 0 0 $ibl(%c,%i) $+ 	+ 0 0 0 $1 $iif($2,$nbr($2)) $+ 	+ 0 0 0 $asctime($ibl(%c,%i).ctime,%timeformat)
+      dec %i
+    }
+    filter -cwo @loadbans chancentral 6
+    close -@ @loadbans
+  }
+  else { did -ra chancentral 6 1 + 0 0 0 No bans set. }
+  if (%maxbans. [ $+ [ $cid ] ]) { did -ra chancentral 49 $+(%t,/,$v1) }
+  else { did -ra chancentral 49 %t $+ /unknown }
+  cc.checkop
+}
+alias cc.getinvites {
+  did -ra chancentral 54 Refreshing invites...
+  did -ra chancentral 62 unknown
+  set -u60 %chancentral.getinvites %chancentral.chan
+  mode %chancentral.chan +I
+}
+alias cc.refinvites {
+  var %c = %chancentral.chan,%i = $iil(%c,0),%t = %i
+  if (%i) {
+    window -h @loadinvites
+    while (%i) {
+      tokenize 33 $iil(%c,%i).by
+      echo @loadinvites 1 + 0 0 0 $iil(%c,%i) $+ 	+ 0 0 0 $1 $iif($2,$nbr($2)) $+ 	+ 0 0 0 $asctime($iil(%c,%i).ctime,%timeformat)
+      dec %i
+    }
+    filter -cwo @loadinvites chancentral 54
+    close -@ @loadinvites
+  }
+  else { did -ra chancentral 54 1 + 0 0 0 No invites set. }
+  did -ra chancentral 62 %t $+ /unknown
+  cc.checkop
+}
+alias cc.getexcepts {
+  did -ra chancentral 55 Refreshing excepts...
+  did -ra chancentral 64 unknown
+  set -u60 %chancentral.getexcepts %chancentral.chan
+  mode %chancentral.chan +e
+}
+alias cc.refexcepts {
+  var %c = %chancentral.chan,%i = $iel(%c,0),%t = %i
+  if (%i) {
+    window -h @loadexcepts
+    while (%i) {
+      tokenize 33 $iel(%c,%i).by
+      echo @loadexcepts 1 + 0 0 0 $iel(%c,%i) $+ 	+ 0 0 0 $1 $iif($2,$nbr($2)) $+ 	+ 0 0 0 $asctime($iel(%c,%i).ctime,%timeformat)
+      dec %i
+    }
+    filter -cwo @loadexcepts chancentral 55
+    close -@ @loadexcepts
+  }
+  else { did -ra chancentral 55 1 + 0 0 0 No excepts set. }
+  did -ra chancentral 64 %t $+ /unknown
+  cc.checkop
+}
+
+raw 367:*:{
+  if (%chancentral.getbans == $2) {
+    haltdef
+    if ($dialog(chancentral)) {
+      if (* Refreshing bans...	* iswm $did(chancentral,6,2)) { did -d chancentral 6 2 }
+      did -a chancentral 6 0 + 0 0 0 $3 $+ 	+ 0 0 0 $4 $+ 	+ 0 0 0 $asctime($5,%timeformat)
+    }
+  }
+}
+raw 368:*:{
+  if (%chancentral.getbans == $2) {
+    haltdef
+    unset %chancentral.getbans
+    if ($dialog(chancentral)) {
+      if ($did(chancentral,6).lines == 2) && (* Refreshing bans...	* iswm $did(chancentral,6,2)) {
+        did -ra chancentral 6 1 + 0 0 0 No bans set.
+        did -ra chancentral 49 0/ $+ $iif(%maxbans. [ $+ [ $cid ] ],$v1,unknown)
+      }
+      else { did -ra chancentral 49 $calc($did(chancentral,6).lines -1) $+ / $+ $iif(%maxbans. [ $+ [ $cid ] ],$v1,unknown) }
+      set %chancentral.bansrefreshed 1
+    }
+  }
+}
+raw 346:*:{
+  if (%chancentral.getinvites == $2) {
+    haltdef
+    if ($dialog(chancentral)) {
+      if (* Refreshing invites...	* iswm $did(chancentral,54,2)) { did -d chancentral 54 2 }
+      did -a chancentral 54 0 + 0 0 0 $3 $+ 	+ 0 0 0 $4 $+ 	+ 0 0 0 $asctime($5,%timeformat)
+    }
+  }
+}
+raw 347:*:{
+  if (%chancentral.getinvites == $2) {
+    haltdef
+    unset %chancentral.getinvites
+    if ($dialog(chancentral)) {
+      if ($did(chancentral,54).lines == 2) && (* Refreshing invites...	* iswm $did(chancentral,54,2)) {
+        did -ra chancentral 54 1 + 0 0 0 No invites set.
+        did -ra chancentral 62 0
+      }
+      else { did -ra chancentral 62 $calc($did(chancentral,54).lines -1) }
+      set %chancentral.invitesrefreshed 1
+    }
+  }
+}
+raw 348:*:{
+  if (%chancentral.getexcepts == $2) {
+    haltdef
+    if ($dialog(chancentral)) {
+      if (* Refreshing excepts...	* iswm $did(chancentral,55,2)) { did -d chancentral 55 2 }
+      did -a chancentral 55 0 + 0 0 0 $3 $+ 	+ 0 0 0 $4 $+ 	+ 0 0 0 $asctime($5,%timeformat)
+    }
+  }
+}
+raw 349:*:{
+  if (%chancentral.getexcepts == $2) {
+    haltdef
+    unset %chancentral.getexcepts
+    if ($dialog(chancentral)) {
+      if ($did(chancentral,55).lines == 2) && (* Refreshing excepts...	* iswm $did(chancentral,55,2)) {
+        did -ra chancentral 55 1 + 0 0 0 No excepts set.
+        did -ra chancentral 64 0
+      }
+      else { did -ra chancentral 64 $calc($did(chancentral,55).lines -1) }
+      set %chancentral.exceptsrefreshed 1
+    }
+  }
+}
+alias cc.remselmodes {
+  if ($1 == -b) { var %did = 6,%md = b }
+  elseif ($1 == -I) { var %did = 54,%md = I }
+  elseif ($1 == -e) { var %did = 55,%md = e }
+  var %r,%d = $did(chancentral,%did).lines
+  while (%d > 1) {
+    var %h = $did(chancentral,%did,%d)
+    if (s isin $wd(%h,2)) { %r = %r $gettok($wd(%h,6),1,9) }
+    if ($numtok(%r,32) == $modespl) {
+      mode %chancentral.chan - $+ $str(%md,$numtok(%r,32)) %r
+      %r = ""
+    }
+    dec %d
+  }
+  if (%r) { mode %chancentral.chan - $+ $str(%md,$numtok(%r,32)) %r }
+}
+alias cc.clearmodes {
+  if ($1 == -b) { var %did = 6,%md = b }
+  elseif ($1 == -I) { var %did = 54,%md = I }
+  elseif ($1 == -e) { var %did = 55,%md = e }
+  var %r,%d = $did(chancentral,%did).lines
+  while (%d > 1) {
+    %r = %r $gettok($wd($did(chancentral,%did,%d),6),1,9)
+    if ($numtok(%r,32) == $modespl) {
+      mode %chancentral.chan - $+ $str(%md,$numtok(%r,32)) %r
+      %r = ""
+    }
+    dec %d
+  }
+  if (%r) { mode %chancentral.chan - $+ $str(%md,$numtok(%r,32)) %r }
+}
+on *:dialog:chancentral:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 2 ProgressBar smooth > $mdxfile(ctl_gen)
+    mdx SetControlMDX $dname 6,54,55 ListView report showsel rowselect labeltip editlabels > $mdxfile(views)
+    mdx SetControlMDX $dname 25 ListView report showsel labeltip checkboxes noheader > $mdxfile(views)
+    mdx SetControlMDX $dname 46 ListView report showsel rowselect labeltip > $mdxfile(views)
+    mdx SetControlMDX $dname 47 ListView report showsel rowselect labeltip noheader > $mdxfile(views)
+    mdx SetFont $dname 13 - $+ $window(Status Window).fontsize 300 $window(Status Window).font
+    did -a $dname 40 $iif($chan(%chancentral.chan).mode,$v1,none)
+    did -a $dname 48 %chancentral.chan $nbr($nick(%chancentral.chan,0) users)
+    did -a $dname 50 $iif($network,$network $nbr($server),$server)
+    did -i $dname 6,54,55 1 headerdims 220:1 80:2 110:3
+    did -i $dname 6,54,55 1 headertext + 0 Address	+ 0 Set by	+ 0 Date
+    did -i $dname 25 1 headerdims 80:1
+    did -i $dname 47 1 headerdims 200:1 60:2 60:3
+    did -i $dname 47 1 headertext + 0 a	+ 0 b + 0 c
+    did -i $dname 46 1 headerdims 40:1 30:2 80:3 80:4 80:5 60:6 110:7 80:8 50:9 50:10
+    did -i $dname 46 1 headertext + 0 User number	+ 0 Status	+ 0 Nick	+ 0 Auth	+ 0 Name	+ 0 Ident	+ 0 Host	+ 0 IP	+ 0 Away	+ 0 IrcOp
+    did -i $dname 6,25,46,47,54,55 1 settxt bgcolor none
+    set %chancentral.oldtab 16
+    did -ra $dname 49 unknown/ $+ $iif(%maxbans. [ $+ [ $cid ] ],$v1,unknown)
+    ppwin $dname 8
+    if (Q !ison %chancentral.chan) { did -b $dname 9 }
+    did -a $dname 13 $chan(%chancentral.chan).topic
+    topic.crev
+    prevtopic
+    var %i = $hfind(topichist,$+($network,%chancentral.chan,$cr,*),0,w),%r,%z = 1,%g,%n = $nick(%chancentral.chan,0),%cm = $gettok($chanmodes,1,44)
+    while (%i) {
+      %r = $addtok(%r,$hget(topichist,$hfind(topichist,$+($network,%chancentral.chan,$cr,*),%i,w)) %i,124)
+      dec %i
+    }
+    %r = $sorttok(%r,124)
+    while ($gettok(%r,%z,124)) {
+      tokenize 32 $v1
+      did -i $dname 5 1 $+($decode($gettok($hfind(topichist,$+($network,%chancentral.chan,$cr,*),$2,w),2,13),m),$str( ,150),$1)
+      inc %z
+    }
+    cc.refmodes
+    cc.checkop
+    did -a $dname 47 1 + 0 0 0 Total users on the channel	+ 0 0 0 %n
+    did -a $dname 47 1 + 0 0 0 Operators	+ 0 0 0 $nick(%chancentral.chan,0,o) $+ 	+ 0 0 0 $percent($nick(%chancentral.chan,0,o),%n,1)
+    did -a $dname 47 1 + 0 0 0 Voiced users	+ 0 0 0 $nick(%chancentral.chan,0,v) $+ 	+ 0 0 0 $percent($nick(%chancentral.chan,0,v),%n,1)
+    did -a $dname 47 1 + 0 0 0 Regulars	+ 0 0 0 $nick(%chancentral.chan,0,r) $+ 	+ 0 0 0 $percent($nick(%chancentral.chan,0,r),%n,1)
+    did -a $dname 47 1 + 0 0 0 Away users	+ 0 0 0 0	+ 0 0 0 0%
+    did -a $dname 47 1 + 0 0 0 IRC operators	+ 0 0 0 0	+ 0 0 0 0%
+    if (%chancentral.stt) {
+      var %x = $dialog($dname).x,%y = $dialog($dname).y
+      dialog -sp $dname -1000 -1000 -1 -1
+      .timer 1 0 did -f $dname 52 $chr(124) dialog -sp $dname %x %y -1 -1
+    }
+    if (b !isincs %cm) {
+      did -h $dname 6,45,49
+      did -vra $dname 21 Bans are not supported on $iif($network,$v1,$server) $+ .
+    }
+    if (I !isincs %cm) {
+      did -h $dname 54,62,63
+      did -vra $dname 20 Invites are not supported on $iif($network,$v1,$server) $+ .
+    }
+    if (e !isincs %cm) {
+      did -h $dname 55,64,65
+      did -vra $dname 22 Excepts are not supported on $iif($network,$v1,$server) $+ .
+    }
+    openad chancentral 57 56 58
+  }
+  elseif ($devent == edit) {
+    if ($did == 13) {
+      topic.crev
+      if ($did(3) < 0) { mdx SetColor 3 text 255 }
+      else { mdx SetColor 3 text reset }
+      prevtopic
+    }
+    elseif ($did == 27) { numonlyedit $dname $did }
+  }
+  elseif ($devent == sclick) {
+    if ($istok(46 47 6 25 54 55,$did,32)) { sortmdx }
+    if ($did == 46) {
+      tokenize 32 $did($did,1)
+      if ($1 == rclick) && ($did($did).sel) {
+        var %o = $iif(!$ccontrol(%chancentral.chan),+g,+),%n = $cell($did,3)
+        popdll.new
+        popdll.add 1	+g 1 0 $shorten(10,%n) $+ :
+        popdll.add 2	+ 2 0 -
+        popdll.add 3	+ 3 0 Whoiswe %n
+        popdll.add 4	+ 4 0 -
+        popdll.add 5	 $+ %o 5 0 Kickk %chancentral.chan %n
+        popdll.add 6	 $+ %o 6 0 Kickbankb %chancentral.chan %n
+        popdll.add 7	 $+ %o 7 0 Timekickbantkb %chancentral.chan %n
+        popdll.disp
+      }
+    }
+    elseif ($did == 56) { openad.clicked  % [ $+  [ $dname $+ .oa ] ] }
+    elseif ($did == 6) {
+      var %r
+      if ($did($did).sel) && ($cell($did,2)) && ($ccontrol(%chancentral.chan)) { %r = 1 }
+      if (beginlabeledit * iswm $did($did,1)) && (!$did(20).enabled) { did -i $dname $did 1 cancel }
+      elseif (endlabeledit * iswm $did($did,1)) { cc.chgban $cell($did,1) $wd($did($did,1),3-) }
+      else { cc.checkop }
+      if (rclick * iswm $did($did,1)) {
+        tokenize 47 $did(49)
+        popdll.new
+        if (%r) {
+          popdll.add 1	+g 1 0 $shorten(10,$cell($did,1)) $+ :
+          popdll.add 2	+ 2 0 -
+        }
+        popdll.add 3	 $+ $iif($1 == $2,+g,+) 3 0 &Add ban...cc.addban
+        popdll.add 4	 $+ $iif(%r,+,+g) 4 0 &Edit ban...cc.chgban $cell($did,1) -e
+        popdll.add 5	+ 5 0 -
+        popdll.add 6	 $+ $iif(%r,+,+g) 6 0 &Remove ban(s)cc.remselmodes -b
+        popdll.add 7	 $+ $iif($1 && %r,+,+g) 7 0 &Clear ban(s)cc.clearmodes -b
+        popdll.add 8	 $+ $iif($1 && Q ison %chancentral.chan,+,+g) 7 0 &Clear ban(s) with Q.msg Q unbanall %chancentral.chan
+        popdll.disp
+      }
+    }
+    elseif ($did == 54) {
+      var %r
+      if ($did($did).sel) && ($cell($did,2)) && ($ccontrol(%chancentral.chan)) { %r = 1 }
+      if (beginlabeledit * iswm $did($did,1)) && (!$did(57).enabled) { did -i $dname $did 1 cancel }
+      elseif (endlabeledit * iswm $did($did,1)) { cc.chginvite $cell($did,1) $wd($did($did,1),3-) }
+      else { cc.checkop }
+      if (rclick * iswm $did($did,1)) {
+        popdll.new
+        if (%r) {
+          popdll.add 1	+g 1 0 $shorten(10,$cell($did,1)) $+ :
+          popdll.add 2	+ 2 0 -
+        }
+        popdll.add 3	+ 3 0 &Add invite...cc.addinvite
+        popdll.add 4	 $+ $iif(%r,+,+g) 4 0 &Edit invite...cc.chginvite $cell($did,1) -e
+        popdll.add 5	+ 5 0 -
+        popdll.add 6	 $+ $iif(%r,+,+g) 6 0 &Remove invite(s)cc.remselmodes -I
+        popdll.add 7	 $+ $iif($did(62),+,+g) 7 0 &Clear invite(s)cc.clearmodes -I
+        popdll.disp
+      }
+    }
+    elseif ($did == 55) {
+      var %r
+      if ($did($did).sel) && ($cell($did,2)) && ($ccontrol(%chancentral.chan)) { %r = 1 }
+      if (beginlabeledit * iswm $did($did,1)) && (!$did(60).enabled) { did -i $dname $did 1 cancel }
+      elseif (endlabeledit * iswm $did($did,1)) { cc.chgexcept $cell($did,1) $wd($did($did,1),3-) }
+      else { cc.checkop }
+      if (rclick * iswm $did($did,1)) {
+        popdll.new
+        if (%r) {
+          popdll.add 1	+g 1 0 $shorten(10,$cell($did,1)) $+ :
+          popdll.add 2	+ 2 0 -
+        }
+        popdll.add 3	+ 3 0 &Add except...cc.addexcept
+        popdll.add 4	 $+ $iif(%r,+,+g) 4 0 &Edit except...cc.chgexcept $cell($did,1) -e
+        popdll.add 5	+ 5 0 -
+        popdll.add 6	 $+ $iif(%r,+,+g) 6 0 &Remove except(s)cc.remselmodes -e
+        popdll.add 7	 $+ $iif($did(64),+,+g) 7 0 &Clear except(s)cc.clearmodes -e
+        popdll.disp
+      }
+    }
+    elseif ($did == 12) {
+      if ($ydialog(Do you really want to clear the topic history?)) {
+        did -r $dname 5
+        did -ra $dname 11 <no topic selected>
+        hdel -w topichist *
+      }
+    }
+    elseif ($did == 17) {
+      if (b isincs $gettok($chanmodes,1,44)) {
+        if ($chan(%chancentral.chan).ibl == $true) { cc.refbans }
+        else { cc.getbans }
+      }
+    }
+    elseif ($did == 18) {
+      if (I isincs $gettok($chanmodes,1,44)) {
+        if ($chan(%chancentral.chan).iil == $true) { cc.refinvites }
+        else { cc.getinvites }
+      }
+    }
+    elseif ($did == 56) { cc.getinvites }
+    elseif ($did == 43) {
+      if (e isincs $gettok($chanmodes,1,44)) {
+        if ($chan(%chancentral.chan).iel == $true) { cc.refexcepts }
+        else { cc.getexcepts }
+      }
+    }
+    elseif ($did == 59) { cc.getexcepts }
+    elseif ($did == 53) {
+      if (!%chancentral.statsdone) {
+        if (!$remc(who)) {
+          set %chanstats. $+ $cid %chancentral.chan
+          set %chancentral.statsdone 1
+          who %chancentral.chan $iif($q.net || $u.net,% $+ acfhinru)
+        }
+        else {
+          idialog there is already another /who request going on. Please wait for it to finish before trying to refresh the channel statistics.
+          did -f $dname %chancentral.oldtab
+          return
+        }
+      }
+    }
+    elseif ($did == 26) { did $iif($did($did).state,-e,-b) $dname 27 }
+    elseif ($did == 29) { did $iif($did($did).state,-e,-b) $dname 130,30 }
+    elseif ($did == 5) {
+      var %t = $gettok($did($did),-1,160)
+      did -ra $dname 13 $deltok($did($did),-1,160)
+      did -ra $dname 11 $longtime(%t) $nbr($sduration($calc($ctime - %t)).nosec ago)
+      topic.crev
+      if ($did(3) < 0) { mdx SetColor 3 text 255 }
+      else { mdx SetColor 3 text reset }
+      prevtopic
+    }
+    elseif ($istok(7 9,$did,32)) {
+      var %c = %chancentral.chan,%z = $edtxt($dname,13)
+
+      if ($did == 9) { .msg q settopic %c $iif(%z,%z,) }
+      else { .raw topic %c : $+ %z }
+
+    }
+    elseif ($did == 20) { cc.chgban $cell(6,1) -e }
+    elseif ($did == 57) { cc.chginvite $cell(54,1) -e }
+    elseif ($did == 60) { cc.chgexcept $cell(55,1) -e }
+    elseif ($did == 21) { cc.remselmodes -b }
+    elseif ($did == 58) { cc.remselmodes -I }
+    elseif ($did == 61) { cc.remselmodes -e }
+    elseif ($did == 22) { cc.getbans }
+    elseif ($did == 19) {
+      var %a = %chancentral.chan,%i = $did(25).lines,%r,%d,%m = $wd($chan(%a).mode,1),%z,%j = 1
+      while (%i > 1) {
+        tokenize 32 $gettok($did(25,%i),1,9)
+        var %z = $mid($6,2)
+        if ($5 == 2) { if (%z !isincs %m) { %r = $+(%r,$iif(!%r,+),%z) } }
+        elseif (%z isincs %m) { %d = $+(%d,$iif(!%d,-),%z) }
+        if ($regex(%r $+ %d,/[a-zA-Z]/g) >= $modespl) {
+          mode %chancentral.chan %r $+ %d
+          var %r = "",%d = ""
+        }
+        dec %i
+      }
+      if ($did(26).state) { if (l !isincs %m) || ($chan(%a).limit != $did(27)) { mode %a +l $did(27) } }
+      elseif (l isincs %m) { %d = $+(%d,$iif(!%d,-),l) }
+      if ($did(29).state) {
+        var %z = $iif($did(30).visible,$did(30),$did(130))
+        if (%z != $null) && ((k !isincs %m) || ($chan(%a).key != %z)) {
+          if (k isincs %m) { mode %a -k $chan(%a).key }
+          mode %a +k %z
+        }
+      }
+      elseif (k isincs %m) { mode %a -k $chan(%a).key }
+      while ($wd(31 t 32 n 33 i 36 m 35 p 34 s,$+(%j,-,$calc(%j +1)))) {
+        tokenize 32 $v1
+        if ($did($1).state) { if ($2 !isincs %m) { %r = $+(%r,$iif(!%r,+),$2) } }
+        elseif ($2 isincs %m) { %d = $+(%d,$iif(!%d,-),$2) }
+        if ($regex(%r $+ %d,/[a-zA-Z]/g) >= $modespl) {
+          mode %chancentral.chan %r $+ %d
+          var %r = "",%d = ""
+        }
+        inc %j 2
+      }
+      if (%r) || (%d) { mode %a %r $+ %d }
+      if ($edtxt($dname,13) !== $chan(%a).topic) { topic %a $v1 }
+    }
+    if ($istok(16 17 18 43 52 53,$did,32)) { set %chancentral.oldtab $dialog($dname).tab }
+  }
+  elseif ($devent == dclick) && ($istok(6 54 55,$did,32)) { did -i $dname $did 1 labeledit begin $did($did).sel }
+  elseif ($devent == close) {
+    unset %modedsp. [ $+ [ %chancentral.cid ] $+ ] . [ $+ [ %chancentral.chan ] ]
+    unset %chancentral.oldtab %chancentral.cid %chancentral.chan %chancentral.statsdone %chancentral.invitesrefreshed %chancentral.exceptsrefreshed %chancentral.bansrefreshed
+    unset % [ $+  [ $dname $+ .oa ] ]
+
+  }
+}
+alias cc.addban { mode %chancentral.chan +b $$eddialog(Please enter a ban mask in nick!ident@host.com format.) }
+alias cc.addexcept { mode %chancentral.chan +e $$eddialog(Please enter an except mask in nick!ident@host.com format.) }
+alias cc.addinvite { mode %chancentral.chan +I $$eddialog(Please enter an invite mask in nick!ident@host.com format.) }
+alias chanstats.add {
+  if ($1 == -l) { var %a = unknown,%h = $4,%p = unknown }
+  else { var %a = $iif($8,$8,n/a),%h = $5,%p = $iif($4 == 127.0.0.1,unknown,$4) }
+  var %w = $iif(G isincs $7,Yes,No),%o = $iif(* isin $7,Yes,No)
+  if (G isincs $7) {
+    var %z = $calc($wd($gettok($did(chancentral,47,6),2,9),5) +1)
+    did -o chancentral 47 6 1 + 0 0 0 Away users	+ 0 0 0 %z $+ 	+ 0 0 0 $percent(%z,$nick($2,0),1)
+  }
+  if (* isin $7) {
+    var %y = $calc($wd($gettok($did(chancentral,47,7),2,9),5) +1)
+    did -o chancentral 47 7 1 + 0 0 0 IRC operators	+ 0 0 0 %y $+ 	+ 0 0 0 $percent(%y,$nick($2,0),1)
+  }
+  did -a chancentral 46 1 + 0 0 0 $did(chancentral,46).lines $+ .	+ 0 0 0 $iif($6 !isreg $2,$left($nick($2,$6).pnick,1)) $+ 	+ 0 0 0 $6 $+ 	+ 0 0 0 %a $+ 	+ 0 0 0 $strip($9-) $+ 	+ 0 0 0 $3 $+ 	+ 0 0 0 %h $+ 	+ 0 0 0 %p $+ 	+ 0 0 0 %w $+ 	+ 0 0 0 %o
+}
+on *:op:%chancentral.chan:{ if (%chancentral.cid == $cid) && ($opnick == $me) { cc.checkop } }
+on *:deop:%chancentral.chan:{ if (%chancentral.cid == $cid) && ($opnick == $me) { cc.checkop } }
+on *:help:%chancentral.chan:{ if (%chancentral.cid == $cid) && ($hnick == $me) { cc.checkop } }
+on *:dehelp:%chancentral.chan:{ if (%chancentral.cid == $cid) && ($hnick == $me) { cc.checkop } }
+on *:usermode:{ if (%chancentral.cid == $cid) && (%chancentral.chan) { cc.checkop } }
+on *:part:%chancentral.chan:{
+  if (%chancentral.cid == $cid) && ($nick == $me) {
+    dialog -c chancentral
+    .timer 1 0 errdialog you have been kicked out of $chan $+ , closing channel central...
+  }
+}
+on *:kick:%chancentral.chan:{
+  if (%chancentral.cid == $cid) && ($knick == $me) {
+    dialog -c chancentral
+    .timer 1 0 errdialog you have been kicked out of $chan $+ , closing channel central...
+  }
+}
+on *:rawmode:%chancentral.chan:{
+  if (b isincs $1) { cc.refbans }
+  if (e isincs $1) { cc.refexcepts }
+  if (I isincs $1) { cc.refinvites }
+}
+raw 315:*:{
+  if (%chanstats. [ $+ [ $cid ] ] == $2) {
+    haltdef
+    unset %chanstats. $+ $cid
+    if ($dialog(chancentral)) { did -e chancentral 46,47 }
+  }
+}
+raw 333:*:{ topic.shist $2 $4 $chan($2).topic }
+raw 352:*:{
+  if (%chanstats. [ $+ [ $cid ] ] == $2) {
+    haltdef
+    if ($dialog(chancentral)) { chanstats.add -l $2- }
+  }
+}
+raw 354:*:{
+  if (%chanstats. [ $+ [ $cid ] ] == $2) {
+    haltdef
+    if ($dialog(chancentral)) { chanstats.add -a $2- }
+  }
+}
+alias cc.chgban {
+  if ($2 == -e) { tokenize 32 $1 $$eddialog(Please enter the changed ban.,$1) }
+  if ($1 != $2) { mode %chancentral.chan -b+b $1-2 }
+}
+alias cc.chginvite {
+  if ($2 == -e) { tokenize 32 $1 $$eddialog(Please enter the changed invite.,$1) }
+  if ($1 != $2) { mode %chancentral.chan -I+I $1-2 }
+}
+alias cc.chgexcept {
+  if ($2 == -e) { tokenize 32 $1 $$eddialog(Please enter the changed except.,$1) }
+  if ($1 != $2) { mode %chancentral.chan -e+e $1-2 }
+}
+alias topic.crev {
+  var %z = $edlen(chancentral,13),%t = $topiclen,%v = $calc(%t - %z)
+  if (%t) {
+    did -ra chancentral 3 $+(%v,/,%t) $nbr($round($calc(%v / %t *100),0) $+ %)
+    did -a chancentral 2 %z 0 %t
+  }
+  else {
+    did -ra chancentral 3 unknown
+    did -a chancentral 2 0 0 1
+  }
+}
+alias topiclen { return $iif(%topiclen. [ $+ [ $cid ] ],$v1,0) }
+alias prevtopic {
+  var %i = 0,%w = @sprev.chancentral.8,%y = 1,%t = $edtxt(chancentral,13),%f = $window(%chancentral.chan).font,%s = $window(%chancentral.chan).fontsize,%h = $calc($height(%t,%f,%s) +1)
+  drawrect -nf %w $color(back) 1 0 0 $window(%w).w $window(%w).h
+  if (%t != $null) {
+    while (%y < $window(%w).h) {
+      drawtext -npb %w $color(topic) $color(back) $qt(%f) %s $calc(2-(%i *($window(%w).w -6))) %y %t
+      inc %y %h
+      inc %i
+    }
+    drawrect -n %w $color(back) 2 0 0 $calc($window(%w).w -2) $calc($window(%w).h -2)
+  }
+  drawdot %w
+}
+alias cc.checkop {
+  var %z = 7 $+ $chr(44)
+  if (t !isincs $wd($chan(%chancentral.chan).mode,1)) {
+    did -e chancentral 7
+    %z = ""
+  }
+  if ($ccontrol(%chancentral.chan)) { did -e chancentral 7,19 }
+  else { did -b chancentral %z $+ 19 }
+}
+alias topic.shist {
+  if ($encode($3-,m)) {
+    var %t = $v1,%h = $+($network,$1,$cr,%t)
+    if ($1 == %chancentral.chan) && (!$hget(topichist,%h)) { did -i chancentral 5 1 $+($3-,$str( ,150),$2) }
+    hadd -m topichist %h $2
+  }
+  if ($hfind(topichist,$+($network,$1,$cr,*),0,w) > 50) {
+    var %i = $v1,%l = $ctime,%r
+    while (%i) {
+      var %h = $hfind(topichist,$+($network,$1,$cr,*),%i,w)
+      if ($hget(topichist,%h) < %l) { var %l = $v1,%r = %h }
+      dec %i
+    }
+    hdel topichist %r
+  }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

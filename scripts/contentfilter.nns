@@ -1,0 +1,97 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - content filter - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+dialog contentfilter.add {
+  title "Add content filter"
+  size -1 -1 258 118
+  option pixels
+  icon scripts\pics\nntray.ico
+  text "Please enter a new wildcard or regular expression that you do not want to be displayed.", 6, 6 4 248 30
+  edit "", 1, 4 36 250 22, autohs limit 100
+  check "Regular expression", 2, 6 60 122 18
+  box "", 3, -24 76 360 88
+  button "&Ok", 5, 90 90 80 24
+  button "&Cancel", 4, 174 90 80 24, cancel
+}
+on *:dialog:contentfilter.add:*:*:{
+  if ($devent == init) {
+    if (%contentfilter.edit) {
+      var %t = $did(settings,150).seltext
+      set %contentfilter.edit $gettok(%t,1,160)
+      if ($cr isin %t) {
+        did -a $dname 1 $gettok(%t,3,13)
+        did -c $dname 2
+      }
+      else { did -a $dname 1 %t }
+    }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 5) {
+      if ($did(1) != $null) {
+        var %sz = $did(1) $iif($did(2).state,(Regular expression))
+        if (%contentfilter.edit == %sz) { dialog -x $dname }
+        elseif (!$contentfilter.isentry(%sz)) {
+          if ($did(2).state) {
+            var %n = $contentfilter.nextvar,%s = $did(1) $+((Regular expression),$str($chr(160),200),$cr,%n,$cr,$did(1))
+            if (%contentfilter.edit) { did -oc settings 150 $did(settings,150).sel %s }
+            else { did -a settings 150 %s }
+            did -e settings 153
+            contentfilter.savelist
+            dialog -c $dname
+          }
+          else {
+            if (%contentfilter.edit) { did -oc settings 150 $did(settings,150).sel $did(1) }
+            else { did -a settings 150 $did(1) }
+            did -e settings 153
+            contentfilter.savelist
+            dialog -c $dname
+          }
+        }
+        else { errdialog the same entry is already in the filter list! }
+      }
+      else { errdialog you did not supply a filter! }
+    }
+  }
+}
+alias contentfilter.isentry {
+  var %i = $did(settings,150).lines
+  while (%i) {
+    if ($gettok($did(settings,150,%i),1,160) == $1-) { return 1 }
+    dec %i
+  }
+}
+alias contentfilter.edit {
+  set %contentfilter.edit 1
+  noop $dialog(contentfilter.add,contentfilter.add,-4)
+  unset %contentfilter.edit
+}
+alias contentfilter.savelist {
+  unset %contentfilter %contentfilter.regex.*
+  var %i = $did(settings,150).lines,%r
+  while (%i) {
+    var %c = $did(settings,150,%i)
+    if ($chr(13) !isin %c) { %r = $addtok(%r,%c,44) }
+    else { set %contentfilter.regex. [ $+ [ $gettok(%c,2,13) ] ] $gettok(%c,3,13) }
+    dec %i
+  }
+  set %contentfilter $mkregex(%r)
+}
+alias contentfilter.nextvar {
+  var %i = 1
+  while (%contentfilter.regex. [ $+ [ %i ] ]) { inc %i }
+  return %i
+}
+alias contentfilter {
+  if (($prop == query) && (%contentfilter.queries)) || (($prop == chan) && (%contentfilter.chans)) {
+    if (%contentfilter) && ($regex($1-,%contentfilter)) { return 1 }
+    var %i = $var(%contentfilter.regex.*,0)
+    while (%i) {
+      if ($regex($1-, [ [ $var(%contentfilter.regex.*,%i) ] ] )) { return 1 }
+      dec %i
+    }
+  }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

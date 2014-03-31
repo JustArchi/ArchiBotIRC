@@ -1,0 +1,94 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - ASCII character picker - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+dialog ascii {
+  title "ASCII code listing [/ascii]"
+  size -1 -1 306 290
+  option pixels
+  icon scripts\pics\nntray.ico
+  list 2, 12 18 188 260, size
+  text "", 4, 217 16 80 80, center
+  box "Preview", 6, 215 2 86 98, disable
+  box "ASCII table", 7, 4 2 204 284
+  button "&Ok", 1, 215 261 86 24, ok
+  button "&Copy to clipb.", 5, 215 106 86 24
+  menu "&File", 8
+  item "&Close", 9, 8
+  menu "Optio&ns", 11
+  item "C&hange font...", 10, 11
+  item "&Copy selected character to clipboard", 3, 11
+}
+dialog selectfont {
+  title "Select a font"
+  size -1 -1 222 116
+  option pixels
+  icon scripts\pics\nntray.ico
+  button "&Ok", 1, 54 88 80 24, ok
+  button "&Cancel", 2, 138 88 80 24, cancel
+  text "AaBbYyZz123", 3, 8 38 206 40, center
+  combo 4, 4 6 152 200, sort size drop
+  combo 5, 160 6 58 200, size edit limit 2 drop
+  box "", 6, 4 28 214 54
+}
+on *:dialog:selectfont:*:*:{
+  if ($devent == init) {
+    loadfonts $dname 4
+    did -c $dname 4 $didwm(4,$window($active).font)
+    didtok $dname 5 44 6,7,8,9,10,11,12,13,14,15,16,17,18,19,20
+    if ($didwm(5,$window($active).fontsize)) { did -c $dname 5 $v1 }
+    else { did -ac $dname 5 $window($active).fontsize }
+    mdx SetFont $dname 3 - $+ $did(5) 300 $did(4)
+  }
+  elseif ($devent == sclick) {
+    if ($did isnum 4-5) { mdx SetFont $dname 3 - $+ $did(5) 300 $did(4) }
+    elseif ($did == 1) {
+      mdx SetFont ascii 2 - $+ $did(5) 300 $did(4)
+      mdx SetFont ascii 4 72 300 $did(4)
+    }
+  }
+  elseif ($devent == edit) && ($did == 5) { mdx SetFont $dname 3 - $+ $did(5) 300 $did(4) }
+}
+on *:dialog:ascii:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 2 ListView report showsel single rowselect > $mdxfile(views)
+    mdx SetFont $dname 2 - $+ $window($active).fontsize 300 $window($active).font
+    mdx SetFont $dname 4 72 300 $window($active).font
+    did -i $dname 2 1 headerdims 50:1 50:2 55:3
+    did -i $dname 2 1 headertext +c 0 Code	+c 0 HEX	+c 0 ASCII
+    didtok $dname 2 44 1 + 0 0 0 0002	0 0 0 02	0 0 0 <bold>,1 + 0 0 0 0003	0 0 0 03	0 0 0 <color>,1 + 0 0 0 0015	0 0 0 0F	0 0 0 <ctrl-reset>,1 + 0 0 0 0022	0 0 0 16	0 0 0 <reverse>,1 + 0 0 0 0031	0 0 0 1F	0 0 0 <underline>
+    var %a = 33
+    while (%a <= 255) {
+      did -a $dname 2 1 + 0 0 0 $+($base(%a,10,10,4),	0 0 0 $base(%a,10,16,2),	0) 0 0 $chr(%a)
+      inc %a
+    }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 5) { clipboard $did(4) }
+    elseif ($did == 2) {
+      if (headerclick headerEvent * iswm $did($did,1)) {
+        sortmdx $dname $did
+        did -r $dname 4
+      }
+      else {
+        if ($did($did).sel) {
+          did -e $dname 3,6
+          did -ra $dname 4 $iif($chr($cell($did,1)) != &,$v1,&&)
+        }
+        else {
+          did -b $dname 3,6
+          did -r $dname 4
+        }
+      }
+    }
+  }
+  elseif ($devent == menu) {
+    if ($did == 9) { dialog -c $dname }
+    elseif ($did == 3) { clipboard $did(4) }
+    elseif ($did == 10) { noop $dialog(selectfont,selectfont,-4) }
+  }
+  elseif ($devent == dclick) { if ($did == 2) { editbox $iif($active != Status Window,$active) $editbox($active) $+ $chr($cell(2,1)) } }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

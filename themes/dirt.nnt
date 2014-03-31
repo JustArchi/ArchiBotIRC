@@ -1,0 +1,146 @@
+Name Dirt
+Version 1.11
+NNTVersion 1.03
+Author greeny
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 05(15HH05:15nn05:15ss05)
+
+NickColSelf 7
+NickColOp 0
+NickColVoice 5
+NickColRegular 15
+NickColProtect none
+NickColIgnore 4
+
+Brackets 15(00<text>15)05
+LineSep 5•••••••••••••••••15••••••••••••5••••••15••••5•• •15•••5• ••15• •• •5• •15• 5• 15 •
+Prefix 15•5•15•05
+
+GenEcho <pre> 0iN05fo0:05 <text>
+GenError <pre> 0eR05ror0:05 <text>
+GenHighlight 15(00<text>15)05
+
+ChanText 05(<cmode><nick>05) <text>
+ChanTextOwn 05(<cmode><me>05) <text>
+ChanAction 15• <cmode><nick> <text>
+ChanActionOwn 15• <cmode><me> <text>
+
+QueryText 05(<nick>05) <text>
+QueryTextOwn 05(<me>05) <text>
+QueryAction 15• <nick> <text>
+QueryActionOwn 15• <me> <text>
+
+Msg 15*<nick>15*05 <text>
+MsgOwn —› 15*<target>15*05 <text>
+Action <pre><nick><pre> <text>
+ActionOwn —› <pre><target><pre> <text>
+
+ChanNotice 15-<nick>15@<chan>15- <text>
+Notice 15-<nick>15- <text>
+NoticeOwn —› 15-<target>15- <text>
+ServerNotice 15-<server>15-05 <text>
+
+CTCP 15?<nick>15?05 <ctcp> <text>
+CTCPOwn —› 15?<target>15?05 <ctcp> <text>
+ChanCTCP 15?<nick>15@<chan>15?05 <ctcp> <text>
+CTCPReply 15!<nick>15!05 <ctcp> <text>
+CTCPReplyOwn —› 15!<target>15!05 <ctcp> <text>
+
+Join <pre> 0jO05in0: <nick brackets="1"> <address brackets="1">
+JoinOwn <linesep><pre> 0jO05ined0: <chan brackets="1"><linesep>!if <topic> <pre> 0tO05pic0: <topic brackets="1">!if <topic> <pre> 0sE05t by0: <topicnick brackets="1"> on <topicdate brackets="1"><pre> 0uS05ers0:5 <users> users, <oppedusers> ops <oppeduserspercent brackets="1">, <voicedusers> voiced <voiceduserspercent brackets="1">, <regusers> regulars <reguserspercent brackets="1"><pre> 0sY05nc time0:5 <synctime brackets="1"> second(s)<linesep>
+Part <pre> 0pA05rt0: <nick brackets="1"> <address brackets="1"> <message>
+Quit <pre> 0qU05it0: <nick brackets="1"> <address brackets="1"> <message>
+Nick <pre> 0nI05ck0: <nick brackets="1"> is now known as <newnick brackets="1">
+NickOwn <pre> 0nI05ck0: <me brackets="1"> is now known as <newnick brackets="1">
+Mode <pre> 0mO05de0: <nick brackets="1"> sets <mode brackets="1">
+UserMode <pre> 0uS05ermode set to <mode brackets="1">
+Kick <pre> 0kI05ck0: <kickednick brackets="1"> was kicked by <nick brackets="1"> <message>
+KickOwn <pre> 0kI05ck0: <me brackets="1"> was kicked by <nick brackets="1"> <message>
+WallOp <pre> 0wA05llop0: <nick brackets="1"> <text>
+
+DNS <pre> 0dN05s0:5 resolving <address brackets="1">...
+DNSError <pre> 0dN05s0:5 unable to resolve <address brackets="1">
+DNSResolve <pre> 0dN05s0:5 resolved <address brackets="1"> to <raddress brackets="1">
+
+Notify <pre> 0nO05tify0: <nick brackets="1"> is now online!
+UnNotify <pre> 0uN05Notify0: <nick brackets="1"> is now offline!
+
+LUsers1 <pre> 0uS05ers0: <users brackets="1">, Invisible: <invisible brackets="1">, Servers: <servers brackets="1">
+LUsers2 <pre> 0oP05erators online0: <operators brackets="1">
+LUsers3 <pre> 0uN05known connections0: <connections brackets="1">
+LUsers4 <pre> 0cH05annels formed0: <channels brackets="1">
+LUsers5 <pre> 0lO05cal clients0: <clients brackets="1"> on <servers brackets="1"> server(s)
+
+Welcome1 <pre> 0wE05lcome to the Internet Relay Network, <nick brackets="1">
+Welcome2 <pre> 0hO05st0: <host brackets="1"> running version <version brackets="1">
+Welcome3 <pre> 0sE05rver created on0: <created brackets="1">
+Welcome4 <pre> 0sE05rver <server brackets="1"> <version> <usermodes> <chanmodes>
+SupportedInfo <pre> 0pR05otocols supported0: <protocols brackets="1">
+
+ChannelModes <pre> 0mO05des on <chan brackets="1"> <modes>
+ChannelCreation <pre> 0cH05annel created on 15(<created>15)
+Bans <pre> <ban brackets="1"> set by <nick> <banned brackets="1">
+BansEnd <pre> 0eN05d of <chan brackets="1"> banlist
+UnableToSend <pre> 0uN05able to send message to <chan brackets="1">
+NotOpped <pre> 0yO05u're not opped on <chan brackets="1">
+HiddenHost <pre> <host brackets="1"> is now your hidden host
+RegisterFirst <pre> 0rE05gister first!
+
+WhoisStart 5•••••••••••••••••15••••••••••••5••••••15••••5•• •15•••5• ••15• •• •5• •15• 5• 15 •
+WhoisAddress <pre> 0<nick> 15is "05<name>15"•14•• <nick> 15is05 <address>
+WhoisChans •14•• <nick> 15on05 <chans>
+WhoisServer •14•• <nick> 15using05 <server>15,05 <info>
+WhoisStatus •14•• <nick> 15is an05 <status>
+WhoisAway •14•• <nick> 15is away15:05 <reason>
+WhoisAuth •14•• <nick> 15is05 authed as 15"05<auth>15"
+WhoisRealIP •14•• <nick> 15real host is05<address>15,05 <ip>
+WhoisIdle •14•• <nick> 15has been05 idle for <idle>15, signed on05 <signonago> ago
+WhoisEnd 5•••••••••••••••••15••••••••••••5••••••15••••5•• •15•••5• ••15• •• •5• •15• 5• 15 •
+
+WhowasStart 5•••••••••••••••••15••••••••••••5••••••15••••5•• •15•••5• ••15• •• •5• •15• 5• 15 •
+WhowasAddress <pre> 0<nick> 15was05 "<name>05"•14•• <nick> 15was05 <address>
+WhowasServer •14•• <nick> 15using05 <server>
+WhowasAway •14•• <nick> 15was away15:05 <reason>
+WhowasEnd 5•••••••••••••••••15••••••••••••5••••••15••••5•• •15•••5• ••15• •• •5• •15• 5• 15 •
+
+Who <pre> 0/W05ho0:05 <nick> <address brackets="1"> <name>
+WhoEnd <pre> 0eN05d of 15(00/who15)05 list for <target brackets="1">
+
+Invite <pre> 0iN05vite0: <nick brackets="1"> invites you to join <chan brackets="1">
+InviteOwn <pre> 0iN05vite0: <nick brackets="1"> has been invited to join <chan brackets="1">
+InviteAlreadyOnChan <pre> 0iN05vite0: <nick brackets="1"> is already on <chan>
+
+NoTopic <pre> 0tO05pic0: none set!
+Topic <pre> 0tO05pic0: <topic brackets="1">
+TopicBy <pre> 0sE05t by0: <nick brackets="1"> on <date brackets="1">
+TopicChange <pre> 0tO05pic0: <nick brackets="1"> changes topic to <topic brackets="1">
+
+Names <pre> 0/N05ames0: <chan brackets="1"> <names>
+NamesEnd <pre> 0eN05d of 15(00/names15)05 list for <chan brackets="1">
+
+UnknownCmd <pre> 0iN05valid command0: <cmd brackets="1">
+NickInUse <pre> 0nI05ckname in use0: <nick brackets="1">
+AwayStatus <pre> <nick brackets="1"> is marked as being away: <reason>
+ChanFull <pre> 0cA05n't join <chan>0: 15(00full (+l)15)
+ChanInviteOnly <pre> 0cA05n't join <chan>0: 15(00invite only (+i)15)
+ChanBanned <pre> 0cA05n't join <chan>0: 15(00you're banned (+b)15)
+ChanKeyRequired <pre> 0cA05n't join <chan>0: 15(00requires key (+k)15)
+ChanRegOnly <pre> 0cA05n't join <chan>0: 15(00registered only15)
+NoSuchNick <pre> 0nO05 such nickname0: <nick brackets="1">
+NoSuchChan <pre> 0nO05 such channel0: <chan brackets="1">
+
+RawDef <pre> 0rA05w <numeric brackets="1"> <text>
+CRaw307 15•14•• <nick> 15is a05 registered nick
+
+Scheme0 Default 16777215 0 9043968 50176 255 12894905 10223772 32764 65535 2883371 16772629 10787584 16717591 16711935 4342080 7963259 14 5 5 7 5 15 15 15 15 15 15 0 5 5 15 5 15 15 15 15 15 14 0 14 0 14 0 14 14 0
+Scheme1 Brown 16777215 0 9043968 50176 255 10926536 10223772 32764 65535 2883371 16772629 10787584 16717591 16711935 4079940 7765125 14 5 5 7 5 15 15 15 15 15 15 0 5 5 15 5 15 15 15 15 15 14 0 14 0 14 0 14 14 0
+Scheme2 Jungle 16777215 0 9043968 50176 255 11128743 10223772 32764 65535 2883371 16772629 10787584 16717591 16711935 3489846 7114603 14 5 5 7 5 15 15 15 15 15 15 0 5 5 15 5 15 15 15 15 15 14 0 14 0 14 0 14 14 0
+Scheme3 Water 16777215 0 9043968 50176 255 15258510 10223772 32764 65535 2883371 16772629 10787584 16717591 16711935 4537904 10058338 14 5 5 7 5 15 15 15 15 15 15 0 5 5 15 5 15 15 15 15 15 14 0 14 0 14 0 14 14 0
+Scheme4 Postfix 0 16777215 9043968 50176 255 427007 10223772 32764 65535 2883371 16772629 10787584 16717591 16711935 13434878 2132611 14 5 5 7 5 15 15 15 15 15 15 0 5 5 15 5 15 15 15 15 15 14 0 14 0 14 0 14 14 0

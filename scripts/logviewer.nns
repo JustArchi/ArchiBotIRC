@@ -1,0 +1,474 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - logviewer - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+dialog lview.settings {
+  title "Log viewer settings"
+  size -1 -1 222 296
+  option pixels
+  icon scripts\pics\nntray.ico
+  check "&Color", 4, 14 20 54 18
+  combo 6, 106 18 106 104, size drop
+  box "Directories", 8, 4 4 214 76
+  check "&Bold", 9, 14 38 44 18
+  check "&Underline", 10, 14 56 70 18
+  box "Files", 11, 4 86 214 76
+  check "C&olor", 13, 14 102 54 18
+  combo 5, 106 100 106 104, size drop
+  check "Bo&ld", 12, 14 120 44 18
+  check "U&nderline", 7, 14 138 70 18
+  box "File editor", 14, 4 168 214 44
+  edit %lview.editor, 15, 12 182 168 22, autohs limit 3000
+  button "&...", 16, 182 182 28 22
+  box "Miscellaneous", 2, 4 218 214 44
+  check "&Prefix searches with line numbers", 3, 14 234 188 18
+  button "&Ok", 1, 138 268 80 24, ok
+}
+alias lview.settings { nndlg -m lview.settings }
+on *:dialog:lview.settings:*:*:{
+  if ($devent == init) {
+    didtok $dname 5,6 44 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15, $+ $thmcols
+    if (%lview.dir.colen) { did -c $dname 4 }
+    else { did -b $dname 6 }
+    did -c $dname 6 $calc(%lview.dir.col +1)
+    if (%lview.dir.bold) { did -c $dname 9 }
+    if (%lview.dir.ul) { did -c $dname 10 }
+    if (%lview.file.colen) { did -c $dname 13 }
+    else { did -b $dname 5 }
+    did -c $dname 5 $calc(%lview.file.col +1)
+    if (%lview.file.bold) { did -c $dname 12 }
+    if (%lview.file.ul) { did -c $dname 7 }
+    if (%lview.lprefix) { did -c $dname 3 }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 4) {
+      sdt lview.dir.colen
+      did $iif($did($did).state,-e,-b) $dname 6
+    }
+    elseif ($did == 16) {
+      did -ra $dname 15 $mkfullfn($$sfile($iif(%lview.editor,%lview.editor,C:\*.exe)))
+      set %lview.editor $did(15)
+    }
+    elseif ($did == 6) { set %lview.dir.col $iif($did($did).seltext isnum 0-15,$v1,$color($v1)) }
+    elseif ($did == 9) { sdt lview.dir.bold }
+    elseif ($did == 10) { sdt lview.dir.ul }
+    elseif ($did == 13) {
+      sdt lview.file.colen
+      did $iif($did($did).state,-e,-b) $dname 5
+    }
+    elseif ($did == 5) { set %lview.file.col $iif($did($did).seltext isnum 0-15,$v1,$color($v1)) }
+    elseif ($did == 12) { sdt lview.file.bold }
+    elseif ($did == 7) { sdt lview.file.ul }
+    elseif ($did == 3) { sdt lview.lprefix }
+    if ($istok(4 6 9 10 13 5 12 7,$did,32)) && ($window(@logviewer)) { lview.ldir %lview.curdir }
+  }
+  elseif ($devent == edit) {
+    if ($did == 15) { set %lview.editor $did(15) }
+  }
+}
+alias lview.cprf {
+  var %r
+  if (%lview. [ $+ [ $1 ] $+ ] .bold) { %r =  }
+  if (%lview. [ $+ [ $1 ] $+ ] .ul) { %r = %r $+  }
+  if (%lview. [ $+ [ $1 ] $+ ] .colen) { %r = $+(%r,,$base(%lview. [ $+ [ $1 ] $+ ] .col,10,10,2)) }
+  return %r
+}
+alias logviewer { viewlog $1- }
+alias viewlog {
+  var %y = $mkfn($remove($1-,")),%x,%ld
+  if ($1 == -a) && ($window($active).logfile) { %x = $v1 }
+  elseif ($isfile($1-)) { %x = $qt($1-) }
+  elseif ($isfile($mklogfn($1))) { %x = $qt($mklogfn($1)) }
+  elseif ($window(%y).logfile) { %x = $qt($v1) }
+  else { noop $findfile($logdir,$+(*,%y,*,$iif(*.log !iswm %y,*.log)),0,var %x = $qt($1-)) }
+  if ($window(@logviewer)) {
+    window -a $v1
+    if (%x) {
+      lview.ldir $nofile(%x)
+      lview.load %x
+    }
+  }
+  else {
+    unset %lview.curlog %lview.curdir
+    window -k0l25ze @LogViewer
+    if (%x) && ($1-) {
+      lview.ldir $nofile(%x)
+      lview.load %x
+    }
+    else {
+      lview.ldir $logdir
+      thmecho @logviewer Choose a log file to load!
+    }
+  }
+}
+alias lview.load {
+  var %l = $putqt($1-)
+  set %lview.curlog %l
+  clear @logviewer
+  thmecho @logviewer Loading $thmhl($nopath(%l)) $+ / $+ $thmhl($bytes($file(%l).size).suf) $+ , please wait...
+  titlebar @logviewer - Loading $nopath(%l) $nbr($bytes($file(%l).size).suf) $+ ...
+  loadbuf 50000 -pr @logviewer %l
+  lview.reftitle
+}
+alias lview.listd { aline -l @lvloadd $1 $+ $nopath($2-) }
+alias lview.listf { aline -l @lvloadf $1 $+ $nopath($2-) }
+alias lview.reftitle { titlebar @logviewer - $nopath(%lview.curlog) $iif(%lview.curlog,$nbr($bytes($file(%lview.curlog).size).suf $+ $chr(44) $bytes($lines(%lview.curlog),b) lines) -) exploring $iif(%lview.curdir,$noqt($relpath($v1)),drives) $+ ... }
+alias lview.ldir {
+  set %lview.curdir $1-
+  var %d = $iif($lview.cprf(dir),$v1,),%f = $iif($lview.cprf(file),$v1,)
+  clear -l @logviewer
+  aline -l @logviewer %d $+ [back to log directory]
+  aline -l @logviewer %d $+ .
+  aline -l @logviewer %d $+ ..
+  window -h @lvloadd
+  window -h @lvloadf
+  noop $finddir($1-,*,0,0,lview.listd %d $1-) $findfile($1-,*.log,0,0,lview.listf %f $1-)
+  filter -Lt 1 32 @lvloadd @logviewer *
+  filter -Lt 1 32 @lvloadf @logviewer *
+  close -@ @lvload?
+  lview.reftitle
+}
+alias lview.ldrive {
+  unset %lview.curdir
+  var %d = $iif($lview.cprf(dir),$v1,)
+  clear -l @logviewer
+  aline -l @logviewer %d $+ [back to log directory]
+  var %i = 1
+  while (%i <= $disk(0)) {
+    aline -l @logviewer %d $+ $disk(%i).path $iif($disk(%i).label,$nbr($v1))
+    inc %i
+  }
+  lview.reftitle
+}
+alias lview.save {
+  var %o = $relpath($$sfile($left($mircdir,3) $+ Log.txt,Save to file,Save))
+  if (!$isfile(%o)) || ($ydialog(The file %o already exists $+ $chr(44) do you want to overwrite it?)) {
+    if ($1 == -s) {
+      .fopen -o slog %o
+      filter -k @logviewer lview.swcflt
+      .fclose slog
+    }
+    else { savebuf @logviewer %o }
+    idialog Successfully saved window content to %o $+ !
+  }
+}
+alias lview.strip {
+  var %si = 1,%s = $sline(@logviewer,0)
+  while (%si <= %s) {
+    var %z = $sfile($left($mircdir,3) $+ Log.txt,Save $nopath($lview.sfl(%si)) to file without control codes,Save),%o = $relpath(%z)
+    if (%z) && ((!$isfile(%o)) || ($ydialog(The file %o already exists $+ $chr(44) do you want to overwrite it?))) {
+      .fopen -o slog %o
+      filter -k $lview.sfl(%si) lview.swcflt
+      .fclose slog
+      var %z = ""
+    }
+    inc %si
+  }
+  idialog Successfully stripped the selected log files!
+}
+alias lview.sfl { return %lview.curdir $+ $strip($sline(@logviewer,$iif($1 isnum,$1,1))) }
+alias lview.swcflt {
+  if ($strip($1-) != $null) { .fwrite -n slog $v1 }
+  else { .fwrite slog $crlf }
+}
+on *:input:@logviewer:{
+  if (!$cmdchar($1)) || ($ctrlenter) {
+    haltdef
+    if (%lview.curlog) {
+      if ($1- == reload) { lview.load %lview.curlog }
+      else { lview.slog -f $1- }
+    }
+    else { thmerror @logviewer No log file loaded! }
+  }
+}
+alias lview.rem {
+  set %lview.remote $qt($2-)
+  lview.slog $1
+}
+alias lview.look {
+  tokenize 32 $1-
+  aline @logviewer 
+  thmecho @logviewer Next hit from $nopath($fopen(search).fname) $+ :
+  aline @logviewer 
+  var %a = 0,%t = $calc(2* %lview.lookaround),%l = $calc($1 - %lview.lookaround)
+  .fseek -l search %l
+  while (%a <= %t) {
+    var %g = %lview.matchtext
+    while ($left(%g,1) == *) { %g = $mid(%g,2) }
+    while ($right(%g,1) == *) { %g = $left(%g,-1) }
+    if ($fread(search)) {
+      var %txt = $v1
+      echo -i0 @logviewer $iif(%lview.lprefix,%l) $regsubex(%txt,$mkregex(%g),\1)
+    }
+    inc %a
+    inc %l
+  }
+}
+alias lview.slog {
+  var %l,%r,%t,%f = %lview.curlog
+  if (r isin $1) { 
+    %f = %lview.remote 
+    %lview.curlog = %lview.remote 
+    unset %lview.remote
+  }
+  if (l isin $1) { 
+    var %error = 1
+    while (%error) {
+      %l = $$eddialog(How many lines (before and after) do you want to be displayed around your hits?)
+      if ((%l < 0) || (%l !isnum)) { errdialog Please enter a valid number! }
+      else { unset %error }
+    }
+  }
+  if (!$2) { tokenize 32 $1 $$eddialog(Enter a string to search for in $qt($iif(f isin $1,$nopath(%f),%lview.curdir)) (wildcards are allowed)!) }
+  var %v = $nnticks
+  if (R:* iswm $2) { var %r = g,%t = $mid($2-,3) }
+  else { %t = $+(*,$2-,*) }
+  if (!$window(@logviewer)) { viewlog %f }
+  else { window -a @logviewer }
+  clear @logviewer
+  if (f isin $1) {
+    thmecho @logviewer Searching for $iif(%r,regular expression) $thmhl(%t) in $nopath(%f) $+ / $+ $thmhl($bytes($file(%f).size,3).suf) $+ , please wait...
+    titlebar @logviewer - Searching through log file...
+    if (%l) {
+      .fopen search %f
+      set %lview.lookaround %l
+      set %lview.matchtext %t
+      filter $+(-fkbcpn,%r) %f lview.look %t
+      unset %lview.matchtext %lview.lookaround 
+      .fclose search
+    }
+    else { filter $+(-fwbcp,$iif(%lview.lprefix,n),%r) %f @logviewer %t }
+    aline @logviewer 
+    thmecho @logviewer $iif(%r,Regular expression search,Search) for %t in $nopath(%f) $nbr($bytes($file(%f).size,3).suf) produced $filtered results. Search completed in $round($calc($nnticks - %v),1) $+ s.
+  }
+  else {
+    thmecho @logviewer Searching for $iif(%r,regular expression) %t $+ , please wait...
+    titlebar @logviewer - Searching through directory...
+    set %lview.dslog.tsize 0
+    set %lview.dslog.tfiles 0
+    set %lview.dslog.tresults 0
+    set %lview.dslog.tresfiles 0
+    set %lview.dslog.first 0
+    if (d isin $1) { noop $findfile(%lview.curdir,*.log,0,0,lview.dslog $+(%t,$cr,$1-,$cr,%l,$cr,%r)) }
+    elseif (z isin $1) {
+      var %io = 1,%o = $sline(@logviewer,0)
+      while (%io <= %o) {
+        lview.dslog $+(%t,$cr,%lview.curdir $+ $strip($sline(@logviewer,%io)),$cr,%l)
+        inc %io
+      }
+    }
+    thmecho @logviewer $iif(%r,Regular expression search,Search) for %t completed in $round($calc($nnticks - %v),1) $+ s. %lview.dslog.tresults results in %lview.dslog.tresfiles files found.
+    unset %lview.dslog.*
+  }
+  lview.reftitle
+}
+alias lview.dslog {
+  tokenize 13 $1-
+  if ($3) {
+    .fopen search $qt($2)
+    set %lview.lookaround $3
+    set %lview.matchtext $1
+    filter $+(-fkbpn,$4) $qt($2) lview.look $1
+    unset %lview.lookaround
+    unset %lview.matchtext
+    .fclose search
+  }
+  else { filter $+(-fwbp,$iif(%lview.lprefix,n),$4) $qt($2) @logviewer $1 }
+  inc %lview.dslog.tsize $file($2).size
+  inc %lview.dslog.tfiles
+  if ($filtered) {
+    inc %lview.dslog.tresults $filtered
+    inc %lview.dslog.tresfiles
+    if (!%lview.dslog.first) {
+      dline @logviewer 1
+      set %lview.dslog.first 1
+    }
+    aline @logviewer 
+    thmecho @logviewer Found $filtered $iif($filtered == 1,match,matches) in $nopath($2) $nbr($bytes($file($2).size,3).suf) $+ .
+    aline @logviewer 
+  }
+}
+menu @logviewer {
+  dclick {
+    if ($mouse.lb) {
+      var %x = $line($active,$1,1),%t = $strip(%x)
+      if (%t == .) { lview.ldir %lview.curdir }
+      elseif (%t == ..) {
+        var %n = $deltok(%lview.curdir,-1,92)
+        if (%n) { lview.ldir %n $+ \ }
+        else { lview.ldrive }
+      }
+      elseif (%t == [back to log directory]) { lview.ldir $logdir }
+      elseif (?:\* iswm %t) { lview.ldir $wd(%t,1) }
+      elseif ($isfile(%lview.curdir $+ %t)) { lview.load %lview.curdir $+ %t }
+      elseif ($isdir($+(%lview.curdir,%t,\))) { lview.ldir $+(%lview.curdir,%t,\) }
+    }
+  }
+  $style(2) LogViewer $+ $chr(58):return
+  -
+  &Settings:lview.settings
+  -
+  $iif(!$mouse.lb,Sa&ve display)
+  .&With codes:lview.save
+  .W&ithout codes:lview.save -s
+  $iif($mouse.lb && $1,Sa&ve without codes):lview.strip
+  $iif(!$mouse.lb,$iif(!%lview.curlog,$style(2)) Save as &HTML):log.mkhtml %lview.curlog
+  $iif($mouse.lb && $1,Save as &HTML):lview.mkhtml.sel
+  &Delete logs
+  .&All logs:logdel -a
+  .-
+  .$iif(!$sline(@logviewer,0),$style(2)) &Selected logs:logdel -e
+  .-
+  .&Private logs:logdel -p
+  .&Channel logs:logdel -c
+  .-
+  .S&maller than 1KB:logdel -s1024
+  .Smaller &than 5KB:logdel -s5120
+  .Sma&ller than 100KB:logdel -s102400
+  .Small&er than 1MB:logdel -s1048576
+  $iif($mouse.lb,S&earch)
+  .$iif(!$1,$style(2)) &Selected logs:lview.slog -z
+  .&Whole folder:lview.slog -d
+  .$iif($mouse.lb,&LookAround Search)
+  ..&Selected logs:lview.slog -zl
+  ..&Whole folder:lview.slog -dl
+  $iif(!$mouse.lb,Se&arch)
+  .$iif(!%lview.curlog,$style(2)) &Current log:lview.slog -f
+  .&Whole folder:lview.slog -d
+  .$iif(!$mouse.lb,&LookAround Search)
+  ..&Current log:lview.slog -fl
+  ..&Whole folder:lview.slog -dl
+  .-
+  .$iif(!%lview.curlog,$style(2)) &Reset search:lview.load %lview.curlog
+  $iif($mouse.lb && $1,$iif(!$sline(@logviewer,1),$style(2)),$iif(!%lview.curlog,$style(2))) &Editor:lview.editor $qt($iif($mouse.lb,$iif($isfile($lview.sfl),$lview.sfl,%lview.curlog),%lview.curlog))
+  E&xplore current folder:run explorer %lview.curdir
+  -
+  &Help:idialog Some generic information about the log viewer:Only the last 50000 lines of the log files are loaded. This is because mIRC messes up when trying to load more than that into a window.You can use the editbox in the log viewer window to search for a string in the currently loaded log file.You can use wildcards like "bla*blub" or, alternatively, do a search using regular expressions. For that, you have to prefix your search with "r:", for example: "r:/bla\d+/i".If you want to view the whole log again, type "reload".
+  -
+  &Close:close -@ $active
+}
+alias lview.editor {
+  if (!$isfile(%lview.editor)) {
+    errdialog you did not specify a text editor or the specified editor does not exist. Using Notepad for now.
+    set %lview.editor $mkfullfn($findfile($nndll(GetEV,windir),notepad.exe,1,0))
+  }
+  run -p %lview.editor $1-
+}
+alias logdel {
+  if ($$ydialog(Really delete $replace($left($1,2),-a,all,-p,all private,-c,all channel,-s,small,-e,selected) log files in the current folder $nbr(%lview.curdir) $+ ?)) {
+    if ($1 != -e) {
+      if ($finddir(%lview.curdir,*,0)) { var %x = $iif($ydialog(Include subdirectories?),255,0) }
+      else { var %x = 0 }
+    }
+    var %z = $1
+    if (%z == -a) { noop $findfile(%lview.curdir,*.log,0,%x,tryremove $qt($1-)) }
+    elseif ($istok(-p -c,%z,32)) { noop $findfile(%lview.curdir,*.log,0,%x,log.chkrem %z $qt($1-)) }
+    elseif ($regex(%z,/^-s\d+$/)) { noop $findfile(%lview.curdir,*.log,0,%x,log.chkrem %z $qt($1-)) }
+    elseif (%z == -e) {
+      var %i = $sline(@logviewer,0),%f
+      :retdel
+      while (%i) {
+        %f = $+(",%lview.curdir,$strip($sline(@logviewer,%i)),")
+        if ($isfile(%f)) { tryremove %f }
+        dec %i
+      }
+    }
+    lview.ldir %lview.curdir
+    return
+    :error
+    var %err = $error
+    reseterror
+    log.chkerror %err
+    reseterror
+    if (%z == -e) {
+      dec %i
+      goto retdel
+    }
+  }
+}
+alias log.chkrem {
+  if ($1 == -p) { if ($left($nopath($1-),1) !isin $chantypes) { tryremove $2- } }
+  elseif ($1 == -c) { if ($left($nopath($1-),1) isin $chantypes) { tryremove $2- } }
+  elseif ($regex(lsize,$1,/^-s(\d+)$/)) { if ($file($2-).size < $regml(lsize,1)) { tryremove $2- } }
+  return
+  :error
+  var %err = $error
+  reseterror
+  log.chkerror %err
+}
+alias log.chkerror {
+  if ($regex(logerr,$1-,/\* \/remove: unable to remove \'(.+)\' \(line \d+\x2C logviewer\.nns\)/i)) { errdialog unable to remove $nopath($regml(logerr,1)) $+ .Check if the "Lock log files" checkbox in the mIRC options is disabled! }
+  else { errdialog an error occured while deleting a file: $1- }
+}
+dialog htmlprog {
+  size -1 -1 240 98
+  option pixels
+  icon scripts\pics\nntray.ico
+  text "?", 2, 4 6 232 16, center
+  text "", 1, 4 24 232 20
+  text "?", 3, 4 48 100 16, right
+  text "?", 4, 4 64 100 16, right
+  text "?", 5, 4 80 100 16, right
+  text "?", 6, 4 96 100 16, right
+  text "?", 7, 110 48 126 16
+  text "?", 8, 110 64 126 16
+  text "?", 9, 110 80 126 16
+  text "?", 10, 110 96 120 16
+}
+on *:dialog:htmlprog:init:0:{
+  mdx SetControlMDX $dname 1 ProgressBar smooth > $mdxfile(ctl_gen)
+  mdx SetDialog $dname style dlgmodal
+}
+alias hexcolor {
+  tokenize 44 $rgb($color($color($1)))
+  return $+($chr(35),$base($1,10,16,2),$base($2,10,16,2),$base($3,10,16,2))
+}
+alias lview.mkhtml.sel {
+  var %si = 1,%s = $sline(@logviewer,0)
+  while (%si <= %s) {
+    log.mkhtml $putqt($lview.sfl(%si))
+    inc %si
+  }
+  idialog Successfully converted the selected log files!
+}
+alias log.mkhtml {
+  var %f = $iif($1-,$1-,$qt($$sfile($logdir $+ *.log,Create HTML log from?,Ok))),%o = $qt($$sfile($+($mircdir,$deltok($nopath(%f),-1,46),.htm),Please choose an output file.,Convert)),%p = $nnticks
+  if ($isfile(%f)) {
+    if ($isfile(%o)) && (!$ydialog(The file %o already exists. Do you want to overwrite it?)) { return }
+    .fopen -o out %o
+    .fopen in %f
+    dialog -m htmlprog htmlprog
+    did -a htmlprog 1 1 0 999
+    did -ra htmlprog 2 Creating HTML file...
+    did -ra htmlprog 3 From:
+    did -ra htmlprog 4 Lines:
+    did -ra htmlprog 5 Finished:
+    did -ra htmlprog 6 Time remaining:
+    did -ra htmlprog 7 $nopath(%f)
+    did -ra htmlprog 8,9,10 ?
+    var %i = 4,%b = 0,%tt = $lines(%f),%u = 0
+    .fwrite -n out $+(<html><head><title>,$nopath(%f),</title><style) type="text/css"><!--
+    .fwrite -n out body $chr(123) $+(background-color:,$hexcolor(back),; font-family:,$window($active).font,; font-size:,$window($active).fontsize,; color:,$hexcolor(normal)) $chr(125)
+    while (!$fopen(in).eof) {
+      .fwrite -n out $replace($strip($fread(in)),<,&lt;,>,&gt;) $+ <br> 
+      if (!$calc(%i % 100)) {
+        did -a htmlprog 1 %u 0 %tt
+        did -ra htmlprog 8 $+(%u,/,%tt)
+        did -ra htmlprog 9 $percent(%u,%tt,0)
+        if (%u > 5000) { did -ra htmlprog 10 $duration($int($calc(($nnticks - %p)/ %u * %tt -($nnticks - %p)))) }
+      }
+      inc %i
+      inc %u
+    }
+    .fwrite out <br><br><font $+(color=",$hexcolor(info),"><li>) End of file</font></body></html>
+    fclschk in
+    fclschk out
+    dialog -c htmlprog
+    write -il3 %o --></style></head><body><font $+(color=",$hexcolor(info),"><li>) HTML log file generated by NNScript %version on $longtime in $round($calc($nnticks - %p),2) $+(seconds,<br><li> Created from $nopath(%f) $nbr(Originally %tt lines $+ $chr(44) $bytes($file(%f).size,3).suf),</font><br><br>)
+    if ($ydialog(HTML log file successfully generated in $round($calc($nnticks - %p),2) $+(seconds.,$crlf,$crlf,File:	,$nopath(%o) $nbr($bytes($file(%o).size,3).suf),$crlf,Source:	,$nopath(%f) $nbr($bytes($file(%f).size,3).suf),$crlf,Lines:	,%tt,$crlf,$crlf,File saved to %o,.,$crlf,Run?),)) { url -an %o }
+  }
+  else { errdialog can't access %f $+ ! }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

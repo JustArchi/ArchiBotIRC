@@ -1,0 +1,147 @@
+Name Quark
+Version 1.1
+NNTVersion 1.03
+Author Nordic
+Email nnordic@firemail.de
+Homepage n/a
+Description None.
+
+Font Tahoma
+FontSize 10
+
+TimestampEnabled 1
+Timestamp 15«07HH15:07nn15:07ss15»
+
+NickColSelf none
+NickColOp 1
+NickColVoice 7
+NickColRegular 15
+NickColProtect none
+NickColIgnore 4
+
+Brackets 07{14<text>07}01
+LineSep -
+Prefix     15« 01
+
+GenEcho <pre> 01<text>
+GenError <pre> 15error » 14<text>
+GenHighlight 07{14<text>07}01
+
+ChanText 07{<cmode><nick>07} <text>
+ChanTextOwn 07{<cmode><me>07} <text>
+ChanAction 15» 07<cmode>01<nick> <text>
+ChanActionOwn 15» 07<cmode>01<me> <text>
+
+QueryText 07{<nick>07} <text>
+QueryTextOwn 07{<me>07} <text>
+QueryAction 15»01 <nick> <text>
+QueryActionOwn 15»01 <me> <text>
+
+Msg 07*01<nick>07*01 <text>
+MsgOwn <pre> 07*01<target>07*01 <text>
+Action 15»01 <nick> <text>
+ActionOwn 07—› 15»01 <target> <text>
+
+ChanNotice 07-<nick>07@<chan>07- <text>
+Notice 07-<nick>07- <text>
+NoticeOwn 07—› 07-<target>01- <text>
+ServerNotice 07-01<server>07-01 <text>
+
+CTCP 07?01<nick>07?01 <ctcp> <text>
+CTCPOwn 07—› ?01<target>07?01 <ctcp> <text>
+ChanCTCP 07?01<nick>07@01<chan>07?01 <ctcp> <text>
+CTCPReply 07!01<nick>07!01 <ctcp> <text>
+CTCPReplyOwn 07—› !01<target>07!01 <ctcp> <text>
+
+Join <pre> join 15» <nick brackets="1"> <address brackets="1">
+JoinOwn <pre> joined 15» <chan brackets="1">!if <topic> <pre> topic 15» <topic brackets="1">!if <topic> <pre> set by 15» <topicnick brackets="1"> on <topicdate brackets="1">
+Part <pre> part 15» <nick brackets="1"> <address brackets="1">07 <message>
+Quit <pre> quit 15» <nick brackets="1"> <address brackets="1">07 <message>
+Nick <pre> nick 15» <nick brackets="1"> is now known as <newnick brackets="1">
+NickOwn <pre> nick 15» <me brackets="1"> is now known as <newnick brackets="1">
+Mode <pre> mode 15» <nick brackets="1"> sets <mode brackets="1">
+UserMode <pre> usermode 15» set to <mode brackets="1">
+Kick <pre> kick 15» <kickednick brackets="1"> was kicked by <nick brackets="1">07 <message>
+KickOwn <pre> kick 15» <me brackets="1"> was kicked by <nick brackets="1">07 <message>
+WallOp <pre> wallop 15» <nick brackets="1"> <text>
+
+DNS <pre> 15dns » 14resolving <address brackets="1">...
+DNSError <pre> 15dns » 14unable to resolve <address brackets="1">
+DNSResolve <pre> 15dns » 14resolved <address brackets="1"> to <raddress brackets="1">
+
+Notify <pre> notify 15» <nick brackets="1"> is now online!
+UnNotify <pre> unnotify 15» <nick brackets="1"> is now offline!
+
+LUsers1 <pre> users 15» <users brackets="1">  15« 01 invisible 15» <invisible brackets="1">  15« 01servers 15» <servers brackets="1">
+LUsers2 <pre> operator(s) online 15» <operators brackets="1">
+LUsers3 <pre> unknown connection(s) 15» <connections brackets="1">
+LUsers4 <pre> number of channels formed 15» <channels brackets="1">
+LUsers5 <pre> local clients 15» <clients brackets="1"> on <servers brackets="1"> server(s)
+
+Welcome1 <pre> Welcome to the Internet Relay Network, <nick brackets="1">
+Welcome2 <pre> host 15» 07{14<host>07}14 running version 07{14<version>07}14
+Welcome3 <pre> server created on 15» 07{14<created>07}14
+Welcome4 <pre> <server brackets="1"> <version> <usermodes> <chanmodes>
+SupportedInfo <pre> protocols supported by this server 15» <protocols brackets="1">
+
+ChannelModes <pre> <chan brackets="1"> modes 15» <modes brackets="1">
+ChannelCreation <pre> channel created 15» <created brackets="1">
+Bans <pre> <chan brackets="1"> <ban> ban set by <nick> <banned brackets="1">
+BansEnd <pre> end of <chan brackets="1"> ban list
+UnableToSend <pre> unable to send message to <chan brackets="1">
+NotOpped <pre> you're not opped on <chan brackets="1">
+HiddenHost <pre> <host brackets="1"> is now your hidden host
+RegisterFirst <pre> Register first!
+
+WhoisStart     15« 01 whois start 15»
+WhoisAddress  15« 07 <nick> 14is <address> <name brackets="1">
+WhoisChans  15« 07 <nick> 14on <chans>
+WhoisServer  15« 07 <nick> 14using <server> <info brackets="1">
+WhoisStatus  15« 07 <nick> 14is an <status>
+WhoisAway  15« 07 <nick> 14is away: <reason>
+WhoisAuth  15« 07 <nick> 14is authed as <auth>
+WhoisRealIP  15« 07 <nick>14's real host <address> <ip brackets="1">
+WhoisIdle  15« 07 <nick> 14has been idle <idle> 07{01signed on <signontime>07}
+WhoisEnd     15« 01 whois end 15»
+
+WhowasStart     15« 01 whowas start 15»
+WhowasAddress  15« 07 <nick> 14was <address> <name brackets="1">
+WhowasServer  15« 07 <nick> 14using <server>
+WhowasAway  15« 07 <nick> 14was away: <reason>
+WhowasEnd     15« 01 whowas end 15»
+
+Who <pre> 07{14/who07}14 <nick> <address brackets="1"> <name>
+WhoEnd <pre> 07{14/who07}14 end.
+
+Invite <pre> invite 15» <nick brackets="1"> invites you to join <chan brackets="1">
+InviteOwn <pre> <nick brackets="1"> has been invited to join <chan brackets="1">
+InviteAlreadyOnChan <pre> <nick brackets="1"> is already on that channel
+
+NoTopic <pre> no topic in <chan> set
+Topic <pre> topic 15» <topic brackets="1">
+TopicBy <pre> set by 15» <nick brackets="1"> on <date brackets="1">
+TopicChange <pre> topic 15» <nick brackets="1"> changes topic to <topic brackets="1">
+
+Names <pre> 07{14/names07}14 <names>
+NamesEnd <pre> 07{14/names07}14 end.
+
+UnknownCmd <pre> <cmd brackets="1"> is an invalid command
+NickInUse <pre> nickname <nick brackets="1"> is already in use
+AwayStatus <pre> <nick brackets="1"> is marked as being away: <reason>
+ChanFull <pre> can't join <chan> 07{14full (+l)07}
+ChanInviteOnly <pre> can't join <chan> 07{14invite only (+i)07}
+ChanBanned <pre> can't join <chan> 07{14you're banned (+b)07}
+ChanKeyRequired <pre> can't join <chan> 07{14requires key (+k)07}
+ChanRegOnly <pre> can't join <chan> 07{14registered only07}
+NoSuchNick <pre> no such nickname 15» <nick brackets="1">
+NoSuchChan <pre> no such channel 15» <chan brackets="1">
+
+RawDef <pre> <text>
+
+Scheme0 Default 16777215 0 16616192 37632 255 127 10223772 32764 65535 64512 16739081 15327699 10178048 16711935 4669494 11115405 0 7 1 1 1 1 7 7 7 7 7 1 1 7 1 1 7 7 7 1 1 0 1 0 1 0 1 0 0 1
+Scheme1 Blue 16777215 0 16616192 37632 255 127 10223772 16617984 65535 64512 16739081 15327699 10178048 16711935 4669494 11115405 0 7 1 1 1 1 7 7 7 7 7 1 1 7 1 1 7 7 7 1 1 0 1 0 1 0 1 0 0 1
+Scheme2 Green 16777215 0 16616192 37632 255 127 10223772 5876224 65535 64512 16739081 15327699 10178048 16711935 4669494 11115405 0 7 1 1 1 1 7 7 7 7 7 1 1 7 1 1 7 7 7 1 1 0 1 0 1 0 1 0 0 1
+Scheme3 Red 16777215 0 16616192 37632 255 127 10223772 411135 65535 64512 16739081 15327699 10178048 16711935 4669494 11115405 0 7 1 1 1 1 7 7 7 7 7 1 1 7 1 1 7 7 7 1 1 0 1 0 1 0 1 0 0 1
+Scheme4 Dark 0 16777215 16616192 37632 255 127 10223772 32764 65535 64512 16739081 15327699 10178048 16711935 11115405 11115405 0 7 1 1 1 1 7 7 7 7 7 1 1 7 1 1 7 7 7 1 1 0 1 0 1 0 1 0 0 1
+Scheme5 Grey 14540253 0 16616192 37632 255 127 10223772 27090 65535 64512 16739081 15327699 10178048 16711935 4669494 11115405 0 7 1 1 1 1 7 7 7 7 7 1 1 7 1 1 7 7 7 1 1 0 1 0 1 0 1 0 0 1
+Scheme6 Dark_Red 0 16777215 16616192 37632 255 127 10223772 255 65535 64512 16739081 15327699 10178048 16711935 11115405 11115405 0 7 1 1 1 1 7 7 7 7 7 1 1 7 1 1 7 7 7 1 1 0 1 0 1 0 1 0 0 1

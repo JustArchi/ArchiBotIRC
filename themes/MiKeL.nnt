@@ -1,0 +1,146 @@
+Name MiKeL
+Version 1.21
+NNTVersion 1.03
+Author MiKeL
+Email FinestLilGangsta@Hotmail.Com
+Homepage n/a
+Description None.
+
+Font Comic Sans MS
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 14,1(07hh14:07nn14:07ss14)
+
+NickColSelf none
+NickColOp 9
+NickColVoice 13
+NickColRegular 0
+NickColProtect 7
+NickColIgnore none
+
+Brackets 14(07<text>14)
+LineSep <pre>
+Prefix 14•07•
+
+GenEcho <pre> <text>
+GenError <pre> Error14:07 <text>
+GenHighlight 14(07<text>14)
+
+ChanText 14(15<cmode>07<nick>14) 00<text>
+ChanTextOwn 14(15<cmode>07<me>14) 00<text>
+ChanAction <pre> 14<cmode>07<nick> <text>
+ChanActionOwn <pre> 14<cmode>07<me> <text>
+
+QueryText 14(07<nick>14) 00<text>
+QueryTextOwn 14(07<me>14) 00<text>
+QueryAction <pre> 14<nick> <text>
+QueryActionOwn <pre>14 <me> <text>
+
+Msg <pre><nick><pre> 00<text>
+MsgOwn -<gt> <pre><target><pre> 00<text>
+Action <pre><nick><pre> <text>
+ActionOwn -<gt> <pre><target><pre> <text>
+
+ChanNotice 07-14<nick>07:14<chan>07-15 <text>
+Notice -07<nick>14- 15<text>
+NoticeOwn 07-14<gt> 07-14<target>07-15 <text>
+ServerNotice 07-14<server>14-15 <text>
+
+CTCP 07[14<nick> <ctcp>07]15 <text>
+CTCPOwn 07-14<gt> 07[14<target>07]14 <ctcp> 15<text>
+ChanCTCP 07[14<nick>07:14<chan> <ctcp>07]15 <text>
+CTCPReply 07[14<nick> <ctcp> reply07]15 <text>
+CTCPReplyOwn 07-14<gt> 14[07<target>14] <ctcp> 15<text>
+
+Join <pre> 14<nick> 07(14<address>07)14 has joined 07<chan>
+JoinOwn <pre> 14Now talking in 07<chan>!if <topic> <pre> Topic is 14"07<topic>14"!if <topic> <pre> Set by14 <topicnick> 07on14 <topicdate>
+Part <pre> 14<nick> 07(14<address>07)14 has left 07<chan>
+Quit <pre> 14<nick> 07(14<address>07) 14Quit 07<message brackets="1">
+Nick <pre> 14<nick> 07is now known as 14<newnick>
+NickOwn <pre> 14Your nick is now 07<newnick>
+Mode <pre> 14<nick> 07sets mode: 14<mode>
+UserMode <pre> 14<me> 07sets mode: 14<mode>
+Kick <pre> 14<kickednick> 07was kicked by 14<nick> 07(<message>)
+KickOwn <pre> 14You were kicked from 07<chan> 14by 07<nick> 14(<message>)
+WallOp 07!14<nick>07! <text>
+
+DNS <pre> Dns resolving 14<address>
+DNSError <pre> Dns unable to resolve 14<address>
+DNSResolve <pre> Dns resolved 14<address> 07to 14<raddress>
+
+Notify <pre> <nick>14 is now online
+UnNotify <pre> <nick>14 is now offline
+
+LUsers1 <pre> There are14 <users> 07users and14 <invisible> 07invisible on07 <servers> servers
+LUsers2 <pre> <operators> 14operator(s) online
+LUsers3 <pre> <connections> 14unknown connection(s)
+LUsers4 <pre> <channels> 14channels formed
+LUsers5 <pre> I have14 <clients> 07clients and14 <servers> 07servers
+
+Welcome1 <pre> Welcome to the Internet Relay Network,14 <nick>
+Welcome2 <pre> Your host is14 <host>, 07running version14 <version>
+Welcome3 <pre> This server was created14 <created>
+Welcome4 <pre> <server> 14<version> 07<usermodes> 14<chanmodes>
+SupportedInfo <pre> <protocols> 14are supported by this server
+
+ChannelModes <pre> 14<chan> 07<modes>
+ChannelCreation <pre> <chan> 14created on 07<created>
+Bans <pre> <nick> 14sets mode 07[14+b 14<ban>07]
+BansEnd <pre> End of 14<chan>07 Ban List
+UnableToSend <pre> Unable to message14 <chan>
+NotOpped <pre> <chan>: 14you're not channel operator
+HiddenHost <pre> <host> 14is now your hidden host
+RegisterFirst <pre> Register first!
+
+WhoisStart <pre> 14/07W14hois07:14 <nick> <pre>
+WhoisAddress <pre> 07<nick> 14is 07<address> <pre> <name>
+WhoisChans <pre> 07<nick> 14on 07<chans>
+WhoisServer <pre> <nick> 14using 07<server> (14<info>07)
+WhoisStatus <pre> <nick> 14is an 07<status>
+WhoisAway <pre> <nick> 14is away07: 14<reason>
+WhoisAuth <pre> <nick> 14is authed as07 <auth>
+WhoisRealIP <pre> <nick> 14is actually 07<address> [14<ip>07]
+WhoisIdle <pre> <nick> 14has been idle 07<idle>,14 signed on 07<signontime>
+WhoisEnd <pre> End of 14/07W14hois
+
+WhowasStart <pre> 14/07W14howas 07for 14<nick>
+WhowasAddress <pre> <nick> 14was 07<address> <pre> <name>
+WhowasServer <pre> <nick> 14used 07<server> [14<info>07]
+WhowasAway <pre> <nick> 14was away07: 14<reason>
+WhowasEnd <pre> End of 14/07W14howas
+
+Who <pre> <chan> 14<nick> 07<status> 14<address> 07<name>
+WhoEnd <pre> <target> 14End of 07/WHO 14list.
+
+Invite <pre> <nick> 14invites you to join07 <chan>
+InviteOwn <pre> <nick> 14has been invited to07 <chan>
+InviteAlreadyOnChan 07<nick> 14is already on channel
+
+NoTopic <pre> <chan> 14No topic is set.
+Topic <pre> Topic is 14"07<topic>14"
+TopicBy <pre> Set by14 <nick> 07on14 <date>
+TopicChange <pre> 14<nick> 07changes topic to 14"07<topic>14"
+
+Names <pre> 14<chan>07 <names>
+NamesEnd <chan> 07End of 14/NAMES 07list.
+
+UnknownCmd <pre> <cmd> 14Unknown command
+NickInUse <pre> <nick> 14Nickname is already in use.
+AwayStatus <pre> <nick> 14is marked as being away: 07<reason>
+ChanFull <pre> <chan> 14unable to join channel 07[14Full07]
+ChanInviteOnly <pre> <chan> 14unable to join channel 07[14Invite Only07]
+ChanBanned <pre> <chan> 14unable to join channel 07[14Banned07]
+ChanKeyRequired <pre> <chan> 14unable to join channel 07[14Need Correct Key07]
+ChanRegOnly <pre> <chan> 14unable to join channel 07[14Registered Only07]
+NoSuchNick <pre> <nick> 14No such nick
+NoSuchChan <pre> <chan> 14No such channel
+
+RawDef <pre> <text>
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 6 4 5 2 3 3 3 3 3 3 0 5 7 6 0 3 2 3 5 14 1 0 1 0 15 6 1 1 0
+Scheme1 Blue 16777215 0 8323072 37632 255 127 10223772 16617984 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 6 4 5 2 3 3 3 3 3 3 0 5 7 6 0 3 2 3 5 14 1 0 1 0 15 6 1 1 0
+Scheme2 Red 16777215 0 8323072 37632 255 127 10223772 253 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 6 4 5 2 3 3 3 3 3 3 0 5 7 6 0 3 2 3 5 14 1 0 1 0 15 6 1 1 0
+Scheme3 Green 16777215 0 8323072 37632 255 127 10223772 8759891 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 6 4 5 2 3 3 3 3 3 3 0 5 7 6 0 3 2 3 5 14 1 0 1 0 15 6 1 1 0
+Scheme4 Brown 16777215 0 8323072 37632 255 127 10223772 6261662 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 6 4 5 2 3 3 3 3 3 3 0 5 7 6 0 3 2 3 5 14 1 0 1 0 15 6 1 1 0
+Scheme5 Teal 16777215 0 8323072 37632 255 127 10223772 11049813 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 6 4 5 2 3 3 3 3 3 3 0 5 7 6 0 3 2 3 5 14 1 0 1 0 15 6 1 1 0

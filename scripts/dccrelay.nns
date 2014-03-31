@@ -1,0 +1,110 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - DCC relay - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias dccrelay { nndlg -m dccrelay dccrelay }
+dialog dccrelay {
+  title "DCC Relay [/dccrelay]"
+  size -1 -1 310 184
+  option pixels
+  icon scripts\pics\nntray.ico
+  text "Destination nick", 1, 6 8 80 14
+  combo 2, 132 4 174 300, sort size edit drop
+  text "Server", 3, 6 32 38 14
+  combo 4, 132 28 174 200, sort size drop
+  text "Status", 9, 6 56 40 14
+  edit "", 10, 70 52 236 90, read multi return vsbar
+  check "&Enable", 5, 6 160 60 18
+  box "", 8, -6 142 320 8
+  button "&Help", 6, 142 156 80 24
+  button "&Close", 7, 226 156 80 24, ok
+}
+alias dccrelay.addserv { did -a dccrelay 4 $curconserv $nbr($cid) }
+on *:dialog:dccrelay:*:*:{
+  if ($devent == init) {
+    scon -at1 dccrelay.addserv
+    if ($did(4).lines) {
+      did -c $dname 4 1
+      set %dccrel.cid $mid($wd($did(4,1),-1),2,-1)
+      loaddccrn
+    }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 5) {
+      sdt dccrel.en
+      if ($did($did).state) { dccrelay.ts }
+      else { dccrelay.status Relaying of DCCs stopped. }
+    }
+    elseif ($did == 6) { idialog This feature is used to relay DCC sends you are receiving to other users. If you know FXP, you probably already know how this works.After you press the "Enable" checkbox, all DCCs you receive will be relayed.Note that you have to keep the DCC relay dialog open for it to work!Once the DCC has started you can close the dialog again. }
+    elseif ($did == 4) {
+      set %dccrel.cid $mid($wd($did($did).seltext,-1),2,-1)
+      loaddccrn
+      dccrelay.ts
+    }
+    elseif ($did == 2) {
+      set %dccrel.nick $did($did)
+      dccrelay.ts
+    }
+  }
+  elseif ($devent == edit) {
+    set %dccrel.nick $did($did)
+    .timerdccrel.nref -io 1 1 dccrelay.ts
+  }
+  elseif ($devent == close) { unset %dccrel.* }
+}
+alias dccrelay.status { if ($dialog(dccrelay)) { did -a $v1 10 $iif($did(dccrelay,10),$crlf) $+ —› $1- } }
+alias dccrelay.ts {
+  if (%dccrel.en) {
+    if (%dccrel.nick) && (%dccrel.cid) { dccrelay.status Relaying all DCCs to %dccrel.nick on $iif($scid(%dccrel.cid).network,$v1,$scid(%dccrel.cid).server) $+ ! }
+    else { dccrelay.status You have to select a nickname and network! }
+  }
+}
+alias loaddccrn {
+  did -r dccrelay 2
+  scid $mid($wd($did(4).seltext,-1),2,-1)
+  _hmake dccrn
+  var %i = $chan(0)
+  while (%i) {
+    var %n = $nick($chan(%i),0)
+    while (%n) {
+      if (!$hget(dccrn,$nick($chan(%i),%n))) { did -a dccrelay 2 $nick($chan(%i),%n) }
+      hadd dccrn $nick($chan(%i),%n) 1
+      dec %n
+    }
+    dec %i
+  }
+  hfree dccrn
+}
+ctcp *:DCC:*:{
+  if ($dialog(dccrelay)) && (%dccrel.en) && (%dccrel.nick) && (%dccrel.cid) {
+    if ($2 == send) && ($scid(%dccrel.cid).status == connected) {
+      dccrelay.status Sending $3 $nbr($bytes($6,3).suf) to %dccrel.nick via $nick
+      set %dccrel.user $nick $cid
+      scid %dccrel.cid
+      !.msg %dccrel.nick DCC SEND $3- $+ 
+      scid -r
+      haltdef
+    }
+    elseif ($2 == resume) {
+      if ($nick == %dccrel.nick) && ($scid($wd(%dccrel.user,2)).status == connected) {
+        dccrelay.status Requesting resume...
+        scid $wd(%dccrel.user,2)
+        !.msg $wd(%dccrel.user,1) DCC RESUME $3- $+ 
+        scid -r
+        haltdef
+      }
+    }
+    elseif ($2 == accept) && ($scid(%dccrel.cid).status == connected) {
+      if ($nick == $wd(%dccrel.user,1)) {
+        dccrelay.status Accepting file...
+        scid %dccrel.cid
+        !.msg %dccrel.nick DCC ACCEPT $3- $+ 
+        scid -r
+        haltdef
+      }
+    }
+  }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

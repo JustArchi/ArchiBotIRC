@@ -1,0 +1,3195 @@
+[q_adduser]
+———› Description:
+Adds one or more users to a channel.
+
+———› Usage:
+/msg Q ADDUSER <channel> [<flags>] <user1> [<user2> [<user3> [...]]]
+
+———› Details:
+Adds the named user(s) to the channel, where:
+channel - the channel to use
+flags - the list of flags to add for each user, introduced by + (for example +gv). See CHANLEV for valid flags. If no flags are specified, +aot is used. This command cannot be used to add masters (+m) or owners (+n).
+user<n> - either a user's current nickname on the network or #accountname. Up to 18 users can be specified.
+ADDUSER requires master (+m) access on the named channel.
+[q_auth]
+———› Description:
+Identifies you as a particular user on the bot.
+
+———› Usage:
+/AUTH <authname> <password>
+
+———› Details:
+Authenticates you on the bot.
+[q_authhistory]
+———› Description:
+View auth history for an account.
+
+———› Usage:
+/msg Q AUTHHISTORY <channel>
+
+———› Details:
+Displays details of the last 10 logins with your account. Details include hostmask, login time, disconnect time and reason.
+[q_autolimit]
+———› Description:
+Shows or changes the autolimit threshold on a channel.
+
+———› Usage:
+Usage: /msg Q AUTOLIMIT <channel> [<threshold>]
+
+———› Details:
+The autolimit feature maintains a user limit (+l) on the channel which is regularly updated to keep a fixed number of spaces free on the channel for people to join. This is useful since it prevents a large number of "clones" joining at the same time. However, if the number of free spaces is too small it's possible that legitimate users won't be able to join. This command allows you to adjust the number of free spaces to maintain when autolimit is enabled.
+To actually turn the autolimit feature on or off, see CHANFLAGS. Where:
+channel - the channel to use.
+threshold - specifies the new threshold. If not specified, the current threshold is displayed.
+Viewing the current threshold requires operator (+o) access on the named channel.
+Updating the threshold requires master (+m) access on the named channel.
+[q_banclear]
+———› Description:
+Removes all bans from a channel including persistent bans.
+
+———› Usage:
+/msg Q BANCLEAR <channel>
+
+———› Details:
+Removes all temporary and persistent bans from a channel, where:
+channel - the channel to use
+BANCLEAR requires master (+m) access on the named channel.
+[q_bandel]
+———› Description:
+Removes a single ban from a channel.
+
+———› Usage:
+/msg Q BANDEL <channel> <ban>
+
+———› Details:
+Removes the specified persistent or channel ban, where:
+channel - the channel to use
+ban - either a ban mask (nick!user@host), or #number (see BANLIST)
+Removing channel bans requires operator (+o) access on the named channel.
+Removing persistent bans requires master (+m) access on the named channel.
+[q_banlist]
+———› Description:
+Displays all persistent bans on a channel.
+
+———› Usage:
+/msg Q BANLIST <channel>
+
+———› Details:
+Displays a list of persistent and channel bans on the named channel. Each ban is identified by a number which can be passed to a subsequent BANDEL command.
+Note that the numbers can change if bans are added to or removed from the channel. Where:
+channel - the channel to use
+BANLIST requires operator (+o) access on the named channel.
+[q_bantimer]
+———› Description:
+Shows or changes the time after which bans are removed.
+
+———› Usage:
+/msg Q BANTIMER <channel> [<duration>]
+
+———› Details:
+To help keep channels clear of the clutter of too many bans, Q can automatically remove channel bans after a specified time. This command is used to alter that time period, disable the feature, or show the current setting, where:
+channel - the channel to use
+duration - how long to remove channel bans after. If duration is 0 then channel bans will not be automatically removed. If duration is not specified, the current setting will be displayed. Suffixes can m (minutes), h (hours), d (days), w (weeks), M (months) and y (years) can be used to specify the duration, for example 3d, 1w, 1h30m.
+Viewing the current setting requires operator (+o) access on the named channel.
+Changing the setting requires master (+m) access on the named channel.
+[q_chanflags]
+———› Description:
+Shows or changes the flags on a channel.
+
+———› Usage:
+/msg Q CHANFLAGS <channel> [<changes>]
+
+———› Details:
+Shows or changes the status of channel flags, where:
+channel - channel to use
+changes - changes to apply to the channel flags in the usual +/- format, e.g. +c to set +c and -c to remove it.
+Viewing the current flags requires operator (+o) access on the named channel.
+Changing the flags requires master (+m) access on the named channel.
+Valid channel flags are:
++a AUTOOP Automatically ops any user who has op access when they join the channel. Same effect as giving all ops the +a chanlev flag.
++b BITCH Prevents users who don't have operator access on the channel from being opped (automatically deops them)
++c AUTOLIMIT Enables automatic limit feature - updates the channel limit at regular intervals to keep a certain number of free spaces. This can mitigate the effect of join floods. See AUTOLIMIT.
++e ENFORCE Enforces bans on the channel. Any user who is banned will be kicked automatically.
++f FORCETOPIC Prevents channel ops from changing the topic. The SETTOPIC command must be used instead.
++g AUTOVOICE Automatically voices any user who has voice access when they join the channel. Same effect as giving all voices the +g chanlev flag.
++j JOINED Causes Q to remain on the channel. Cannot be removed.
++k KNOWNONLY Any user who joins the channel who is not known (+k) will be kicked. Unless channel mode +i is set they will be banned as well.
++p PROTECT Any user with voice (+v) or operator (+o) access will have that status enforced on the channel at all times. Same effect as giving all ops and voices the +p chanlev flag.
++t TOPICSAVE Saves the topic when it changes. Such saved topics can be restored via settopic, or when the bot rejoins when a channel has been left empty.
++v VOICEALL Automatically grants voice (+v) on the channel to any user who enters, unless they have quiet (+q) chanlev flag.
++w WELCOME Sends the welcome message to users joining the channel. See WELCOME.
+Note: Previous versions of Q included the facility to enforce limits and keys using +k and +l chanflags. This functionality is now available via the CHANMODE command.
+[q_chanlev]
+———› Description:
+Shows or modifies user access on a channel.
+
+———› Usage:
+/msg Q CHANLEV <channel> [<user> [<change>]]
+
+———› Details:
+Displays or alters the access of known users on a channel, where:
+channel - the channel to use
+user - the user to list or modify. user can be specified as either an active nickname on the network or #accountname. If user is not specified then all known users are listed.
+change - lists the flags to add or remove, with + to add or - to remove. For example, +ao to add a and o flags, or -gv to remove g and v flags. This can be used to add or remove users from the channel. If change is not specified then the current access of the named user is displayed.
+Displaying known user information requires you to be known (+k) on the named channel.
+Adjusting flags for other users requires master (+m) access on the named channel.
+Adding or removing the +m flag for other users requires owner (+n) access on the named channel.
+You may always remove your own flags, except +qdb flags (which are not visible to you).
+Adding or removing personal flags requires you to be known (+k) on the named channel.
+Note that channel owners (+n) can grant +n to channel masters but they must use the GIVEOWNER command for this.
+The access level flags determine which commands a user is allowed to use on a channel.
+Holding an access flag also grants access to any action requiring a lesser flag (e.g. +m users can perform actions requiring operator (+o) status even if they do not actually have +o set). The access flags are listed in descending order.
+Valid flags are:
+Access level flags - these control the user's overall privilege level on the channel:
++n OWNER Can add or remove masters and all other flags (except personal flags)
++m MASTER Can add or remove all access except master or owner
++o OP Can get ops on the channel
++v VOICE Can get voice on the channel
++k KNOWN Known on the channel - can get invites to the channel via INVITE
+Punishment flags - these restrict the user on the channel in some way:
++q DEVOICE Not allowed to be voiced on the channel
++d DEOP Not allowed to be opped on the channel
++b BANNED Banned from the channel
+Extra flags - these control specific behaviour on the channel:
++a AUTOOP Ops the user automatically when they join the channel (the user must also hold +o in order to have this flag)
++g AUTOVOICE Voices the user automatically when they join the channel (the user must also hold +v in order to have this flag)
++p PROTECT If the user has +o or +v, this makes sure they will always have that status, they will be reopped/voiced if deopped/voiced
++t TOPIC Can use SETTOPIC to alter the topic on the channel
+Personal flags - these control user personal preferences and can only be changed by the user concerned. They are not visible to other users.
++w NOWELCOME Prevents the welcome message being sent when you join the channel.
++j AUTOINV Invites you to the channel automatically when you authenticate.
+Note that non-sensible combinations of flags are not allowed. After making a change the current status of the named user on the channel will be confirmed.
+[q_chanmode]
+———› Description:
+Shows which modes are forced or denied on a channel.
+
+———› Usage:
+/msg Q CHANMODE <channel> [<modes>]
+
+———› Details:
+Shows or changes the list of channel modes being enforced on the channel, where:
+channel - the channel to use
+modes - the list of modes to allow or deny. Modes specified with + will be enforced on the channel at all times, those specified with - will not be allowed on the channel. If modes are not specified the current setting will be displayed. If +k or +l modes are included, the actual key or limit to be enforced must also be specified, for example "-il+ntk mykey", or "+nstl-Cc 20". If you do not want any modes enforced, "CHANMODE <channel> none" will clear the list.
+Viewing the enforced modes requires operator (+o) access on the named channel.
+Updating the enforced modes requires master (+m) access on the named channel.
+Note: unlike similar commands that work on flags, specifying modes REPLACES the list of modes to be enforced rather than changing the existing list. This is because - modes are valid as well as + modes. Thus whenever you specify the modes argument you must provide the complete list of desired modes each time.
+Note: if autolimit is enabled (see CHANFLAGS) it will cause a +l limit mode to be enforced, with the value updating periodically as users join and leave.
+This +l forcing cannot be changed or overridden without disabling the autolimit function using the CHANFLAGS command.
+[q_chanophistory]
+———› Description:
+Displays a list of who has been opped on a channel recently with account names.
+
+———› Usage:
+CHANOPHISTORY <channel>
+
+———› Details:
+Displays a list of users who have recently been opped on a channel by the service, along with the account name responsible for the opping. Usually this is the account the user being opped was using, but in the case of the OP command being used to op other users, the account used by the user issuing the OP command will be shown. Where:
+channel - the channel to use
+CHANOPHISTORY requires operator (+o) access on the named channel.
+[q_chanstat]
+———› Description:
+Displays channel activity statistics.
+
+———› Usage:
+CHANSTAT <channel> [RESET]
+
+———› Details:
+Shows some statistics about a channel, including total number of joins and maximum channel size. Two sets of statistics are displayed, a lifetime counter, and a trip meter counter which can be reset. Where:
+channel - channel to display statistics for.
+CHANSTAT requires master (+m) access on the named channel.
+[q_clearchan]
+———› Description:
+Removes all modes from a channel.
+
+———› Usage:
+/msg Q CLEARCHAN <channel>
+
+———› Details:
+Removes all channel modes (such as keys, limits, invite only, etc.) from the named channel. Modes being enfored (see CHANMODE) will not be removed.
+Where:
+channel - channel to remove modes from
+CLEARCHAN requires master (+m) access on the named channel.
+[q_deopall]
+———› Description:
+Deops all users on channel.
+
+———› Usage:
+/msg Q DEOPALL <channel>
+
+———› Details:
+Deops every user in the channel. Registered channel operators (+o on CHANLEV) who are protected (via the +p flag in CHANLEV or CHANFLAGS) will not be deopped.
+Where:
+channel - channel to use
+DEOPALL requires master (+m) access on the named channel.
+[q_devoiceall]
+———› Description:
+Devoices all users on channel.
+
+———› Usage:
+/msg Q DEVOICEALL <channel>
+
+———› Details:
+Devoices all users in the channel. Registered voices (+v on CHANLEV) who are protected (+p flag set in CHANLEV or CHANFLAGS) will not be devoiced.
+DEVOICEALL requires master (+m) access on the named channel.
+[q_email]
+———› Description:
+Change your email address.
+
+———› Usage:
+/msg Q@CServe.quakenet.org EMAIL <password> <email> <email>
+
+———› Details:
+Changes your register email address. Confirmation of the change will be sent both old and new addresses. Where:
+password - your password
+email - new email address. Must be entered exactly the same way twice to avoid mistakes.
+Note: due to the sensitive nature of this command, you must send the message to Q@CServe.quakenet.org when using it.
+[q_giveowner]
+———› Description:
+Gives total control over a channel to another user.
+
+———› Usage:
+/msg Q GIVEOWNER <channel> <user> [<code>]
+
+———› Details:
+Gives complete control (+n flag) to the named user on the channel. The new owner will have full control over the channel, including the ability to remove the existing owner(s). As a precaution the named user must already have master (+m) access on the channel. Use this command with extreme caution. Where:
+channel - channel to use
+user - user to give owner to, either a nickname on the network or #accountname.
+code - a unique code used to authorize the operation. If the code is not supplied, the appropriate code will be provided together with a warning about the dangers of this command. If the wrong code is entered owner access will not be granted.
+GIVEOWNER requires owner (+n) access on the named channel.
+[q_hello]
+———› Description:
+Creates a new user account for yourself.
+
+———› Usage:
+/msg Q HELLO <email> <email>
+
+———› Details:
+Creates a new user account for yourself. Your current nickname will be used for the name of the account, and may only contain letters, numbers and hyphens (-). An email containing password details will be sent to the email address supplied. Where:
+email - your email address. Must be entered the same way both times.
+[q_help]
+———› Description:
+Displays help on a specific command.
+
+———› Usage:
+/msg Q HELP <command>
+
+———› Details:
+Shows help for a command, where:
+command - the command to show help for.
+For a list of available commands, see SHOWCOMMANDS.
+[q_invite]
+———› Description:
+Invites you to a channel.
+
+———› Usage:
+/msg Q INVITE <channel>
+
+———› Details:
+Invites you to the named channel, where:
+channel - channel to be invited to.
+INVITE requires you to be known (+k) on the named channel.
+[q_newpass]
+———› Description:
+Change your password.
+
+———› Usage:
+/msg Q@CServe.quakenet.org NEWPASS <oldpassword> <newpassword> <newpassword>
+
+———› Details:
+Changes your account password. Your new password must be at least 6 characters long, contain at least one number and one letter, and may not contain sequences of letters or numbers. Your new password will be sent to your registered email address. Where:
+oldpassword - your existing account password
+newpassword - your desired new password. Must be entered the same both times.
+Note: due to the sensitive nature of this command, you must send the message to
+Q@CServe.quakenet.org when using it.
+[q_op]
+———› Description:
+Ops you or other users on channel(s).
+
+———› Usage:
+/msg Q OP [<channel> [<user1> [<user2> [...]]]]
+
+———› Details:
+Ops you on one or more channels, or ops other named users on a given channel.
+This command cannot be used to op users who are otherwise prevented from getting ops, e.g. via the +d chanlev flag (see CHANLEV) or bitch mode (see CHANFLAGS).
+Where:
+channel - channel to use. If no channel is specified, you will be given ops on every channel where you have appropriate access and are not already opped.
+user<n> - user(s) to op instead of yourself. Each user must be specified as the current nickname of a user on the named channel.
+OP requires operator access (+o) on the named channel. If this command is used to op other users, a notice will be sent to other channel operators on the channel identifying you, unless you have master (+m) access.
+[q_permban]
+———› Description:
+Permanently bans a hostmask on a channel.
+
+———› Usage:
+/msg Q PERMBAN <channel> <hostmask> [<reason>]
+
+———› Details:
+Permanently bans the provided hostmask on the channel. If the ban is removed from the channel e.g. by a channel op or the BANTIMER feature, the ban will be reapplied if a matching user joins the channel. Bans set with the PERMBAN command can be removed with BANCLEAR or BANDEL. Any users matching the hostmask will be kicked from the channel.
+Where:
+channel - channel to set a ban on
+hostmask - hostmask (nick!user@host) to ban.
+reason - reason for the ban. This will be used in kick messages when kicking users matching the ban. If this is not provided the generic message "Banned." will be used.
+PERMBAN requires master (+m) access on the named channel.
+[q_recover]
+———› Description:
+Recovers a channel (same as deopall, unbanall, clearchan).
+
+———› Usage:
+/msg Q RECOVER <channel>
+
+———› Details:
+This command resets the named channel if undesired modes, bans or ops have been set. This has the same effect as DEOPALL followed by UNBANALL followed by CLEARCHAN on the channel, where:
+channel - channel to recover
+RECOVER requires master (+m) access on the named channel.
+[q_removeuser]
+———› Description:
+Removes one or more users from a channel.
+
+———› Usage:
+/msg Q REMOVEUSER <channel> <user1> [<user2> [<user3> [...]]]
+
+———› Details:
+Removes any flags the named user(s) have on the channel. This command cannot be used to remove owners (+n) from the channel, and cannot be used to remove masters (+m) unless the user issuing the command is an owner.
+Where:
+channel - channel to use
+user<n> - a user to remove. Can either be a nickname on the network or #authname. Up to 18 users can be specified.
+REMOVEUSER requires master (+m) access on the named channel.
+[q_requestowner]
+———› Description:
+Requests ownership of a channel on which there are no owners.
+
+———› Usage:
+/msg Q REQUESTOWNER <channel>
+
+———› Details:
+Requests owner (+n) access to the named channel. In order to use this command, there must be no owners left on the channel, and you must have the highest access level of the remaining users. Where:
+channel - the channel to request ownership of.
+[q_requestpassword]
+———› Description:
+Request your password via E-mail.
+
+———› Usage:
+/msg Q REQUESTPASSWORD <email>
+
+———› Details:
+Sends your current password to your registered email address, where:
+email - your registered email address
+[q_settopic]
+———› Description:
+Changes the topic on a channel.
+
+———› Usage:
+/msg Q SETTOPIC <channel> [<topic>]
+
+———› Details:
+Changes the topic on the channel, where:
+channel - channel to use
+topic - new topic. If no topic is set, the stored topic will be reset (this feature is useful if some users can no longer see the topic due to a netsplit).
+SETTOPIC requires topic (+t) or master (+m) access on the named channel.
+[q_showcommands]
+———› Description:
+Lists available commands.
+
+———› Usage:
+/msg Q SHOWCOMMANDS [<mask>]
+
+———› Details:
+Prints a list of commands currently available to you, where:
+mask - Mask of commands to list (* or ? are wildcards). If no mask is specified, all available commands are displayed.
+[q_tempban]
+———› Description:
+Bans a hostmask on a channel for a specified time period.
+
+———› Usage:
+/msg Q TEMPBAN <channel> <hostmask> <duration> [<reason>]
+
+———› Details:
+Temporarily bans the provided hostmask on the channel. If the ban is removed from the channel e.g. by a channel op or the BANTIMER feature, the ban will be reapplied if a matching user joins the channel. When the time expires the ban will be removed automatically. Bans set with the TEMPBAN command can be removed before they expire with BANCLEAR or BANDEL. Any users matching the hostmask will be kicked from the channel.
+Where:
+channel - channel to set a ban on
+hostmask - hostmask (nick!user@host) to ban.
+duration - length of time to apply the ban for. Suffixes m (minutes), h (hours), d (days), w (weeks), M (months) and y (years) can be used to specify the duration, for example 3d, 5h, 1h30m, 1M.
+reason - reason for the ban. This will be used in kick messages when kicking users matching the ban. If this is not provided the generic message "Banned." will be used.
+TEMPBAN requires master (+m) access on the named channel.
+[q_unbanall]
+———› Description:
+Removes all bans from a channel.
+
+———› Usage:
+/msg Q UNBANALL <channel>
+
+———› Details:
+Removes all the channel bans set on the named channel. This does not affect persistent bans set via the TEMPBAN and PERMBAN commands, see BANCLEAR or BANDEL for more information on removing those bans. Where:
+channel - channel to use
+UNBANALL requires master (+m) access on the named channel.
+[q_unbanmask]
+———› Description:
+Removes bans matching a particular mask from a channel.
+
+———› Usage:
+/msg Q UNBANMASK <channel> <mask>
+
+———› Details:
+Removes any bans on the channel which are overlapped by the named mask. Can remove both channel bans and registered bans. Where:
+channel - channel to use
+mask - mask to remove. Any ban subsumed by this mask will be removed. For example, UNBANMASK *!*@*.isp.net would remove *!*@host1.isp.net and *!*@host2.isp.net and *!user@*.isp.net.
+UNBANMASK requires operator (+o) access on the named channel.
+Removing registered bans requires master (+m) access on the named channel.
+[q_unbanme]
+———› Description:
+Removes any bans affecting you from a channel.
+
+———› Usage:
+/msg Q UNBANME <channel>
+
+———› Details:
+This command removes any channel bans which affect you from a channel. It does not affect persistent bans set by PERMBAN and TEMPBAN. Where:
+channel - channel to use
+UNBANME requires operator (+o) access on the named channel.
+[q_userflags]
+———› Description:
+Shows or changes user flags.
+
+———› Usage:
+/msg Q USERFLAGS <flags>
+
+———› Details:
+Changes your current user flags, where:
+flags - changes to apply, in the usual flag letters preceded by +/- format.
+Valid user flags are:
++n NOTICE - causes the bot to sent you NOTICEs. If this flag is not set the bot will communicate using PRIVMSG.
+[q_users]
+———› Description:
+Displays a list of users on the channel.
+
+———› Usage:
+/msg Q USERS <channel>
+
+———› Details:
+Displays a list of users on the named channel along with their usernames and flags on the channel, where:
+channel - channel to list
+USERS requires you to be known (+k) on the named channel. You must also be on the channel yourself.
+[q_version]
+———› Description:
+Show Version.
+
+———› Usage:
+/msg Q VERSION
+
+———› Details:
+Shows the version number of the running bot.
+[q_voice]
+———› Description:
+Voices you or other users on channel(s).
+
+———› Usage:
+/msg Q VOICE [<channel> [<user1> [<user2> [...]]]]
+
+———› Details:
+Grants voice to you on one or more channels, or grants voice to one or more other users on a particular channel. This command cannot be used to grant voice to users who would otherwise be prevented from obtaining voice, e.g. the quiet (+q) chanlev flag. Where:
+channel - channel to use. If no channel is specified, you will be granted voice on every channel where you have appropriate access and are not already voiced.
+user<n> - other users to grant voice to. Must be specified as the nickname of users who are on the named channel.
+Voicing yourself requires voice (+v) access on the relevant channels.
+Voicing other users requires operator (+o) access on the named channel. If this command is used to voice other users, a notice will be sent to channel operators on the channel identifying you, unless you have master (+m) access.
+[q_welcome]
+———› Description:
+Shows or changes the welcome message on a channel.
+
+———› Usage:
+/msg Q WELCOME WELCOME <channel> [<message>]
+
+———› Details:
+This shows the current welcome message set on a channel and allows it to be changed. In order to be displayed to users, the feature must be enabled by the +w chanflag (see CHANFLAGS). Where:
+channel - channel to use
+message - welcome message to set. If this is not provided the existing welcome message is displayed.
+Displaying the message requires operator (+o) access on the named channel.
+Changing the message requires master (+m) access on the named channel.
+[q_whoami]
+———› Description:
+Displays information about you
+
+———› Usage:
+/msg Q WHOAMI
+
+———› Details:
+Displays various information about your account.
+[q_whois]
+———› Description:
+Displays information about a user.
+
+———› Usage:
+/msg Q WHOIS <user>
+
+———› Details:
+Displays information about a user, where:
+user - user to request information for, either the nickname of an active user on the network or #accountname.
+[n_/urlfix]
+———› Description:
+Vista Workaround for setting a browser to the default one.
+
+———› Usage:
+/urlfix
+[n_/checkmail]
+———› Description:
+Checks for new mail if configured in the setup.
+
+———› Usage:
+/checkmail
+[n_/reperform]
+———› Description:
+Re-executes the perform list on the current or all servers.
+
+———› Usage:
+/reperform [-a]
+The -a parameter makes the script execute the perform list on all servers instead of the current only.
+[n_/alarm]
+———› Description:
+Opens the alarm clock dialog or starts an alarm clock.
+
+———› Usage:
+/alarm [minutes/HH:nn [reason]]
+/alarm stop
+If no parameters are specified, the alarm clock dialog is opened.
+If minutes or a time in HH:nn format is specified, it starts an alarm timer with those settings. An optional reason can also be supplied then.
+If the parameter is "stop", the alarm timer is stopped.
+[n_/mircbench]
+———› Description:
+Opens the mIRCbench dialog, a tool to check how good your computer can handle mIRC.
+
+———› Usage:
+/mircbench
+[n_/thmupd]
+———› Description:
+Updates your theme settings with the preferences saved in mirc.ini. You should issue this command if you changed something in the mIRC options and it doesn't work immediately.
+
+———› Usage:
+/thmupd
+[n_/mail.sstat]
+———› Description:
+Shows information about your mailboxes. Only works if e-mail checking is enabled.
+
+———› Usage:
+/mail.sstat
+[n_/markread]
+———› Description:
+Marks all channels as read.
+
+———› Usage:
+/markread
+[n_/c]
+———› Description:
+A small and simple calculator.
+
+———› Usage:
+/c [calculation]
+If no parameter is specified, a dialog pops up asking you for one.
+[n_/nick.def]
+———› Description:
+Changes your nick to the default nick you set in the options.
+
+———› Usage:
+/nick.def
+[n_/nick.away]
+———› Description:
+Changes your nick to the away nick you set in the options.
+
+———› Usage:
+/nick.away
+[n_/ffxp]
+———› Description:
+Open a flashfxp window.
+
+———› Usage:
+/ffxp
+
+[n_/sa]
+———› Description:
+If no parameters are specified, it opens the away dialog.
+If you specify parameters, it sets you away silently (no nick change, no public away message).
+
+———› Usage:
+/sa [reason]
+
+———› See also:
+/a /aw /saw /saway /re /back /sre /sback
+[n_/saw]
+———› Description:
+If no parameters are specified, it opens the away dialog.
+If you specify parameters, it sets you away silently (no nick change, no public away message).
+
+———› Usage:
+/saw [reason]
+
+———› See also:
+/a /aw /sa /saway /re /back /sre /sback
+[n_/saway]
+———› Description:
+If no parameters are specified, it opens the away dialog.
+If you specify parameters, it sets you away silently (no nick change, no public away message).
+
+———› Usage:
+/saway [reason]
+
+———› See also:
+/a /aw /sa /saw /re /back /sre /sback
+[n_/a]
+———› Description:
+If no parameters are specified, it opens the away dialog.
+If you specify parameters, it sets you away.
+
+———› Usage:
+/a [-n <nick>] [reason]
+
+———› See also:
+/aw /sa /saw /saway /re /back /sre /sback
+[n_/aw]
+———› Description:
+If no parameters are specified, it opens the away dialog.
+If you specify parameters, it sets you away.
+
+———› Usage:
+/aw [-n <nick>] [reason]
+
+———› See also:
+/a /sa /saw /saway /re /back /sre /sback
+[n_/back]
+———› Description:
+Removes your away status.
+
+———› Usage:
+/back
+
+———› See also:
+/a /aw /sa /saw /saway /re /sre /sback
+[n_/re]
+———› Description:
+Removes your away status.
+
+———› Usage:
+/re
+
+———› See also:
+/a /aw /sa /saw /saway /sre /back /sback
+[n_/sback]
+———› Description:
+Removes your away status silently (no nick change, no public away message).
+
+———› Usage:
+/sback
+
+———› See also:
+/a /aw /sa /saw /saway /re /back /sre
+[n_/sre]
+———› Description:
+Removes your away status silently (no nick change, no public away message).
+
+———› Usage:
+/sre
+
+———› See also:
+/a /aw /sa /saw /saway /re /back /sback
+[n_/newsticker]
+———› Description:
+Refreshes all newstickers you have enabled.
+
+———› Usage:
+/newsticker
+[n_/ialupdate]
+———› Description:
+Updates the internal address list in #channel. The internal address list is needed for things like the clone scanner, blacklist and various other tools.
+
+———› Usage:
+/ialupdate <#channel>
+[n_/cmdlist]
+———› Description:
+Opens this command list.
+
+———› Usage:
+/cmdlist [-nqlxb]
+The parameters open the respective NoNameScript/Q/L/X/psyBNC command lists.
+[n_/surl]
+———› Description:
+Messages the active window with the URL you are currently browsing.
+
+———› Usage:
+/surl
+[n_/createpass]
+———› Description:
+Creates a random password for you.
+
+———› Usage:
+/createpass [-alnum] [5-50]
+The -alnum parameter makes the alias generate alpha-numeric characters only.
+The second parameter is the length of the generated password. If no parameter is specified, it defaults to 10-15.
+[n_/randslap]
+———› Description:
+Slaps the specified person with a random slap.
+
+———› Usage:
+/randslap <nick>
+[n_/8ball]
+———› Description:
+Asks the 8-Ball a question.
+
+———› Usage:
+/8ball [-s] <question>
+The -s parameter makes the 8-Ball tell the result to the active channel/query.
+[n_/clr]
+———› Description:
+Clears the specified windows.
+
+———› Usage:
+/clr [-aec]
+The -a switch clears the active window only.
+The -e switch clears all windows on the active network.
+The -c switch clears all windows on all networks.
+[n_/pager]
+———› Description:
+Opens the away pager dialog.
+
+———› Usage:
+/pager
+[n_/advertise]
+———› Description:
+Advertises the script to the active channel/query.
+
+———› Usage:
+/advertise
+[n_/adtheme]
+———› Description:
+Advertises the currently loaded theme to the active channel/query.
+
+———› Usage:
+/adtheme
+[n_/ascii]
+———› Description:
+Opens the ASCII selection dialog.
+
+———› Usage:
+/ascii
+[n_/cc]
+———› Description:
+Opens the channel central.
+
+———› Usage:
+/cc [-t] [#channel]
+If the -t parameter is specified, it goes directly to the topic central.
+If #channel isn't specified, the active channel is used.
+[n_/closewins]
+———› Description:
+Closes all @windows.
+
+———› Usage:
+/closewins
+[n_/cs.chanauth]
+———› Description:
+Identifies you to the specified channel on the current network.
+
+———› Usage:
+/cs.chanauth <#channel>
+[n_/dccs]
+———› Description:
+Opens the DCC monitor dialog.
+
+———› Usage:
+/dccs
+[n_/dinfo]
+———› Description:
+Messages the active channel/query with information about the specified directory.
+
+———› Usage:
+/dinfo [directory]
+
+———› See also:
+/finfo
+[n_/rundcc]
+———› Description:
+Runs the last file you received via DCC.
+
+———› Usage:
+/rundcc
+[n_/finfo]
+———› Description:
+Messages the active channel/query with information about the specified file.
+
+———› Usage:
+/finfo [-cms] [file]
+If the -c parameter is specified, it displays the CRC of the file.
+If the -m parameter is specified, it displays the MD5 hash of the file.
+If the -s parameter is specified, it displays the SHA1 hash of the file.
+You can also specify multiple parameters.
+
+———› See also:
+/dinfo
+[n_/getip]
+———› Description:
+Refreshes your external IP.
+
+———› Usage:
+/getip
+[n_/jnnch]
+———› Description:
+Joins the NoNameScript channel on QuakeNet.
+
+———› Usage:
+/jnnch
+[n_/news]
+———› Description:
+Opens the NoNameScript homepage.
+
+———› Usage:
+/news
+[n_/mircopt]
+———› Description:
+Opens the mIRC options dialog.
+
+———› Usage:
+/mircopt
+[n_/chanfolder]
+———› Description:
+Opens the mIRC channel folder dialog.
+
+———› Usage:
+/chanfolder
+[n_/chanlist]
+———› Description:
+Opens the mIRC channels list dialog.
+
+———› Usage:
+/chanlist
+[n_/power]
+———› Description:
+Displays information about how many peons you have ;).
+
+———› Usage:
+/power [-e]
+The -e parameter makes it echo the information instead of messaging the channel.
+[n_/q.doauth]
+———› Description:
+Auth's you to Q if the active connection is to QuakeNet.
+
+———› Usage:
+/q.doauth
+[n_/x.doauth]
+———› Description:
+Identifies you to X if the active connection is to UnderNet.
+
+———› Usage:
+/x.doauth
+[n_/gs.doauth]
+———› Description:
+Auth's you on GameSurge if the active connection is to GameSurge.
+
+———› Usage:
+/gs.doauth
+[n_/ns.doauth]
+———› Description:
+Identifies you on NickServ if the active connection is supported.
+
+———› Usage:
+/ns.doauth
+[n_/reconnect]
+———› Description:
+Reconnects to the current server.
+
+———› Usage:
+/reconnect
+[n_/sayget]
+———› Description:
+Messages the active channel/query with information about the specified DCC get.
+
+———› Usage:
+/sayget <-a/N>
+The -a parameter makes it message all DCC gets.
+[n_/saysend]
+———› Description:
+Messages the active channel/query with information about the specified DCC send.
+
+———› Usage:
+/saysend <-a/N>
+The -a parameter makes it message all DCC sends.
+[n_/stat]
+———› Description:
+Opens the statistics dialog.
+
+———› Usage:
+/stat
+[n_/sinfo]
+———› Description:
+Messages the active channel/query with information about the server you're connected to.
+
+———› Usage:
+/sinfo
+[n_/slnc]
+———› Description:
+Opens the silence dialog if supported on your network.
+
+———› Usage:
+/slnc
+[n_/tracert]
+———› Description:
+Opens a command line window and runs the tracert command for the specified IP.
+
+———› Usage:
+/tracert <ip>
+[n_/netstat]
+———› Description:
+Opens a command line window and runs the netstat command.
+
+———› Usage:
+/netstat
+[n_/cping]
+———› Description:
+Opens a command line window and runs the ping command for the specified IP.
+
+———› Usage:
+/cping <ip>
+[n_/umoded]
+———› Description:
+Opens the user mode dialog.
+
+———› Usage:
+/umoded
+[n_/vclip]
+———› Description:
+Echos the current content of your clipboard.
+
+———› Usage:
+/vclip
+[n_/emule]
+———› Description:
+Messages the active channel/query with information about your eMule transfers.
+
+———› Usage:
+/emule
+[n_/setup]
+———› Description:
+Opens the NoNameScript setup dialog.
+
+———› Usage:
+/setup
+[n_/black]
+———› Description:
+Opens the blacklist dialog.
+
+———› Usage:
+/black
+[n_/cbedit]
+———› Description:
+Opens the clipboard editor.
+
+———› Usage:
+/cbedit
+[n_/cscan]
+———› Description:
+Opens the clone scanner for the specified or active channel.
+
+———› Usage:
+/cscan [#channel]
+[n_/dccrelay]
+———› Description:
+Opens the DCC relay dialog.
+
+———› Usage:
+/dccrelay
+[n_/dcchist]
+———› Description:
+Opens the DCC history.
+
+———› Usage:
+/dcchist
+[n_/kbhist]
+———› Description:
+Opens the kick/ban history.
+
+———› Usage:
+/kbhist
+[n_/ip2nick]
+———› Description:
+Opens the IP2Nick dialog.
+
+———› Usage:
+/ip2nick [hostname/ip]
+[n_/viewlog]
+———› Description:
+Opens the log viewer.
+
+———› Usage:
+/viewlog [-a/nickname/window name/filename]
+The -a parameter view the log for the currently active channel.
+If another parameter is specified, it will search for a log that best matches your input.
+[n_/minirc]
+———› Description:
+Opens minIRC.
+
+———› Usage:
+/minirc [#channel/query]
+[n_/cprog]
+———› Description:
+Opens the custom program setup dialog.
+
+———› Usage:
+/cprog
+[n_/checkver]
+———› Description:
+Checks for newer versions of the script.
+
+———› Usage:
+/checkver
+[n_/getcountry]
+———› Description:
+Looks up the country of the specified user/address.
+
+———› Usage:
+/getcountry <address/nick>
+Note: if you only specify a user, he has to be in your IAL.
+[n_/psybnc]
+———› Description:
+Opens the psyBNC configuration dialog if you are connected to a psyBNC.
+
+———› Usage:
+/psybnc
+[n_/q.uc]
+———› Description:
+Opens the Q user central for the specified user.
+If no channel is specified, it will try the active channel (if any).
+
+———› Usage:
+/q.uc <nick> [#channel]
+[n_/q.cc]
+———› Description:
+Opens the Q channel central for the specified channel.
+If no channel is specified, it will try the active channel (if any).
+
+———› Usage:
+/q.cc [#channel]
+[n_/l.uc]
+———› Description:
+Opens the L user central for the specified user.
+
+———› Usage:
+/l.uc <nick> <#channel>
+[n_/l.cc]
+———› Description:
+Opens the L channel central for the specified channel.
+
+———› Usage:
+/l.cc <#channel>
+[n_/nn.rgb]
+———› Description:
+Opens the RGB picker dialog.
+
+———› Usage:
+/nn.rgb
+[n_/acro]
+———› Description:
+Opens a website with information about the acronym you specified.
+
+———› Usage:
+/acro <acronym>
+[n_/deop]
+———› Description:
+Deops the specified users on the current channel.
+
+———› Usage:
+/deop <nick1/hostmask1 nick2/hostmask2 ... nickN/hostmaskN>
+
+———› See also:
+/op /dev /v
+[n_/dev]
+———› Description:
+Devoices the specified users on the current channel.
+
+———› Usage:
+/dev <nick1/hostmask1 nick2/hostmask2 ... nickN/hostmaskN>
+
+———› See also:
+/op /v /deop
+[n_/dict]
+———› Description:
+Looks up the specified word in an online dictionary.
+
+———› Usage:
+/dict <word>
+[n_/forum]
+———› Description:
+Opens the NoNameScript forums.
+
+———› Usage:
+/forum
+[n_/google]
+———› Description:
+Looks for the specified parameter on Google.
+
+———› Usage:
+/google [search text]
+[n_/youtube]
+———› Description:
+Looks for the specified parameter on Youtube.
+
+———› Usage:
+/youtube [search text]
+[n_/wiki]
+———› Description:
+Looks for the specified parameter on Wikipedia.
+
+———› Usage:
+/wiki [search text]
+[n_/i]
+———› Description:
+Invites a user into a channel.
+
+———› Usage:
+/i [#channel] <nick>
+[n_/imdb]
+———› Description:
+Looks up the specified movie on IMDB.
+
+———› Usage:
+/imdb [search text]
+[n_/j]
+———› Description:
+Shortcut to /join.
+Joins the specified channels.
+
+———› Usage:
+/j [-inx] <#channel1[ password1],...,#channelN[ passwordN]>
+[n_/k]
+———› Description:
+Kicks the specified user from the channel.
+
+———› Usage:
+/k [#channel] <nick> [kick message]
+
+———› See also:
+/kb /b /tb /tkb
+[n_/kb]
+———› Description:
+Kickbans the specified user from the channel.
+
+———› Usage:
+/kb [#channel] <nick> [kick message]
+
+———› See also:
+/tkb /b /tb /k
+[n_/km]
+———› Description:
+Kicks the specified user with a random kick message.
+
+———› Usage:
+/km [#channel] <nick>
+[n_/m]
+———› Description:
+Messages the specified target.
+
+———› Usage:
+/m <target> <text>
+[n_/md]
+———› Description:
+Changes the channel mode on the specified channel.
+
+———› Usage:
+/md [#channel] <modes>
+[n_/n]
+———› Description:
+Shortcut to /nick.
+Changes your nick.
+
+———› Usage:
+/n <nick>
+[n_/name]
+———› Description:
+Changes your nick.
+
+———› Usage:
+/name <nick>
+[n_/op]
+———› Description:
+Ops the specified users on the current channel.
+
+———› Usage:
+/op <nick1/hostmask1 nick2/hostmask2 ... nickN/hostmaskN>
+
+———› See also:
+/v /dev /deop
+[n_/v]
+———› Description:
+Voices the specified users on the current channel.
+
+———› Usage:
+/v <nick1/hostmask1 nick2/hostmask2 ... nickN/hostmaskN>
+
+———› See also:
+/op /dev /deop
+[n_/p]
+———› Description:
+Shortcut to /part.
+Leaves the specified channel.
+
+———› Usage:
+/p [#channel] [part message]
+[n_/ping]
+———› Description:
+Pings the specified target.
+
+———› Usage:
+/ping <nick/ip/hostname>
+
+———› See also:
+/cping
+[n_/q]
+———› Description:
+Shortcut to /query.
+Queries the specified nick.
+
+———› Usage:
+/q <nick>
+[n_/qw]
+———› Description:
+Performs a Q whois on the specified nick.
+
+———› Usage:
+/qw <nick>
+[n_/qb]
+———› Description:
+Q-Bans the specified nick.
+
+———› Usage:
+/qb [#channel] <nick>
+[n_/s]
+———› Description:
+Shortcut to /server.
+
+———› Usage:
+See /help /server.
+[n_/t]
+———› Description:
+Views or changes the topic on the specified or active channel.
+
+———› Usage:
+/t [#channel] [new topic]
+[n_/b]
+———› Description:
+Bans the specified user on the channel.
+
+———› Usage:
+/b [#channel] <nick>
+
+———› See also:
+/kb /tkb /tb /k
+[n_/tb]
+———› Description:
+Timebans the specified user on the channel.
+
+———› Usage:
+/tb [#channel] <nick>
+
+———› See also:
+/kb /b /tkb /k
+[n_/tkb]
+———› Description:
+Timekickbans the specified user on the channel.
+
+———› Usage:
+/tkb [#channel] <nick>
+
+———› See also:
+/kb /b /tb /k
+[n_/w]
+———› Description:
+Shortcut to /whois.
+Performs a whois on the specified user.
+
+———› Usage:
+/w <nick>
+
+———› See also:
+/we
+[n_/we]
+———› Description:
+Performs an extended whois on the specified user.
+
+———› Usage:
+/we <nick>
+
+———› See also:
+/w
+[n_/ver]
+———› Description:
+Performs a CTCP version on the specified user.
+
+———› Usage:
+/ver <nick>
+[n_/sysinfo]
+———› Description:
+Opens the system information dialog.
+
+———› Usage:
+/sysinfo
+
+———› See also:
+/psys
+[n_/psys]
+———› Description:
+Messages the active channel/query with system information.
+
+———› Usage:
+/psys <all/cpu/motherboard/ram/disks/drives/video/sound/network/printer/os/battery/windows>
+
+———› See also:
+/sysinfo
+[n_/themes]
+———› Description:
+Opens the theme dialog.
+
+———› Usage:
+/themes
+[n_/winarr]
+———› Description:
+Opens the window arrangement options dialog.
+
+———› Usage:
+/winarr
+[b_addallow]
+———› Description:
+Adds a host allow to connect (Admin only)
+
+———› Usage:
+/ADDALLOW host or hostmask
+
+———› Details:
+This function allows you to set hosts which may connect to your bouncer.
+On default, * is set to be allowed to connect to the bouncer. You would have to delete that entry first to set your own more restricted host allows for the bouncer.
+
+———› Example:
+/ADDALLOW host22.mydomain.com
+would allow that specific host to connect.
+/ADDALLOW *.mydomain.com
+would allow all hosts from mydomain.com.
+You can use the wildcards ? and * in your definition.
+Remember that also linked hosts have to be added in the host allowance.
+
+———› See also:
+/DELALLOW /LISTALLOW
+[b_addask]
+———› Description:
+Adds a host/bot to ask op from
+
+———› Usage:
+/ADDASK [network~][#chan] password :hostmask or )bot
+
+———› Details:
+You can set your bouncer to ask bots for op even if you are not online.
+This is quite useful becouse you can use bouncer both as a chat client and screen which protects channel.
+
+———› Example:
+/ADDASK lamepass :*!LameBot@Lame.Host.Com
+
+———› See also:
+/DELASK /LISTASK /DELOP /ADDOP /LISTOPS /ADDAUTOOP /DELAUTOOP /LISTAUTOOPS
+[b_addautoop]
+———› Description:
+Adds a user who gets auto-op from you
+
+———› Usage:
+/ADDAUTOOP [network~]#channel :hostmask
+
+———› Details:
+This command allows you to add users for being auto-opped if they join the channel.
+
+———› Example:
+/ADDAUTOOP #leet :*!*blah@*.lame.com
+would add autoop for any user matching *!*blah@*.lame.com for the channel #leet.
+
+———› See also:
+/DELAUTOOP /LISTAUTOOPS /ADDOP /DELOP /LISTOPS
+[b_addban]
+———› Description:
+Adds a ban (global or to a channel)
+
+———› Usage:
+/ADDBAN [network~][#chan] reason :hostmask
+
+———› Details:
+You can ban people from the channel even if you are not logged on.
+
+———› Example:
+/ADDBAN Get Lost Lamer ! :*!niky@lamers.land.com
+
+———› See also:
+/DELBAN /LISTBANS
+[b_adddcc]
+———› Description:
+Adds a DCC-connection to a bot
+
+———› Usage:
+/ADDDCC [network~]botname user pass :[S=]host:port
+
+———› Details:
+Adds a new DCC bot connection. You can add a direct bouncer to eggdrop secured connection.
+If you put S= in front of the host, psyBNC will try to establish an SSL-connection.
+
+———› Example:
+/ADDDCC MyBot newbie MyPass :the.elite.newbie.com:7333
+You can get bot telnet port by typing .dccstat in the botnet partyline.
+You will be automatically logged in as user "newbie" with the password "MyPass" on the example above.
+
+———› See also:
+/LISTDCC /DELDCC
+[b_addignore]
+———› Description:
+Adds a hostmask/contentfilter to the ignores
+
+———› Usage:
+/ADDIGNORE content :hostmask
+
+———› Details:
+This functionality allows to add ignore entries.
+These can be dependent from the hostmask and/or from content.
+Content is meant as a part of any private message and/or notice.
+If a special hostmask with any content has to be filtered, you would use for example:
+/ADDIGNORE * :*!*@*.lao.com
+Has a content to be filtered only, you will have to use for example:
+/ADDIGNORE sex :*!*@*
+That would filter everything, which has the part of text "sex" in the message-content.
+If both content and hostmask have to count, you could use:
+/ADDIGNORE hug :*!*@*.icafe.com
+for example.
+This would deny all messages from the domain icafe.com with the content "hug".
+
+———› See also:
+/DELIGNORE /LISTIGNORES
+[b_addlog]
+———› Description:
+Adds a log source / filter
+
+———› Usage:
+/ADDLOG [network~]source :filter
+
+———› Details:
+ADDLOG allows you to add an entry to the logging specifications for traffic logging.
+
+———› Example:
+/ADDLOG #leet :0day
+would allow you to log any texts that appear on #leet with the partial text 0day.
+
+———› See also:
+/DELLOG /LISTLOG /PLAYTRAFFICLOG /ERASETRAFFICLOG
+[b_addnetwork]
+———› Description:
+Adds a seperate network to your client
+
+———› Usage:
+/ADDNETWORK name
+
+———› Details:
+This functionality allows you to use multiple connections to different ircnetworks to the single connection you are keeping to the bouncer.
+So it is possibly for you to get a client in your favourite network also to secondary networks you also are on.
+
+———› Example:
+/ADDNETWORK Ef
+Would add a new network token named Ef to your userspecifications.
+For any added network, you can use the functions seperately, for example:
+/ADDSERVER Ef~irc.freei.net:6667
+would add a server for your newly added network token. The bouncer would open a second outgoing connection and relay it to your single client connection by prefixing users and channels with the network token. Channel #sausage would be on that network #Ef~#sausage. Nicks also get prefixed, so the user johndoe on EfNet would appear as Ef~johndoe.
+Every command can be prefixed with the network token and would then be executed for your networked client.
+
+———› See also:
+/DELNETWORK
+[b_addop]
+———› Description:
+Adds a user who may get op from you
+
+———› Usage:
+/ADDOP [network~][#chan] password :hostmask
+
+———› Details:
+You can add users to your bouncer op list. They can then get op from bouncer similar to bot oping.
+
+———› Example:
+/ADDOP #chan newpass:*!*@this.is.elite.host.com.
+If the "#chan" is not specified then user can ask op from bouncer in any channel that the bouncer is op in.
+
+———› See also:
+/DELOP /LISTOPS /ADDAUTOOP /DELAUTOOP /LISTAUTOOPS /ADDASK /DELASK /LISTASK
+[b_addserver]
+———› Description:
+Adds an IRC-server to your serverlist
+
+———› Usage:
+/ADDSERVER [network~][S=]server :port password
+
+———› Details:
+Adds a new IRC server. You can add many servers. If the bouncer can't connect to a server it will try next one in list.
+If you put an S= in front of the hostname, the bouncer will try to establish a SSL-connection.
+
+———› Example:
+/ADDSERVER irc.stealth.net :6667
+
+———› See also:
+/DELSERVER /LISTSERVERS
+[b_adduser]
+———› Description:
+Adds a new user to the bouncer (Admin only)
+
+———› Usage:
+/ADDUSER login :username
+
+———› Details:
+Adds a new bouncer user, you can add up to 99 users and you still won't be flooded off. But remember more users means more traffic and some servers have a traffic limit.
+
+———› Example:
+/ADDUSER newbie :The lamest kid in town !
+The newbie will be used as a LOGIN. Remember to set your IDENT correctly! The text after ":" is displayed as a REAL NAME.
+
+———› See also:
+/DELUSER
+[b_aidle]
+———› Description:
+Enables/Disables anti-idle
+
+———› Usage:
+/AIDLE [0|1]
+[b_autogetdcc]
+———› Description:
+Always get offered Files
+
+———› Usage:
+/AUTOGETDCC [network~] :0|1
+
+———› Details:
+Enables or disables auto-get of offered DCC-files. This setting is disabled by default.
+[b_autorejoin]
+———› Description:
+Enables/Disables auto-rejoin
+
+———› Usage:
+/AUTOREJOIN [0|1]
+
+———› Details:
+Disables or enables auto-rejoin of channels after kick
+[b_bconnect]
+———› Description:
+Reconnects a bquitted connection
+
+———› Usage:
+/BCONNECT [network~]
+
+———› See also:
+/BQUIT
+[b_bhelp]
+———› Description:
+Lists this help or help on a topic
+
+———› Usage:
+/BHELP
+[b_bkill]
+———› Description:
+Kills a user from the proxy (Admin only)
+
+———› Usage:
+/BKILL user
+
+———› Details:
+You can close user connection with BKILL.
+
+———› See also:
+/DELUSER
+[b_bquit]
+———› Description:
+Quits your current server connection
+
+———› Usage:
+/BQUIT [network~]
+
+———› Details:
+Quits the server connection until you restart it with BCONNECT.
+
+———› See also:
+/BCONNECT
+[b_brehash]
+———› Description:
+Rehashes the proxy and resets all connections (Admin only)
+[b_bvhost]
+———› Description:
+Sets your vhost to connect through
+
+———› Usage:
+/BVHOST <vhost>
+
+———› See also:
+/JUMP
+[b_bwho]
+———› Description:
+Lists all users on the bouncer
+
+———› Usage:
+/BWHO
+
+———› Details:
+Lists all users on the bouncer. If user has a "*" in front of his nick that means that the user is logged in. With this command you can also see the uplinks to (<-) and from (->) your bouncer. That is if you have bouncer linked to other bouncers.
+[b_dccanswer]
+———› Description:
+Answers to a DCC chat request
+
+———› Usage:
+/DCCANSWER [S=]nick
+
+———› Details:
+DCCANSWER will accept an offered DCC chat from the given nick, if he sent a request for a chat session.
+If S= is put in front of the nick, psyBNC tries to establish a SSL-connection.
+
+———› See also:
+/DCCCHAT /DCCGET /DCCSEND /DCCCANCEL /LISTDCC
+[b_dcccancel]
+———› Description:
+Cancels a DCC chat or transfer
+
+———› Usage:
+/DCCCANCEL nick [:file]
+
+———› See also:
+/DCCCHAT /DCCANSWER /DCCSEND /DCCGET /LISTDCC
+[b_dccchat]
+———› Description:
+Offers a DCC chat to a given IRC user
+
+———› Usage:
+/DCCCHAT [S=]nick
+
+———› Details:
+Offers a DCC chat to the given nick and waits until it will be accepted.
+If S= is put at the front of the nick, psyBNC tries to establish a SSL-connection.
+
+———› See also:
+/DCCCANCEL /DCCSEND /DCCGET /DCCANSWER /LISTDCC
+[b_dccenable]
+———› Description:
+Enables/Disables DCC thru psyBNC
+
+———› Usage:
+/DCCENABLE [0|1]
+
+———› Details:
+Allows you to disable or enable the internal DCC-chat and send handling of psyBNC. If disabled, psyBNC would just hand the DCC requests over to the client.
+
+———› See also:
+/DCCCHAT /DCCANSWER /DCCGET /DCCCANCEL /LISTDCC
+[b_dccget]
+———› Description:
+Gets a DCC send file from an IRC user
+
+———› Usage:
+/DCCGET [S=]nick :filename
+
+———› Details:
+Get an offered file from a user by acknowledging the send request. The file will be put into downloads/USERnn, where nn is the number of the user.
+If S= is put before the nick, psyBNC tries to establish an SSL-connection.
+
+———› See also:
+/DCCCHAT /DCCANSWER /DCCSEND /DCCCANCEL /LISTDCC
+[b_dccsend]
+———› Description:
+Sends a file to a given IRC user
+
+———› Usage:
+/DCCSENDME :filename
+
+———› Details:
+Sends a file send request to the own client. This is thought to transfer formerly downloaded files from the shell to the user.
+If the user accepts the send, the file will be sent.
+
+———› See also:
+/DCCCHAT /DCCANSWER /DCCGET /DCCCANCEL /LISTDCC /DCCSEND
+[b_dccsendme]
+———› Description:
+Sends the bouncer user a file
+
+———› Usage:
+/DCCSEND [S=]nick :filename
+
+———› Details:
+Sends a file send request to the given nickname.
+If the user accepts the send, the file will be sent.
+If S= is put in front of the nick, psyBNC tries to create an SSL-Connection.
+
+———› See also:
+/DCCCHAT /DCCANSWER /DCCGET /DCCCANCEL /LISTDCC
+[b_delallow]
+———› Description:
+Deletes a host allow (Admin only)
+
+———› Usage:
+/DELALLOW number
+
+———› Details:
+Deletes a host allowance from your list of host allows.
+You can get the number of the entry from LISTALLOW.
+
+———› See also:
+/ADDALLOW /LISTALLOW
+[b_delask]
+———› Description:
+Deletes a host/bot to ask op by number
+
+———› Usage:
+/DELASK [network~] :number
+
+———› Details:
+Deletes op request from a bot. Use /LISTASK to find out which entry you want to delete.
+
+———› See also:
+/ADDASK /LISTASK /DELOP /ADDOP /LISTOPS /ADDAUTOOP /DELAUTOOP /LISTAUTOOPS
+[b_delautoop]
+———› Description:
+Deletes an added user who got op
+
+———› Usage:
+/DELAUTOOP [network~]number
+
+———› Details:
+Deletes an added auto-op entry by number.
+You can get the number from LISTAUTOOPS.
+
+———› See also:
+/ADDAUTOOP /LISTAUTOOPS /ADDOP /DELOP /LISTOPS /ADDASK /DELASK /LISTASK
+[b_delban]
+———› Description:
+Deletes a ban by number
+
+———› Usage:
+/DELBAN [network~] :number
+
+———› Details:
+Removes a ban from your banlist. Too see what ban you want to remove use /LISTBANS.
+
+———› See also:
+/ADDBAN /LISTBANS
+[b_deldcc]
+———› Description:
+Deletes a DCC-connection by number
+
+———› Usage:
+/DELDCC [network~]number
+
+———› Details:
+Deletes a DCC bot connection. You can get the number of DCC link that you want to delete using the /LISTDCC command.
+
+———› See also:
+/ADDDCC /LISTDCC
+[b_delencrypt]
+———› Description:
+Deletes an encryption entry by number
+
+———› Usage:
+/DELENCRYPT [network~]number
+
+———› Details:
+DELENCRYPT allows you to remove an added ENCRYPT entry from the list of encryption settings. See /LISTENCRYPT to get the number of the context to be removed.
+
+———› See also:
+/ENCRYPT /LISTENCRYPT
+[b_delignore]
+———› Description:
+Deletes a hostmask/contentfilter from the ignores
+
+———› Usage:
+/DELIGNORE [network~]number
+
+———› See also:
+/ADDIGNORE /LISTIGNORES
+[b_dellink]
+———› Description:
+Deletes a link to a bouncer (Admin only)
+
+———› Usage:
+/DELLINK number
+
+———› Details:
+Deletes a bouncer from the bouncenet. You can get the number of the bouncer with LISTLINKS command.
+[b_dellog]
+———› Description:
+Deletes a log source by number
+
+———› Usage:
+/DELLOG [network~]number
+
+———› Details:
+DELLOG allows you to delete an entry to the logging specifications for traffic logging.
+To get the number to remove, do LISTLOGS. It is the leading number in front of the entry.
+
+———› See also:
+/ADDLOG /LISTLOG /PLAYTRAFFICLOG /ERASETRAFFICLOG
+[b_delnetwork]
+———› Description:
+Deletes a network from your client
+
+———› Usage:
+/DELNETWORK name
+
+———› Details:
+Deletes a network. See ADDNETWORK for further informations.
+[b_delop]
+———› Description:
+Deletes an added user who got op
+
+———› Usage:
+/DELOP [network~] :number
+
+———› Details:
+Deletes a user that can ask op from your bouncer. In order to see a list of users added in your op list use /LISTOPS !
+
+———› See also:
+/LISTOPS /ADDOP /ADDAUTOOP /DELAUTOOP /LISTAUTOOPS /ADDASK /DELASK /LISTASK
+[b_delserver]
+———› Description:
+Deletes an IRC-server by number
+
+———› Usage:
+/DELSERVER [network~] :servernumber
+
+———› Details:
+Deletes server. If you find out that some IRC servers are LAGGED or don't allow your connection or you have +r (restricted) connection you can delete them.
+Use /LISTERVERS to get the server number that you want to delete.
+
+———› See also:
+/ADDSERVER /LISTSERVER
+[b_deltranslate]
+———› Description:
+Deletes a translator by number
+
+———› Usage:
+/DELTRANSLATE [network~]number
+
+———› Details:
+DELTRANSLATE allows you to remove an added translator entry from the list of formerly added translators. See /LISTTRANSLATE to get the number of the context to be removed.
+
+———› See also:
+/TRANSLATE /LISTTRANSLATE
+[b_deluser]
+———› Description:
+Deletes a user from the bouncer (Admin only)
+
+———› Usage:
+/DELUSER login
+
+———› Details:
+Deletes a bouncer user. You must be bouncer admin in order to delete a user.
+
+———› See also:
+/ADDUSER
+[b_encrypt]
+———› Description:
+Encrypts talk to a given channel/user
+
+———› Usage:
+/ENCRYPT [network~]password :#channel or nick
+
+———› Details:
+Encrypt encrypts talk to a channel or person. This is thought for allowing improved privacy on irc. You need to handshake a key with the person you want to talk to encrypted, then both sides have to set that key to encrypt and decrypt correctly.
+
+———› Example:
+/ENCRYPT v1s1t0r :john
+If john would also set the same password to your nick, you could talk encrypted. As encryption algorithms blowfish and idea are used.
+If you are using ENCRYPT for a channel, then all people on the channel have to set the same password.
+
+/ENCRYPT d0ntkn0w :#leet
+
+———› See also:
+/DELENCRYPT /LISTENCRYPT
+[b_erasemainlog]
+———› Description:
+Erases the connection log (Admin only)
+
+———› Usage:
+/ERASEMAINLOG
+
+———› Details:
+Erases the bouncer system log. In order to keep your log up to date you should delete the bouncer system log after you examine it.
+
+———› See also:
+/PLAYPRIVATELOG /ERASELOG /PLAYMAINLOG /PLAYTRAFFICLOG /ERASETRAFFICLOG
+[b_eraseprivatelog]
+———› Description:
+Erases your message log
+
+———› Usage:
+ERASEPRIVATELOG [network~]
+
+———› Details:
+Erases your logged messages. In order to keep your log up to date you should delete the messages that you already read using /PLAYPRIVATELOG.
+
+———› See also:
+/PLAYPRIVATELOG /PLAYMAINLOG /ERASEMAINLOG /PLAYTRAFFICLOG /ERASETRAFFICLOG
+[b_erasetrafficlog]
+———› Description:
+Erases the traffic Log
+
+———› Usage:
+/ERASETRAFFICLOG [network~]
+
+———› Details:
+Erases your traffig log. In order to keep your log up to date you should delete the messages that you already read using /PLAYTRAFFICLOG last.
+
+———› See also:
+/PLAYPRIVATELOG /PLAYMAINLOG /ERASEMAINLOG /PLAYPRIVATELOG /ERASEPRIVATELOG
+[b_jump]
+———› Description:
+Jumps to the next IRC-server
+
+———› Usage:
+/JUMP [network~] :[number]
+
+———› Details:
+Jumps to next server, if no servernumber is given, or to the server by number from LISTSERVERS.
+If you are in LAG or something else is wrong you can force bouncer to change servers. In order to do that you must have at least two IRC servers added in serverlist (see /addserver).
+JUMP command is also used to trigger VHOSTS or in other situations when displayed.
+
+———› See also:
+/LISTSERVERS /ADDSERVER /DELSERVER
+[b_leavequit]
+———› Description:
+If set to 1, parts all channels on quit
+[b_linkfrom]
+———› Description:
+Adds a bouncer link from your bouncer (Admin only)
+
+———› Usage:
+/LINKFROM name :host:port
+
+———› Details:
+Allows a link from another bouncer. You can link as many bouncers as you wish.
+That won't slow them down. Then you can also chat in bouncer partyline or in the private bouncer channel. Users from other bouncers won't have no access or rights in your bouncer!
+If SSL-encryption should be used, is dependent from the installation of SSL-Listeners.
+
+———› Example:
+/LINKFROM :this.is.host.of.bouncer.that.is.linking.to.you.com:98765
+
+———› See also:
+/LINKTO /NAMEBOUNCER /RELAYLINK
+[b_linkto]
+———› Description:
+Adds a bouncer link to the host/port (Admin only)
+
+———› Usage:
+/LINKTO :[S=]host:port
+
+———› Details:
+Establishes a new link to another bouncer. You can link as many bouncers as you wish. That won't slow them down. Then you can also chat in bouncer partyline or in the bouncer channel. Users from other bouncers won't have access or rights in your bouncer!
+If S= is being put in front of the host, psyBNC tries to create an SSL-connection.
+
+———› Example:
+/LINKTO :this.is.host.of. bouncer.that.you.are.linking.to.com:54321
+Your bouncer (host and port) must be added in the bouncer that you are linking to in order for this connection to work.
+
+———› See also:
+/LINKFROM /NAMEBOUNCER /RELAYLINK
+[b_listallow]
+———› Description:
+Lists the host allows on your proxy (Admin only)
+
+———› Usage:
+/LISTALLOW
+
+———› Details:
+LISTALLOW shows all allowed hosts to your bouncer by a numbered index.
+
+———› See also:
+/ADDALLOW /DELALLOW
+[b_listask]
+———› Description:
+Lists the hosts/bots to ask op from
+
+———› Usage:
+/LISTASK [network~]
+
+———› See also:
+/ADDASK /DELASK /LISTASK /DELOP /ADDOP /LISTOPS /ADDAUTOOP /DELAUTOOP /LISTAUTOOPS
+[b_listautoops]
+———› Description:
+Lists all added auto-ops
+
+———› Usage:
+/LISTAUTOOPS [network~]
+
+———› Details:
+Displays the list of all added users/hosts which may get auto-op from your bouncer.
+
+———› See also:
+/ADDAUTOOP /DELAUTOOP /DELOP /ADDOP /LISTOPS /ADDASK /DELASK /LISTASK
+[b_listbans]
+———› Description:
+Lists all bans in your banlist.
+
+———› Usage:
+/LISTBANS [network~]
+
+———› See also:
+/DELBAN /ADDBAN
+[b_listdcc]
+———› Description:
+Lists all added DCC-connections
+
+———› Usage:
+/LISTDCC [network~]
+
+———› Details:
+Lists the dcc bot connections currently added.
+
+———› See also:
+/ADDDCC /DELDCC
+[b_listencrypt]
+———› Description:
+Shows a list of encrypted talks
+
+———› Usage:
+/LISTENCRYPT [network~]
+
+———› Details:
+Shows all entrys for encryptions by a numbered index.
+
+———› See also:
+/ENCRYPT /DELENCRYPT
+[b_listignores]
+———› Description:
+Lists the currently added ignores
+
+———› Usage:
+/LISTIGNORES [network~]
+
+———› See also:
+/ADDIGNORE /DELIGNORE
+[b_listlinks]
+———› Description:
+Lists all links to/from the bouncer
+
+———› Usage:
+/LISTLINKS
+
+———› Details:
+Shows all bouncers that are linked into bouncenet showing a link tree, also your locally defined links in list format.
+
+———› See also:
+/BWHO
+[b_listlogs]
+———› Description:
+Lists all added log sources/filters
+
+———› Usage:
+/LISTLOGS [network~]
+
+———› Details:
+LISTLOGS shows all entrys from your traffic logging specifications by a numbered index.
+
+———› See also:
+/ADDLOG /DELLOG /PLAYTRAFFICLOG /ERASETRAFFICLOG
+[b_listops]
+———› Description:
+Lists all added ops
+
+———› Usage:
+/LISTOPS [network~]
+
+———› Details:
+Lists users that can ask op from your bouncer.
+
+———› See also:
+/DELOP /ADDOP /ADDAUTOOP /DELAUTOOP /LISTAUTOOPS /ADDASK /DELASK /LISTASK
+[b_listservers]
+———› Description:
+Lists all IRC-servers added
+
+———› Usage:
+/LISTSERVERS [network~]
+
+———› See also:
+/DELSERVER /ADDSERVER
+[b_listtasks]
+———› Description:
+Lists the current running tasks
+
+———› Usage:
+/LISTTASKS
+
+———› Details:
+Shows the list of tasks currently being run by the scripting engine.
+
+———› See also:
+/SRELOAD
+[b_listtranslate]
+———› Description:
+Shows a list of translated talks
+[b_madmin]
+———› Description:
+Gives a user an admin flag (Admin only)
+
+———› Usage:
+/MADMIN user
+
+———› Details:
+Declares user to admin bouncer. Warning: the user will have all rights on the bouncer!
+
+———› See also:
+/UNADMIN
+[b_namebouncer]
+———› Description:
+Names your bouncer (needed for linking) (Admin only)
+
+———› Usage:
+/NAMEBOUNCER name
+
+———› Details:
+Names your bouncer. The name can be letters or numbers and can be 20 letters long. You need to name the bouncer in order to link it to other bouncers.
+
+———› See also:
+/LINKTO /LINKFROM /RELAYLINK
+[b_password]
+———› Description:
+Sets your or another users password
+
+———› Usage:
+/PASSWORD [user] :newpass
+
+———› Details:
+Changes password of you or given user. Make sure you remember your passwords!
+
+———› Example:
+/PASSWORD NewPassword
+(changes your password)
+
+/PASSWORD newbie :lamer
+(Changes password for user newbie into lamer)
+If you want to list users in your bouncer use the /BWHO command!
+[b_playmainlog]
+———› Description:
+Plays the connection log (Admin only)
+
+———› Usage:
+/PLAYMAINLOG
+
+———› Details:
+Displays the bouncer system log. All system changes like bouncer link, connections, quits etc. are logged here.
+
+———› See also:
+/PLAYPRIVATELOG /ERASEPRIVATELOG /ERASEMAINLOG /PLAYTRAFFICLOG /ERASETRAFFICLOG
+[b_playprivatelog]
+———› Description:
+Plays your message log
+
+———› Usage:
+/PLAYPRIVATELOG [network~]
+
+———› Details:
+Displays logged messages. When you are away all private chats and messages get logged. In order to read them you must use /PLAYPRIVATELOG.
+
+———› See also:
+/ERASEPRIVATELOG /PLAYMAINLOG /ERASEMAINLOG /PLAYTRAFFICLOG /ERASETRAFFICLOG
+[b_playtrafficlog]
+———› Description:
+Plays the traffic log
+
+———› Usage:
+/PLAYTRAFFICLOG [network~]source fromdate fromtime todate totime :filter
+/PLAYTRAFFICLOG last
+
+———› Details:
+PLAYTRAFFICLOG plays your logged traffic in IRC-alike traffic.
+
+———› Example:
+/PLAYTRAFFICLOG #leet 03-02-99 13:20:00 03-02-99 14:20:00 :JOIN
+would show you any lines containing JOIN (in most cases channeljoins) from 03-02-99 13:20:00 to 03-02-99 14:20:00.
+The traffic itself will be played as it was recorded, so it will appear in the channel if you sourced a channel.
+source must be a full qualified nickname or channel.
+Date always has to be the format mm-dd-yy.
+Time always has to be hh:mm:ss.
+Any digit has to be two letters.
+Also you can use:
+/PLAYTRAFFICLOG last
+you will get the last log entrys since you played PLAYTRAFFICLOG last the last time or you deleted the log (see ERASETRAFFICLOG).
+Some hints about logging:
+- you should filter loggings, or possibly would get an extensive amount of diskspace usage. If you got a quota on your shell, you should use this functionality with maximum care or possibly run out of diskspace fast.
+- logging only will happen if you are NOT connected to the bouncer.
+- if you define * as filter, anything that happens to the source will be logged.
+- you need to care about erasing the traffic log. That happens using ERASETRAFFICLOG. It will erase the whole logfile and start a new one.
+
+———› See also:
+/ADDLOG /DELLOG /LISTLOG /ERASETRAFFICLOG
+[b_relaylink]
+———› Description:
+Allows or disables a relayable link (Admin only)
+
+———› Usage:
+/RELAYLINK name :0|1
+
+———› Details:
+Allows or denies relay links from/to the bouncer.
+Name is the name of the bouncer. Number 0 means disallow, number 1 means allow link from the bouncer.
+
+———› See also:
+/LINKFROM /LINKTO /NAMEBOUNCER
+[b_relink]
+———› Description:
+Resets a link to a bouncer by number (Admin only)
+
+———› Usage:
+/RELINK linknumber
+
+———› Details:
+Allows you to disconnect a link and automatically reconnect it.
+This is needed after an encryption setup for the link.
+
+———› See also:
+/SETLINKKEY
+[b_setaway]
+———› Description:
+Sets your away text when you leave
+
+———› Usage:
+/SETAWAY [network~]:text
+
+———› Details:
+This command allows you to set an away-text if you leave the bouncer.
+The text will be seen in your whois.
+
+———› Example:
+/SETAWAY eating
+then in your whois would appear:
+xyz is away: eating
+
+———› See also:
+/SETAWAYNICK /SETLEAVEMSG
+[b_setawaynick]
+———› Description:
+Sets your nick when you are offline
+
+———› Usage:
+/SETAWAYNICK [network~]nick
+
+———› Details:
+This command allows you to set an nick, which will be changed by the bouncer, if you leave the bouncer.
+
+———› Example:
+/SETAWAYNICK me|away
+the bouncer would change your nick to me/away if you disconnect.
+
+———› See also:
+/SETAWAY /SETLEAVEMSG
+[b_setlang]
+———› Description:
+Sets the language (global) (Admin only)
+
+———› Usage:
+/SETLANG language
+
+———› Details:
+Sets the language of the bouncer. The standard-package supports the arguments "english" and "german".
+[b_setleavemsg]
+———› Description:
+Sets your leave message when you leave
+
+———› Usage:
+/SETLEAVEMSG [network~]text
+
+———› Details:
+Sets a message which get posted to the channels if you leave the bouncer.
+
+———› Example:
+/SETLEAVEMSG sleeping
+then you would see in the channels:
+* xyz is away (sleeping)
+
+———› See also:
+/SETAWAY /SETAWAYNICK
+[b_setusername]
+———› Description:
+Sets your user name
+
+———› Usage:
+/SETUSERNAME [network~] :username
+[b_sockstat]
+———› Description:
+Shows/Logs the current connections (Admin only)
+
+———› Usage:
+/SOCKSTAT
+
+———› Details:
+Displays the current status of all connected sockets, included accounting informations, encryption informations etc.
+This command can be also used to delete possibly expired sockets from the socket array. If you trigger SOCKSTAT, the socket debug information will also be written to the MAIN-Log.
+You can also trigger the logging of socketstats by sending the USR1 signal on the shell.
+
+———› Example:
+/SOCKSTAT
+[b_sreload]
+———› Description:
+Reloads the script for the user
+
+———› Usage:
+/SRELOAD
+
+———› See also:
+/LISTTASKS
+[b_switchnet]
+———› Description:
+Switches to a given network
+
+———› Usage:
+/SWITCHNET newnet :oldnet
+
+———› Details:
+This allows you to switch from the current main network to another.
+For this your current main connection will become the name "newnet", and "oldnet" will be put to your main connection.
+
+———› See also:
+/ADDNETWORK /DELNETWORK
+[b_translate]
+———› Description:
+Adds a translator to/from channels/users
+
+———› Usage:
+/TRANSLATE [network~]#channel/user :language-from language-to
+
+———› Details:
+Translate allows you to set channels or users to be online translated.
+Currently possibly are the following translations:
+- English to German		en_de
+- English to Italian		en_it
+- English to French		en_fr
+- English to Portugese	en_pt
+- English to Chinese		en_zh
+- English to Japanese	en_ja
+- English to Korean		en_ko
+- English to Spanish		en_es
+- English to Russian		en_ru
+- Deutsch to English		de_en
+- Italian zu English		it_en
+- French to English		fr_en
+- Portugese to English	pt_en
+- Japanese to English	ja_en
+- Korean to English		ko_en
+- Russian to English		ru_en
+- Spanish to English		es_en
+- French to German		fr_de
+- German to French		de_fr
+You need to set a channel or a user to be translated and two of the language identifiers (see behind the languages).
+
+———› Example:
+/TRANSLATE #italia :it_en en_it
+So everything you would get FROM the channel #italia would be translated from italian to english, and in return everything you would post to #italia, would be translated from english into italian.
+
+———› See also:
+/DELTRANSLATE /LISTTRANSLATE
+[b_unadmin]
+———› Description:
+Removes the admin flag from a user (Admin only)
+
+———› Usage:
+/UNADMIN user
+
+———› See also:
+/MADMIN
+[x_verify]
+———› Description:
+Level 0.
+Displays whether or not a person is logged in, and if so displays their username, and also indicates whether or not they are an Official CService Administrator, Developer, or Representative, and/or an IRC Operator.
+
+———› Usage:
+/msg x verify <nick>
+[x_support]
+———› Description:
+Level 0.
+An alternate method allowing you to confirm or deny support for a channel application which you are listed as a supporter on. Upon authenticating, X will notify you of any channel applications that you are listed as a supporter on and will also notify you of this SUPPORT command. Alternatively, you can choose to view the application on the web to see more information about it, post an objection, and confirm or deny your support from there. The command will not be effective if you are not listed on a channel as a supporter, or a channel does not have a pending application on the web.
+
+———› Usage:
+/msg x support #channel <yes|no>
+[x_part]
+———› Description:
+Level 500.
+Tells X to part your channel. To have X remain out of the channel, refer to SET AUTOJOIN.
+
+———› Usage:
+/msg x part #channel
+[x_set]
+———› Description:
+Level 0.
+Changes special modes for your username.
+
+———› Usage:
+/msg x set <invisible|lang> <value>
+
+————————————
+
+With user level 450, the part command behaves like this:
+
+———› Description:
+Level 450.
+Sets flags for the channel.  Flags are special settings that tell X how to behave under certain conditions.
+
+———› Usage:
+/msg x set #channel <flag> <value>
+
+* Flags and Values:
+
+AUTOTOPIC - This flag makes X reset the topic to the channel DESCRIPTION and URL every 30 minutes. Note that if the channel is idle, the topic will not be reset during that time.
+
+/msg x set #channel autotopic <on|off>
+
+DESCRIPTION - Sets the channel description (80 characters max), which can be seen in the CHANINFO reply.  If no description text is specified, the current description is cleared.
+
+Alias: DESC
+
+/msg x set #channel description [text]
+/msg x set #channel desc [text]
+
+FLOATLIM - Toggles the channel "floating limit" feature on or off. If enabled, X will reset the channel limit (channel mode +l) within a preset margin above the number of users in the channel, and within a preset period of time. This can help prevent large botnets from joining and flooding the channel.  By default, this feature is off. When enabled, the FLOATLIM flags will be displayed in the STATUS reply.
+
+Example STATUS reply:
+"Flags set: FLOATLIM (MGN:3, PRD:20, GRC:1, MAX:0)"
+In this example, FLOATLIM is ON, with a FLOATMARGIN of 3, a FLOATPERIOD of 20 seconds, a FLOATGRACE of 1, and FLOATMAX is OFF.
+
+———› See also:
+SET FLOATGRACE, SET FLOATMARGIN, SET FLOATMAX, SET FLOATPERIOD
+
+/msg x set #channel floatlim <on|off>
+
+FLOATGRACE - Sets a grace value for the floating limit feature. If the difference between the current limit and what the new limit would be is less than the grace value, X will not reset the limit, so that quiet channels are not littered with mode changes. This value can be between 0-19. The default value is 1.
+
+/msg x set #channel floatgrace <0-19>
+
+FLOATMARGIN - Sets the user margin for the floating limit. The limit that X resets will be: FLOATMARGIN + the current number of users in the channel. This value can be between 2-20. The default value is 3.
+
+/msg x set #channel floatmargin <2-20>
+
+FLOATMAX - Sets a maximum limit for the floating limit setting. When enabled, X will not reset the channel limit higher than FLOATMAX. This value may be from 0-65536. The default value is 0 (Off).
+
+/msg x set #channel floatmax <0-65536>
+
+FLOATPERIOD - Sets the time period, in seconds, before X resets the channel limit. The value may be from 20-200. The default value is 20 seconds.
+
+/msg x set #channel floatperiod <20-200>
+
+KEYWORDS - Sets the keywords for the channel (80 characters max). Keywords should be separated by a space. X uses these keywords when a user performs a SEARCH command. If no keywords are specified, the current channel keywords are cleared.
+
+/msg x set #channel keywords [keywords]
+
+MODE - This will save the current channel modes as default. When X joins the channel, it will reset those modes if it is alone in the channel.
+
+/msg x set #channel mode
+
+URL - You can state the channel's web site URL(s) with this option (75 characters max). The URL can be viewed in the CHANINFO reply or by logging into http://cservice.undernet.org/live/ then clicking "Channel Information" and submitting the channel name. If no URL is specified, the current URL setting is cleared.
+
+/msg x set #channel url [url(s)]
+
+USERFLAGS - Set the default AUTOMODE for when a new user is added to the userlist.  Default value is 0.
+Values: 0 = None, 1 = Op, 2 = Voice.
+
+/msg x set #channel userflags <0-2>
+
+———› See also:
+MODINFO AUTOMODE
+
+————————————
+
+With user level 500, the part command behaves like this:
+
+———› Description:
+Level 500.
+Sets flags for your channel.  Flags are special settings that tell X how to behave under certain conditions.
+
+———› Usage:
+/msg x set #channel <autojoin|massdeoppro|noop|strictop> <value>
+[x_autojoin]
+———› Description:
+Level 500.
+When this flag is ON, X will always join the channel when it returns online (eg. after maintenance or a netsplit).
+
+———› Usage:
+/msg x set #channel autojoin <on|off>
+[x_massdeoppro]
+———› Description:
+Level 500.
+The maximum deops X will allow a user (see note) to perform within 15 seconds. Any user exceeding this will be deopped and, if on the channel userlist, suspended for 5 minutes. They will also have a level 25 ban placed on them and will need to unban themselves after the suspension expires.
+
+NOTE: The current version of MASSDEOPPRO only checks when users perform deops with the /mode command, not with X's DEOP command.
+
+———› Usage:
+/msg x set #channel massdeoppro <0-7>
+[x_noop]
+———› Description:
+Level 500.
+When this flag is ON, X will not allow any other users to be opped.
+
+———› Usage:
+/msg x set #channel noop <on|off>
+[x_strictop]
+———› Description:
+Level 500.
+When this flag is ON, X will only allow authenticated level 100+ users be opped.
+
+———› Usage:
+/msg x set #channel strictop <on|off>
+[x_join]
+———› Description:
+Level 450.
+Tells X to join the channel. To have X always join the channel automatically, refer to SET AUTOJOIN.
+
+———› Usage:
+/msg x join #channel
+[x_adduser]
+———› Description:
+Level 400.
+Adds a user to the channel's userlist. You cannot add a user with equal or higher access than your own.
+
+———› Usage:
+/msg x adduser #channel <username> <access>
+[x_clearmode]
+———› Description:
+Level 400.
+Clears all channel modes. Can be used when the channel has been locked up (channel modes +i, +l, and/or +k).
+
+NOTE: This is not necessarily the best method to gain entry to your channel, because other people or bots may be opped in the channel that may reset the modes as you clear them.
+
+———› See also:
+STATUS
+
+———› Usage:
+/msg x clearmode #channel
+[x_modinfo]
+———› Description:
+Level 400.
+The following commands can be used to make changes to existing users in the channel's userlist.  You cannot modify someone with an equal or higher level.
+
+———› Usage:
+/msg x modinfo #channel <access|automode> <username> <value>
+
+ACCESS - Changes the access level of a user. Access level can be set between 1 and your access level -1 (ie. if you have an access level of 400, you may assign a level of up to 399 to other users).
+
+/msg x modinfo #channel access <username> <new access level>
+
+AUTOMODE - Changes the automode of a user to one of these specified modes: NONE, OP, or VOICE. Based on this setting a user can be voiced or opped when he joins the channel, or if the user is already on the channel, the automode will take place once the user is authenticated with X.
+
+/msg x modinfo #channel automode <username> <none|op|voice>
+[x_remuser]
+———› Description:
+Level 1.
+At this level, and above, you can remove yourself from any channel, as long as you are not the Channel Manager (Access Level 500 in that channel). Channel Managers who wish to remove themselves must purge the channel, or transfer the channel to another user.
+
+———› Usage:
+/msg x remuser #channel <your username>
+
+STATUS - Displays all channel flags and settings, the number of users and ops in the channel, currently authenticated users for the channel, and whether X is on the channel or not. Currently authenticated users are shown in a "username/nickname [level]" format. A user's nickname will only be shown if that user is currently on the channel, otherwise only their username and level are displayed.
+
+/msg x status #channel
+
+————————————
+
+With user level 400, the remuser command behaves like this:
+
+———› Description:
+Level 400.
+REMUSER - Removes a user from the channel database. You must have higher access than the user you want to remove. You can also remove yourself from any channel, as long as you are not the Channel Manager (500 access level in that channel). Channel Managers wishing to remove themselves will need to purge their channel, or transfer the channel to another user.
+
+———› Usage:
+/msg x remuser #channel <username>
+[x_kick]
+———› Description:
+Level 50.
+Makes X kick someone from the channel. Your username will be placed in the kick message, enclosed in parentheses.
+
+———› Usage:
+/msg x kick #channel <nick> [reason]
+
+————————————
+
+With user level 200, the kick command behaves like this:
+
+———› Description:
+Level 200.
+Makes X kick all users matching the specified *!*userid@host mask, but does not kick the person issuing the command if they match also. Use should be limited to extreme channel flooding or clones. You may wish to set a ban on the mask, or +i (invite-only) on the channel before issuing the kick to prevent matching users from rejoining after being kicked. Your username will be placed in the kick message, enclosed in parentheses.
+
+———› Usage:
+/msg x kick #channel <nick | *!*userid@host> [reason]
+[x_status]
+———› Description:
+Level 200.
+STATUS - Displays all channel flags and settings, channel modes, the number of users and ops in the channel, currently authenticated users for the channel, and whether X is on the channel or not. Currently authenticated users are shown in a "username/nickname [level]" format. A user's nickname will only be shown if that user is currently on the channel, otherwise only their username and level are displayed.
+
+The ability to see channel modes is extremely helpful in case the channel is locked up (channel modes +i, +l, and/or +k).  If the channel has a key (+k), X will display the current channel key.  You may use the INVITE command to have X invite you into the channel, overriding all current channel modes, or alternatively, you may use the CLEARMODE command to clear all channel modes, then join the channel.
+
+———› Usage:
+/msg x status #channel
+[x_deop]
+———› Description:
+Level 100.
+Deops one or more persons in the channel. If no nick is specified, and you are opped on the channel, X will deop you.
+
+———› Usage:
+/msg x deop #channel [nick] [nick2] ... [nickN]
+[x_op]
+———› Description:
+Level 100.
+Ops one or more persons in the channel. If no nick is specified, and you are not opped on the channel, X will op you.
+
+———› Usage:
+/msg x op #channel [nick] [nick2] ... [nickN]
+[x_invite]
+———› Description:
+Level 100.
+X will invite you into the channel, allowing you to join regardless of current channel modes.
+
+———› Usage:
+/msg x invite #channel
+[x_suspend]
+———› Description:
+Level 100.
+Suspends a user's access to X on the channel's userlist for the specified period of time, at the specified level, if given. If a level is not specified, X will use your access level. You can only suspend someone with access lower than your own. The maximum duration is 372 days (8928 hours, 535680 minutes).
+
+———› Usage:
+/msg x suspend #channel <username> <duration> <M|H|D> [level]
+* M = minutes, H = hours, D = days
+[x_unsuspend]
+———› Description:
+Level 100.
+Unsuspends a user's access to X on the channel's userlist. You can only unsuspend a user with access lower than your own, provided that the suspension level is also less than or equal to your access level.
+
+———› Usage:
+/msg x unsuspend #channel <username>
+[x_ban]
+———› Description:
+Level 75.
+Adds a specific *!*userid@host to X's channel banlist. If the user is online, you can specify their nick, and X will automatically ban the *!*userid@host for that user.
+
+Bans that cover a broader range than previously set bans will replace the previous bans. Any user in the channel who matches the ban will also be kicked if the ban level is 75+. The duration is in hours, with a maximum of 336 hours (2 weeks). The ban level can range from 1 to your own level. The ban reason can be a maximum of 128 characters. If no duration and/or level is specified, the default will be a duration of 3 hours at level 75.
+
+NOTE: If the banned user has Undernet's "virtual hostmask" (user mode +x) enabled, X is able to see through it to their actual host, so banning their username via *!*@username.* will also ban their actual host.
+
+* Ban Levels:
+1-74 = Prevents the user from having ops (+o) on the channel.
+75-500 = Prevents the user from joining the channel.
+
+———› Usage:
+/msg x ban #channel <nick | *!*userid@host> [duration] [level] [reason]
+[x_unban]
+———› Description:
+Level 75.
+Removes a ban from X's channel banlist, and also any matching bans from the current channel banlist. You can only remove bans from X's banlist that are equal to or less than your own access. To search X's banlist, refer to the LBANLIST command. To view the current channel banlist, refer to the BANLIST command.
+
+———› Usage:
+/msg x unban #channel <nick | *!*userid@host>
+[x_topic]
+———› Description:
+Level 50.
+Makes X change the topic in the channel (145 characters max) and includes your username, enclosed in parentheses, at the beginning of the topic.
+
+NOTE: If a DESCRIPTION or URL has been set and AUTOTOPIC is ON, the channel topic will be reset in 30 minutes, unless the channel is idle.
+
+———› Usage:
+/msg x topic #channel <topic>
+[x_devoice]
+———› Description:
+Level 25.
+Devoices one or more users in the channel.
+
+———› Usage:
+/msg x devoice #channel [nick] [nick2] ... [nickN]
+[x_voice]
+———› Description:
+Level 25.
+Voices one or more users in the channel.
+
+———› Usage:
+/msg x voice #channel [nick] [nick2] ... [nickN]
+[x_banlist]
+———› Description:
+Level 1.
+Displays the channel banlist.
+
+———› Usage:
+/msg x banlist #channel
+[x_access]
+———› Description:
+Level 0.
+Looks up access information for a certain user via nick or username, or multiple users via wildcard pattern. The information displayed is: access level, automode if applicable, suspension status and level if suspended, and when the user was last seen. If there are more than 15 results, log into http://cservice.undernet.org/live/ to see the
+  entire list by clicking on the "Channel Information" link and submitting the channel name.  You can also combine these options to get specific results.
+
+———› Usage:
+/msg x access #channel <*|pattern|username|=nickname> [-min <level>] [-max <level>] [-modif] [-none|-voice|-op]
+
+* - shows the entire channel access list.
+/msg x access #channel *
+
+pattern - shows the access level of all usernames matching the wildcard pattern.
+/msg x access #channel <pattern>
+
+username - shows the access level of a single user.
+/msg x access #channel <username>
+
+=nickname - shows the access level of a single user by nickname.
+/msg x access #channel <=nickname>
+
+-min <level> - shows only users above the given level.
+/msg x access #channel -min <level>
+
+-max <level> - shows only users below the given level.
+/msg x access #channel -max <level>
+
+-op - shows only users with the OP AUTOMODE flag.
+/msg x access #channel -op
+
+-voice - shows only users with the VOICE AUTOMODE flag.
+/msg x access #channel -voice
+
+-none - shows only users with no AUTOMODE flag (None).
+/msg x access #channel -none
+
+-modif - shows who last modified the access listing.
+/msg x access #channel -modif
+[x_chaninfo]
+———› Description:
+Level 0.
+Displays whether or not a channel is registered, to whom, and the currently set DESCRIPTION and URL, if any.
+
+Alias: INFO
+
+———› Usage:
+/msg x chaninfo #channel
+/msg x info #channel
+
+INFO - Displays information about a username such as their nick and userid@host if they are currently online, their language and invisible settings, last seen information, and whether they may have been suspended by a CService Administrator. If used on yourself, it also shows your registered email address, the last hostmask (nick!userid@host format) used when the username was logged into, your max logins setting, and lists all channels which you have access on (only CService and you can see this information, not other users). If you wish to make this information hidden to the public, refer to the SET INVISIBLE command.
+
+/msg x info <username>
+[x_help]
+———› Description:
+Level 0.
+Displays help information on a given command.
+
+———› Usage:
+/msg x help <command>
+[x_isreg]
+———› Description:
+Level 0.
+Checks if a channel is registered or not.
+
+———› Usage:
+/msg x isreg #channel
+[x_lbanlist]
+———› Description:
+Level 0.
+Searches X's banlist for the specified string. Use * to see the whole list, or specify a wildcard pattern to find specific bans. If there are more than 15 results, log into http://cservice.undernet.org/live/ to see the entire list by clicking on the "Channel Information" link and submitting the channel name.
+
+———› Usage:
+/msg x lbanlist #channel <pattern>
+[x_login]
+———› Description:
+Level 0.
+This loads your access listing into memory and authenticates you for all registered channels which you have access on. Remember: No one from CService will ever ask you for your password! Do NOT give out your password to anyone claiming to be CService!
+
+———› Usage:
+/msg x@channels.undernet.org login <username> <password>
+[x_motd]
+———› Description:
+Level 0.
+Displays X's "Message of the Day."
+
+———› Usage:
+/msg x motd
+[x_search]
+———› Description:
+Level 0.
+X will list any registered channels that have the specified keyword(s) set. The use of wildcards is not required.  A maximum of 10 results will be displayed.
+
+———› Usage:
+/msg x search <keyword(s)>
+[x_invisible]
+———› Description:
+Level 0.
+Toggles the invisibility setting for your username info. When this setting is on, another user cannot see if you are online, or see any of your username info using the INFO command.
+
+———› Usage:
+/msg x set invisible <on|off>
+[x_lang]
+———› Description:
+Level 0.
+Selects the language in which X will reply to you.
+
+———› Usage:
+/msg x set lang <language code>
+
+Languages available:
+* ar - Arabic
+* ca - Catalan
+* ch - Christmas
+* de - German
+* dk - Danish
+* ea - Easter
+* en - English
+* es - Spanish
+* fr - Français
+* gr - Greek
+* ha - Halloween
+* hu - Hungarian
+* it - Italian
+* mk - Macedonian
+* nl - Dutch
+* no - Norsk
+* pt - Portuguese
+* ro - Romanian
+* sv - Svenska
+* tr - Turkce
+[x_showcommands]
+———› Description:
+Level 0.
+Shows all the commands you can use on a channel, according to your access level. If no channel is specified, only level 0 commands are shown.
+
+———› Usage:
+/msg x showcommands [#channel]
+[x_showignore]
+———› Description:
+Level 0.
+Shows X's current ignore list. X automatically sets a 1 hour ignore on anyone who accidentally or intentionally floods it.
+
+NOTE: X will not reply to you if you are being ignored. If you don't receive replies from X, ask a friend to check the ignore list for you.
+
+———› Usage:
+/msg x showignore
+[s_adduser]
+———› Description:
+Creates a new user (Admin only)
+
+———› Usage:
+/sbnc adduser <username> [password]
+
+———› Details:
+Creates a new user.
+[s_deluser]
+———› Description:
+removes a user (Admin only)
+
+———› Usage:
+/sbnc deluser <username>
+
+———› Details:
+Deletes a user.
+[s_resetpass]
+———› Description:
+sets a user's password (Admin only)
+
+———› Usage:
+/sbnc resetpass <user> <password>
+
+———› Details:
+Resets another user's password.
+[s_who]
+———› Description:
+shows users (Admin only)
+
+———› Usage:
+/sbnc who
+
+———› Details:
+Shows a list of all users.
+Flags (which are displayed in front of the username):
+@ user is an admin
+* user is currently logged in
+! user is suspended
+[s_admin]
+———› Description:
+gives someone admin privileges (Admin only)
+
+———› Usage:
+/sbnc admin <username>
+
+———› Details:
+Gives admin privileges to a user.
+[s_unadmin]
+———› Description:
+removes someone's admin privileges (Admin only)
+
+———› Usage:
+/sbnc unadmin <username>
+
+———› Details:
+Removes someone's admin privileges.
+[s_suspend]
+———› Description:
+suspends a user (Admin only)
+
+———› Usage:
+/sbnc suspend <username> 
+[reason]
+———› Details:
+Suspends an account. An optional reason can be specified.
+
+[s_unsuspend]
+———› Description:
+unsuspends a user (Admin only)
+
+———› Usage:
+/sbnc unsuspend <username>
+
+———› Details:
+Removes a suspension from the specified account.
+[s_lsmod]
+———› Description:
+lists loaded modules (Admin only)
+
+———› Usage:
+/sbnc lsmod
+
+———› Details:
+Lists all currently loaded modules.
+[s_insmod]
+———› Description:
+loads a module (Admin only)
+
+———› Usage:
+/sbnc insmod <filename>
+
+———› Details:
+Loads a module.
+[s_rmmod]
+———› Description:
+unloads a module (Admin only)
+
+———› Usage:
+/sbnc rmmod <index>
+
+———› Details:
+Unloads a module. Use the "lsmod" command to view a list of loaded modules.
+[s_simul]
+———› Description:
+simulates a command on another user's connection (Admin only)
+
+———› Usage:
+/sbnc simul <username> <command>
+
+———› Details:
+Executes a command in another user's context.
+[s_global]
+———› Description:
+sends a global notice to all bouncer users (Admin only)
+
+———› Usage:
+/sbnc global <text>
+
+———› Details:
+Sends a notice to all currently connected users.
+[s_kill]
+———› Description:
+disconnects a user from the bouncer (Admin only)
+
+———› Usage:
+/sbnc kill <username>
+
+———› Details:
+Disconnects a user from the bouncer.
+[s_disconnect]
+———› Description:
+disconnects a user from the irc server
+
+———› Usage:
+/sbnc disconnect [username]
+
+———› Details:
+Disconnects a user from the IRC server which he is currently connected to. (Admin only)
+If you don't specify a username, your own IRC connection will be closed.
+[s_playmainlog]
+———› Description:
+plays the bouncer's log (Admin only)
+
+———› Usage:
+/sbnc playmainlog
+
+———› Details:
+Displays the bouncer's log.
+[s_erasemainlog]
+———› Description:
+erases the bouncer's log (Admin only)
+
+———› Usage:
+/sbnc erasemainlog
+
+———› Details:
+Erases the bouncer's log.
+[s_gvhost]
+———› Description:
+sets the default/global vhost (Admin only)
+
+———› Usage:
+/sbnc gvhost <host>
+
+———› Details:
+Sets the bouncer's default vhost.
+[s_motd]
+———› Description:
+sets the bouncer's motd (Admin only)
+
+———› Usage:
+/sbnc motd 
+
+———› Details:
+Shows or modifies the motd.
+[s_die]
+———› Description:
+terminates the bouncer (Admin only)
+
+———› Usage:
+/sbnc die
+
+———› Details:
+Terminates the bouncer.
+[s_hosts]
+———› Description:
+lists all hostmasks, which are permitted to use this bouncer (Admin only)
+
+———› Usage:
+/sbnc hosts
+
+———› Details:
+Lists all hosts which are permitted to use this bouncer.
+[s_hostadd]
+———› Description:
+adds a hostmask (Admin only)
+
+———› Usage:
+/sbnc hostadd <host>
+
+———› Details:
+Adds a host to the bouncer's hostlist. E.g. *.tiscali.de
+[s_hostdel]
+———› Description:
+removes a hostmask (Admin only)
+
+———› Usage:
+/sbnc hostdel <host>
+
+———› Details:
+Removes a host from the bouncer's hostlist.
+[s_addlistener]
+———› Description:
+creates an additional listener (Admin only)
+
+———› Usage:
+/sbnc addlistener <port> [address] [ssl]
+
+———› Details:
+Creates an additional listener which can be used by clients.
+[s_dellistener]
+———› Description:
+removes a listener (Admin only)
+
+———› Usage:
+/sbnc dellistener <port>
+
+———› Details:
+Removes a listener.
+[s_listeners]
+———› Description:
+lists all listeners (Admin only)
+
+———› Usage:
+/sbnc listeners
+
+———› Details:
+Lists all listeners.
+[s_read]
+———› Description:
+plays your message log
+
+———› Usage:
+/sbnc read
+
+———› Details:
+Displays your private log.
+
+[s_erase]
+———› Description:
+erases your message log
+
+———› Usage:
+/sbnc erase
+
+———› Details:
+Erases your private log.
+[s_set]
+———› Description:
+sets configurable options for your user
+
+———› Usage:
+/sbnc set [option] [value]
+
+———› Details:
+Displays or changes configurable options for your user.
+[s_unset]
+———› Description:
+restores the default value of an option
+
+———› Usage:
+/sbnc unset <option>
+
+———› Details:
+Restores the default value of an option.
+[s_jump]
+———› Description:
+reconnects to the irc server
+
+———› Usage:
+/sbnc jump
+
+———› Details:
+Reconnects to the irc server.
+[s_partall]
+———› Description:
+parts all channels and tells shroudBNC not to rejoin them when you reconnect to a server
+
+———› Usage:
+/sbnc partall
+
+———› Details:
+Parts all channels and tells shroudBNC not to rejoin any channels when you reconnect to a server.
+This might be useful if you get disconnected due to an "Max sendq exceeded" error.
+[s_savecert]
+———› Description:
+saves your current client certificate for use with public key authentication
+
+———› Usage:
+/sbnc savecert
+
+———› Details:
+Saves your current client certificate for use with public key authentication.
+Once you have saved your certificate you can use it for logging in without a password.
+[s_delcert]
+———› Description:
+removes a certificate
+
+———› Usage:
+/sbnc delcert <id>
+
+———› Details:
+Removes the specified certificate.
+[s_showcert]
+———› Description:
+shows information about your certificates
+
+———› Usage:
+/sbnc showcert
+
+———› Details:
+Shows a list of certificates which can be used for logging in.
+[s_status]
+———› Description:
+tells you the current status
+
+———› Usage:
+/sbnc status
+
+———› Details:
+Displays information about your user. This command is used for debugging.
+[s_help]
+———› Description:
+displays a list of commands or information about individual commands
+
+———› Usage:
+/sbnc help [command]
+
+———› Details:
+Displays a list of commands or information about individual commands.

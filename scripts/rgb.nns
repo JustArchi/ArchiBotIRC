@@ -1,0 +1,227 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - rgb color picker - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+dialog rgb {
+  title "RGB codes [/nn.rgb]"
+  size -1 -1 392 334
+  option pixels
+  icon scripts\pics\nntray.ico
+  text "Red:", 10, 16 22 24 14
+  text "0 (0%)", 13, 132 22 72 14, right
+  list 6, 14 38 192 18, size
+  text "Green:", 11, 16 58 34 14
+  text "0 (0%)", 14, 132 58 72 14, right
+  list 7, 14 74 192 18, size
+  text "Blue:", 12, 16 94 26 14
+  text "0 (0%)", 15, 132 94 72 14, right
+  list 8, 14 110 192 18, size
+  combo 22, 124 134 80 120, drop
+  edit "0,0,0", 18, 264 20 80 22, result center
+  button "&Clp.", 21, 348 20 30 22
+  edit "0", 30, 264 44 80 22, center
+  button "C&lp.", 31, 348 44 30 22
+  edit "#000000", 16, 264 68 80 22, center
+  button "Cl&p.", 20, 348 68 30 22
+  list 5, 232 120 148 36, disable size
+  text "RGB:", 19, 234 24 24 14
+  text "HEX:", 17, 234 72 24 14
+  box "Preview", 2, 224 104 164 62
+  box "Choose a color", 3, 4 4 212 162
+  text "Theme color", 9, 14 138 64 16
+  box "Color info", 24, 224 4 164 96
+  button "", 25, 4 172 298 128
+  button "", 4, 308 172 80 128
+  button "&Ok", 1, 308 306 80 24, ok
+}
+on *:dialog:rgb:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 6,7,8 TrackBar noticks > $mdxfile(bars)
+    mdx SetControlMDX $dname 25,4 Window > $mdxfile(dialog)
+    mdx SetBorderStyle $dname 6,7,8
+    didtok $dname 22 44 <none>,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+    did -c $dname 22 1
+    window -pfh @ColorPicker -1 -1 298 128
+    window -pfh @ColorPicker2 -1 -1 80 128
+    drawrect -rf @colorpicker2 $rgb(face) 1 0 0 80 128
+    rgb.ref $iif(%rgb.rcol != $null,$v1,$color($did(22).seltext))
+    unset %rgb.rcol
+    did -i rgb 25 1 grab $window(@colorpicker).hwnd @colorpicker
+    did -i rgb 4 1 grab $window(@colorpicker2).hwnd @colorpicker2
+    set %rgb.2sel 64
+    did -b $dname 4
+    if (!$rgb.bmp) { .timerrgb.pick -io 1 0 rgb.pick }
+    else { rgb.pick }
+  }
+  elseif ($devent == sclick) {
+    if ($did isnum 6-8) {
+      rgb.ref $rgb( [ $wd($did(6,1),1) , $wd($did(7,1),1) , $wd($did(8,1),1) ] ) -t -l
+      did -c rgb 22 1
+    }
+    elseif ($did == 20) { clipboard $did(16) }
+    elseif ($did == 21) { clipboard $did(18) }
+    elseif ($did == 31) { clipboard $did(30) }
+    elseif ($did == 22) { if ($did(22).seltext != <none>) { rgb.ref $color($v1) -l } }
+    elseif ($did == 1) { unset %rgb.rcol }
+  }
+  elseif ($devent == edit) {
+    if ($did == 16) { if ($regex($did($did),/^#[\dA-F]{6}$/i)) { tokenize 32 $base($mid($did($did),2,2),16,10) $base($mid($did($did),4,2),16,10) $base($mid($did($did),6,2),16,10) } }
+    elseif ($did == 18) { tokenize 44 $did($did) }
+    elseif ($did == 30) && ($did($did) isnum 0-16777215) { tokenize 44 $rgb($did($did)) }
+    if ($1 isnum 0-255) && ($2 isnum 0-255) && ($3 isnum 0-255) {
+      rgb.ref $rgb($1,$2,$3) - $+ $did -l
+      did -c rgb 22 1
+    }
+  }
+  elseif ($devent == close) {
+    if ($isfile(scripts\pics\rgbgrad.bmp)) { tryremove scripts\pics\rgbgrad.bmp }
+    close -@ @ColorPicker @ColorPicker2
+    unset %rgb.2sel
+  }
+}
+alias nn.rgb {
+  if ($1) { set %rgb.rcol $1 }
+  if ($isid) { return $dialog(rgb,rgb,-4) }
+  else { nndlg -m rgb }
+  unset %rgb.rcol
+}
+alias rgb.ref {
+  if (l isin $wd($1-,-1)) {
+    drawpic -c @colorpicker 0 0 scripts\pics\rgb.bmp
+    drawrect -rf @colorpicker2 $rgb(face) 1 0 0 80 128
+    did -b rgb 4
+  }
+  else { did -e rgb 4 }
+  var %o = $1-,%x = $1,%y = $2,%i = 1,%z
+  if ($1 !isnum 0-16777215) { %x = 0 }
+  chgedcol rgb 5 %x
+  tokenize 44 $rgb(%x)
+  while (%i <= 3) {
+    %z = $ [ $+ [ %i ] ]
+    if (%y != -t) { did -i rgb $calc(%i +5) 1 params %z 0 255 1 5 * * 15 }
+    did -ra rgb $calc(%i +12) %z $nbr($round($calc(%z /($1 + $2 + $3)*100),0) $+ %)
+    inc %i
+  }
+  if (%y != -16) || (!%y) { did -ra rgb 16 $+($chr(35),$base($1,10,16,2),$base($2,10,16,2),$base($3,10,16,2)) }
+  if (%y != -18) || (!%y) { did -ra rgb 18 $rgb(%x) }
+  if (%y != -30) || (!%y) { did -ra rgb 30 %x }
+}
+alias rgb.cl2ref {
+  drawpic -nc @colorpicker 0 0 scripts\pics\rgb.bmp
+  drawline -nri @colorpicker 0 1 $mouse.x $calc($mouse.y -8) $mouse.x $calc($mouse.y -1)
+  drawline -nri @colorpicker 0 1 $mouse.x $calc($mouse.y +2) $mouse.x $calc($mouse.y +9)
+  drawline -nri @colorpicker 0 1 $calc($mouse.x -8) $mouse.y $calc($mouse.x -1) $mouse.y
+  drawline -nri @colorpicker 0 1 $calc($mouse.x +2) $mouse.y $calc($mouse.x +9) $mouse.y
+  drawline -nri @colorpicker 0 1 $mouse.x $mouse.y
+  drawdot @colorpicker
+  tokenize 44 $rgb($1)
+  var %p = 0
+  while (%p <= 64) {
+    drawline -nr @colorpicker2 $rgb($calc((1-(%p /64))*(255- $1)+ $1),$calc((1-(%p /64))*(255- $2)+ $2),$calc((1-(%p /64))*(255- $3)+ $3)) 1 0 %p 80 %p
+    inc %p
+  }
+  while (%p <= 128) {
+    drawline -nr @colorpicker2 $rgb($calc($1 *(255/(%p *2)-1)),$calc($2 *(255/(%p *2)-1)),$calc($3 *(255/(%p *2)-1))) 1 0 %p 80 %p
+    inc %p
+  }
+  drawsave @colorpicker2 scripts\pics\rgbgrad.bmp
+  rgb.2sel %rgb.2sel
+  drawdot @colorpicker2
+}
+alias rgb.bmp {
+  if (!$isfile(scripts\pics\rgb.bmp)) { return 0 }
+  return 1
+}
+alias rgb.pick {
+  if (!$rgb.bmp) {
+    drawrect -nrf @colorpicker 0 1 0 0 298 128
+    drawtext -nr @colorpicker 5263440 Tahoma 11 6 110 Creating RGB map for the first time! Please stand by...
+    drawtext -nr @colorpicker 16777215 Tahoma 11 5 109 Creating RGB map for the first time! Please stand by...
+    drawdot @colorpicker
+    var %l = 0
+    while (%l <= 128) {
+      cwin %l
+      drawdot @colorpicker
+      inc %l
+    }
+    titlebar @colorpicker
+    drawsave @colorpicker scripts\pics\rgb.bmp
+    drawdot @colorpicker
+  }
+  else { drawpic -c @colorpicker 0 0 scripts\pics\rgb.bmp }
+}
+alias rgb.2sel {
+  set %rgb.2sel $1
+  drawpic -n @colorpicker2 0 0 scripts\pics\rgbgrad.bmp
+  drawrect -nri @colorpicker2 0 1 1 $calc($1 -1) 76 3
+}
+alias cwin {
+  var %x = 0,%g = 0,%r = 255,%b = 0,%f = $calc(255 - $1),%z = $calc($1 /255)
+  while (%g < 255) {
+    drawdot -nr @colorpicker $rgb(%f,$calc(%g +(255- %g)* %z - $1 *(%g /255)),$1) 1 %x $1
+    inc %x
+    inc %g 5.2
+  }
+  while (%r > 0) {
+    drawdot -nr @colorpicker $rgb($calc(%r +(255- %r)* %z - $1 *(%r /255)),%f,$1) 1 %x $1
+    inc %x
+    dec %r 5.2
+  }
+  while (%b < 255) {
+    drawdot -nr @colorpicker $rgb($1,%f,$calc(%b +(255- %b)* %z - $1 *(%b /255))) 1 %x $1
+    inc %x
+    inc %b 5.2
+  }
+  var %g = 255,%r = 0,%b = 255
+  while (%g > 0) {
+    drawdot -nr @colorpicker $rgb($1,$calc(%g +(255- %g)* %z - $1 *(%g /255)),%f) 1 %x $1
+    inc %x
+    dec %g 5.2
+  }
+  while (%r < 255) {
+    drawdot -nr @colorpicker $rgb($calc(%r +(255- %r)* %z - $1 *(%r /255)),$1,%f) 1 %x $1
+    inc %x
+    inc %r 5.2
+  }
+  while (%b > 0) {
+    drawdot -nr @colorpicker $rgb(%f,$1,$calc(%b +(255- %b)* %z - $1 *(%b /255))) 1 %x $1
+    inc %x
+    dec %b 5.2
+  }
+}
+on *:close:@colorpicker:{ if ($dialog(rgb)) { did -u rgb 4 } }
+menu @colorpicker {
+  mouse {
+    if ($mouse.key & 1) {
+      drawpic -nc @colorpicker 0 0 scripts\pics\rgb.bmp
+      rgb.cl2ref $getdot($active,$mouse.x,$mouse.y)
+      rgb.ref $getdot(@colorpicker2,5,%rgb.2sel) -c
+      did -c rgb 22 1
+    }
+  }
+  sclick {
+    drawpic -nc @colorpicker 0 0 scripts\pics\rgb.bmp
+    rgb.cl2ref $getdot($active,$mouse.x,$mouse.y)
+    rgb.ref $getdot(@colorpicker2,5,%rgb.2sel) -c
+    did -c rgb 22 1
+  }
+}
+menu @colorpicker2 {
+  mouse {
+    if ($mouse.key & 1) {
+      rgb.2sel $mouse.y
+      rgb.ref $getdot(@colorpicker2,5,%rgb.2sel) -c
+      drawdot @colorpicker2
+      did -c rgb 22 1
+    }
+  }
+  sclick {
+    rgb.2sel $mouse.y
+    rgb.ref $getdot(@colorpicker2,5,%rgb.2sel) -c
+    drawdot @colorpicker2
+    did -c rgb 22 1
+  }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

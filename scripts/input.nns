@@ -1,0 +1,182 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - $input replacements - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias eddialog {
+  var %t = eddialog. $+ $trnum
+  set %geninp.text $replace($1,,$crlf)
+  set %geninp.ed $2
+  return $dialog(%t,%t,-4)
+}
+dialog eddialog.* {
+  title "Input needed"
+  size -1 -1 306 146
+  option pixels
+  icon scripts\pics\nntray.ico
+  edit "", 3, 2 92 301 22, result autohs
+  button "&Ok", 4, 136 118 80 24, ok
+  button "&Cancel", 5, 222 118 80 24
+  edit "", 2, 40 4 262 84, read multi return vsbar
+  icon 1, 4 4 32 32, scripts\pics\nn.ico, 0, noborder
+}
+alias dddialog {
+  var %t = dddialog. $+ $trnum
+  set %geninp.text $replace($1,,$crlf)
+  set %geninp.filter %t $2
+  set %geninp.ed $3
+  return $dialog(%t,%t,-4)
+}
+alias dddialog.df {
+  var %t = $1-
+  tokenize 32 %geninp.filter
+  if (%t != $null) { did -a $1 3 %t }
+}
+dialog dddialog.* {
+  title "Input needed"
+  size -1 -1 306 146
+  option pixels
+  icon scripts\pics\nntray.ico
+  combo 3, 2 92 301 170, result sort size edit drop
+  button "&Ok", 4, 136 118 80 24, ok
+  button "&Cancel", 5, 222 118 80 24
+  edit "", 2, 40 4 262 84, read multi return vsbar
+  icon 1, 4 4 32 32, scripts\pics\nn.ico, 0, noborder
+}
+on *:dialog:dddialog.*:*:*:{
+  if ($devent == init) {
+    mdx SetBorderStyle $dname 2
+    tokenize 32 %geninp.filter
+    filter -k $iif($isfile($3-),$mkfullfn($3-),$3-) $2
+    if (@* iswm $3-) { close -@ $3- }
+    did -a $dname 2 %geninp.text
+    if (%geninp.ed != $null) {
+      did -a $dname 3 %geninp.ed
+      did -c $dname 3 1 1 $calc($len($did(3)) +1)
+    }
+    unset %geninp.*
+  }
+  elseif ($devent == sclick) {
+    if ($did == 5) { dialog -x $dname }
+    elseif ($did == 4) {
+      if ($did(3) == $null) {
+        errdialog you did not enter a value!
+        halt
+      }
+    }
+  }
+}
+alias epdialog {
+  var %t = epdialog. $+ $trnum
+  set %geninp.text $replace($1,,$crlf)
+  set %geninp.ed $2
+  return $dialog(%t,%t,-4)
+}
+dialog epdialog.* {
+  title "Password input needed"
+  size -1 -1 306 146
+  option pixels
+  icon scripts\pics\nntray.ico
+  edit "", 3, 2 92 301 22, result pass autohs
+  edit "", 101, 2 92 301 22, hide autohs
+  button "&Ok", 4, 136 118 80 24, ok
+  button "&Cancel", 5, 222 118 80 24
+  edit "", 2, 40 4 262 84, read multi return vsbar
+  icon 1, 4 4 32 32, scripts\pics\nn.ico, 0, noborder
+  check "Show input", 100, 8 119 72 22
+}
+on *:dialog:e?dialog.*:*:*:{
+  if ($devent == init) {
+    mdx SetBorderStyle $dname 2
+    did -a $dname 2 %geninp.text
+    if (%geninp.ed != $null) {
+      did -a $dname 3 %geninp.ed
+      did -c $dname 3 1 1 $calc($len($did(3)) +1)
+    }
+    unset %geninp.*
+  }
+  elseif ($devent == sclick) {
+    if ($did == 5) { dialog -x $dname }
+    elseif ($did == 4) {
+      if ($did(3) == $null) {
+        errdialog you did not enter a value!
+        halt
+      }
+    }
+    elseif ($did == 100) {
+      did -vf $dname $iif($did($did).state,101,3)
+      did -h $dname $iif($did($did).state,3,101)
+    }
+  }
+  elseif ($devent == edit) && (epdialog.* iswm $dname) {
+    if ($did == 3) { did -ra $dname 101 $did($did) }
+    elseif ($did == 101) { did -ra $dname 3 $did($did) }
+  }
+}
+alias idialog {
+  var %t = idialog. $+ $trnum
+  set %geninp.text $replace($1-,,$crlf)
+  return $dialog(%t,%t,-4)
+}
+dialog idialog.* {
+  title "Info"
+  size -1 -1 305 121
+  option pixels
+  icon scripts\pics\nntray.ico
+  button "&Ok", 4, 221 93 80 24, ok
+  icon 1, 4 4 32 32, scripts\pics\nn.ico, 0, noborder
+  edit "", 2, 40 4 262 84, read multi return vsbar
+}
+on *:dialog:idialog.*:*:*:{
+  if ($devent == init) {
+    mdx SetBorderStyle $dname 2
+    did -ra $dname 2 %geninp.text
+    unset %geninp.text
+  }
+}
+alias errdialog {
+  var %t = errdialog. $+ $trnum
+  set %geninp.text Error: $replace($1-,,$crlf)
+  return $dialog(%t,%t,-4)
+}
+dialog errdialog.* {
+  title "Error!"
+  size -1 -1 305 121
+  option pixels
+  icon scripts\pics\nntray.ico
+  button "&Ok", 4, 221 93 80 24, ok
+  icon 1, 4 4 32 32, scripts\pics\nn.ico, 0, noborder
+  edit "", 2, 40 4 262 84, read multi return vsbar
+}
+on *:dialog:errdialog.*:*:*:{
+  if ($devent == init) {
+    mdx SetBorderStyle $dname 2
+    did -ra $dname 2 %geninp.text
+    unset %geninp.text
+  }
+}
+alias ydialog {
+  var %t = ydialog. $+ $trnum
+  set %geninp.text $replace($1-,,$crlf)
+  return $dialog(%t,%t,-4)
+}
+dialog ydialog.* {
+  title "Yes/No?"
+  size -1 -1 305 121
+  option pixels
+  icon scripts\pics\nntray.ico
+  button "&Yes", 3, 135 93 80 24, ok
+  button "&No", 4, 221 93 80 24, cancel
+  edit "", 2, 40 4 262 84, read multi return vsbar
+  text "1", 5, -10 -10 2 2, result
+  icon 1, 4 4 32 32, scripts\pics\nn.ico, 0, noborder
+}
+on *:dialog:ydialog.*:*:*:{
+  if ($devent == init) {
+    mdx SetBorderStyle $dname 2
+    did -a $dname 2 %geninp.text
+    unset %geninp.text
+  }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

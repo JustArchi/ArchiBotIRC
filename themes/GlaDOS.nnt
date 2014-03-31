@@ -1,0 +1,150 @@
+Name GlaDOS
+Version 1.0
+NNTVersion 1.03
+Author swarfega
+Email sw4rfega@googlemail.com
+Homepage http://www.nnscript.com
+Description The cake is a lie.
+
+Font Courier New
+FontSize 12
+
+TimestampEnabled 1
+Timestamp HH:nn |
+
+NickColSelf none
+NickColOp none
+NickColVoice none
+NickColRegular none
+NickColProtect none
+NickColIgnore none
+
+Brackets <lt><lt><text><gt><gt>
+LineSep ----------------------------------------------------------
+Prefix <gt>
+
+GenEcho <pre> <text>
+GenError <pre> Error: <text>
+GenHighlight <text>
+
+ChanText <lt><lt><cmode><nick><gt><gt> <text>
+ChanTextOwn <lt><lt><cmode><me><gt><gt> <text>
+ChanAction <pre> <cmode><nick> <text>
+ChanActionOwn <pre> <cmode><me> <text>
+
+QueryText <lt><lt><nick><gt><gt> <text>
+QueryTextOwn <lt><lt><me><gt><gt> <text>
+QueryAction <pre> <nick> <text>
+QueryActionOwn <pre> <me> <text>
+
+Msg <pre><nick><lt> <text>
+MsgOwn -<gt> <pre><target><lt> <text>
+Action <pre><nick><lt> <text>
+ActionOwn -<gt> <pre><target><lt> <text>
+
+ChanNotice -<nick>@<chan>- <text>
+Notice -<nick>- <text>
+NoticeOwn -<gt> -<target>- <text>
+ServerNotice -<server>- <text>
+
+CTCP <lt><lt><nick> <ctcp><gt><gt> <text>
+CTCPOwn -<gt> <target brackets="1"> <ctcp> <text>
+ChanCTCP <lt><lt><nick>:<chan> <ctcp><gt><gt> <text>
+CTCPReply <lt><lt><nick> <ctcp> reply<gt><gt> <text>
+CTCPReplyOwn -<gt> <target brackets="1"> <ctcp> <text>
+
+Join <pre> Join: <nick>/<address brackets="1">
+JoinOwn <linesep><pre>Forms FORM- $+ $rand(0,29827281) $+ -<chan>- $+ $rand(0,99)!if <topic> :: Subject: <topic brackets="1">!if <topic> :: Submitted by: <topicnick brackets="1">. Dated: <topicdate brackets="1">:: Channel modes: <lt><lt> $+ $chan(<chan>).mode $+ <gt><gt><linesep>
+Part <pre> Part: <nick>/<address brackets="1"> <message brackets="1">
+Quit <pre> Quit: <nick>/<address brackets="1">/<message brackets="1">
+Nick <pre> Nick: <nick> is now known as <newnick>
+NickOwn <pre> Nick: Your nick is now <newnick>
+Mode <pre> Mode: <nick brackets="1"> sets mode: <mode brackets="1">
+UserMode <pre> Usermode: <me brackets="1"> sets mode: <mode brackets="1">
+Kick <pre> Kick: <kickednick> by <nick>/<message brackets="1">
+KickOwn <pre> Kick: You were kicked from <chan> by <nick>/<message brackets="1">
+WallOp ::<nick>:: <text>
+
+DNS <linesep><gt>RESOLVING HOST:: Dns resolving <address brackets="1">
+DNSError :: Dns unable to resolve <address brackets="1"><linesep>
+DNSResolve :: Dns resolved <address brackets="1"> to <raddress brackets="1"><linesep>
+
+Notify :: <nick brackets="1"> is now online
+UnNotify :: <nick brackets="1"> is now offline
+
+LUsers1 :: <users brackets="1"> users and <invisible brackets="1"> invisible on <servers brackets="1"> servers
+LUsers2 :: <operators brackets="1"> operator(s) online
+LUsers3 :: <connections brackets="1"> unknown connection(s)
+LUsers4 :: <channels brackets="1"> channels formed
+LUsers5 :: <clients brackets="1"> clients and <servers brackets="1"> servers<linesep>
+
+Welcome1 <linesep><gt>Forms FORM- $+ $rand(0,29827281) $+ - $+ $network $+ - $+ <nick>- $+ $rand(0,99)
+Welcome2 :: Host: <host brackets="1"> version <version brackets="1">
+Welcome3 :: Created: <created brackets="1">
+Welcome4 :: <server>/<version>/<usermodes>/<chanmodes>
+SupportedInfo :: <protocols brackets="1">
+
+ChannelModes :: <chan>: <modes>
+ChannelCreation :: <chan>: created: <created>
+Bans <linesep><gt>RESTRICTED PERSONNEL:: <chan> <ban> set by <nick> <banned brackets="1">
+BansEnd <linesep>
+UnableToSend :: Unable to message <chan>
+NotOpped :: <chan>: Channel operator status required
+HiddenHost :: <host brackets="1"> is now your hidden host
+RegisterFirst :: Register first
+
+WhoisStart !empty
+WhoisAddress <linesep><gt>Forms FORM- $+ $rand(0,29827281) $+ -<nick>- $+ $rand(0,99) $+ -WHOIS:: Host..........: <address>/<name>
+WhoisChans :: Channels......: <chans>
+WhoisServer :: Server........: <server>/<info brackets="1">
+WhoisStatus :: Status.......: <status>
+WhoisAway :: Away.......: <reason>
+WhoisAuth :: Authorized....: <auth>
+WhoisRealIP :: Real host..: <address>/<ip brackets="1">
+WhoisIdle :: Idle..........: <idle> <lt><lt>signed on <signontime><gt><gt>
+WhoisEnd <linesep>
+
+WhowasStart !empty
+WhowasAddress <linesep><gt>Forms FORM- $+ $rand(0,29827281) $+ -<nick>- $+ $rand(0,99) $+ -WHOWAS:: Host..........: <address>/<name>
+WhowasServer :: Server........: <server>/<info brackets="1">
+WhowasAway :: Away.......: <reason>
+WhowasEnd <linesep>
+
+Who <linesep><gt>CHANNEL ASSESSMENT REPORT:: <chan> <nick> <status> <address> <name>
+WhoEnd <linesep>
+
+Invite <pre> <nick> invites you to join <chan>
+InviteOwn <pre> <nick> has been invited to <chan>
+InviteAlreadyOnChan <pre> <nick> is already on channel
+
+NoTopic :: <chan>: No topic is set
+Topic :: Subject: <topic brackets="1">
+TopicBy :: Submitted by: <nick brackets="1">. Dated: <date brackets="1">
+TopicChange <pre> <nick> changes subject to <topic brackets="1">
+
+Names <linesep><gt>LIST PERSONNEL:: <chan> <names>
+NamesEnd <linesep>
+
+UnknownCmd :: Unknown command <cmd brackets="1">
+NickInUse :: <nick>: Nickname is already in use
+AwayStatus :: <nick> is away: <reason>
+ChanFull :: <chan>: unable to join channel <lt><lt>full<gt><gt>
+ChanInviteOnly :: <chan>: unable to join channel <lt><lt>invite only<gt><gt>
+ChanBanned :: <chan>: unable to join channel <lt><lt>banned<gt><gt>
+ChanKeyRequired :: <chan>: unable to join channel need correct <lt><lt>key<gt><gt>
+ChanRegOnly :: <chan>: unable to join channel <lt><lt>registered only<gt><gt>
+NoSuchNick :: <nick>: No such nick
+NoSuchChan :: <chan>: No such channel
+
+RawDef :: <text>
+CRaw250 <gt><text>
+CRaw461 :: <text>
+CRaw372 :: <text>
+CRaw376 <linesep>
+CRaw375 <linesep><gt><text>
+CRaw305 :: <text>
+CRaw306 :: <text>
+CRaw265 :: <text>
+CRaw266 :: <text>
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 32764 3510961 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 8 8 7 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 1 8 1 8 8 6 0 1 8

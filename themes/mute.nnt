@@ -1,0 +1,141 @@
+Name mute
+Version 1.2
+NNTVersion 1.03
+Author mute (ported by Roniez)
+Email mute@nnscript.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 14[HH14:nn14:ss14]
+
+NickColSelf 2
+NickColOp 0
+NickColVoice 10
+NickColRegular 14
+NickColProtect 9
+NickColIgnore 7
+
+Brackets 14(<text>14)
+LineSep 14•• 14••15› 14••15›› 14••15››› 14••15››››
+Prefix 14-›
+
+GenEcho <pre> 14Info:14 <text>
+GenError <pre> 04Error:04 <text>
+GenHighlight 14(<text>14)
+
+ChanText 14[<cmode><nick>14]: <text>
+ChanTextOwn 14[<cmode>15<me>14]:15 <text>
+ChanAction 14: <cmode><nick> <text>
+ChanActionOwn 14: <cmode><me> <text>
+
+QueryText 14[<nick>14]: <text>
+QueryTextOwn 14[15<me>14]:15 <text>
+QueryAction 14: <nick> <text>
+QueryActionOwn 14: <me> <text>
+
+Msg 14*<nick>14!<address>14* <text>
+MsgOwn —› 14*<target>14*15 <text>
+Action 14: <nick> <text>
+ActionOwn —› 14: <me> <text>
+
+ChanNotice 14-<nick>14@<chan>14- <text>
+Notice 14-<nick>14- <text>
+NoticeOwn —› 14-<target>14-15 <text>
+ServerNotice 14-<server>14- <text>
+
+CTCP 14?<nick>14? <ctcp> <text>
+CTCPOwn —› 14?<target>14? <ctcp> <text>
+ChanCTCP 14?<nick>14@<chan>14? <ctcp> <text>
+CTCPReply 14!<nick>14! <ctcp> <text>
+CTCPReplyOwn —› 14!<target>14! <ctcp> <text>
+
+Join <pre> 03Join: <nick brackets="1"> <address brackets="1">
+JoinOwn <pre> 03Joined: <chan brackets="1">!if <topic> <pre> 11Topic: <topic brackets="1">!if <topic> <pre> 11Set by: <topicnick brackets="1"> 11on <topicdate brackets="1">
+Part <pre> 04Part: <nick brackets="1"> <address brackets="1"> <message brackets="1">
+Quit <pre> 04Quit: <nick brackets="1"> <address brackets="1"> <message brackets="1">
+Nick <pre> 11Nick: <nick brackets="1"> is now known as <newnick brackets="1">
+NickOwn <pre> 11Nick: <me brackets="1"> is now known as <newnick brackets="1">
+Mode <pre> 15Mode: <nick brackets="1"> sets <mode brackets="1">
+UserMode <pre> 15UserMode:14 is now <mode brackets="1">
+Kick <pre> 04Kick: <kickednick brackets="1"> was kicked by <nick brackets="1"> <message brackets="1">
+KickOwn <pre> 04Kick: <me brackets="1"> was kicked by <nick brackets="1"> <message brackets="1">
+WallOp <pre> 14Wallop: <nick brackets="1"> <text>
+
+DNS <pre> 14DNS:14 resolving <address>...
+DNSError <pre> 14DNS:14 unable to resolve <address>
+DNSResolve <pre> 14DNS:14 resolved <address> to <raddress>
+
+Notify <pre> 03Notify: <nick brackets="1"> is now online!
+UnNotify <pre> 04UnNotify: <nick brackets="1"> is now offline!
+
+LUsers1 14-› 14Users: <users brackets="1">, Invisible: <invisible brackets="1">, Servers: <servers brackets="1">
+LUsers2 14-› 14Operators online: <operators brackets="1">
+LUsers3 14-› 14Unknown connections: <connections brackets="1">
+LUsers4 14-› 14Channels formed: <channels brackets="1">
+LUsers5 14-› 14Local clients: <clients brackets="1"> on <servers brackets="1"> server(s)
+
+Welcome1 <pre> Welcome to the Internet Relay Network, <nick brackets="1">
+Welcome2 <pre> 14Host:14 (<host>14) running version (<version>14)
+Welcome3 <pre> 14Server created on:14 (<created>14)
+Welcome4 <pre> <server brackets="1"> running on <version brackets="1">, usermodes: <usermodes brackets="1">, channel modes: <chanmodes brackets="1">
+SupportedInfo 14-› 14Protocols supported: <protocols brackets="1">
+
+ChannelModes <pre> 14Modes in <chan brackets="1">:14 <modes>
+ChannelCreation <pre> 14Channel created on <created brackets="1">
+Bans <pre> 14Ban in <chan brackets="1">:14 <ban brackets="1"> set by <nick brackets="1"> on <banned>
+BansEnd <pre> 14End of (ban list14) for <chan brackets="1">
+UnableToSend <pre> 04Unable to send message to <chan brackets="1">
+NotOpped <pre> 04You're not opped on <chan brackets="1">
+HiddenHost <pre> <host brackets="1"> is now your hidden host
+RegisterFirst <pre> 04Register first!
+
+WhoisStart 14•• 14••15› 14••15›› 14(0/whois <nick>14) 14••15››› 14••15››››
+WhoisAddress <pre> 15Whois14 report for <nick> <name brackets="1"><pre> 15Address:14 $replace(<address>,@,00@14,.,00.14,~,00~14,-,00-14)
+WhoisChans <pre> 15Channels:14 $replace(<chans>,$chr(35),0#14)
+WhoisServer <pre> 15Server:14 <server>00,14 <info>
+WhoisStatus <pre> 15Status:14 <status>
+WhoisAway <pre> 15Away:14 <reason>
+WhoisAuth <pre> 15Auth:14 <auth>
+WhoisRealIP <pre> 15Real IP:14 <ip>
+WhoisIdle <pre> 15Idle:14 <idle>00,14 signed on <signonago> ago
+WhoisEnd 14•• 14••15› 14••15›› 14(0/whois <nick>14) 14••15››› 14••15››››
+
+WhowasStart 14•• 14••15› 14••15›› 14(0/whowas <nick>14) 14••15››› 14••15››››
+WhowasAddress <pre> 15Whowas14 report for <nick brackets="1"><pre> 15Address:14 $replace(<address>,@,0@14,.,0.14,~,0~14,-,0-14)<pre> 15Name:14 <name>
+WhowasServer <pre> 15Server:14 <server><pre> 15Quit:14 $asctime($ctime(<info>),dddd00 $+ $chr(44) 14mmm dd yyyy00 $+ $chr(44) 14HH:nn:ss)
+WhowasAway <pre> 15Away:14 <reason>
+WhowasEnd 14•• 14••15› 14••15›› 14(0/whowas <nick>14) 14••15››› 14••15››››
+
+Who <pre> 14/Who:14 <nick> <address brackets="1"> <name>
+WhoEnd <pre> 14End of (/who14) for <target brackets="1">
+
+Invite <pre> 03Invite: <nick brackets="1"> has invited you to join <chan brackets="1">
+InviteOwn <pre> 03Invite: <nick brackets="1"> has been invited to join <chan brackets="1">
+InviteAlreadyOnChan <pre> 04User already in channel: <nick brackets="1">
+
+NoTopic <pre> 04No Topic set for <chan brackets="1">
+Topic <pre> 11Topic: <topic brackets="1">
+TopicBy <pre> 11Set by: <nick brackets="1"> 11on <date brackets="1">
+TopicChange <pre> 11Topic: <nick brackets="1"> changes topic to <topic brackets="1">
+
+Names <pre> 14/Names: <chan brackets="1"> <names>
+NamesEnd <pre> 14End of (/names14) list for <chan brackets="1">
+
+UnknownCmd <pre> 04Invalid command: <cmd brackets="1">
+NickInUse <pre> 04Nickname in use: <nick brackets="1">
+AwayStatus <pre> <nick brackets="1"> is away:14 <reason>
+ChanFull <pre> 04Can't join <chan>:14 (full (+l)14)
+ChanInviteOnly <pre> 04Can't join <chan>:14 (invite only (+i)14)
+ChanBanned <pre> 04Can't join <chan>:14 (you're banned (+b)14)
+ChanKeyRequired <pre> 04Can't join <chan>:14 (requires key (+k)14)
+ChanRegOnly <pre> 04Can't join <chan>:14 (registered only (+r)14)
+NoSuchNick <pre> 04No such nickname: <nick brackets="1">
+NoSuchChan <pre> 04No such channel: <chan brackets="1">
+
+RawDef <pre> <text>
+
+Scheme0 Default 16777215 0 13536876 6924341 5335039 91 14614751 32764 65535 64512 12028160 14796407 13675413 4734773 8355711 13816530 13 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 13 0 13 0 13 6 13 13 0

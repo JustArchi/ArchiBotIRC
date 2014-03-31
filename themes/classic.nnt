@@ -1,0 +1,144 @@
+Name classic
+Version 1.12
+NNTVersion 1.03
+Author greeny
+Email sw4rfega@googlemail.com
+Homepage http://www.nnscript.com
+Description Ported by swarfega.
+
+Font Courier New
+FontSize 12
+
+TimestampEnabled 1
+Timestamp [HH:nn]
+
+NickColSelf none
+NickColOp none
+NickColVoice none
+NickColRegular none
+NickColProtect none
+NickColIgnore none
+
+Brackets (<text>)
+LineSep 1•02•12• 01········02········12········14········15···
+Prefix 02·12·
+
+GenEcho <pre> <text>
+GenError <pre> Error: <text>
+GenHighlight <text>
+
+ChanText <cmode><nick>: <text>
+ChanTextOwn <cmode><me>: <text>
+ChanAction * <cmode><nick> <text>
+ChanActionOwn * <cmode><me> <text>
+
+QueryText <nick>: <text>
+QueryTextOwn <me>: <text>
+QueryAction * <nick> <text>
+QueryActionOwn * <me> <text>
+
+Msg <nick>!<address>: <text>
+MsgOwn -<gt> *<target>* <text>
+Action * <nick> <text>
+ActionOwn * <target> <text>
+
+ChanNotice -<nick>@<chan>- <text>
+Notice -<nick>- <text>
+NoticeOwn -<target>- <text>
+ServerNotice -<server>- <text>
+
+CTCP [<nick> <ctcp>] <text>
+CTCPOwn -<gt> [<target>] <ctcp> <text>
+ChanCTCP [<cmode><nick>:<chan> <ctcp>] <text>
+CTCPReply [<nick> <ctcp> reply] <text>
+CTCPReplyOwn -<gt> [<target>] <ctcp> <text>
+
+Join <pre> <nick> (<address>) has joined <chan>
+JoinOwn <pre> Now talking in <chan><pre> Topic is '<topic><pre> Set by <topicnick> on <topicdate><pre> 02 $+ $chan(<chan>).mode $+ 
+Part !if (<message>) <pre> <nick> (<address>) has left <chan> <message brackets="1">
+Quit !if (<message>) <pre> <nick> (<address>) Quit <message brackets="1">
+Nick <pre> <nick> is now known as <newnick>
+NickOwn <pre> <me> is now known as <newnick>
+Mode <pre> <nick> sets mode: <mode>
+UserMode <pre> <me> sets mode: <mode>
+Kick !if <message> <pre> <kickednick> was kicked by <nick> <message brackets="1">
+KickOwn !if <message> <pre> <me> was kicked by <nick> <message brackets="1">
+WallOp <pre> Wallops: <nick> <text>
+
+DNS <pre> 12Looking up <address>
+DNSError <pre> 12Unable to resolve <address>
+DNSResolve <pre> 12Resolved <address> to <raddress>
+
+Notify <pre> 04<nick> is now online!
+UnNotify <pre> 04<nick> is now offline!
+
+LUsers1 There are <users> users and <invisible> invisible on <servers> servers
+LUsers2 <pre> <operators> operator(s) online
+LUsers3 <pre> <connections> unknown connection(s)
+LUsers4 <pre> <channels> channels formed
+LUsers5 <pre> I have <clients> clients and <servers> servers
+
+Welcome1 <pre> Welcome to the <mynetwork> IRC Network, <nick>
+Welcome2 <pre> Your host is <host>, running version <version>
+Welcome3 <pre> This server was created <created>
+Welcome4 <pre> <server> <version> <usermodes> <chanmodes>
+SupportedInfo <pre> <protocols> are supported by this server
+
+ChannelModes <pre> <chan> <modes>
+ChannelCreation <pre> <chan> created on <created>
+Bans <pre> <chan> <ban> set by <nick> (<banned>)
+BansEnd <pre> <chan> End of Channel Ban List
+UnableToSend <pre> Cannot send to message
+NotOpped <pre> You're not channel operator
+HiddenHost <pre> <host> is now your hidden host
+RegisterFirst <pre> Register first!
+
+WhoisStart 01•02•12• 01········02········12········14········15···
+WhoisAddress 01•02•12•01 <nick> <address> * <name>
+WhoisChans 1•02•12•15 <nick> on <chans>
+WhoisServer 01•02•12•15 <nick> using <server>, <info>
+WhoisStatus 01•02•12•15 <nick> is an IRC Operator
+WhoisAway 01•02•12•15 <nick> is away: <reason>
+WhoisAuth 01•02•12•15 <nick> is authed as <auth>
+WhoisRealIP 01•02•12•15 <nick> actual host is <address> (<ip>)
+WhoisIdle 01•02•12•15 <nick> has been idle <idle>, signed on <signontime>
+WhoisEnd 01•02•12• 01········02········12········14········15···
+
+WhowasStart 01•02•12• 01········02········12········14········15···
+WhowasAddress 01•02•12•1 <nick> is <address> * <name>
+WhowasServer 01•02•12•15 <nick> using <server>, <info>
+WhowasAway 01•02•12•15 <nick> is away: <reason>
+WhowasEnd 01•02•12• 01········02········12········14········15···
+
+Who <pre> 02<ident> <address> <server> <nick> <status> <name>
+WhoEnd <pre> 02<target> End of /WHO list.
+
+Invite <pre> <nick> invites you to join <chan>
+InviteOwn <pre> <nick> has been invited to <chan>
+InviteAlreadyOnChan <pre> <nick> is already on <chan>
+
+NoTopic <pre> <chan> No topic is set.
+Topic <pre> 12Topic is <topic>
+TopicBy <pre> 12Set by <nick> on <date>
+TopicChange <pre> <nick> changes topic to <topic>
+
+Names <pre> <chan> <names>
+NamesEnd <pre> End of /NAMES list.
+
+UnknownCmd <pre> <cmd> Unknown command
+NickInUse <pre> <nick> Nickname is already in use.
+AwayStatus <pre> <nick> is marked as being away: <reason>
+ChanFull <pre> <chan> Cannot join channel, channel is full (+l)
+ChanInviteOnly <pre> <chan> Cannot join channel, you must be invited (+i)
+ChanBanned <pre> <chan> Cannot join channel, you are banned (+b)
+ChanKeyRequired <pre> <chan> Cannot join channel, you need the correct key (+k)
+ChanRegOnly <pre> <chan> Cannot join channel, you must be authed to join (+r)
+NoSuchNick <pre> <nick> No such nick
+NoSuchChan <pre> <chan> No such channel
+
+RawDef <pre> <text>
+
+Scheme0 Default 16777215 0 16711680 37632 255 127 10223772 32764 65535 64512 9671424 16776960 8388608 16711935 8355711 13816530 15 2 2 5 2 2 2 12 12 12 12 1 4 4 1 1 12 12 4 5 1 15 1 15 1 2 6 0 15 1
+Scheme1 Red 16777215 0 128 37632 255 127 10223772 32764 65535 64512 9671424 16776960 253 16711935 8355711 13816530 15 2 2 5 2 2 2 12 12 12 12 1 4 4 1 1 12 12 4 5 1 15 1 15 1 2 6 0 15 1
+Scheme2 Green 16777215 0 425984 37632 255 127 10223772 32764 65535 64512 9671424 16776960 300800 16711935 8355711 13816530 15 2 2 5 2 2 2 12 12 12 12 1 4 4 1 1 12 12 4 5 1 15 1 15 1 2 6 0 15 1
+Scheme3 OceanBlue 16777215 0 8409856 37632 255 127 10223772 32764 65535 64512 5855488 7960832 9917184 16711935 8355711 13816530 15 2 2 5 2 2 2 12 12 12 12 1 4 4 1 1 12 12 4 5 1 15 1 15 1 2 6 0 15 1

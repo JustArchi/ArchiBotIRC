@@ -1,0 +1,141 @@
+Name ColorfulWorld
+Version 1.0
+NNTVersion 1.03
+Author greeny
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com
+Description Inspired by the Gamers.IRC default theme.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp (HH:nn:ss)
+
+NickColSelf 4
+NickColOp 5
+NickColVoice 2
+NickColRegular 1
+NickColProtect 11
+NickColIgnore 1
+
+Brackets (<text>)
+LineSep -
+Prefix •
+
+GenEcho <pre> <text>
+GenError <pre> Error: <text>
+GenHighlight <text>
+
+ChanText 02(<cmode><nick>) <text>
+ChanTextOwn 11(<cmode><me>) <text>
+ChanAction <pre> <cmode><nick> <text>
+ChanActionOwn <pre> <cmode><me> <text>
+
+QueryText 02(<nick>) <text>
+QueryTextOwn 11(<me>) <text>
+QueryAction <pre> <nick> <text>
+QueryActionOwn <pre> <me> <text>
+
+Msg *<nick>* <text>
+MsgOwn -<gt> *<target>* <text>
+Action *<nick>* <text>
+ActionOwn -<gt> *<target>* <text>
+
+ChanNotice (<nick>:<chan>) <text>
+Notice (<nick>) <text>
+NoticeOwn <pre>» <target> <text>
+ServerNotice (<server>) <text>
+
+CTCP <pre> <nick> CTCP <ctcp> <text brackets="1">
+CTCPOwn <pre>» <target> CTCP <ctcp> <text brackets="1">
+ChanCTCP <pre> <nick>:<chan> CTCP <ctcp> <text brackets="1">
+CTCPReply <pre> <nick> CTCPREPLY <ctcp> <text brackets="1">
+CTCPReplyOwn <pre>» <target> CTCPREPLY <ctcp> <text brackets="1">
+
+Join <pre> <nick> (<address>) has joined <chan>
+JoinOwn <pre> Now talking in <chan>!if <topic> 05<pre> Topic: <topic>!if <topic> 05<pre> Topic set by <topicnick> on <topicdate>
+Part <pre> <nick> (<address>) has left <chan> <message brackets="1">
+Quit <pre> <nick> (<address>) has left IRC <message brackets="1">
+Nick <pre> <nick> is now known as <newnick>
+NickOwn <pre> Your nick is now <newnick>
+Mode <pre> <nick> sets mode 02(<mode>)
+UserMode <pre> <me> sets mode: <mode>
+Kick <pre> <nick> has kicked <kickednick> <message brackets="1">
+KickOwn <pre> You've been kicked by <nick> <message brackets="1">
+WallOp !<nick>! <text>
+
+DNS <pre> Looking up <address>...
+DNSError <pre> Unable to resolve (<address>)
+DNSResolve <pre> Resolved <address> to (<raddress>)
+
+Notify <pre> 02<nick> is online
+UnNotify <pre> 02<nick> is offline
+
+LUsers1 05::: Users online: <users> (invisible: <invisible>) on <servers> servers.
+LUsers2 05::: Operators online: <operators>
+LUsers3 05::: Unknown connections: <connections>
+LUsers4 05::: Channels formed: <channels>
+LUsers5 05::: I have <clients> clients and <servers> servers.
+
+Welcome1 05::: Welcome to the Internet Relay Network, <nick>
+Welcome2 05::: Your host is <host>, running version <version>
+Welcome3 05::: This server was created <created>
+Welcome4 05::: <server> <version> <usermodes> <chanmodes>
+SupportedInfo 05::: <protocols> are supported by this server
+
+ChannelModes <pre> <chan> modes: <modes>
+ChannelCreation <pre> <chan> created on <created>
+Bans 05::: <ban> set by <nick> (<banned>)
+BansEnd 05::: End of Channel Ban list.
+UnableToSend <pre> Cannot send text/data to <chan>
+NotOpped <pre> You're not a channel operator on <chan>
+HiddenHost <pre> <host> is now your hidden host
+RegisterFirst <pre> Register first!
+
+WhoisStart !empty
+WhoisAddress 05::: Whois: <nick> (<address>) is <name>
+WhoisChans 05::: Channels: <chans>
+WhoisServer 05::: Server: <server>, <info>
+WhoisStatus 05::: Status: <status>
+WhoisAway 05::: Away: <reason>
+WhoisAuth 05::: Auth: <auth>
+WhoisRealIP 05::: Real IP: <address> (<ip>)
+WhoisIdle 05::: Signed on: <signontime> :: Idle Time: <idle>
+WhoisEnd 05::: End of Whois
+
+WhowasStart !empty
+WhowasAddress 05::: Whowas: <nick> (<address>) was <name>
+WhowasServer 05::: Server: <server>, <info>
+WhowasAway 05::: Away: <reason>
+WhowasEnd 05::: End of Whowas
+
+Who 05::: <nick> is <address> (<name>)
+WhoEnd 05::: End of /WHO list.
+
+Invite • You've been invited to join <chan> by <nick>
+InviteOwn <nick> has been invited to <chan>
+InviteAlreadyOnChan <nick> is already on channel
+
+NoTopic <chan>: No topic is set.
+Topic 05<pre> Topic: <topic>
+TopicBy 05<pre> Topic set by <topicnick> on <topicdate>
+TopicChange • <nick> sets topic <topic brackets="1">
+
+Names <pre> <chan> <names>
+NamesEnd <chan>: End of /NAMES list.
+
+UnknownCmd <pre> /<cmd>: unknown command
+NickInUse <pre> Nickname already in use: <nick>
+AwayStatus 05::: Away: <reason>
+ChanFull <pre> Cannot join <chan> - It's full (+l)
+ChanInviteOnly <pre> Cannot join <chan> - It's invite only (+i)
+ChanBanned <pre> Cannot join <chan> - You're banned (+b)
+ChanKeyRequired <pre> Cannot join <chan> - Incorrect key
+ChanRegOnly <pre> Cannot join <chan> - Registered only
+NoSuchNick <pre> No such nickname: <nick>
+NoSuchChan <pre> No such channel: <chan>
+
+RawDef <pre> <text>
+
+Scheme0 Default 16777215 0 6496545 36864 255 128 10485920 33023 65535 65280 16770760 14451200 16750080 16711935 8421504 13684944 15 2 2 2 2 2 5 2 2 2 5 1 2 2 2 1 2 2 5 5 1 15 1 15 5 14 6 15 15 1

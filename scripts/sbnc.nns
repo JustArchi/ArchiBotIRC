@@ -1,0 +1,423 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - sbnc control - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias sbnc {
+  if ($1 == read) { sbnc.getprivlog   }
+  else { !sbnc $1- }
+}
+alias s-bnc {
+  if (%sbnc.info. [ $+ [ $cid ] ]) { noop $dialog(sbnc,sbnc,-4) }
+  else { errdialog you can only open the sbnc control when the active connection is connected to a supported sbnc! }
+}
+dialog sbnc {
+  title "sbnc control [/s-bnc]"
+  size -1 -1 397 362
+  option pixels
+  icon scripts\pics\nntray.ico, 0
+  tab "General", 1, 4 6 388 323
+  box "General options", 32, 12 32 374 191, tab 1
+  text "Set virtual host to", 15, 40 52 90 16, tab 1
+  edit "", 16, 146 48 170 22, tab 1 autohs limit 100
+  button "&Set!", 3, 318 48 60 22, disable tab 1
+  text "Set Server : Port", 5, 40 76 90 16, tab 1
+  edit "", 411, 146 72 120 22, tab 1 autohs limit 100
+  edit "", 412, 266 72 50 22, tab 1 autohs limit 100
+  button "&Set!", 41, 318 72 60 22, disable tab 1
+  text "Set automode", 8, 40 100 90 16, tab 1
+  edit "", 421, 146 96 170 22, tab 1 autohs limit 100
+  button "&Set!", 42, 318 96 60 22, disable tab 1
+  text "Set dropmodes", 11, 40 124 90 16, tab 1
+  edit "", 431, 146 120 170 22, tab 1 autohs limit 100
+  button "&Set!", 43, 318 120 60 22, disable tab 1
+  text "Change password", 52, 40 148 92 16, tab 1
+  button "Set...", 53, 318 144 60 22, tab 1
+  check "&Auto-play private logs when available", 7, 19 198 198 18, tab 1
+  check "&Open queries for log", 71, 225 198 124 18, tab 1
+  check "&Use quit as away", 37, 40 246 115 18, tab 1
+  text "Set away text to", 13, 40 270 86 16, tab 1
+  edit "", 23, 146 266 170 22, tab 1 autohs limit 100
+  button "&Set!", 22, 318 266 60 22, disable tab 1
+  text "Set offline nick to", 17, 40 292 86 16, tab 1
+  edit "", 25, 146 288 170 22, tab 1 autohs limit 30
+  button "&Set!", 24, 318 288 60 22, disable tab 1
+  box "Offline options", 31, 12 229 374 88, tab 1
+  text "Set realname", 2, 40 170 92 16, tab 1
+  edit "", 10, 146 166 170 22, tab 1 autohs limit 100
+  button "&Set!", 21, 318 168 60 22, disable tab 1
+  tab "Admin control", 12
+  box "Users on your bouncer (right-click for options)", 35, 12 32 374 283, tab 12
+  list 28, 20 47 358 259, disable tab 12 size
+  tab "Info", 39
+  box "sbnc connection status", 33, 12 32 374 112, tab 39
+  text "Connection status", 29, 22 52 94 14, tab 39
+  edit "", 30, 176 48 202 22, tab 39 read autohs
+  edit "", 26, 176 70 202 22, tab 39 read autohs
+  edit "", 27, 176 92 202 22, tab 39 read autohs
+  text "Version", 18, 22 96 42 14, tab 39
+  text "Server", 14, 22 74 38 14, tab 39
+  text "Uptime", 34, 22 118 42 14, tab 39
+  edit "", 36, 176 114 202 22, tab 39 read autohs
+  link "Official sbnc homepage", 45, 14 220 132 16, tab 39
+  button "C&ommand list", 6, 4 332 80 24
+  button "&Close", 4, 312 332 80 24, ok
+}
+dialog sbnc.adduser {
+  title "Add sbnc user"
+  size -1 -1 256 106
+  option pixels
+  icon scripts\pics\nntray.ico
+  box "Add user to sbnc (no password = generate)", 1, 4 2 248 70
+  button "&Ok", 2, 88 78 80 24
+  button "&Cancel", 3, 172 78 80 24, cancel
+  edit "", 4, 84 18 160 22, autohs limit 8
+  edit "", 5, 84 40 160 22, pass autohs limit 30
+  text "Login", 7, 14 22 32 14
+  text "Password", 8, 14 44 54 14
+}
+on *:dialog:sbnc.adduser:*:*:{
+  if ($devent == sclick) {
+    if ($did == 2) {
+      var %l = $remove($did(4),$chr(32)),%u = $remove($did(5),$chr(32))
+      if (!%l) { errdialog you did not enter a login. }
+      else {
+        dialog -x $dname
+        if (%u) { .raw sbnc adduser %l  %u }
+        else {
+          set -u10 %sbnc.showpass 1 
+          .raw sbnc adduser $did(4)
+        }
+        sbnc.getusers
+      }
+    }
+  }
+}
+alias sbnc.adduser { noop $dialog(sbnc.adduser,sbnc.adduser,-4) }
+alias sbnc.getstatus {
+  set -u60 %sbnc.getstatus 1
+  .raw SBNC status
+}
+alias sbnc.getsettings {
+  set -u60 %sbnc.getsettings 1
+  .raw SBNC set
+}
+alias sbnc.getusers {
+  did -rb sbnc 28
+  set -u60 %sbnc.bwhoprog 1
+  .raw SBNC WHO
+}
+alias sbnc.refcontime {
+  if ($dialog(sbnc)) { did -ra $v1 36 $uptime(server,1) }
+  else { .timersbnc.refcontime off }
+}
+alias sbnc.refinfo {
+  tokenize 32 %sbnc.info. [ $+ [ $cid ] ]
+  did -ra sbnc 30 connected
+  did -ra sbnc 26 $1
+  did -ra sbnc 27 $2-
+}
+alias sbnc.simul {
+  sbnc simul $1 $$eddialog(Please enter a command to execute for $1 $+ .)
+}
+on *:dialog:sbnc:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 28 ListView report showsel single infotip rowselect > $mdxfile(views)
+    did -i $dname 28 1 headerdims 25:1 70:2 70:3 90:4 90:5 90:6
+    did -i $dname 28 1 headertext + 0 Status	+ 0 User	+ 0 Nickname	+ 0 Server	+ 0 Real name	+ 0 Last connect
+    did -i $dname 28 1 settxt bgcolor none
+    did -a $dname 30 not connected
+    set %sbnc.cid $cid
+    if (%sbnc.autoplayprivlog) { did -c $dname 7 }
+    if (%sbnc.logqueries) { did -c $dname 71 }
+    sbnc.getstatus
+    sbnc.getsettings
+    sbnc.refcontime
+    sbnc.refinfo
+    .timersbnc.refcontime -io 0 1 sbnc.refcontime
+  }
+  elseif ($devent == sclick) {
+    if ($did == 6) { cmdlist -s }
+    elseif ($did == 3) {
+      .raw sbnc set vhost $iif($did(16) == $null,:,$did(16))
+      idialog Vhost $iif($did(16) == $null,unset,set to $did(16)) $+ !
+    }
+    elseif ($did == 41) {
+      .raw sbnc set server $did(411) $did(412)
+      idialog Server changed to $did(411) $+ : $did(412) $+  !
+    }
+    elseif ($did == 42) {
+      .raw sbnc set automodes $iif($did(421) == $null,:,$did(421))
+      idialog Automodes $iif($did(412) == $null,unset,set to $did(421)) $+ !
+    }
+    elseif ($did == 43) {
+      .raw sbnc set dropmodes $iif($did(431) == $null,:,$did(431))
+      idialog Dropmodes $iif($did(431) == $null,unset,set to $did(431)) $+ !
+    }
+    elseif ($did == 53) {
+      .raw sbnc set password $$epdialog(Please enter a new password.)
+      idialog Password change requested.
+    }
+    elseif ($did == 21) {
+      .raw sbnc set realname $iif($did(10) == $null,:,$did(10))
+      idialog Realname $iif($did(10) == $null,unset,set to $did(10)) $+ !
+    } 
+    elseif ($did == 22) {
+      .raw sbnc set away $iif($did(23) == $null,:,$did(23))
+      idialog Leave message $iif($did(23) == $null,unset,set to $did(23)) $+ !
+    }
+    elseif ($did == 24) {
+      .raw sbnc set awaynick $iif($did(25) == $null,:,$did(25))
+      idialog Away nick $iif($did(25) == $null,unset,set to $did(25)) $+ !
+    }
+    elseif ($did == 7) { sdt sbnc.autoplayprivlog }
+    elseif ($did == 71) { sdt sbnc.logqueries }
+    elseif ($did == 37) {
+      if ($did($did).state) { .raw sbnc set usequitasaway ON }
+      else { .raw sbnc set usequitasaway OFF }
+    }
+    elseif ($did == 28) {
+      if (rclick * iswm $did($did,1)) {
+        var %u = $cell($did,2),%n = $cell($did,3)
+        popdll.new
+        popdll.add 1	+g 1 0 $iif($did($did).sel,$shorten(15,%u),sBNC users) $+ :
+        popdll.add 2	+ 2 0 -
+        popdll.add 3	 $+ $iif($did($did).sel,+s,+sg) 3 0 &Admin status
+        popdll.add 3 1	+ 4 0 &Give admin statussbnc.adminoption sbnc admin %u
+        popdll.add 3 2	+ 5 0 &Take admin statussbnc.adminoption sbnc unadmin %u
+        if (*!* !iswm $cell($did,1)) { popdll.add 4	 $+ $iif($did($did).sel,+,+g) 6 0 Suspend Usersbnc.suspend sbnc suspend %u }
+        else { popdll.add 4	 $+ $iif($did($did).sel,+,+g) 7 0 Unsuspend Usersbnc.suspend sbnc unsuspend %u }
+        popdll.add 5	 $+ $iif($did($did).sel,+,+g) 8 0 &Change password...sbnc.changepass %u
+        popdll.add 6	 $+ $iif($did($did).sel,+,+g) 9 0 &Whoiswe %n
+        popdll.add 7	+ 10 0 -
+        popdll.add 8	 $+ $iif($did($did).sel,+,+g) 11 0 &Simul command...sbnc.simul %u
+        popdll.add 9	+ 12 0 -
+        popdll.add 10	+s 13 0 &User
+        popdll.add 10 1	+ 14 0 &Add user...sbnc.adduser
+        popdll.add 10 2	 $+ $iif($did($did).sel,+,+g) 15 0 &Delete usersbnc.adminoption sbnc deluser %u
+        popdll.add 10 3	+ 16 0 -
+        popdll.add 10 4	$iif($did($did).sel,+,+g) 17 0 &Kill usersbnc.adminoption sbnc kill %u
+        popdll.add 11	+ 18 0 -
+        popdll.add 12	+ 19 0 &Refresh listsbnc.getusers
+        popdll.disp
+      }
+      else { sortmdx $dname $did }
+    }
+    elseif ($did == 45) { url -n http://www.shroudbnc.info/ }
+  }
+  elseif ($devent == edit) {
+    if ($did == 16) { did -e $dname 3 }
+    if ($did == 411) { did $iif($did($did) != $null,-e,-b) $dname 41 }
+    if ($did == 412) { did $iif($did($did) != $null,-e,-b) $dname 41 }
+    if ($did == 421) { did -e $dname 42 }
+    if ($did == 431) { did -e $dname 43 }
+    if ($did == 10) { did -e $dname 21 }
+    if ($did == 23) { did -e $dname 22 }
+    if ($did == 25) { did -e $dname 24 }
+  }
+  elseif ($devent == close) { unset %sbnc.cid }
+}
+alias sbnc.changepass { .raw sbnc resetpass $1 $$epdialog(Please enter a new password for the user $1 $+ .) }
+alias sbnc.adminoption {
+  .raw $1-
+  sbnc.getusers
+}
+alias sbnc.suspend {
+  .raw $1-
+  sbnc.getusers
+}
+on ^*:text:*:?:{
+  if ($sbnc.nick($nick) && (%sbnc.info. [ $+ [ $cid ] ])) {
+    sbnc.textevent $1-
+    if ($ident disconnected from the server. iswm $1-)  {
+      .signal -n disconnect -b
+      echo -sti12c info * Bouncer disconnected from server
+    }
+    elseif (Connected to an IRC server. iswm $1-) { echo -sti12c info * Bouncer successfully connected you to the server! }
+  }
+}
+on ^*:open:?:{ if ($sbnc.nick($nick) && (%sbnc.info. [ $+ [ $cid ] ])) { sbnc.textevent $1- } }
+alias sbnc.textevent {
+  if ($dialog(sbnc)) {
+    if (%sbnc.getsettings) { sbnc.parsesetting $1- }
+    if (%sbnc.bwhoprog) { sbnc.addbwho $1- }
+    if (%sbnc.getstatus) { sbnc.parsestatus $1- }
+    haltdef
+  }
+  sbnc.pvloghandler $1-
+}
+on ^*:snotice:*:{
+  if ($nick == shroudbnc.info) && ($regex(sinfo,$1-,/^\*\*\* shroudBNC ([^ ]+)(.+))) && (!%sbnc.info. [ $+ [ $cid ] ])  {
+    set %sbnc.info. $+ $cid $+($server,:,$port) $regml(sinfo,1) $regml(sinfo,2)
+    set -u60 %sbnc.modehide. [ $+ [ $cid ] ] 1
+    mode $me
+  }
+}
+on ^*:notice:*:?:{
+  if ($sbnc.nick($nick) && (%sbnc.info. [ $+ [ $cid ] ])) {
+    if ($dialog(sbnc)) { 
+      if (%sbnc.getsettings) { sbnc.parsesetting $1- }
+      if (%sbnc.bwhoprog) { sbnc.addbwho $1- }
+      if (%sbnc.getstatus) { sbnc.parsestatus $1- }
+      if (!%sbnc.showpass) {
+        haltdef
+      }
+      else {
+        unset %sbnc.showpass
+      } 
+    }
+    sbnc.pvloghandler $1-
+  }
+  if ($nick == Notice) && ($regex(sinfo,$1-,/^\*\*\* shroudBNC([^ ]+)(.+))) && (!%sbnc.info. [ $+ [ $cid ] ])  {
+    set %sbnc.info. $+ $cid $+($server,:,$port) $regml(sinfo,1) $regml(sinfo,2)
+    set -u60 %sbnc.modehide. [ $+ [ $cid ] ] 1
+    mode $me
+  }
+  if ($sbnc.nick($nick)) && ($1- == End of USERS.) {
+    sbnc.unsetbwho
+    haltdef
+  }
+}
+raw 221:*:{
+  if (%sbnc.modehide. [ $+ [ $cid ] ]) {
+    unset %sbnc.modehide. $+ $cid
+    haltdef
+  }
+}
+alias sbnc.pvloghandler {
+  var %w = $specialcidwin(sBNCPrivateLog)
+  if ($1- == You have new messages. Use '/msg -sBNC read' to view them.) && (%sbnc.autoplayprivlog) {
+    sbnc.getprivlog 
+    haltdef
+  }
+  elseif ($1 == done) && (%sbnc.eraseprivlog. [ $+ [ $cid ] ]) {
+    unset %sbnc.eraseprivlog. $+ $cid 
+    thmecho -a sbnc privatelog erased!
+    haltdef
+  }
+  elseif (%sbnc.getprivlog. [ $+ [ $cid ] ]) && (%w) {
+    sbnc.addpvlog $1-
+    haltdef
+  }
+}
+alias sbnc.addpvlog {
+  var %w = $specialcidwin(sBNCPrivateLog)
+  if ($1- == End of LOG. Use '/msg -sBNC erase' to remove this log.) || ($1- == End of LOG. Use '/sBNC erase' to remove this log.) {
+    aline %w 
+    var %x = %sbnc.messages. [ $+ [ $cid ] ]
+    if (%x) { thmecho %w Done retrieving $thmhl(%x) $iif(%x == 1,message.,messages.)  $iif(%sbnc.logqueries,Some of your messages might be displayed in query windows) }
+    else { thmecho %w No new messages. }
+    unset %sbnc.messages. $+ $cid
+    unset %sbnc.getprivlog. $+ $cid
+  }
+  elseif ($regex(pvlog,$1-,  /^[a-z]{3} ([a-z]{3} \d\d?) (\d\d?:\d\d:\d\d \d{4}):? ([^ ]+) \(([^ ]+@[^ ]+)\): (.+)$/i)) { 
+    inc %sbnc.messages. $+ $cid
+    if (%sbnc.logqueries) {
+      if ($window($regml(pvlog,3),1).type != query) { query_log $regml(pvlog,3) SBNC }
+      thmecho $regml(pvlog,3) $asctime($ctime($regml(pvlog,1) $asctime(yyyy) $regml(pvlog,2)),%timeformat) $+ :  $+ $regml(pvlog,3) $+  $nbr($regml(pvlog,4)) $+ : $regml(pvlog,5) 
+    }
+    else {
+      thmecho %w $asctime($ctime($regml(pvlog,1) $asctime(yyyy) $regml(pvlog,2)),%timeformat) $+ :  $+ $regml(pvlog,3) $+  $nbr($regml(pvlog,4)) $+ : $regml(pvlog,5) 
+    }
+  }
+  elseif ($regex(pvlog,$1-,  /^[a-z]{3} ([a-z]{3} \d\d?) (\d\d?:\d\d:\d\d \d{4}):? (.+)$/i)) { 
+    thmecho %w $asctime($ctime($regml(pvlog,1) $asctime(yyyy) $regml(pvlog,2)),%timeformat) $+ : $regml(pvlog,3)  
+    inc %sbnc.messages. $+ $cid
+  }
+  else {
+    thmecho %w $1-
+    inc %sbnc.messages. $+ $cid
+  }
+}
+alias sbnc.parsestatus {
+  if ($1- == You are an admin.) {
+    unset %sbnc.getstatus
+    sbnc.getusers
+  }
+  elseif ($1- == You are not an admin.) {
+    unset %sbnc.getstatus
+  }
+}
+alias sbnc.parsesetting  {
+  if (%sbnc.getsettings) {
+    if ($1 == vhost) { did  -ra sbnc 16 $3 }
+    elseif ($1 == server) {
+      did  -ra sbnc 411 $gettok($3,1,58) 
+      did  -ra sbnc 412 $gettok($3,2,58) 
+    }
+    elseif ($1 == automodes) { did  -ra sbnc 421 $iif($3- != Not Set,$right($3,-1)) }
+    elseif ($1 == dropmodes) { did  -ra sbnc 431 $iif($3- != Not Set,$right($3,-1)) }
+    elseif ($1 == realname) { did  -ra sbnc 10 $3- }
+    elseif ($1 == away) { did  -ra sbnc 23 $iif($3- != Not Set,$3-) }
+    elseif ($1 == awaynick) { did  -ra sbnc 25 $iif($3- != Not Set,$3-) }
+    elseif ($1 == usequitasaway) { did $iif($3 == ON,-c,-u) sbnc 37  }
+
+    .timerussettings -o 1 2 unset %sbnc.getsettings 
+    haltdef
+  }
+}
+alias sbnc.addbwho {
+  if (%sbnc.bwhoprog) {
+    if ($regex(bwho,$1-,/^(\@|!\@|!?)(\*?)(.+)\((.+)\)([^ ]*) \[(.*)\] \[Last Seen: (.+)\] :(.+)$/i) ) {
+      var %s = $regml(bwho,6),%r = $regml(bwho,7),%l 
+      did -a sbnc 28 0 + 0 0 0 $regml(bwho,1) $+ 	+ 0 0 0 $regml(bwho,3) $+ 	+ 0 0 0 $regml(bwho,4) $+ 	+ 0 0 0 $iif(%s,%s,unknown) $+ 	+ 0 0 0 $regml(bwho,8) $+ 	+ 0 0 0 $iif(%r,%r,unknown)
+      haltdef
+    }
+  }
+}
+alias sbnc.unsetbwho {
+  unset %sbnc.bwhoprog
+  if ($dialog(sbnc)) { did -e $v1 28 }
+}
+alias sbnc.getprivlog {
+  if (%sbnc.info. [ $+ [ $cid ] ]) {
+    var %w = $specialcidwin(sBNCPrivateLog)
+    if ($window(%w)) {
+      clear %w
+      window -a %w
+    }
+    else { window -k0 %w }
+    thmecho %w Getting sBNC private log... please wait.
+    echo %w 
+    if (%sbnc.logqueries) { thmecho %w Outputting private logs to queries... }
+    set %sbnc.messages. $+ $cid 0
+    .timersbnc.privlog.timeout. $+ $cid 1 4 sbnc.privlog.timeout
+    set %sbnc.getprivlog. $+ $cid 1
+    .raw sbnc read
+  }
+  else { thmerror -a You're not connected to sbnc! }
+}
+alias sbnc.privlog.timeout {
+  var %w = $specialcidwin(sBNCPrivateLog)
+  unset %sbnc.getprivlog. $+ $cid
+  if ($window(%w)) && ($line(%w,0) == 2) { thmecho %w Timed out / no new messages. }
+}
+menu @sbncprivatelog[*] {
+  $style(2) $shorten(15,$active) $+ $chr(58):return
+  -
+  Refresh:sbnc.getprivlog
+  $iif($line($active,0) < 4 || !%sbnc.info. [ $+ [ $cid ] ],$style(2)) Erase log {
+    if ($ydialog(Really delete the sbnc log?)) {
+      .raw sbnc erase
+      close -@ $specialcidwin(sBNCPrivateLog)
+    }
+  }
+  $iif($line($active,0) < 4,$style(2)) Save log... {
+    var %f = $mkfullfn($$sfile($+(C:\sbnc_,$iif($me,$me $+ _),$asctime(yyyy-mm-dd),.log),Where do you want to save the log?,Save)),%x = 1,%i = $line($active,0)
+    if (!$isfile(%f)) || ($ydialog(The file %f already exists. Overwrite?)) {
+      .fopen -o log %f
+      while (%x <= %i) {
+        if ($strip($line($active,%x))) { .fwrite -n log $v1 }
+        else { .fwrite log $crlf }
+        inc %x
+      }
+      .fclose log
+      idialog Log saved to %f $+ .
+    }
+  }
+  -
+  Close:close -@ $active
+}
+alias sbnc.nick { if ($istok(-sbnc -bouncer -bnc,$1-,32)) { return 1 } }
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

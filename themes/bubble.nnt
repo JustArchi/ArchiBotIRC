@@ -1,0 +1,146 @@
+Name Bubble
+Version 1.01
+NNTVersion 1.03
+Author greeny
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 02,02 12,00 HH02:12nn02.12ss 02,02  
+
+NickColSelf 7
+NickColOp 1
+NickColVoice 12
+NickColRegular 2
+NickColProtect none
+NickColIgnore 4
+
+Brackets 02(12 <text> 02)12
+LineSep       02•••••••••••••••••••••••••••
+Prefix .••
+
+GenEcho     02 <pre> 12info: <text>
+GenError     02 <pre> 12error: <text>
+GenHighlight 02(12 <text> 02)12
+
+ChanText 02( <cmode><nick> 02) <text>
+ChanTextOwn 02( <cmode><me> 02) <text>
+ChanAction 02)) <cmode><nick> <text>
+ChanActionOwn 02)) <cmode><me> <text>
+
+QueryText 02( <nick> 02) <text>
+QueryTextOwn 02( <me> 02) <text>
+QueryAction 02)) <nick> <text>
+QueryActionOwn 02)) <me> <text>
+
+Msg 12•<nick>!<address>12• <text>
+MsgOwn  02 <pre>› 12•<target>12• <text>
+Action 12•<nick>!<address> <text>
+ActionOwn  02 <pre>›12 •<target> <text>
+
+ChanNotice 12—<cmode><nick>12@<chan>12— <text>
+Notice 12—<nick>12— <text>
+NoticeOwn     02 <pre>› 12—<target>12— <text>
+ServerNotice 12—<server>12— <text>
+
+CTCP 02? <nick> 02? <ctcp> <text>
+CTCPOwn  02 <pre>› 02? <target> 02? <ctcp> <text>
+ChanCTCP 02? <nick>02@<chan> 02? <ctcp> <text>
+CTCPReply 02! <nick> 02! <ctcp> <text>
+CTCPReplyOwn  02 <pre>› 02! <target> 02! <ctcp> <text>
+
+Join      02 <pre>12 <nick> <address brackets="1"> 02joined12 <chan>
+JoinOwn <linesep>     02 <pre>12 you 02are now talking in12 <chan><linesep>!if <topic>      02 <pre>02 the topic is '<topic>'!if <topic>      02 <pre>02 set by: <topicnick> <topicdate brackets="1">     02 <pre>02 users: <users> users, <oppedusers> ops <oppeduserspercent brackets="1">, <voicedusers> voiced <voiceduserspercent brackets="1">, <regusers> regulars <reguserspercent brackets="1">     02 <pre>02 join synced in: <synctime brackets="1"> second(s)<linesep>
+Part      02 <pre>12 <nick> <address brackets="1"> 02left12 <chan> <message brackets="1">
+Quit      02 <pre>12 <nick> <address brackets="1"> 02has quit IRC <message brackets="1">
+Nick      02 <pre>12 <nick> 02is now known as12 <newnick>
+NickOwn      02 <pre>12 you 02are now known as 12<newnick>
+Mode      02 <pre>12 <nick> 02sets12 <chan> 02mode 12<mode>
+UserMode      02 <pre>12 your 02usermode is now 12<mode>
+Kick      02 <pre>12 <kickednick> 02has been kicked by12 <nick> <message brackets="1">
+KickOwn      02 <pre>12 you 02have been kicked out of12 <chan> 02by12 <nick> <message brackets="1">
+WallOp 02(( <nick> 02)) <text>
+
+DNS     02 <pre>12 dns: resolving <address brackets="1">...
+DNSError     02 <pre>12 dns: unable to resolve <address brackets="1">
+DNSResolve     02 <pre>12 dns: resolved <address brackets="1"> to <raddress brackets="1">
+
+Notify     02 <pre>12 notify: <nick> is now online!
+UnNotify     02 <pre>12 unnotify: <nick> is now offline!
+
+LUsers1     02 <pre>12 there are <users brackets="1"> users and <invisible brackets="1"> invisible on <servers brackets="1"> servers
+LUsers2     02 <pre>12 there are <operators brackets="1"> operator(s) online
+LUsers3     02 <pre>12 there are <connections brackets="1"> unknown connection(s)
+LUsers4     02 <pre>12 there are <channels brackets="1"> channels formed
+LUsers5     02 <pre>12 i have <clients brackets="1"> clients and <servers brackets="1"> servers
+
+Welcome1           02••12 welcome 02••          11•02•12 welcome to the internet relay network, <nick brackets="1">
+Welcome2           11•02•12 your host is <host brackets="1">, running version <version brackets="1">
+Welcome3           11•02•12 this server was created <created brackets="1">
+Welcome4           11•02•12 server: <server brackets="1">, version: <version brackets="1">, usermodes: <usermodes brackets="1">, channelmodes: <chanmodes brackets="1">          02••12 welcome 02••
+SupportedInfo     02 <pre>12 supported by this server: <protocols brackets="1">
+
+ChannelModes     02 <pre>12 <chan> modes are <modes brackets="1">
+ChannelCreation     02 <pre>12 <chan> was created <created brackets="1">
+Bans     02 <pre>12 <ban brackets="1"> set on <banned> by <nick>
+BansEnd     02 <pre>12 end of <chan> ban list!
+UnableToSend     02 <pre>12 unable to send message to <chan>
+NotOpped     02 <pre>12 you're not opped on <chan>
+HiddenHost     02 <pre>12 <host brackets="1"> is now your hidden host!
+RegisterFirst     02 <pre>12 you have to register first!
+
+WhoisStart           02••12 whois 02••
+WhoisAddress           11•02•12 <nick> 12is "<name>12" <address brackets="1">
+WhoisChans !if <opchans>           11•02•12 opped in <opchans>!if <hopchans>           11•02•12 helpopped in <hopchans>!if <vchans>           11•02•12 voiced in <vchans>!if <regchans>           11•02•12 reg in <regchans>
+WhoisServer           11•02•12 using <server> <info brackets="1">
+WhoisStatus           11•02•12 is <status>
+WhoisAway           11•02•12 is away <reason>
+WhoisAuth           11•02•12 authed as "<auth>12"
+WhoisRealIP           11•02•12 real host <address> <ip brackets="1">
+WhoisIdle           11•02•12 has been idle for <idle>          11•02•12 signed on <signonago> ago
+WhoisEnd           02••12 whois 02••
+
+WhowasStart           02••12 whowas 02••
+WhowasAddress           11•02•12 was "<name>12" 02(12<address>02)
+WhowasServer           11•02•12 used <server> 02(12<info>02)
+WhowasAway           11•02•12 was away <reason>
+WhowasEnd           02••12 whowas 02••
+
+Who     02 <pre>12 who: <nick>!<address> on <chan brackets="1"> using <server brackets="1">. real name: <name brackets="1">
+WhoEnd     02 <pre>12 end of <target> /who request
+
+Invite     02 <pre>12 <nick> invites you to join <chan>
+InviteOwn     02 <pre>12 <nick> has been invited to join <chan>
+InviteAlreadyOnChan     02 <pre>12 <nick> is already on <chan>
+
+NoTopic     02 <pre>12 no topic in <chan> set
+Topic           02••12 topic 02••          11•02•12 text: <topic>
+TopicBy           11•02•12 set by: <nick brackets="1"> on <date brackets="1">          02••12 topic 02••
+TopicChange      02 <pre>12 <nick> 02changed the topic to 12<topic>
+
+Names     02 <pre>12 names: <chan brackets="1"> <names>
+NamesEnd     02 <pre>12 end of <chan> /names list
+
+UnknownCmd     02 <pre>12 error: unknown command <cmd brackets="1">
+NickInUse     02 <pre>12 error: nickname <nick> is already in use! Press Control+F1 to retry!
+AwayStatus     02 <pre>12 <nick> is marked as being away as <reason brackets="1">
+ChanFull     02 <pre>12 can't join <chan> 02(12 full (+l) 02)12! Press Control+F2 to retry!
+ChanInviteOnly     02 <pre>12 can't join <chan> 02(12 invite only (+i) 02)12! Press Control+F2 to retry!
+ChanBanned     02 <pre>12 can't join <chan> 02(12 you're banned (+b) 02)12! Press Control+F2 to retry!
+ChanKeyRequired     02 <pre>12 can't join <chan> 02(12 requires key (+k) 02)12! Press Control+F2 to retry!
+ChanRegOnly     02 <pre>12 can't join <chan> 02(12 auth'ed only (+r) 02)12!
+NoSuchNick     02 <pre>12 <nick> is not online.
+NoSuchChan     02 <pre>12 <chan> does not exist.
+
+RawDef     02 <pre>12 raw <numeric brackets="1">: <text>
+
+Scheme0 Default 16777215 0 6576160 37632 255 127 10223772 32764 65535 64512 14069550 15131351 11243276 16711935 4669494 11115405 11 2 1 1 1 1 12 12 12 12 12 1 1 12 1 1 12 12 12 1 1 11 1 11 1 1 1 11 11 1
+Scheme1 Pluto 0 13553358 11240261 37632 255 127 10223772 32764 65535 64512 12489084 2369060 12428418 16711935 4669494 11115405 11 2 1 1 1 1 12 12 12 12 12 1 1 12 1 1 12 12 12 1 1 11 1 11 1 1 1 11 11 1
+Scheme2 Brown 0 13553358 5213822 37632 255 127 10223772 32764 65535 64512 8567208 2303783 8698807 16711935 4669494 11115405 11 1 1 1 1 1 12 12 12 12 12 1 1 12 1 1 12 12 12 1 1 11 1 11 1 1 1 11 11 1
+Scheme3 Algae 0 13553358 4685391 37632 255 127 10223772 32764 65535 64512 8501896 2238498 8437646 16711935 4669494 11115405 11 1 1 1 1 1 12 12 12 12 12 1 1 12 1 1 12 12 12 1 1 11 1 11 1 1 1 11 11 1
+Scheme4 Underwater 0 16777215 15126192 37632 255 127 10223772 32764 65535 64512 11831632 5717542 13144397 16711935 4669494 11115405 11 2 1 1 1 1 12 12 12 12 12 1 1 12 1 1 12 12 12 1 1 11 1 11 1 1 1 11 11 1
+Scheme5 Platinum 16777215 0 2039653 37632 255 127 10223772 32764 65535 64512 2368691 14606046 987048 16711935 4669494 11115405 11 2 1 1 1 1 12 12 12 12 12 1 1 12 1 1 12 12 12 1 1 11 1 11 1 1 1 11 11 1

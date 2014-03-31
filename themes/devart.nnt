@@ -1,0 +1,141 @@
+Name deviantART
+Version 1.21
+NNTVersion 1.03
+Author krimson
+Email krimsonlord@yahoo.com
+Homepage http://ravishment.deviantart.com/
+Description NoNameScript theme inspired from the deviantART site (http://www.deviantart.com), based on Winter.nnt
+
+Font Tahoma
+FontSize 10
+
+TimestampEnabled 1
+Timestamp 1[14 HH:nn:ss 1]
+
+NickColSelf none
+NickColOp none
+NickColVoice none
+NickColRegular none
+NickColProtect none
+NickColIgnore 4
+
+Brackets [ <text> ]
+LineSep 01[(
+Prefix 11~~~
+
+GenEcho     01 <pre> 14<text>
+GenError     01 <pre> 14error: <text>
+GenHighlight <text brackets="1">
+
+ChanText 01(<cmode><nick>01) <text>
+ChanTextOwn 01(<cmode><me>01) <text>
+ChanAction • <cmode><nick> <text>
+ChanActionOwn • <cmode><me> <text>
+
+QueryText 01(<nick>01) <text>
+QueryTextOwn 01(<me>01) <text>
+QueryAction • <nick> <text>
+QueryActionOwn • <me> <text>
+
+Msg 14•<nick>!<address>14• <text>
+MsgOwn  01 <pre>14 •<target>14• <text>
+Action • 14•<nick>!<address> <text>
+ActionOwn  01 <pre>14 •<target> <text>
+
+ChanNotice 14-<cmode><nick>14:<chan>14- <text>
+Notice 14-<nick>14- <text>
+NoticeOwn     01 <pre>14 -<target>14- <text>
+ServerNotice 14-<server>14- <text>
+
+CTCP 01~<nick>01~ <ctcp> <text>
+CTCPOwn  01 <pre> 01~<target>01~ <ctcp> <text>
+ChanCTCP 01~<nick>01:<chan>01~ <ctcp> <text>
+CTCPReply 01!<nick>01! <ctcp> <text>
+CTCPReplyOwn  01 <pre> 01!<target>01! <ctcp> <text>
+
+Join     01 <pre>14 join: [ <nick> ! <address> ]
+JoinOwn <linesep>    01 <pre>14 now talking in <chan brackets="1"><linesep>!if <topic>     01 <pre>14 topic: <topic>!if <topic>     01 <pre>14 set by: <topicnick> <topicdate brackets="1">    01 <pre>14 users: <users> users, <oppedusers> ops <oppeduserspercent brackets="1">, <voicedusers> voiced <voiceduserspercent brackets="1">, <regusers> regulars <reguserspercent brackets="1">    01 <pre>14 join synced in: <synctime brackets="1"> second(s)<linesep>
+Part     01 <pre>14 part: [ <nick> ! <address> ] <message brackets="1">
+Quit     01 <pre>14 quit: [ <nick> ! <address> ] <message brackets="1">
+Nick     01 <pre>14 nick: <nick brackets="1"> is now known as <newnick brackets="1">
+NickOwn     01 <pre>14 nick: you are now known as <newnick brackets="1">
+Mode     01 <pre>14 mode: <nick brackets="1"> sets mode <mode brackets="1">
+UserMode     01 <pre>14 your usermode is now: <mode brackets="1">
+Kick     01 <pre>14 kick: [ <kickedcmode><kickednick> ] was kicked by [ <cmode><nick> ] <message brackets="1">
+KickOwn     01 <pre>14 kick: you were kicked out of <chan brackets="1"> by [ <cmode><nick> ] <message brackets="1">
+WallOp 01(<nick>01) <text>
+
+DNS     01 <pre>14 dns: resolving <address brackets="1">
+DNSError     01 <pre>14 dns: unable to resolve <address brackets="1">
+DNSResolve     01 <pre>14 dns: resolved <address brackets="1"> to <raddress brackets="1">
+
+Notify     01 <pre>14 notify: <nick brackets="1"> is now online!
+UnNotify     01 <pre>14 unnotify: <nick brackets="1"> is now offline!
+
+LUsers1     01 <pre>14 there are <users brackets="1"> users and <invisible brackets="1"> invisible on <servers brackets="1"> servers
+LUsers2     01 <pre>14 there are <operators brackets="1"> operators online
+LUsers3     01 <pre>14 there are <connections brackets="1"> unknown connection(s)
+LUsers4     01 <pre>14 there are <channels brackets="1"> channels formed
+LUsers5     01 <pre>14 i have <clients brackets="1"> clients and <servers brackets="1"> servers
+
+Welcome1     01 <pre>14 welcome to the internet relay network, <nick brackets="1">
+Welcome2     01 <pre>14 your host is <host brackets="1">, running version <version brackets="1">
+Welcome3     01 <pre>14 this server was created <created brackets="1">
+Welcome4     01 <pre>14 server: <server brackets="1">, version: <version brackets="1">, usermodes: <usermodes brackets="1">, channelmodes: <chanmodes brackets="1">
+SupportedInfo     01 <pre>14 supported by this server: <protocols brackets="1">
+
+ChannelModes     01 <pre>14 modes on <chan>: <modes brackets="1">
+ChannelCreation     01 <pre>14 <chan> creation time: <created brackets="1">
+Bans     01 <pre>14 <ban brackets="1"> set on <banned brackets="1"> by <nick brackets="1">
+BansEnd     01 <pre>14 end of <chan brackets="1"> ban list!
+UnableToSend     01 <pre>14 unable to send message to <chan brackets="1">!
+NotOpped     01 <pre>14 you're not opped on <chan brackets="1">!
+HiddenHost     01 <pre>14 <host brackets="1"> is now your hidden host!
+RegisterFirst     01 <pre>14 register first!
+
+WhoisStart 01[(14 /whois start 01)]
+WhoisAddress 11 <pre> 01<nick> 14is "<name>14" <address brackets="1">
+WhoisChans !if <opchans> 11 <pre> 11<nick> 14opped in <opchans hlcommon="1">!if <hopchans> 11 <pre> 11<nick> 14helpopped in <hopchans hlcommon="1">!if <vchans> 11 <pre> 11<nick> 14voiced in <vchans hlcommon="1">!if <regchans> 11 <pre> 11<nick> 14reg in <regchans hlcommon="1">
+WhoisServer 11 <pre> 11<nick> 14using <server> <info brackets="1">
+WhoisStatus 11 <pre> 11<nick> 14is <status>
+WhoisAway 11 <pre> 11<nick> 14is away <reason>
+WhoisAuth 11 <pre> 11<nick> 14authed as "<auth>14"
+WhoisRealIP 11 <pre> 11<nick> 14real host <address> <ip brackets="1">
+WhoisIdle 11 <pre> 11<nick> 14has been idle for <idle>11 <pre> 11<nick> 14signed on <signontime> [<signonago> ago]
+WhoisEnd 01[(14 /whois end 01)]
+
+WhowasStart 01[(14 /whowas start 01)]
+WhowasAddress 11 <pre> 01<nick> 14was "<name>14" <address brackets="1">
+WhowasServer 11 <pre>11<nick> 14used <server> <info brackets="1">
+WhowasAway 11 <pre> 11<nick> 14was away <reason>
+WhowasEnd 01[(14 /whowas end 01)]
+
+Who     01 <pre>14 who: 01[( 14<nick>!<address> 01)]14 on <chan brackets="1"> using <server brackets="1">. real name: <name brackets="1">
+WhoEnd     01 <pre>14 end of /who request for <target brackets="1">
+
+Invite     01 <pre>14 invite: <nick brackets="1"> invites you to join <chan brackets="1">
+InviteOwn     01 <pre>14 invite: <nick brackets="1"> has been invited to join <chan brackets="1">
+InviteAlreadyOnChan     01 <pre>14 invite: <nick brackets="1"> is already on <chan brackets="1">
+
+NoTopic     01 <pre>14 no topic set: <chan brackets="1">
+Topic     01 <pre>14 topic: <topic brackets="1">
+TopicBy     01 <pre>14 set by: <nick brackets="1"> on <date brackets="1">
+TopicChange     01 <pre>14 topic: <nick brackets="1"> changes topic to <topic brackets="1">
+
+Names     01 <pre>14 names: <chan brackets="1"> <names>
+NamesEnd     01 <pre>14 end of /names list for <chan brackets="1">
+
+UnknownCmd     01 <pre>14 error: unknown command <cmd brackets="1">
+NickInUse     01 <pre>14 error: nickname <nick brackets="1"> is already in use! Press Control+F1 to retry!
+AwayStatus     01 <pre>14 away: <nick brackets="1"> is marked as being away as <reason brackets="1">
+ChanFull     01 <pre>14 can't join <chan brackets="1"> 01(14full (+l)01)14! Press Control+F2 to retry!
+ChanInviteOnly     01 <pre>14 can't join <chan brackets="1"> 01(14invite only (+i)01)14! Press Control+F2 to retry!
+ChanBanned     01 <pre>14 can't join <chan brackets="1"> 01(14you're banned (+b)01)14! Press Control+F2 to retry!
+ChanKeyRequired     01 <pre>14 can't join <chan brackets="1"> 01(14requires key (+k)01)14! Press Control+F2 to retry!
+ChanRegOnly     01 <pre>14 can't join <chan brackets="1"> 01(14auth'ed only (+r)01)14!
+NoSuchNick     01 <pre>14 no such nickname: <nick brackets="1">
+NoSuchChan     01 <pre>14 no such channel: <chan brackets="1">
+
+RawDef     01 <pre>14 raw <numeric>: <text>
+
+Scheme0 Default 16053230 0 6760704 28928 255 127 10223772 28924 60927 7042407 16739081 12305083 10178048 16711935 4669494 7766132 11 1 1 1 1 1 14 14 14 14 14 1 1 14 1 1 14 14 14 1 1 11 1 11 1 1 1 11 11 1

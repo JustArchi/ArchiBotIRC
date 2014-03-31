@@ -1,0 +1,149 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - window arrangement options - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias winarr { nndlg -m winarr }
+dialog winarr {
+  title "Window arrangement [/winarr]"
+  size -1 -1 254 233
+  option pixels
+  icon scripts\pics\nntray.ico, 0
+  box "Arrangement possibilites", 2, 2 2 248 151
+  radio "C&ascade", 3, 52 28 66 18
+  radio "&Tile", 6, 52 58 42 18
+  radio "&Hybrid:", 4, 52 88 58 18
+  edit %winarr.hybnum, 16, 88 106 30 22, limit 1
+  check "&Flip", 18, 70 128 42 18
+  radio "&Maximize", 7, 174 28 70 18
+  radio "&Inflate", 5, 174 58 58 18
+  radio "&None", 20, 174 88 52 18
+  icon 9, 14 54 30 24,  scripts\pics\wa-tile.png, 0, noborder
+  icon 10, 136 24 30 24,  scripts\pics\wa-max.png, 0, noborder
+  icon 11, 136 54 30 24,  scripts\pics\wa-infl.png, 0, noborder
+  icon 12, 14 84 30 24,  scripts\pics\wa-hyb.png, 0, noborder
+  icon 13, 14 24 30 24,  scripts\pics\wa-casc.png, 0, noborder
+  text "1/", 14, 70 110 14 14
+  box "Options", 1, 2 157 248 42
+  check "A&uto-arrange windows", 17, 12 173 134 18
+  button "&Ok", 8, 76 205 88 24, ok
+  button "&Cancel", 15, 170 205 80 24, cancel
+}
+on *:dialog:winarr:*:*:{
+  if ($devent == init) {
+    if (%winarr == -c) { did -c $dname 3 }
+    elseif (%winarr == -s) { did -c $dname 4 }
+    elseif (%winarr == -i) { did -c $dname 5 }
+    elseif (%winarr == -t) { did -c $dname 6 }
+    elseif (%winarr == -m) { did -c $dname 7 }
+    else { did -c $dname 20 }
+    if (%winarr.auto) { did -c $dname 17 }
+    if (%winarr.hybrid.flip) { did -c $dname 18 }
+  }
+  elseif ($devent == sclick) {
+    if ($did isnum 3-7) { did -e $dname 8 }
+    elseif ($did isnum 9-13) {
+      did -e $dname 8
+      did -u $dname 3,4,5,6,7
+      did -c $dname $replacex($did,13,3,12,4,11,5,10,7,9,6)
+    }
+    elseif ($did == 18) { sdt winarr.hybrid.flip }
+    elseif ($did == 8) {
+      if ($did(20).state) { winarr.apply }
+      elseif ($did(3).state) { winarr.apply -c }
+      elseif ($did(4).state) { winarr.apply -s }
+      elseif ($did(5).state) { winarr.apply -i }
+      elseif ($did(6).state) { winarr.apply -t }
+      elseif ($did(7).state) { winarr.apply -m }
+      set %winarr.auto $did(17).state
+    }
+  }
+  elseif ($devent == edit) && ($did == 16) {
+    did -u $dname 3,5,6,7
+    did -c $dname 4
+    did -e $dname 8
+    numonlyedit $dname $did
+    set %winarr.hybnum $iif($did($did) isnum 2-9,$v1,4)
+  }
+}
+alias winarr.ref { if ($istok(-c -i -t -s,%winarr,32)) && (%winarr.auto) && (!$istok(minimized hidden tray,$appstate,32)) { winarr.apply %winarr } }
+alias winarr.apply {
+  if ($1) { set %winarr $1 }
+  else { unset %winarr }
+  if ($1 == -c) { winarr.arr.cascade }
+  elseif ($1 == -i) { winarr.arr.inflate }
+  elseif ($1 == -m) { winarr.arr.maximize }
+  elseif ($1 == -t) { winarr.arr.tile }
+  elseif ($1 == -s) { winarr.arr.hybrid }
+}
+alias winarr.arr.maximize { if ($window(Status Window).state != maximized) { !window -x "Status Window" } }
+alias winarr.arr.tile { mdi -t }
+alias winarr.arr.cascade { mdi -c }
+alias winarr.arr.hybrid {
+  var %x = $int($calc($window(-3).dh / %winarr.hybnum)),%i = $mkfullfn($mircini)
+  scon -a winarr.arr.hybrid.do %x
+  if (%winarr.auto) { .timerwinarr.write -io 1 1 winarr.arr.hybrid.wini %x }
+}
+alias winarr.arr.hybrid.wini {
+  var %i = $mkfullfn($mircini),%s = 0, $+ $window(-3).dw $+ , $+ $iif(%winarr.hybrid.flip,$1,0) $+ , $+ $calc($window(-3).dh - $1) $+ ,0,1,0
+  .remini %i windows
+  writeini -n %i windows status 0, $+ $window(-3).dw $+ , $+ $iif(%winarr.hybrid.flip,0,$calc($window(-3).dh - $1)) $+ , $+ $1 $+ ,0,1,0
+  writeini -n %i windows wdchannel %s
+  writeini -n %i windows wdquery %s
+  writeini -n %i windows wserv %s
+  writeini -n %i windows wchat %s
+  writeini -n %i windows wfinger %s
+  writeini -n %i windows wmessage %s
+  writeini -n %i windows wlinks %s
+  writeini -n %i windows wnotify %s
+  writeini -n %i windows wwwwlist %s
+  writeini -n %i windows wlist %s
+}
+alias winarr.arr.hybrid.pos { return 0 $iif(%winarr.hybrid.flip,$int($calc($window(-3).dh / %winarr.hybnum)),0) $window(-3).dw $calc($window(-3).dh - $int($calc($window(-3).dh / %winarr.hybnum))) }
+alias winarr.arr.hybrid.do {
+  var %i = $window(*,0),%z,%p1 = 0 $iif(%winarr.hybrid.flip,$1,0) $window(-3).dw $calc($window(-3).dh - $1),%p2 = 0 $iif(%winarr.hybrid.flip,0,$calc($window(-3).dh - $1)) $window(-3).dw $1
+  while (%i) {
+    var %z = $window(*,%i)
+    if ($window(%z).mdi) && (!$vwin(%z)) && (Get * !iswm %z) && (Send * !iswm %z) {
+      if ($window(%z).state == maximized) { !window -r $qt(%z) }
+      if (%z != Status Window) && ($window(%z).x $window(%z).y $window(%z).w $window(%z).h != %p1) { !window $qt(%z) $v2 }
+    }
+    dec %i
+  }
+  !window -r "Status Window" %p2
+}
+alias winarr.arr.inflate {
+  scon -a winarr.arr.inflate.do
+  if (%winarr.auto) { .timerwinarr.write -io 1 1 winarr.arr.inflate.wini }
+}
+alias winarr.arr.inflate.wini {
+  var %i = $mkfullfn($mircini),%s = 0, $+ $window(-3).dw $+ ,0, $+ $window(-3).dh $+ ,0,1,0
+  .remini %i windows
+  writeini -n %i windows status %s
+  writeini -n %i windows wdchannel %s
+  writeini -n %i windows wdquery %s
+  writeini -n %i windows wserv %s
+  writeini -n %i windows wchat %s
+  writeini -n %i windows wfinger %s
+  writeini -n %i windows wmessage %s
+  writeini -n %i windows wlinks %s
+  writeini -n %i windows wnotify %s
+  writeini -n %i windows wwwwlist %s
+  writeini -n %i windows wlist %s
+}
+alias winarr.arr.inflate.pos { return 0 0 $window(-3).dw $window(-3).dh }
+alias winarr.arr.inflate.do {
+  var %i = $window(*,0)
+  while (%i) {
+    var %z = $window(*,%i)
+    if ($window(%z).mdi) && (!$vwin(%z)) && (Get * !iswm %z) && (Send * !iswm %z) {
+      if ($window(%z).state == maximized) { !window -r $qt(%z) }
+      if ($window(%z).x $window(%z).y $window(%z).w $window(%z).h != 0 0 $window(-3).dw $window(-3).dh) { !window $qt(%z) $v2 }
+    }
+    dec %i
+  }
+}
+on *:appactive:{ if (%winarr.auto) && ($appactive) && (%winarr != -m) && ($appstate != minimized) && ($appstate != tray) { winarr.apply %winarr } }
+on *:signal:DCX:{ if ($1 == size) { .timerwinarr -imo 1 50 winarr.ref } }
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

@@ -1,0 +1,2139 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - setup - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+dialog settings {
+  title "settings"
+  size -1 -1 607 393
+  option pixels
+  icon scripts\pics\nntray.ico, 0
+  tab "script", 1000, -100 -100 1000 1000
+  box "NNScript settings", 269, 132 4 471 318, tab 1000
+  icon 137, 197 25 330 246,  scripts\pics\banner_splash.jpg, 0, tab 1000
+  icon 824, 197 279 330 30,  scripts\pics\esnation.png, 0, group tab 1000
+  tab "auth", 900
+  box "Q settings", 45, 132 80 471 96, tab 900
+  text "Nickname", 613, 142 24 56 14, tab 900
+  text "Password", 614, 142 46 60 14, tab 900
+  edit %q.auth.nick, 17, 242 20 162 22, tab 900 autohs limit 30
+  edit , 18, 242 42 162 22, tab 900 pass autohs limit 60
+  check "&Auth automatically if connected to a QuakeNet Server", 15, 142 96 280 18, tab 900
+  check "&Hide hostmask when authed (usermode +x)", 825, 142 114 316 18, tab 900
+  check "O&nly when not connected to a bouncer", 127, 160 132 212 18, tab 900
+  check "A&uto-request op/voice from Q on deop/devoice", 615, 142 150 254 18, tab 900
+  box "Q data", 16, 132 4 471 70, tab 900
+  box "General information", 76, 132 182 471 96, tab 900
+  text "If you need help regarding the Q bot on QuakeNet, you can visit the QuakeNet Q FAQ website:", 46, 142 198 383 28, tab 900
+  link "http://www.quakenet.org/faq/faq.php?c=1", 47, 142 226 214 16, tab 900
+  text "A general QuakeNet FAQ is available here:", 48, 142 242 208 14, tab 900
+  link "http://www.quakenet.org/faq/faq.php?c=4", 49, 142 256 214 16, tab 900
+  tab "unetx", 987
+  box "X settings", 1543, 132 80 471 96, tab 987
+  text "Login", 1313, 142 24 28 14, tab 987
+  text "Password", 1314, 142 46 50 14, tab 987
+  edit %x.auth.nick, 1317, 242 20 162 22, tab 987 autohs limit 30
+  edit , 1318, 242 42 162 22, tab 987 pass autohs limit 60
+  check "&Identify automatically if connected to an UnderNet server", 1315, 142 96 300 18, tab 987
+  check "&Hide hostmask when identified (usermode +x)", 826, 142 114 290 18, tab 987
+  check "O&nly when not connected to a bouncer", 126, 160 132 212 18, tab 987
+  check "A&uto-request op/voice from X on deop/devoice", 1551, 142 150 254 18, tab 987
+  box "X data", 31, 132 4 471 70, tab 987
+  box "General information", 1452, 132 182 471 96, tab 987
+  text "If you need help regarding the X bot on UnderNet, you can visit the UnderNet channel service website:", 13, 142 198 450 28, tab 987
+  link "http://cservice.undernet.org/", 50, 142 226 148 16, tab 987
+  text "The main UnderNet homepage can be reached at:", 51, 142 242 240 14, tab 987
+  link "http://www.undernet.org/", 52, 142 256 132 16, tab 987
+  tab "awlog", 1263
+  box "Away log", 84, 132 4 471 271, tab 1263
+  box "Away pager", 86, 132 280 471 42, tab 1263
+  check "Enable a&way log", 87, 142 20 104 18, tab 1263
+  check "Log channel &highlights", 351, 160 38 140 18, tab 1263
+  check "&Log channel kicks and topic changes in channels you're opped", 617, 160 56 318 18, tab 1263
+  text "Add your other away log triggers here:", 1513, 180 76 192 14, tab 1263
+  list 85, 178 92 232 174, tab 1263 sort size extsel vsbar
+  button "&Add", 2001, 415 94 80 24, tab 1263
+  button "&Edit", 205, 415 126 80 24, tab 1263
+  button "&Remove", 2002, 415 158 80 24, tab 1263
+  button "&Clear", 156, 415 182 80 24, tab 1263
+  check "Enable awa&y pager (/ctcp <nick> page <message>)", 130, 142 296 274 18, tab 1263
+  tab "awmsg", 1264
+  box "Away message settings", 619, 132 4 471 318, tab 1264
+  check "E&nable public away messages", 631, 142 20 164 18, tab 1264
+  radio "In &active channel only", 89, 160 38 128 18, tab 1264
+  radio "In all &channels", 93, 160 56 92 18, tab 1264
+  check "A&lso send away messages to query/queries", 635, 160 74 234 18, tab 1264
+  check "Don'&t message these channels[/queries]:", 630, 160 92 220 18, tab 1264
+  list 632, 178 110 232 182, tab 1264 sort size extsel vsbar
+  button "&Add", 633, 414 111 80 24, tab 1264
+  button "&Edit", 208, 414 143 80 24, tab 1264
+  button "&Remove", 634, 414 175 80 24, tab 1264
+  button "&Clear", 157, 414 199 80 24, tab 1264
+  check "&Remind users of my away status when they highlight me", 636, 142 295 300 18, tab 1264
+  tab "awmisc", 1265
+  text "Network", 32, 142 24 44 14, tab 1265
+  box "Nicknames", 80, 132 4 470 92, tab 1265
+  text "Default nickname", 637, 142 46 136 14, tab 1265
+  text "Away nickname", 638, 142 68 78 14, tab 1265
+  combo 1579, 285 20 171 156, tab 1265 sort drop
+  button "&+", 306, 460 20 26 20, tab 1265
+  button "&-", 135, 486 20 26 20, disable tab 1265
+  edit %nick.def, 81, 284 42 173 22, tab 1265 autohs limit 30
+  edit %nick.away, 83, 284 64 173 22, tab 1265 autohs limit 30
+  box "Miscellaneous", 88, 132 102 471 188, tab 1265
+  check "&Hide other users' away messages", 1234, 142 136 184 18, tab 1265
+  check "&Retain away status when reconnecting", 138, 142 154 210 18, tab 1265
+  check "Set back on keyboard &input", 1238, 142 172 154 18, tab 1265
+  check "&Set yourself away after idling for more than", 1235, 142 190 232 18, tab 1265
+  edit $calc(%auto.awaytime /60), 1236, 378 188 46 22, tab 1265 center
+  text "minutes", 1237, 430 192 40 14, tab 1265
+  check "&Don't message channels on auto-away", 640, 160 208 210 18, tab 1265
+  check "&Warn before setting auto-away", 641, 160 226 176 18, tab 1265
+  text "When coming back, use:", 639, 162 248 122 14, tab 1265
+  radio "Defa&ult nick", 1432, 286 246 82 18, tab 1265
+  radio "Old &nick", 1433, 286 264 62 18, tab 1265
+  check "&Add local time to away reasons", 177, 142 118 182 18, tab 1265
+  tab "fkeys", 903
+  box "Bindings (doubleclick to change)", 19, 132 4 471 318, tab 903
+  list 79, 142 20 368 292, tab 903 size
+  button "&Unset", 777, 515 21 80 24, disable tab 903
+  button "Unset &all", 20, 515 45 80 24, tab 903
+  button "&Reset default", 536, 515 77 80 24, tab 903
+  tab "m1", 1921
+  box "Query options", 1923, 132 4 471 120, tab 1921
+  check "Close que&ries after idling for more than", 1914, 142 22 210 14, tab 1921
+  edit $calc(%qcls.secs /60), 1915, 358 18 40 22, tab 1921 center
+  check "Show statisti&cs in query windows", 2089, 142 38 180 14, tab 1921
+  check "Show the following channel e&vents in query windows too:", 73, 142 54 300 14, tab 1921
+  check "&Joins", 1924, 160 70 46 14, tab 1921
+  check "&Nicks", 1928, 270 70 46 14, tab 1921
+  check "&Parts", 1926, 378 70 46 14, tab 1921
+  check "&Kicks", 1927, 160 86 44 14, tab 1921
+  check "O&wn nicks", 1931, 270 86 70 14, tab 1921
+  check "&Quits", 1925, 378 86 46 14, tab 1921
+  check "&Show notification in active window when a query is opened", 178, 142 100 310 18, tab 1921
+  text "minutes", 533, 406 22 42 14, tab 1921
+  box "Nick completer", 563, 132 127 471 88, tab 1921
+  text "Trigger(s):", 42, 162 165 56 14, tab 1921
+  check "Enable nick co&mpleter (be sure to specify <nick> in the format)", 601, 142 145 322 14, tab 1921
+  edit %nick.comp.chr, 603, 270 161 174 22, tab 1921 autohs limit 20
+  text "Format:", 40, 162 189 40 14, tab 1921
+  edit %nickcomp.format, 41, 270 185 174 22, tab 1921 autohs limit 50
+  box "Window options", 220, 132 220 471 102, tab 1921
+  check "Show &highlights in active", 1385, 142 236 144 14, tab 1921
+  check "Show h&ighlights in own window", 1351, 142 252 170 14, tab 1921
+  check "Show I&AL updates in status window", 132, 142 268 194 14, tab 1921
+  check "Show ne&tsplits not in channel but in own window", 133, 142 284 258 14, tab 1921
+  check "Show notices in own win&dow", 143, 142 300 162 14, tab 1921
+  button "", 43, 448 186 146 20, disable tab 1921
+  tab "m2", 1993
+  box "Miscellaneous", 1994, 132 4 471 197, tab 1993
+  check "&Automatically save channel keys", 131, 142 21 182 14, tab 1993
+  check "C&heck for updates on startup", 155, 142 37 166 14, tab 1993
+  check "&Enable anti-idle, maximum idle time:", 2024, 142 53 194 14, tab 1993
+  edit %aidle.max, 2982, 340 49 42 22, tab 1993 center
+  text "seconds", 2981, 388 53 44 14, tab 1993
+  check Enable kickco&unter display, 2025, 142 69 150 14, tab 1993
+  check "&Get addresses if there are less than", 239, 142 85 196 14, tab 1993
+  edit %maxwhousers, 279, 340 81 42 22, tab 1993 center
+  text "users in the channel", 280, 388 85 98 16, tab 1993
+  check "Ge&t external IP on connect", 148, 142 101 154 14, tab 1993
+  check "&Show amount and nicknames of users affected by a ban", 1375, 142 117 294 14, tab 1993
+  check "Show D&CC info when a get/send is finished/cancelled", 34, 142 133 276 14, tab 1993
+  check "Sho&w splash screen at startup", 437, 142 149 166 14, tab 1993
+  check "Show ti&p of the day at startup", 1464, 142 165 168 14, tab 1993
+  box "Public message formatting", 300, 132 204 471 46, tab 1993
+  edit %sbr.format, 2901, 142 220 247 22, tab 1993 autohs limit 100
+  button "", 2902, 393 221 200 20, disable tab 1993
+  box "Mask settings", 298, 132 252 471 70, tab 1993
+  text "Default ban mask:", 1379, 142 272 91 14, tab 1993
+  text "Default ignore mask:", 1378, 142 296 106 14, tab 1993
+  combo 1377, 280 268 164 140, tab 1993 drop
+  combo 1376, 280 292 164 140, tab 1993 drop
+  check "Use precise timing method", 194, 142 181 155 14, tab 1993
+  tab "cprot", 910
+  box "Channel protections", 140, 132 4 471 97, tab 910
+  text "Select a channel", 111, 160 24 84 16, tab 910
+  combo 112, 338 20 200 156, tab 910 size drop
+  button "&+", 113, 541 20 26 20, tab 910
+  button "&-", 114, 567 20 26 20, disable tab 910
+  check "U&se preset settings in this channel", 144, 142 60 190 18, tab 910
+  check "&Use preset settings in all channels", 35, 142 42 188 18, tab 910
+  text "Punish:", 37, 160 80 40 16, tab 910
+  check "O&ps/Help-ops", 145, 212 78 90 18, tab 910
+  check "&Voiced users", 146, 314 78 84 18, tab 910
+  box "Protection settings", 36, 132 105 471 172, tab 910
+  list 115, 140 121 454 118, tab 910 size
+  button "&Load default", 147, 141 243 80 24, tab 910
+  button "&Change", 117, 512 243 80 24, disable tab 910
+  box "General settings", 141, 132 280 471 42, tab 910
+  check "Show &tip when a channel protection is triggered", 3, 142 297 252 18, tab 910
+  tab "pprot", 911
+  box "Personal protections", 301, 132 4 471 254, tab 911
+  list 110, 139 20 455 201, tab 911 size
+  button "&Load default", 118, 512 225 80 24, tab 911
+  button "&Change", 116, 139 225 80 24, disable tab 911
+  box "Miscellaneous settings", 1988, 132 263 471 59, tab 911
+  check "&Send NNScript VERSION reply", 60, 142 279 192 18, tab 911
+  check "Show &tip when a personal protection is triggered", 4, 142 297 262 18, tab 911
+  tab "excludes", 1992
+  box "Protection excludes", 328, 132 4 471 318, tab 1992
+  list 332, 139 20 369 274, tab 1992 sort size extsel vsbar
+  button "&Add", 329, 513 21 80 24, tab 1992
+  button "&Edit", 210, 513 53 80 24, tab 1992
+  button "&Remove", 330, 513 85 80 24, tab 1992
+  button "&Clear", 158, 513 109 80 24, tab 1992
+  check "A&lso exclude users who are on the mIRC protect list", 1990, 141 298 270 18, tab 1992
+  tab "stbar", 170
+  box "Customize your statusbar", 176, 132 4 471 318, tab 170
+  check "&Enable status bar", 183, 142 20 112 18, tab 170
+  check "Re&fresh every", 258, 160 40 94 18, tab 170
+  edit %sbar.refdelay, 304, 260 38 60 22, tab 170 limit 3 center
+  text "second(s)", 307, 330 42 50 16, tab 170
+  list 257, 139 64 369 250, tab 170 size
+  button "&Add item", 305, 513 66 80 24, tab 170
+  button "E&dit", 303, 513 98 80 24, tab 170
+  button "&Remove", 302, 513 130 80 24, tab 170
+  button "&Clear", 299, 513 154 80 24, tab 170
+  button "6", 259, 513 234 80 24, tab 170
+  button "5", 260, 513 210 80 24, tab 170
+  button "&Presets...", 325, 513 288 80 24, tab 170
+  tab "servcon", 956
+  box "Favorite networks", 958, 132 4 471 158, tab 956
+  list 960, 142 39 185 112, tab 956 sort size
+  button "4", 962, 334 70 32 24, disable tab 956
+  button "3", 963, 334 102 32 24, disable tab 956
+  list 961, 373 40 185 112, tab 956 size
+  text "Available networks", 964, 142 22 185 14, tab 956 center
+  text "Favorite networks", 965, 373 22 185 14, tab 956 center
+  button "5", 971, 562 70 32 24, disable tab 956
+  button "6", 972, 562 102 32 24, disable tab 956
+  box "Network data", 71, 132 170 471 152, tab 956
+  text "Full Name", 91, 142 212 50 14, tab 956
+  text "Email Address", 75, 142 234 68 14, tab 956
+  text "Nickname", 72, 142 256 48 14, tab 956
+  text "Alternative", 74, 142 278 56 14, tab 956
+  text "Pref. server", 134, 142 190 64 14, tab 956
+  combo 136, 219 186 223 160, tab 956 sort size drop
+  edit "", 92, 218 208 225 22, tab 956 autohs limit 50
+  edit "", 120, 218 230 225 22, tab 956 autohs limit 50
+  edit "", 121, 218 252 225 22, tab 956 autohs limit 30
+  edit "", 122, 218 274 225 22, tab 956 autohs limit 30
+  check "&Connect at startup", 123, 457 188 116 18, tab 956
+  check "&Disable perform/join", 125, 457 232 124 18, tab 956
+  check "&Show in toolbar popup", 124, 457 255 130 18, tab 956
+  text "Note: you may leave an editbox empty for its default value!", 128, 142 300 294 16, tab 956
+  check "&Use SSL", 324, 457 210 66 18, tab 956
+  tab "kickmsg", 982
+  button "", 2335, 142 290 450 20, disable tab 982
+  box "Kick messages", 2332, 132 4 471 266, tab 982
+  list 2333, 141 20 368 242, tab 982 sort size extsel vsbar
+  button "&Add", 2336, 513 21 80 24, tab 982
+  button "&Edit", 163, 513 53 80 24, tab 982
+  button "&Remove", 2337, 513 85 80 24, tab 982
+  button "&Clear", 159, 513 109 80 24, tab 982
+  box "Preview", 2334, 132 274 471 46, tab 982
+  button "&Load default", 207, 513 235 80 24, tab 982
+  tab "quitmsg", 983
+  button "", 2325, 142 233 450 20, disable tab 983
+  box "Note", 2320, 132 265 471 57, tab 983
+  text "In order to use these random quit messages, you have to set your quit message in the mIRC options to '$quit.msg' (without quotes). To do so press ALT+O and go to IRC - Messages.", 2321, 141 282 449 32, tab 983
+  box "Quit messages", 2322, 132 4 471 209, tab 983
+  list 2323, 141 20 368 186, tab 983 sort size extsel vsbar
+  button "&Add", 2326, 513 21 80 24, tab 983
+  button "&Edit", 165, 513 53 80 24, tab 983
+  button "&Remove", 2327, 513 85 80 24, tab 983
+  button "&Clear", 164, 513 109 80 24, tab 983
+  box "Preview", 2324, 132 217 471 46, tab 983
+  button "&Load default", 209, 513 179 80 24, tab 983
+  tab "titlebar", 984
+  box "Titlebar", 2360, 132 4 471 318, tab 984
+  check "&Refresh titlebar every", 169, 143 20 134 18, tab 984
+  edit %titlebar.cint, 172, 279 18 50 22, tab 984 limit 3 center
+  text "second(s)", 173, 337 22 54 14, tab 984
+  text "Here you can enter a titlebar format. You can use the following identifiers in addition to all default mIRC $identifiers:", 2361, 143 42 450 28, tab 984
+  list 26, 141 72 453 216, tab 984 size
+  edit "", 2380, 141 292 395 22, tab 984 autohs limit 300
+  button "&Apply", 68, 538 292 54 22, tab 984
+  tab "cnserv", 986
+  box "NickServ", 513, 132 4 471 148, tab 986
+  text "Nickname", 523, 142 47 48 14, tab 986
+  text "Password", 524, 142 70 50 14, tab 986
+  combo 54, 302 20 218 144, tab 986 sort size drop
+  button "&+", 311, 524 20 26 20, tab 986
+  button "&-", 335, 550 20 26 20, disable tab 986
+  edit "", 517, 301 43 220 22, tab 986 autohs limit 30
+  edit "", 518, 301 66 220 22, tab 986 pass autohs limit 60
+  radio "&Use '/nickserv identify <password>'", 55, 142 90 198 18, tab 986
+  radio "U&se '/msg nickserv identify <password>'", 56, 142 108 220 18, tab 986
+  check "Enable auto-&ghosting when nickname is in use", 69, 142 126 244 18, tab 986
+  box "ChanServ", 529, 132 158 471 164, tab 986
+  check "&Identify to these channels:", 535, 142 174 156 18, tab 986
+  list 211, 301 172 223 142, tab 986 sort size extsel vsbar
+  button "&Add", 593, 528 173 66 24, tab 986
+  button "&Edit", 212, 528 203 66 24, tab 986
+  button "&Remove", 534, 528 233 66 24, tab 986
+  button "&Clear", 166, 528 257 66 24, tab 986
+  text "Select a network", 288, 142 24 86 16, tab 986
+  tab "ticker", 1812
+  box "Newstickers", 1813, 132 4 471 200, tab 1812
+  check "&Enable newstickers", 2074, 142 20 116 18, tab 1812
+  text "More RSS feeds:", 278, 410 22 82 14, tab 1812
+  link "syndic8", 58, 493 22 38 16, tab 1812
+  text "or", 283, 533 22 12 14, tab 1812
+  link "2rss.com", 284, 546 22 47 16, tab 1812
+  list 224, 157 38 437 129, tab 1812 size
+  button "&Add", 225, 158 170 72 24, tab 1812
+  button "E&dit", 227, 238 170 72 24, tab 1812
+  button "&Remove", 226, 448 170 72 24, tab 1812
+  button "&Clear", 241, 520 170 72 24, tab 1812
+  box "Options", 1814, 132 207 471 115, tab 1812
+  text "Poll delay:", 1827, 161 226 52 14, tab 1812
+  edit %nwstick.mins, 1828, 215 222 40 22, tab 1812 center
+  text "minutes (10 or more recommended)", 1829, 261 226 176 14, tab 1812
+  check "&Show news in separate window", 1830, 142 244 176 18, tab 1812
+  check "&Use separate window for each newsticker", 57, 162 262 226 18, tab 1812
+  check "S&how error messages", 70, 142 280 128 18, tab 1812
+  check "Show &tip when there are news", 5, 142 298 176 18, tab 1812
+  tab "slaps", 139
+  box "Slaps", 654, 132 4 471 266, tab 139
+  list 653, 141 20 368 242, tab 139 sort size extsel vsbar
+  button "&Add", 656, 513 21 80 24, tab 139
+  button "&Edit", 204, 513 53 80 24, tab 139
+  button "&Remove", 655, 513 85 80 24, tab 139
+  button "&Clear", 203, 513 109 80 24, tab 139
+  button "&Load default", 213, 513 235 80 24, tab 139
+  button "", 658, 142 292 450 20, disable tab 139
+  box "Preview", 657, 132 276 471 46, tab 139
+  tab "tbedit", 263
+  box "Customize your toolbar", 265, 132 4 471 318, tab 263
+  list 266, 141 40 368 274, tab 263 size
+  button "&Add item", 268, 513 42 80 24, tab 263
+  button "Add &separator", 277, 513 66 80 24, tab 263
+  button "&Edit", 274, 513 98 80 24, tab 263
+  button "&Remove", 275, 513 130 80 24, tab 263
+  button "&Clear", 276, 513 154 80 24, tab 263
+  button "5", 281, 513 208 80 24, tab 263
+  button "6", 282, 513 232 80 24, tab 263
+  button "&Presets...", 267, 513 288 80 24, tab 263
+  check "&Enable custom toolbar", 2309, 142 20 130 18, tab 263
+  tab "tbsettings", 264
+  text "Lag update delay", 1535, 142 71 90 16, tab 264
+  edit %lag.chk.delay, 77, 309 67 54 22, tab 264 center
+  text "seconds", 78, 367 71 44 14, tab 264
+  box "Options", 250, 132 4 471 116, tab 264
+  text "Style", 334, 142 24 30 16, tab 264
+  combo 222, 310 18 154 160, tab 264 size drop
+  text "Peak of graph", 223, 142 94 74 16, tab 264
+  edit %lag.chk.len, 1340, 309 91 54 22, tab 264 center
+  text "milliseconds", 1341, 367 94 62 14, tab 264
+  box "Colors", 333, 132 127 471 152, tab 264
+  radio "&Theme colors", 286, 141 142 106 18, tab 264
+  radio "Green/yellow/red (lag &specific)", 287, 141 160 172 18, tab 264
+  radio "&Custom colors", 251, 141 178 92 18, tab 264
+  button "&...", 270, 277 197 28 22, tab 264
+  button "&...", 253, 277 221 28 22, tab 264
+  button "&...", 252, 277 245 28 22, tab 264
+  edit "", 271, 195 197 80 22, disable tab 264
+  edit "", 272, 195 221 80 22, disable tab 264
+  text "Low", 293, 159 225 26 16, tab 264
+  text "High", 294, 159 249 28 16, tab 264
+  edit "", 273, 195 245 80 22, disable tab 264
+  text "Back", 292, 159 201 30 16, tab 264
+  text "Border style", 129, 142 48 64 16, tab 264
+  combo 44, 310 44 154 160, tab 264 size drop
+  tab "mail", 237
+  check "&Enable e-mail checker", 39, 142 20 126 18, tab 237
+  check "&Beep", 2311, 179 76 68 18, tab 237
+  check "E&cho information", 67, 179 94 110 18, tab 237
+  check "Show cu&rrent amount of mails in the toolbar info box", 2010, 160 40 284 18, tab 237
+  text " - check delay:", 2303, 267 22 73 14, tab 237
+  edit $calc(%mail.delay /60), 2307, 345 18 50 22, tab 237 autohs limit 3 center
+  box "General settings", 2312, 132 4 471 133, tab 237
+  text "minutes", 59, 400 22 44 16, tab 237
+  text "Username", 2301, 142 228 52 14, tab 237
+  text "Password", 61, 142 250 50 14, tab 237
+  combo 29, 280 158 213 160, tab 237 sort size drop
+  button "&+", 53, 499 158 26 20, tab 237
+  button "&-", 30, 525 158 26 20, tab 237
+  radio "&POP3", 65, 280 182 50 18, tab 237
+  radio "&IMAP", 66, 342 182 50 18, tab 237
+  edit , 2304, 280 202 213 22, tab 237 autohs limit 100
+  edit , 2305, 280 224 213 22, tab 237 autohs limit 100
+  edit , 2306, 280 246 213 22, tab 237 pass autohs limit 60
+  box "Account data", 27, 132 142 471 134, tab 237
+  text "Mail account", 28, 142 162 64 14, tab 237
+  text "Server[:port]", 63, 142 206 68 14, tab 237
+  text "Type", 64, 142 184 28 14, tab 237
+  check "Use &SSL", 62, 499 204 69 18, tab 237
+  check "Show &tip", 6, 179 112 69 18, tab 237
+  text "Upon receiving a new e-mail...", 199, 160 60 153 16, tab 237
+  tab "gsurge", 90
+  box "AuthServ data", 94, 132 4 471 70, tab 90
+  text "Nickname", 95, 142 24 48 14, tab 90
+  edit %gs.auth.nick, 96, 242 20 162 22, tab 90 autohs limit 30
+  edit , 97, 242 42 162 22, tab 90 pass autohs limit 60
+  text "Password", 98, 142 46 50 14, tab 90
+  box "AuthServ settings", 99, 132 80 471 114, tab 90
+  check "&Auth automatically if connected to a GameSurge server", 100, 142 96 290 18, tab 90
+  check "&Hide hostmask when authed (usermode +x)", 101, 142 114 298 18, tab 90
+  check "O&nly when not connected to a bouncer", 102, 160 132 212 18, tab 90
+  check "A&uto-request op/voice from ChanServ on deop/devoice", 103, 142 150 290 18, tab 90
+  check "&Enable auto-ghosting when nickname is in use", 109, 142 168 244 18, tab 90
+  box "General information", 104, 132 202 471 96, tab 90
+  text "If you need help regarding the GameSurge IRC network or any of its services, try to visit the official GameSurge homepage:", 105, 142 218 450 28, tab 90
+  link "http://www.gamesurge.net/", 106, 142 246 142 16, tab 90
+  text "A general GameSurge FAQ is available here:", 107, 142 262 216 14, tab 90
+  link "http://www.gamesurge.net/faq/", 108, 142 276 162 16, tab 90
+  tab "cfltr", 149
+  box "Content filter", 152, 132 4 471 318, tab 149
+  list 150, 142 78 368 234, tab 149 sort size extsel vsbar
+  button "&Add", 162, 515 80 80 24, tab 149
+  button "&Edit", 161, 515 112 80 24, tab 149
+  button "&Remove", 160, 515 144 80 24, tab 149
+  button "&Clear", 153, 515 168 80 24, tab 149
+  check "C&hannel messages", 167, 162 39 116 18, tab 149
+  check "&Query messages", 151, 162 57 106 18, tab 149
+  text "Filter content from:", 168, 142 24 98 15, tab 149
+  tab "Tab 29", 1001
+  text "", 190, 223 116 288 50, tab 1001 center
+  text "Please choose a subcategory", 171, 223 166 288 36, tab 1001 center
+  tab "themes", 308
+  box "Theme setup", 309, 132 4 471 318, tab 308
+  text "For your convenience, the theme setup is located in a separate dialog. Click the button below to open the theme setup!", 310, 253 118 232 40, tab 308 center
+  button "&Theme setup", 312, 317 164 100 28, tab 308
+  tab "pasting", 82
+  box "Pasting delay", 2, 132 4 471 148, tab 82
+  radio "Don't &allow multiline pastes", 8, 141 20 150 18, tab 82
+  radio "Delay pasting of &multiline lines for", 10, 141 40 184 18, tab 82
+  edit %pastedelay.ms, 11, 326 38 52 22, disable tab 82 limit 4 center
+  check "Only &if there are more than", 14, 159 62 159 18, disable tab 82
+  edit %pasteminlinedelay.num, 21, 326 60 52 22, disable tab 82 limit 4 center
+  edit %pasteminlinedelay.bytes, 23, 326 82 52 22, disable tab 82 limit 5 center
+  check "No&tify when pasting is delayed", 25, 159 106 170 18, disable tab 82
+  radio "&No delay", 9, 141 126 74 18, tab 82
+  box "Other options", 240, 132 158 471 100, tab 82
+  check "&Break up lines after more than", 214, 141 174 168 18, tab 82
+  edit %paste.breaklines.bytes, 216, 311 172 52 22, tab 82 limit 3 center
+  check "&Strip control codes (bold, underline, colors, etc.) when pasting text", 218, 141 193 349 18, tab 82
+  check "Onl&y when channel mode +c is set", 219, 159 212 189 18, tab 82
+  check "When &pasting a single line into the editbox, don't send the text immediately", 215, 141 231 393 20, tab 82
+  text "bytes", 217, 369 176 32 16, tab 82
+  text "lines or", 22, 384 64 36 14, disable tab 82
+  text "bytes in CB", 24, 384 86 54 14, disable tab 82
+  text "ms per line", 12, 384 42 54 14, tab 82
+  tab "games", 326
+  box "Game options", 327, 132 4 471 318, tab 326
+  combo 331, 235 22 271 178, tab 326 sort size drop
+  button "&+", 336, 511 22 24 20, tab 326
+  button "&-", 337, 535 22 24 20, tab 326
+  text "Game title", 342, 142 50 54 16, tab 326
+  edit "", 343, 234 46 273 22, tab 326
+  text "File path", 339, 142 74 46 16, tab 326
+  edit "", 344, 234 70 273 22, tab 326 autohs limit 500
+  button "&...", 353, 511 70 30 22, tab 326
+  text "Command line", 340, 142 98 72 16, tab 326
+  edit "", 345, 234 94 273 22, tab 326 autohs limit 500
+  button "&...", 354, 511 94 30 22, tab 326
+  check "&Set away when playing:", 355, 142 120 138 18, tab 326
+  text "Nick", 341, 160 144 30 16, tab 326
+  edit "", 346, 234 140 273 22, tab 326 autohs limit 30
+  text "Message", 356, 160 168 48 16, tab 326
+  edit "", 357, 234 164 273 22, tab 326 autohs limit 30
+  text "Favorite servers", 347, 142 192 86 16, tab 326
+  list 348, 234 188 273 125, tab 326 sort size extsel vsbar
+  button "&Add", 349, 513 190 80 24, tab 326
+  button "&Edit", 358, 513 222 80 24, tab 326
+  button "&Remove", 350, 513 254 80 24, tab 326
+  button "&Clear", 352, 513 278 80 24, tab 326
+  text "Game", 33, 142 26 35 16, tab 326
+  tab "awaypreset", 142
+  list 154, 219 21 287 134, tab 142 sort size extsel vsbar
+  button "&Add", 174, 512 22 80 24, tab 142
+  button "&Edit", 175, 512 54 80 24, tab 142
+  button "&Remove", 179, 512 86 80 24, tab 142
+  button "&Clear", 180, 512 110 80 24, tab 142
+  box "Away presets", 181, 132 4 471 268, tab 142
+  text "Preset", 182, 142 23 50 16, tab 142
+  text "Nickname", 184, 142 185 50 16, tab 142
+  text "Reason", 185, 142 161 44 16, tab 142
+  edit "", 186, 219 157 287 22, tab 142 autohs limit 100
+  edit "", 187, 219 181 287 22, tab 142 autohs limit 30
+  text "You can use various identifiers in your away nickname:", 188, 221 207 272 15, tab 142
+  text "<me>: your current nick (example: <me>^away)", 189, 231 221 248 15, tab 142
+  text "<back>: your default nick", 191, 231 235 131 15, tab 142
+  text "<away>: your network-specific away nick", 192, 231 249 222 15, tab 142
+  box "Current status", 195, 132 276 471 46, tab 142
+  text "?", 196, 141 294 295 16, tab 142
+  button "Set &away", 197, 442 289 75 24, tab 142
+  button "Set &back", 198, 519 289 75 24, tab 142
+  text "Loading...", 119, 331 348 76 29, center
+  icon 38, 133 327 468 60
+  list 1, 3 6 124 354, size
+  button "&Ok", 7, 3 364 124 24, ok
+  box "", 193, 132 320 472 70
+}
+on *:dialog:settings:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 224 ListView report noheader showsel checkboxes sortascending labeltip rowselect > $mdxfile(views)
+    mdx SetControlMDX $dname 79 ListView report nosortheader showsel single rowselect editlabels > $mdxfile(views)
+    mdx SetControlMDX $dname 266,257 ListView report nosortheader showsel infotip rowselect multiselect > $mdxfile(views)
+    mdx SetControlMDX $dname 26 ListView report showsel single rowselect infotip > $mdxfile(views)
+    mdx SetControlMDX $dname 1 TreeView hasbuttons haslines showsel nohscroll > $mdxfile(views)
+    mdx SetControlMDX $dname 110,115 ListView report rowselect showsel single checkboxes infotip > $mdxfile(views)
+    var %y = $var(%mailacc.*,0)
+    if (!%y) { did -b $dname 2304,2305,2306,2301,61,63,64,65,66,30,62 }
+    elseif (!$sslready) { did -b $dname 62 }
+    while (%y) {
+      did -a $dname 29 $gettok($var(%mailacc.*,%y),2-,46)
+      dec %y
+    }
+    did -c $dname 29 1
+    mail.setload
+    mdx SetFont $dname 962,963,971,972,281,282,260,259 24 300 Webdings
+    mdx SetFont $dname 171 20 700 Tahoma
+    mdx SetFont $dname 190,137 40 700 Tahoma
+    did -i $dname 266 1 headerdims 190:1 150:2
+    did -i $dname 266 1 headertext + 0 Name	+ 0 Command
+    tbedit.reflist
+    if ($did(266).lines == 1) { did -b $dname 276 }
+    did -i $dname 257 1 headerdims 200:1 130:2
+    did -i $dname 257 1 headertext + 0 Text	+ 0 Command on click
+    did -i $dname 110 1 headerdims 100:1 40:2 40:3 260:4
+    did -i $dname 110 1 headertext + 0 Protection	+c 0 Times	+c 0 Seconds	+ 0 Action(s)
+    did -i $dname 79 1 headerdims 195:1 150:2
+    did -i $dname 79 1 headertext + 0 Command	+r 0 Key/Action
+    did -i $dname 224 1 headerdims 180:1 225:2
+    did -i $dname 26 1 headerdims 90:1 330:2
+    did -i $dname 26 1 headertext +r 0 Identifier	+ 0 Description
+    loadidents $dname 26
+    did -i $dname 224,266,257 1 settxt bgcolor none
+    did -i $dname 1 1 cb root
+    did -a $dname 1 +fseb 1 1 0 0 0 Settings
+    did -i $dname 1 1 cb last
+    did -a $dname 1 + 1 1 0 0 0 Awaysystem
+    did -i $dname 1 1 cb last
+    did -a $dname 1 + 1 1 0 0 0 Log/Pager
+    did -a $dname 1 + 1 1 0 0 0 Messages
+    did -a $dname 1 + 1 1 0 0 0 Misc.
+    did -a $dname 1 + 1 1 0 0 0 Presets
+    did -i $dname 1 1 cb up
+    did -a $dname 1 + 1 1 0 0 0 Content filter
+    did -a $dname 1 + 1 1 0 0 0 Copy & paste
+    did -a $dname 1 + 1 1 0 0 0 Favorite networks
+    did -a $dname 1 + 1 1 0 0 0 Games
+    did -a $dname 1 + 1 1 0 0 0 Key Bindings
+    did -a $dname 1 + 1 1 0 0 0 Mail-check
+    did -a $dname 1 + 1 1 0 0 0 Messages
+    did -i $dname 1 1 cb last
+    did -a $dname 1 + 1 1 0 0 0 Kicks
+    did -a $dname 1 + 1 1 0 0 0 Quits
+    did -a $dname 1 + 1 1 0 0 0 Slaps
+    did -i $dname 1 1 cb up
+    did -a $dname 1 + 1 1 0 0 0 Miscellaneous
+    did -i $dname 1 1 cb last
+    did -a $dname 1 + 1 1 0 0 0 Part I
+    did -a $dname 1 + 1 1 0 0 0 Part II
+    did -i $dname 1 1 cb up
+    did -a $dname 1 + 1 1 0 0 0 Network services
+    did -i $dname 1 1 cb last
+    did -a $dname 1 + 1 1 0 0 0 C/NServ
+    did -a $dname 1 + 1 1 0 0 0 GameSurge
+    did -a $dname 1 + 1 1 0 0 0 QuakeNet
+    did -a $dname 1 + 1 1 0 0 0 UnderNet
+    did -i $dname 1 1 cb up
+    did -a $dname 1 + 1 1 0 0 0 Newstickers
+    did -a $dname 1 + 1 1 0 0 0 Protections
+    did -i $dname 1 1 cb last
+    did -a $dname 1 + 1 1 0 0 0 Channel
+    did -a $dname 1 + 1 1 0 0 0 Personal
+    did -a $dname 1 + 1 1 0 0 0 Excludes
+    did -i $dname 1 1 cb up
+    did -a $dname 1 + 1 1 0 0 0 Status bar
+    did -a $dname 1 + 1 1 0 0 0 Themes
+    did -a $dname 1 + 1 1 0 0 0 Titlebar
+    did -a $dname 1 + 1 1 0 0 0 Toolbar
+    did -i $dname 1 1 cb last
+    did -a $dname 1 + 1 1 0 0 0 Customize
+    did -a $dname 1 + 1 1 0 0 0 Lag bar
+    did -i $dname 1 1 cb up
+    did -ac $dname 112 Preset
+    didtok $dname 112 44 %cprot.channels
+    did -i $dname 115 1 headerdims 110:1 40:2 40:3 225:4
+    did -i $dname 115 1 headertext + 0 Protection	+c 0 Times	+c 0 Seconds	+ 0 Action(s)
+    did -i $dname 115 1 settxt bgcolor none
+    cprot.setload
+    did -f $dname 1
+    did -ca $dname 1579 > All other networks
+    var %& = 0,%i = 1,%; = 6,%n = $hget(rss,0).item,%c = $hget(pexclude,0).item,%nn,%xs = $var(%nsset.*,0),%tgd = $var(%game.*.added,0)
+    while (%& < 10) {
+      did -a $dname 1377,1376 $+([,%&,]) $mask(nick!ident@some.host.com,%&)
+      inc %&
+    }
+    if (!%n) { did -b $dname 241 }
+    while (%n) {
+      did -a $dname 224 1 + 0 0 $iif($wd($hget(rss,%n).data,1),2,1) $wd($hget(rss,%n).data,2-) $+ 	0 0 0 $hget(rss,%n).item
+      dec %n
+    }
+    while (%tgd) {
+      did -a $dname 331 $decode($gettok($var(%game.*.added,%tgd),2,46),m)
+      dec %tgd
+    }
+    if ($did(331).lines) { did -c $dname 331 1 }
+    else { did -b $dname 337 }
+    games.loadsettings
+    did -c $dname 1377 $calc(%ban.mask +1)
+    did -c $dname 1376 $calc(%ignore.mask +1)
+    while (%;) {
+      if ($mid(jqpkn,%;,1) isin %qrytypes) { did -c $dname $calc(%; +1923) }
+      dec %;
+    }
+    if (o isin %qrytypes) { did -c $dname 1931 }
+    if (!%c) { did -b $dname 158 }
+    while (%c) {
+      did -a $dname 332 $hget(pexclude,%c).item
+      dec %c
+    }
+    fkey.ref
+    var %vc,%vg = 1,%vi = precisetiming balloon.pprot balloon.cprot balloon.mail balloon.newsticker cprot.presetonly getexternalip contentfilter.chans $&
+      contentfilter.queries chanpasses.save dcc.sinfo gs.autoghost gs.autorecmode gs.hosthide.nbnc mail.echo notice.sepwin $&
+      nwstick.serror awretain ssplash splitwin showialupd x.hosthide.nbnc q.hosthide.nbnc news.sepwinall sendversion chanserv.id x.autorecmode away.hllog $&
+      hlown pastenotify pasteminlinedelay showhla away.ad.queries away.auto.nomsg away.auto.warn away.ipback away.log.events away.msghide away.remind $&
+      excl.prot kickcounter mail.beep news.awin q.autorecmode querystats totd bndsp paste.stripcodes.mode paste.singleeditbox $&
+      checkver.startup away.atime query.notify
+    var %vn = 194 4 3 6 5 35 148 167 151 131 34 109 103 102 67 143 70 138 437 133 132 126 127 57 60 535 1551 351 1351 25 14 1385 635 640 $&
+      641 1238 617 1234 636 1990 2025 2311 1830 615 2089 1464 1375 219 215 155 177 178
+    while ($wd(%vi,%vg)) {
+      if (% [ $+ [ $v1 ] ]) { did -c $dname $wd(%vn,%vg) }
+      inc %vg
+    }
+    while (%xs) {
+      did -a $dname 54 $mid($var(%nsset.*,%xs),8)
+      dec %xs
+    }
+    if ($did(54).lines) {
+      did -c $dname 54 1
+      did -e $dname 335
+    }
+    pprot.setload
+    sns.load
+    var %i = $hget(awaypreset,0).item
+    while (%i) {
+      did -a $dname 154 $replace($hget(awaypreset,%i).item,_,$chr(32))
+      dec %i
+    }
+    if (!$did(154).lines) { did -b $dname 180,197 }
+    else { did -c $dname 154 1 }
+    if (!$away) {
+      did -b $dname 198
+      did -ra $dname 196 Back
+    }
+    else { did -ra $dname 196 Away: $shorten(20,$awaymsg) }
+    aw.chksel
+    did -ra $dname 18 $decode(%pass.q,m)
+    did -ra $dname 1318 $decode(%pass.x,m)
+    did -ra $dname 97 $decode(%pass.gs,m)
+    if (%ialupdate) { did -c $dname 239 }
+    else { did -b $dname 279 }
+    if (%paste.nodelay) { did -c $dname 9 }
+    elseif (%nopaste) { did -c $dname 8 }
+    elseif (%pastedelay) {
+      did -c $dname 10
+      did -e $dname 11,14,25,22,24
+      if (%pasteminlinedelay) { did -e $dname 21,23 }
+    }
+    if (%titlebar.cref) { did -c $dname 169 }
+    else { did -b $dname 172 }
+    if (%paste.breaklines) { did -c $dname 214 }
+    else { did -b $dname 216 }
+    if (%paste.stripcodes) { did -c $dname 218 }
+    else { did -b $dname 219 }
+    if (%q.hosthide) { did -c $dname 825 }
+    else { did -b $dname 127 }
+    if (%x.hosthide) { did -c $dname 826 }
+    else { did -b $dname 126 }
+    if (%gs.hosthide) { did -c $dname 101 }
+    else { did -b $dname 102 }
+    if (%q.auth.auto) { did -c $dname 15 }
+    if (!%q.hosthide) { did -b $dname 127 }
+    if (%x.auth.auto) { did -c $dname 1315 }
+    if (!%x.hosthide) { did -b $dname 126 }
+    if (%gs.auth.auto) { did -c $dname 100 }
+    if (!%gs.hosthide) { did -b $dname 102 }
+    if (!%news.awin) { did -b $dname 57 }
+    if (%qcls.auto) { did -c $dname 1914 }
+    else { did -b $dname 1915 }
+    if (%email.bar) { did -c $dname 2010 }
+    if (%email.checker) { did -c $dname 39 }
+    else { did -b $dname 6,2311,67,2010,2303,2307,59,27,28,29,30,53,65,66,2304,2305,2306,63,64,61,2301,62,199 }
+    if (%rssticker) { did -c $dname 2074 }
+    else { did -b $dname 57,1828,1830,1827,1829,224,225,226,227,1814,241,70,5 }
+    if (%anti.idle) { did -c $dname 2024 }
+    else { did -b $dname 2982 }
+    if (%nick.comp) { did -c $dname 601 }
+    else { did -b $dname 42,40,41,603 }
+    if (%qryevent) { did -c $dname 73 }
+    else { did -b $dname 1924,1925,1926,1927,1928,1931 }
+    if (%lb.enabled) { did -c $dname 2309 }
+    else { did -b $dname 2010,287,286,223,222,1340,1341,76,77,78,1535,251,292,293,294,270,253,252,292,293,294,333,250,334,266,268,277,274,275,276,281,282,267 }
+    didtok $dname 44 44 Default,Pop-out,Simple,Lag-colored
+    if (%lagbar.border == 1) { did -c $dname 44 3 }
+    elseif (%lagbar.border == 2) { did -c $dname 44 2 }
+    elseif (%lagbar.border == 3) { did -c $dname 44 4 }
+    else { did -c $dname 44 1 }
+    if (%sbar.enabled) { did -c $dname 183 }
+    else { did -b $dname 257,305,303,302,299,260,259,258,307,304 }
+    if (%sbar.timer) { did -c $dname 258 }
+    else { did -b $dname 304 }
+    sbar.reflist
+    if (%contentfilter) { didtok $dname 150 44 $mkregex($v1).re }
+    var %cfr = $var(%contentfilter.regex.*,0)
+    while (%cfr) {
+      var %cfrt = [ [ $var(%contentfilter.regex.*,%cfr) ] ]
+      did -a $dname 150 $+(%cfrt (Regular expression),$str($chr(160),200),$cr,%cfr,$cr,%cfrt)
+      dec %cfr
+    }
+    if (!$did(150).lines) { did -b $dname 153 }
+    if (!%contentfilter.queries) && (!%contentfilter.chans) { did -b $dname 150,162,161,160,153 }
+    did -a $dname 2380 %titlebar.edit
+    prevbmp $dname 43 146 own 2 $replace(%nickcomp.format,<nick>,$randnick) sample text
+    if ($isfile(scripts\txt\quitmsg.txt)) { loadbuf -o $dname 2323 scripts\txt\quitmsg.txt }
+    if (!$did(2323).lines) { did -b $dname 164 }
+    if ($isfile(scripts\txt\kickmsg.txt)) { loadbuf -o $dname 2333 scripts\txt\kickmsg.txt }
+    if (!$did(2333).lines) { did -b $dname 159 }
+    loadslaps
+    if (!$did(653).lines) { did -b $dname 203 }
+    prevbmp $dname 2325 344 quit 2
+    prevbmp $dname 2335 344 kick 2
+    prevbmp $dname 658 344 action 2
+    prevbmp $dname 2902 200 own 2 $replace($did(settings,2901),<text>,OS) Windows $os
+    did -r $dname 960,961
+    didtok $dname 961 32 %autoconservs
+    did -b $dname 324,163,2337,165,2327,204,655,92,120,121,122,123,124,125,91,75,72,74,71,134,136,128,210,330,226,227,274,275,281,282,160,161
+    if ($ini($serversini,servers,0)) {
+      window -h @loadnets
+      _hmake servtmp
+      loadbuf -tservers @loadnets $serversini
+      var %i = $line(@loadnets,0)
+      while (%i) {
+        if ($regex(loadnet,$line(@loadnets,%i),/^n\d+=.+SERVER:.+GROUP:(.+)/i)) && ($regml(loadnet,1) !isnum) && (!$hget(servtmp,$v1)) {
+          did -a $dname 960 $regml(loadnet,1)
+          hadd servtmp $regml(loadnet,1) 1
+        }
+        dec %i
+      }
+      hfree servtmp
+      close -@ @loadnets
+    }
+    var %i = $numtok(%autoconservs,32)
+    while (%i) {
+      if ($didwm(settings,960,$wd(%autoconservs,%i))) { did -d settings 960 $v1 }
+      dec %i
+    }
+    didtok $dname 222 44 Binary,Graph,Horizontal bars,Noise,Pictogram,Progressbar,Spectrogram,Spectrogram (broad),Text,Wave,Wave (mirrored)
+    did -c $dname 222 %lagbar.style
+    if (%tb.lagcol == 2) {
+      if (%lb.enabled) {
+        chgedcol $dname 271 %tb.lagcol.bg.sel
+        chgedcol $dname 272 %tb.lagcol.gr.sel
+        chgedcol $dname 273 %tb.lagcol.grh.sel
+      }
+    }
+    else { did -b $dname 270,253,252,292,293,294 }
+    did -c $dname $iif(%tb.lagcol == 2,251,$iif(%tb.lagcol == 1,286,287))
+    didtok $dname 85 44 $mkregex(%away.log.trigger).re
+    didtok $dname 632 44 %away.ad.excl
+    var %na = $var(%nick.away.*,0),%nd = $var(%nick.def.*,0)
+    while (%na) {
+      did -a $dname 1579 $mid($var(%nick.away.*,%na),12)
+      dec %na
+    }
+    while (%nd) {
+      %nn = $mid($var(%nick.def.*,%nd),11)
+      if (!$didwm(1579,%nn)) { did -a $dname 1579 %nn }
+      dec %nd
+    }
+    if (%away.ignorechans) {
+      did -c $dname 630
+      did -b $dname 634,208
+      if (!$did(632).lines) { did -b $dname 157 }
+    }
+    else { did -b $dname 632,633,634,157,208 }
+    if (%away.nomsg) { did -b $dname 89,93,630,632,633,634,635 }
+    else { did -c $dname 631 }
+    if (%away.log) {
+      did -c $dname 87
+      did -b $dname 205,2002
+      if (!$did(85).lines) { did -b $dname 156 }
+    }
+    else { did -b $dname 85,2001,2002,1513,617,351,156,205 }
+    if (%autoaway) { did -c $dname 1235 }
+    else { did -b $dname 1236,640,641 }
+    if (%away.pubmsg == 1) { did -c $dname 89 }
+    elseif (%away.pubmsg == 2) { did -c $dname 93 }
+    if (%awaypager.enabled) { did -c $dname 130 }
+    if (%away.useold) { did -c $dname 1433 }
+    else { did -c $dname 1432 }
+    bold $dname 195,181,176,327,298,300,240,309,152,36,141,94,99,104,27,333,250,265,269,563,220,654,657,45,16,31,2,1988,1994,619,1923,1452,529,513,1543,19,80,84,86,88,90,76,108,135,140,301,328,958,2312,2320,2324,2322,2332,2334,2360,1813,1814,71
+    openad settings 119 38 193
+  }
+  elseif ($devent == dclick) {
+    if ($did) && ($did($did).sel) {
+      if ($did == 115) { cprot.edit }
+      elseif ($did == 257) { sbar.edit }
+      elseif ($did == 211) { csauth.edit }
+      elseif ($did == 85) { awlog.edit }
+      elseif ($did == 632) { awmsg.edit }
+      elseif ($did == 2333) { kickmsg.edit }
+      elseif ($did == 2323) { quitmsg.edit }
+      elseif ($did == 653) { slaps.edit }
+      elseif ($did == 332) { exclude.edit }
+      elseif ($did == 110) { noop $dialog(pprot.edit,pprot.edit,-4) }
+      elseif ($did == 224) { nt.edit }
+      elseif ($did == 150) { contentfilter.edit }
+      elseif ($did == 348) {
+        set %games.favaddedit 1
+        noop $dialog(games.favadd,games.favadd,-4)
+      }
+      elseif ($did == 266) {
+        if ($read(scripts\txt\toolbar.txt,n,$calc($did($did).sel -1)) != -) { tb.edit }
+        else { errdialog you can't edit separators! }
+      }
+      elseif ($did == 79) { did -i $dname $did 1 labeledit begin $did($did).sel }
+      elseif ($did == 26) {
+        var %t = $did(2380).selend
+        did -ra $dname 2380 $+($iif(%t,$mid($did(2380),1,%t)),$cell($did,1),$mid($did(2380),$calc(%t +1)))
+        did -c $dname 2380 %t
+      }
+    }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 3) { sdt balloon.cprot }
+    elseif ($did == 197) { aw $did(154).seltext }
+    elseif ($did == 198) { back }
+    elseif ($did == 38) { openad.clicked % [ $+ [ $dname $+ .oa ] ] }
+    elseif ($did == 44) {
+      if ($did($did).sel == 3) { set %lagbar.border 1 }
+      elseif ($did($did).sel == 2) { set %lagbar.border 2 }
+      elseif ($did($did).sel == 4) { set %lagbar.border 3 }
+      else { unset %lagbar.border }
+      toolbar.dlaghist
+    }
+    elseif ($did == 194) { sdt precisetiming }
+    elseif ($did == 174) { awpreset.add }
+    elseif ($did == 180) { awpreset.clear }
+    elseif ($did == 175) { awpreset.edit }
+    elseif ($did == 179) { awpreset.remsel }
+    elseif ($did == 154) { aw.chksel }
+    elseif ($did == 4) { sdt balloon.pprot }
+    elseif ($did == 5) { sdt balloon.newsticker }
+    elseif ($did == 6) { sdt balloon.mail }
+    elseif ($did == 325) {
+      popdll.new
+      popdll.add 1	+ 1 0 &Defaultsbar.ldef Default
+      popdll.add 2	+ 2 0 &Connection infosbar.ldef ConnectionInfo
+      popdll.add 3	+ 3 0 &Newstickersbar.ldef Newsticker
+      popdll.disp
+    }
+    elseif ($did == 257) {
+      did $iif($did($did).sel,-e,-b) $dname 302,303,259,260
+      if ($did($did).sel) {
+        did $iif($did($did).sel == $did($did).lines,-b,-e) $dname 259
+        did $iif($did($did).sel == 2,-b,-e) $dname 260
+      }
+      else { did -b $dname 259,260 }
+    }
+    elseif ($did == 299) {
+      if ($ydialog(Do you really want to clear the status bar?)) {
+        unset %sbar.cell.*
+        did -r $dname 257
+        did -b $dname 302,303,299,259,260
+        sbar.compref
+      }
+    }
+    elseif ($did == 303) { sbar.edit }
+    elseif ($did == 305) { .echo -q $dialog(sbaredit,sbaredit,-4) }
+    elseif ($did == 260) {
+      var %c = $listsel(257),%i = $wd(%c,0)
+      while (%i) {
+        var %s = $wd(%c,%i),%l = $did(257,%s),%t = %sbar.cell. [ $+ [ $calc(%s -1) ] ]
+        set %sbar.cell. $+ $calc(%s -1) %sbar.cell. [ $+ [ $calc(%s -2) ] ]
+        set %sbar.cell. $+ $calc(%s -2) %t
+        did -d $dname 257 %s
+        did -i $dname 257 $calc(%s -1) $remsfs(%l)
+        dec %i
+      }
+      sbar.compref
+      did $iif(s isin $wd($did(257,2),2),-b,-e) $dname $did
+      did $iif(s isin $wd($did(257,$did(257).lines),2),-b,-e) $dname 259
+    }
+    elseif ($did == 259) {
+      var %c = $listsel(257),%k = $wd(%c,0),%i = 1
+      while (%i <= %k) {
+        var %s = $wd(%c,%i),%l = $did(257,%s),%t = %sbar.cell. [ $+ [ $calc(%s -1) ] ]
+        set %sbar.cell. $+ $calc(%s -1) %sbar.cell. [ $+ [ %s ] ]
+        set %sbar.cell. $+ %s %t
+        did -d $dname 257 %s
+        did -i $dname 257 $calc(%s +1) $remsfs(%l)
+        inc %i
+      }
+      sbar.compref
+      did $iif(s isin $wd($did(257,2),2),-b,-e) $dname 260
+      did $iif(s isin $wd($did(257,$did(257).lines),2),-b,-e) $dname $did
+    }
+    elseif ($did == 183) {
+      sdt sbar.enabled
+      if ($did($did).state) {
+        did -e $dname 305,257,258,307
+        if ($did(257).lines) { did -e $dname 299 }
+        if ($did(257).sel) { did -e $dname 302,303,259,260 }
+        if ($did(258).state) { did -e $dname 304 }
+        sbar
+      }
+      else {
+        did -b $dname 257,305,303,302,299,260,259,258,307,304
+        sbar -u
+      }
+    }
+    elseif ($did == 258) {
+      sdt sbar.timer
+      did $iif($did($did).state,-e,-b) $dname 304
+      sbar.timer
+    }
+    elseif ($did == 302) {
+      while ($did(257).sel) {
+        var %c = $calc($did(257).sel -1),%t = $var(%sbar.cell.*,0)
+        while (%c < %t) {
+          set %sbar.cell. $+ %c %sbar.cell. [ $+ [ $calc(%c +1) ] ]
+          inc %c
+        }
+        unset %sbar.cell. [ $+ [ %t ] ]
+        did -d $dname 257 $did(257).sel
+      }
+      did -b $dname 302,303,259,260
+      if ($did(257).lines < 2) { did -b $dname 299 }
+      sbar.compref
+    }
+    elseif ($did == 38) {
+      !echo -s $did($dname,$did,1)
+
+    }
+    elseif ($did == 178) { sdt query.notify }
+    elseif ($did == 177) { sdt away.atime }
+    elseif ($did == 824) { url -an http://www.esnation.com }
+    elseif ($did == 155) { sdt checkver.startup }
+    elseif ($did == 336) {
+      var %n = $$eddialog(Enter a new game name)
+      if ($istok($didtok(331,1),%n,1)) { errdialog you already have a game with this name! }
+      else {
+        did -ac $dname 331 %n
+        did -e $dname 337
+        set %game. [ $+ [ $encode(%n,m) ] $+ ] .added 1
+        set %game. [ $+ [ $encode(%n,m) ] $+ ] .awaymsg Playing <game> at <ip>
+        games.loadsettings
+      }
+    }
+    elseif ($did == 331) { games.loadsettings }
+    elseif ($did == 353) {
+      var %s = $did(331).seltext,%e = $encode(%s,m),%o = %game. [ $+ [ %e ] $+ ] .path,%p = $mkfullfn($$sfile($iif($isfile(%o),%o,C:\),Choose a path for the game %s $+ !))
+      did -ra $dname 344 %p
+      set %game. $+ %e $+ .path %p
+    }
+    elseif ($did == 354) {
+      popdll.new
+      popdll.add 1	+s 1 0 &Steam
+      popdll.add 1 1	+ 2 0 &Codename Gordongames.chgcmdline -console -applaunch 92 +connect <ip> <pass>
+      popdll.add 1 2	+ 3 0 &Condition Zerogames.chgcmdline -console -applaunch 80 +connect <ip> <pass>
+      popdll.add 1 3	+ 4 0 Co&unter-Strike 1.6games.chgcmdline -console -applaunch 10 +connect <ip> <pass>
+      popdll.add 1 4	+ 5 0 Cou&nter-Strike Sourcegames.chgcmdline -console -applaunch 240 +connect <ip> <pass>
+      popdll.add 1 5	+ 6 0 &Day of Defeatgames.chgcmdline -console -applaunch 30 +connect <ip> <pass>
+      popdll.add 1 6	+ 7 0 D&ay of Defeat Sourcegames.chgcmdline -console -applaunch 300 +connect <ip> <pass>
+      popdll.add 1 7	+ 8 0 &Half-Lifegames.chgcmdline -console -applaunch 70 +connect <ip> <pass>
+      popdll.add 1 8	+ 9 0 Ha&lf-Life 2games.chgcmdline -console -applaunch 220 +connect <ip> <pass>
+      popdll.add 1 9	+ 10 0 Hal&f-Life Sourcegames.chgcmdline -console -applaunch 280 +connect <ip> <pass>
+      popdll.add 1 10	+ 11 0 O&pposing Forcegames.chgcmdline -console -applaunch 50 +connect <ip> <pass>
+      popdll.add 1 11	+ 12 0 &Ricochetgames.chgcmdline -console -applaunch 60 +connect <ip> <pass>
+      popdll.add 1 12	+ 13 0 &Team Fortress Classicgames.chgcmdline -console -applaunch 20 +connect <ip> <pass>
+      popdll.add 1 13	+ 14 0 -
+      popdll.add 1 14	+ 15 0 &More Steam games...url -an http://developer.valvesoftware.com/wiki/Steam_Application_IDs
+      popdll.add 2	+ 16 0 &Alien vs. Predator 2games.chgcmdline +gsa 1 +gsa_ip <iponly> +gsa_port <port> +gsa_pw <pass>
+      popdll.add 3	+ 17 0 &Battlefield 2games.chgcmdline +joinServer <iponly> +port <port> +playerPassword <pass>
+      popdll.add 4	+ 18 0 &Call of Dutygames.chgcmdline +connect <ip> +password <pass>
+      popdll.add 5	+ 19 0 &Doom IIIgames.chgcmdline +connect <ip> +password <pass>
+      popdll.add 6	+ 20 0 &Half-Lifegames.chgcmdline -connect IP:<ip> -password <pass>
+      popdll.add 7	+ 21 0 &Jedi Knight 3games.chgcmdline +connect <ip> +password <pass>
+      popdll.add 8	+ 22 0 &Medal of Honorgames.chgcmdline +connect <ip> +password <pass>
+      popdll.add 9	+ 23 0 &Quakegames.chgcmdline +connect <ip> +password <pass>
+      popdll.add 10	+ 24 0 &Soldier of Fortunegames.chgcmdline +connect <ip> +password <pass>
+      popdll.add 11	+ 25 0 &Tribes 2games.chgcmdline -connect IP:<ip> -password <pass>
+      popdll.add 12	+ 26 0 &Unreal Tournamentgames.chgcmdline <ip> <pass>
+      popdll.add 13	+ 27 0 -
+      popdll.add 14	+ 28 0 H&elpgames.cmdlinehelp
+      popdll.disp
+    }
+    elseif ($did == 349) { noop $dialog(games.favadd,games.favadd,-4) }
+    elseif ($did == 337) {
+      unset %game. $+ $encode($did(331).seltext,m) $+ .* %pass.game. $+ $encode($did(331).seltext,m) $+ .*
+      did -d $dname 331 $did(331).sel
+      if ($did(331).lines) { did -c $dname 331 1 }
+      else { did -b $dname 337 }
+      games.loadsettings
+    }
+    elseif ($did == 350) {
+      var %g = $encode($did(331).seltext,m)
+      while ($did(348).sel) {
+        var %z = $wd($did(348).seltext,1)
+        set %game. $+ %g $+ .favs $remtok(%game. [ $+ [ %g ] $+ ] .favs,%z,1)
+        unset %pass.game. [ $+ [ %g ] $+ ] . [ $+ [ %z ] ]
+        did -d $dname 348 $did(348).sel
+      }
+      did -b $dname 350,358
+      if (!$did(348).lines) { did -b $dname 352 }
+    }
+    elseif ($did == 358) {
+      set %games.favaddedit 1
+      noop $dialog(games.favadd,games.favadd,-4)
+    }
+    elseif ($did == 352) {
+      if ($ydialog(Do you really want to remove all of your favorite $did(331).seltext servers?)) {
+        did -r $dname 348
+        unset %game. $+ $encode($did(331).seltext,m) $+ .favs %pass.game. $+ $encode($did(331).seltext,m) $+ .*
+        did -b $dname 350,352,358
+      }
+    }
+    elseif ($did == 355) {
+      did $iif($did($did).state,-e,-b) $dname 341,346,356,357
+      set %game. $+ $encode($did(331).seltext,m) $+ .setaway $did($did).state
+    }
+    elseif ($did == 348) { did $iif($did($did).sel,-e,-b) $dname 350,358 }
+    elseif ($did == 437) { sdt ssplash }
+    elseif ($did == 312) { themes }
+    elseif ($did == 281) {
+      var %c = $listsel(266),%i = $wd(%c,0)
+      while (%i) {
+        var %s = $wd(%c,%i),%t = $did(266,%s),%o = $read(scripts\txt\toolbar.txt,n,$calc(%s -1))
+        write -dl $+ $calc(%s -1) scripts\txt\toolbar.txt
+        write -il $+ $calc(%s -2) scripts\txt\toolbar.txt %o
+        did -d $dname 266 %s
+        did -i $dname 266 $calc(%s -1) $remsfs(%t)
+        dec %i
+      }
+      nntoolbar
+      did $iif(s isin $wd($did(266,2),2),-b,-e) $dname $did
+      did $iif(s isin $wd($did(266,$did(266).lines),2),-b,-e) $dname 282
+    }
+    elseif ($did == 282) {
+      var %c = $listsel(266),%k = $wd(%c,0),%i = 1
+      while (%i <= %k) {
+        var %s = $wd(%c,%i),%t = $did(266,%s),%o = $read(scripts\txt\toolbar.txt,n,$calc(%s -1))
+        write -dl $+ $calc(%s -1) scripts\txt\toolbar.txt
+        write -il $+ %s scripts\txt\toolbar.txt %o
+        did -d $dname 266 %s
+        did -i $dname 266 $calc(%s +1) $remsfs(%t)
+        inc %i
+      }
+      nntoolbar
+      did $iif(s isin $wd($did(266,2),2),-b,-e) $dname 281
+      did $iif(s isin $wd($did(266,$did(266).lines),2),-b,-e) $dname $did
+    }
+    elseif ($did == 113) {
+      var %c = $$eddialog(Enter a channel you want to add to the protections!,$iif($active ischan,$active))
+      if (!$istok(%c,%cprot.channels,44)) {
+        set %cprot.channels $addtok(%cprot.channels,%c,44)
+        did -ac $dname 112 %c
+        cprot.loaddef
+        cprot.setload
+      }
+      else { errdialog you already added this channel! }
+    }
+    elseif ($did == 112) { cprot.setload }
+    elseif ($did == 147) { if ($ydialog(Do you really want to reset the default protection settings for this channel?)) { cprot.loaddef } }
+    elseif ($did == 117) { cprot.edit }
+    elseif ($did == 114) {
+      set %cprot.channels $remtok(%cprot.channels,$did(112).seltext,44)
+      unset %cprot. $+ $did(112).seltext $+ .*
+      did -d $dname 112 $did(112).sel
+      did -c $dname 112 1
+      cprot.setload
+    }
+    elseif ($did == 144) {
+      sdt cprot. $+ $did(112).seltext $+ .usepreset
+      if ($did($did).state) { did -b $dname 37,145,146,147,36,115,117 }
+      else {
+        did -e $dname 37,145,146,147,36,115
+        if ($did(115).sel) { did -e $dname 117 }
+      }
+    }
+    elseif ($did == 145) { sdt cprot. $+ $did(112).seltext $+ .punishops }
+    elseif ($did == 146) { sdt cprot. $+ $did(112).seltext $+ .punishvoiced }
+    elseif ($did == 115) {
+      .timersetsave -io 1 0 cprot.setsave
+      did $iif($did($did).sel,-e,-b) $dname 117
+      sortmdx $dname $did
+    }
+    elseif ($did == 35) {
+      sdt cprot.presetonly
+      if ($did($did).state) && ($did(112).seltext != Preset) { did -b $dname 115,36,117,147,144,145,146,37 }
+      else {
+        if ($did(144).state) { did -e $dname 111,112,113 }
+        else {
+          did -e $dname 111,112,113,115,36,147,145,146,37
+          if ($did(115).sel) { did -e $dname 117 }
+        }
+        if ($did(112).seltext != Preset) { did -e $dname 114,144 }
+      }
+    }
+    elseif ($did == 116) { noop $dialog(pprot.edit,pprot.edit,-4) }
+    elseif ($did == 110) {
+      did $iif($did($did).sel,-e,-b) $dname 116
+      sortmdx $dname $did
+    }
+    elseif ($did == 118) { if ($ydialog(Do you really want to reset the default personal protection settings?)) { pprot.loaddef } }
+    elseif ($did == 630) {
+      sdt away.ignorechans
+      if ($did($did).state) {
+        did -e $dname 632,633
+        if ($did(632).sel) { did -e $dname 634,208 }
+        if ($did(632).lines) { did -e $dname 157 }
+      }
+      else { did -b $dname 632,633,634,157,208 }
+    }
+    elseif ($did == 351) { sdt away.hllog }
+    elseif ($did == 1385) { sdt showhla }
+    elseif ($did == 631) {
+      if ($did($did).state) {
+        did -e $dname 89,93,630,635
+        if ($did(630).state) { did -e $dname 632,633 }
+        if (%away.ignorechans) {
+          if ($did(632).lines) { did -e $dname 157 }
+          if ($did(632).sel) { did -e $dname 208,634 }
+        }
+        unset %away.nomsg
+      }
+      else {
+        did -b $dname 89,93,630,632,633,634,635,157,208
+        set %away.nomsg 1
+      }
+    }
+    elseif ($did == 632) { did $iif($did($did).sel,-e,-b) $dname 208,634 }
+    elseif ($did == 633) {
+      var %e = $$eddialog(Enter a new away message exclude!)
+      if ($istok(%away.ad.excl,%e,44)) { errdialog you have already added this exclude! }
+      elseif ($len(%away.ad.excl %e) > 3000) { errdialog you have already added too many excludes! }
+      else {
+        did -a $dname 632 %e
+        did -e $dname 157
+        set %away.ad.excl $didtok(632,44)
+      }
+    }
+    elseif ($did == 634) {
+      while ($did(632).sel) { did -d $dname 632 $v1 }
+      did -b $dname 208,634
+      if (!$did(632).lines) { did -b $dname 157 }
+      set %away.ad.excl $didtok(632,44)
+    }
+    elseif ($did == 157) {
+      if ($ydialog(Do you really want to remove all away message ignores?)) {
+        did -r $dname 632
+        did -b $dname 208,634,157
+        unset %away.ad.excl
+      }
+    }
+    elseif ($did == 208) { awmsg.edit }
+    elseif ($did == 635) { sdt away.ad.queries }
+    elseif ($did == 636) { sdt away.remind }
+    elseif ($did == 640) { sdt away.auto.nomsg }
+    elseif ($did == 641) { sdt away.auto.warn }
+    elseif ($did == 617) { sdt away.log.events }
+    elseif ($did == 87) {
+      sdt away.log
+      if ($did($did).state) {
+        did -e $dname 85,2001,1513,617,351
+        if ($did(85).sel) { did -e $dname 205,2002 }
+        if ($did(85).lines) { did -e $dname 156 }
+      }
+      else { did -b $dname 85,2001,2002,1513,617,351,156,205 }
+    }
+    elseif ($did == 89) {
+      set %away.pubmsg 1
+      did -u $dname 93
+    }
+    elseif ($did == 93) {
+      set %away.pubmsg 2
+      did -u $dname 89
+    }
+    elseif ($did == 130) { sdt awaypager.enabled }
+    elseif ($did == 1234) { sdt away.msghide }
+    elseif ($did == 1235) {
+      sdt autoaway
+      if (%autoaway) {
+        did -e $dname 1236,640,641
+        .timercheckidle -i 0 60 checkidle
+      }
+      else {
+        did -b $dname 1236,640,641
+        .timercheckidle off
+      }
+    }
+    elseif ($did == 1238) { sdt away.ipback }
+    elseif ($did == 1432) { unset %away.useold }
+    elseif ($did == 1433) { set %away.useold 1 }
+    elseif ($did == 85) { did $iif($did($did).sel,-e,-b) $dname 205,2002 }
+    elseif ($did == 2001) {
+      var %c = $$eddialog(Enter the away log trigger you want to add!)
+      if ($istok($mkregex(%away.log.trigger).re,%c,44)) { errdialog you already added this trigger! }
+      elseif ($len(%away.log.trigger %c) > 3000) { errdialog you have already added too many triggers! }
+      else {
+        did -a $dname 85 %c
+        did -e $dname 156
+        set %away.log.trigger $mkregex($didtok(85,44))
+      }
+    }
+    elseif ($did == 2002) {
+      while ($did(85).sel) { did -d $dname 85 $v1 }
+      did -b $dname 205,2002
+      if (!$did(85).lines) { did -b $dname 156 }
+      set %away.log.trigger $mkregex($didtok(85,44))
+    }
+    elseif ($did == 156) {
+      if ($ydialog(Do you really want to unset all away log triggers?)) {
+        did -r $dname 85
+        did -b $dname 205,156,2002
+        unset %away.log.trigger
+      }
+    }
+    elseif ($did == 205) { awlog.edit }
+    elseif ($did == 222) {
+      if (%lagbar.style != $did($did).sel) {
+        set %lagbar.style $did($did).sel
+        toolbar.dlaghist
+      }
+    }
+    elseif ($did == 39) {
+      sdt email.checker
+      if ($did($did).state) {
+        .timermailchk -io 0 %mail.delay checkmail
+        did -e $dname 2311,67,2303,2307,59,27,28,29,53,6,199
+        if (%lb.enabled) { did -e $dname 2010 }
+        if ($did(29).sel) {
+          did -e $dname 30,64,65,66,63,2304,2301,2305,61,2306,63,64,61,2301
+          if ($sslready) { did -e $dname 62 }
+        }
+      }
+      else {
+        .timermailchk off
+        did -b $dname 6,2311,67,2010,2303,2307,59,27,28,29,30,53,65,66,2304,2305,2306,63,64,61,2301,62,199
+      }
+      toolbar.refinfo
+    }
+    elseif ($did == 2010) {
+      if ($did($did).state) {
+        set %email.bar 1
+        mail.tref -n
+      }
+      else { unset %email.bar }
+      toolbar.refinfo
+    }
+    elseif ($did == 2309) {
+      sdt lb.enabled
+      if ($did($did).state) {
+        nntoolbar
+        did -e $dname 266,268,277,267
+        if ($did(266).lines > 1) { did -e $dname 276 }
+        did -e $dname 76,77,78,1535,2312
+        if (%email.checker) { did -e $dname 2010 }
+        did -e $dname 222,223,1340,1341,287,286,250,334,333,251
+        if (%tb.lagcol == 2) {
+          did -e $dname 292,293,294,270,253,252
+          chgedcol $dname 271 %tb.lagcol.bg.sel
+          chgedcol $dname 272 %tb.lagcol.gr.sel
+          chgedcol $dname 273 %tb.lagcol.grh.sel
+        }
+        toolbar.dlaghist
+        if (%email.checker) && (%email.bar) { mail.tref -n }
+        lagchktimer -e
+      }
+      else {
+        nntoolbar -u
+        did -b $dname 287,286,223,222,2010,1340,1341,76,77,78,1535,251,292,293,294,270,253,252,292,293,294,333,250,334,266,268,277,274,275,276,281,282,267
+        mdxunsel $dname 266
+        chgedcol $dname 271,272,273 reset
+      }
+    }
+    elseif ($did == 270) {
+      crmlagbar
+      var %x = $$nn.rgb(%tb.lagcol.bg),%o = %tb.lagcol.bg
+      set %tb.lagcol.bg $chkrgb(%x)
+      set %tb.lagcol.bg.sel %tb.lagcol.bg
+      chgedcol $dname 271 %tb.lagcol.bg
+      drawrect -nrf @tb.lagbar %tb.lagcol.bg 1 0 0 100 22
+      toolbar.dlaghist
+    }
+    elseif ($did == 253) {
+      var %x = $$nn.rgb(%tb.lagcol.gr),%o = %tb.lagcol.gr
+      set %tb.lagcol.gr $chkrgb(%x)
+      set %tb.lagcol.gr.sel %tb.lagcol.gr
+      chgedcol $dname 272 %tb.lagcol.gr
+      toolbar.dlaghist
+    }
+    elseif ($did == 252) {
+      var %x = $$nn.rgb(%tb.lagcol.grh),%o = %tb.lagcol.grh
+      set %tb.lagcol.grh $chkrgb(%x)
+      set %tb.lagcol.grh.sel %tb.lagcol.grh
+      chgedcol $dname 273 %tb.lagcol.grh
+      toolbar.dlaghist
+    }
+    elseif ($istok(286 287 251,$did,32)) {
+      set %tb.lagcol $iif($did(286).state,1,$iif($did(251).state,2,0))
+      if (%tb.lagcol != 2) {
+        did -b $dname 292,293,294,270,253,252
+        chgedcol $dname 271,272,273 reset
+      }
+      else {
+        did -e $dname 292,293,294,270,253,252
+        chgedcol $dname 271 %tb.lagcol.bg.sel
+        chgedcol $dname 272 %tb.lagcol.gr.sel
+        chgedcol $dname 273 %tb.lagcol.grh.sel
+      }
+      if (%tb.lagcol == 1) {
+        set %tb.lagcol.bg $color($color(back))
+        set %tb.lagcol.gr $color($color(info))
+        set %tb.lagcol.grh $color($color(info2))
+      }
+      elseif (%tb.lagcol == 2) {
+        set %tb.lagcol.bg %tb.lagcol.bg.sel
+        set %tb.lagcol.gr %tb.lagcol.gr.sel
+        set %tb.lagcol.grh %tb.lagcol.grh.sel
+      }
+      else {
+        set %tb.lagcol.bg 0
+        unset %tb.lagcol.gr %tb.lagcol.grh
+      }
+      toolbar.dlaghist
+    }
+    elseif ($did == 161) { contentfilter.edit }
+    elseif ($did == 162) { noop $dialog(contentfilter.add,contentfilter.add,-4) }
+    elseif ($did == 160) {
+      while ($did(150).sel) { did -d $dname 150 $v1 }
+      contentfilter.savelist
+      did -b $dname 160,161
+      if (!$did(150).lines) { did -b $dname 153 }
+    }
+    elseif ($did == 153) {
+      if ($ydialog(Do you really want to remove all content filters?)) {
+        did -b $dname 160,161,153
+        did -r $dname 150
+        unset %contentfilter %contentfilter.regex.*
+      }
+    }
+    elseif ($did == 167) {
+      sdt contentfilter.chans
+      if (!%contentfilter.queries) && (!%contentfilter.chans) { did -b $dname 150,162,161,160,153 }
+      else {
+        did -e $dname 150,162
+        if ($did(150).sel) { did -e $dname 160,161 }
+        if ($did(150).lines) { did -e $dname 153 }
+      }
+    }
+    elseif ($did == 151) {
+      sdt contentfilter.queries
+      if (!%contentfilter.queries) && (!%contentfilter.chans) { did -b $dname 150,162,161,160,153 }
+      else {
+        did -e $dname 150,162
+        if ($did(150).sel) { did -e $dname 160,161 }
+        if ($did(150).lines) { did -e $dname 153 }
+      }
+    }
+    elseif ($did == 150) { did $iif($did($did).sel,-e,-b) $dname 160,161 }
+    elseif ($did == 131) { sdt chanpasses.save }
+    elseif ($did == 26) { sortmdx $dname $did }
+    elseif ($did == 34) { sdt dcc.sinfo }
+    elseif ($did == 29) {
+      mail.setload
+      did $iif($did($did).sel,-e,-b) $dname 30
+    }
+    elseif ($did == 67) { sdt mail.echo }
+    elseif ($did == 53) {
+      var %a = $$eddialog(Enter the name of your new mail account! Don't use spaces and wildcards (* $+ $chr(44) ?) in the account name!)
+      if (* isin %a) || (? isin %a) || ($chr(32) isin %a) { errdialog %a is not a valid account name! Please don't use spaces and wildcards (*, ?) in the account name! }
+      else {
+        if (!%mailacc. [ $+ [ %a ] ]) {
+          set %mailacc. $+ %a &null &null 0 &null 0
+          did -c $dname 65
+          did -u $dname 66
+          did -ac $dname 29 %a
+          did -e $dname 2301,61,63,64,65,66,30
+          if ($sslready) { did -e $dname 62 }
+          did -er $dname 2304,2305,2306
+        }
+        else { errdialog a mail account with that name already exists! Please choose a different name. }
+      }
+    }
+    elseif ($did == 30) {
+      unset %mailacc. $+ $did(29).seltext %mailchk. $+ $did(29).seltext
+      did -d $dname 29 $did(29).sel
+      if ($did(29).lines) {
+        did -c $dname 29 1
+        mail.setload
+      }
+      else {
+        did -r $dname 29,2304,2305,2306
+        did -u $dname 66
+        did -c $dname 65
+        did -b $dname 30,2304,2305,2306,2301,61,63,64,65,66,62
+      }
+      mail.tref -n
+    }
+    elseif ($did == 143) { sdt notice.sepwin }
+    elseif ($did == 276) {
+      if ($ydialog(Do you really want to remove all items from the toolbar?)) {
+        write -c scripts\txt\toolbar.txt
+        tbedit.reflist
+        nntoolbar
+        did -b $dname 282,281,276,275,274
+        noop $findfile(scripts\txt\popups\,*.pop,0,0,tryremove $qt($1-))
+      }
+    }
+    elseif ($did == 275) {
+      while ($did(266).sel) {
+        var %n = $gettok($read(scripts\txt\toolbar.txt,n,$calc($did(266).sel -1)),-1,1),%f = $+("scripts\txt\popups\,%n,.pop")
+        if ($isfile(%f)) { tryremove %f }
+        write -dl $+ $calc($did(266).sel -1) scripts\txt\toolbar.txt
+        did -d $dname 266 $did(266).sel
+      }
+      nntoolbar
+      did -b $dname 274,275,281,282
+      if ($did(266).lines == 1) { did -b $dname 276 }
+    }
+    elseif ($did == 266) {
+      if (* recent * iswm $did($did,1)) {
+        if ($did($did).sel) {
+          did -e $dname 275
+          did $iif($cell(266,1) != <Separator>,-e,-b) $dname 274
+          did $iif($did($did).sel == $did($did).lines,-b,-e) $dname 282
+          did $iif($did($did).sel == 2,-b,-e) $dname 281
+        }
+        else { did -b $dname 274,275,281,282 }
+      }
+    }
+    elseif ($did == 277) {
+      if ($did(266).sel) {
+        write -il $+ $calc($v1 -1) scripts\txt\toolbar.txt -
+        did -i $dname 266 $v1 0 +fs 0 0 0 <Separator>	+ 0 0 0
+      }
+      else {
+        write scripts\txt\toolbar.txt -
+        did -a $dname 266 0 + 0 0 0 <Separator>	+ 0 0 0
+      }
+      did $iif($did(266).sel == 2,-b,-e) $dname 281
+      nntoolbar
+    }
+    elseif ($did == 274) { tb.edit }
+    elseif ($did == 268) { noop $dialog(tb.add,tb.add,-4) }
+    elseif ($did == 960) { did $iif($did($did).sel,-e,-b) $dname 962 }
+    elseif ($did == 239) {
+      sdt ialupdate
+      did $iif($did($did).state,-e,-b) $dname 279
+    }
+    elseif ($did == 58) { url -an http://www.syndic8.com/ }
+    elseif ($did == 284) { url -an http://www.2rss.com/ }
+    elseif ($did == 70) { sdt nwstick.serror }
+    elseif ($did == 225) { noop $dialog(nt.add,nt.add,-4) }
+    elseif ($did == 226) {
+      if ($ydialog(Do you really want to remove the selected newsticker(s)?)) {
+        while ($did(224).sel) {
+          hdel -w rssdone $encode($cell(224,1),m) $+ *
+          hdel rss $wd($did(224).seltext,-1)
+          hsave -ob rss scripts\tables\rss.tbl
+          did -d $dname 224 $did(224).sel
+        }
+        did -b $dname 226,227
+        if ($did(224).lines < 2) { did -b $dname 241 }
+      }
+    }
+    elseif ($did == 241) {
+      if ($ydialog(Do you really want to remove all newstickers?)) {
+        hdel -w rssdone *
+        hdel -w rss *
+        hsave -ob rss scripts\tables\rss.tbl
+        did -r $dname 224
+        did -b $dname 226,227,241
+      }
+    }
+    elseif ($did == 227) { nt.edit }
+    elseif ($did == 224) {
+      did $iif($did($did).sel,-e,-b) $dname 226,227
+      if (stateclick recent * iswm $did($did,1)) { .timerrsssave -io 1 0 rss.setsave }
+    }
+    elseif ($did == 214) {
+      sdt paste.breaklines
+      did $iif($did($did).state,-e,-b) $dname 216
+    }
+    elseif ($did == 218) {
+      sdt paste.stripcodes
+      did $iif($did($did).state,-e,-b) $dname 219
+    }
+    elseif ($did == 219) { sdt paste.stripcodes.mode }
+    elseif ($did == 215) { sdt paste.singleeditbox }
+    elseif ($did == 213) {
+      if ($ydialog(Do you really want to load the default slaps?)) {
+        if ($isfile(scripts\txt\slaps-def.txt)) {
+          .copy -o scripts\txt\slaps-def.txt scripts\txt\slaps.txt
+          did -b $dname 204,655
+          prevbmp $dname 658 344 action 2
+          did -r $dname 653
+          loadslaps
+          did $iif($did(653).lines,-e,-b) $dname 203
+          saveslaps
+        }
+        else { errdialog scripts\txt\slaps-def.txt not found! }
+      }
+    }
+    elseif ($did == 207) {
+      if ($ydialog(Do you really want to load the default kick messages?)) {
+        if ($isfile(scripts\txt\kickmsg-def.txt)) {
+          .copy -o scripts\txt\kickmsg-def.txt scripts\txt\kickmsg.txt
+          loadbuf -ro $dname 2333 scripts\txt\kickmsg.txt
+          did $iif($did(2333).lines,-e,-b) $dname 159
+          did -b $dname 163,2337
+          prevbmp $dname 2335 344 kick 2
+        }
+        else { errdialog scripts\txt\kickmsg-def.txt not found! }
+      }
+    }
+    elseif ($did == 209) {
+      if ($ydialog(Do you really want to load the default quit messages?)) {
+        if ($isfile(scripts\txt\quitmsg-def.txt)) {
+          .copy -o scripts\txt\quitmsg-def.txt scripts\txt\quitmsg.txt
+          loadbuf -ro $dname 2323 scripts\txt\quitmsg.txt
+          did $iif($did(2323).lines,-e,-b) $dname 164
+          did -b $dname 165,2327
+          prevbmp $dname 2325 344 quit 2
+        }
+        else { errdialog scripts\txt\quitmsg-def.txt not found! }
+      }
+    }
+    elseif ($did == 69) { sns.save }
+    elseif ($did == 138) { sdt awretain }
+    elseif ($did == 57) { sdt news.sepwinall }
+    elseif ($did == 132) { sdt showialupd }
+    elseif ($did == 126) { sdt x.hosthide.nbnc }
+    elseif ($did == 127) { sdt q.hosthide.nbnc }
+    elseif ($did == 102) { sdt gs.hosthide.nbnc }
+    elseif ($did == 60) { sdt sendversion }
+    elseif ($did == 55) { sns.save }
+    elseif ($did == 56) { sns.save }
+    elseif ($did == 54) { sns.load }
+    elseif ($did == 311) {
+      noop $dialog(netsel,netsel,-4)
+      if (%netsel.result) {
+        did -ac $dname 54 $v1
+        unset %netsel.result
+        did -e $dname 335
+        sns.load
+      }
+    }
+    elseif ($did == 335) {
+      unset %nsset. [ $+ [ $did(settings,54).seltext ] ] %pass.cs. [ $+ [ $did(settings,54).seltext ] $+ ] .*
+      did -d $dname 54 $did(54).sel
+      did -c $dname 54 1
+      if (!$did(54).sel) { did -b $dname $did }
+      sns.load
+    }
+    elseif ($did == 166) {
+      if ($ydialog(Do you really want to unset all ChanServ channel passwords for $did(54).seltext $+ ?)) {
+        did -r $dname 211
+        did -b $dname 212,534,166
+        unset $+(%,pass.cs.,$did(54).seltext,.*)
+      }
+    }
+    elseif ($did == 593) {
+      noop $dialog(cs.add,cs.add,-4)
+      if (%cs.chan) && (%cs.pass) {
+        set $+(%,pass.cs.,$did(54).seltext,.,%cs.chan) %cs.pass
+        did -a $dname 211 %cs.chan
+        did -e $dname 166
+      }
+      unset %cs.pass %cs.chan
+    }
+    elseif ($did == 211) { did $iif($did(211).sel,-e,-b) $dname 212,534 }
+    elseif ($did == 212) { csauth.edit }
+    elseif ($did == 534) {
+      while ($did(211).sel) {
+        unset $+(%,pass.cs.,$did(54).seltext,$did(211).seltext)
+        did -d $dname 211 $did(211).sel
+      }
+      did -b $dname 212,534
+      if (!$did(211).lines) { did -b $dname 166 }
+    }
+    elseif ($did == 535) {
+      sns.save
+      sns.load
+    }
+    elseif ($did == 1351) { sdt hlown }
+    elseif ($istok(47 49 50 52 106 108,$did,32)) { url -an $did($did) }
+    elseif ($did == 169) {
+      did $iif($did($did).state,-e,-b) $dname 172
+      sdt titlebar.cref
+      titlebar.ctmr
+    }
+    elseif ($did == 536) {
+      if ($ydialog(Are you sure you want to reset all bindings to the script default?)) {
+        fkey.ldef
+        fkey.ref
+      }
+    }
+    elseif ($did == 25) { sdt pastenotify }
+    elseif ($did == 8) {
+      sdt nopaste
+      unset %paste.nodelay %pastedelay
+      did -b $dname 11,14,21,23,25,22,24
+    }
+    elseif ($did == 9) {
+      sdt paste.nodelay
+      unset %pastedelay %nopaste
+      did -b $dname 11,14,21,23,25,22,24
+    }
+    elseif ($did == 10) {
+      sdt pastedelay
+      unset %nopaste %paste.nodelay
+      did -e $dname 11,14,25,22,24
+      did $iif(%pasteminlinedelay,-e,-b) $dname 21,23
+    }
+    elseif ($did == 14) {
+      sdt pasteminlinedelay
+      did $iif($did($did).state,-e,-b) $dname 21,23
+    }
+    elseif ($did == 1376) { set %ignore.mask $calc($did($did).sel -1) }
+    elseif ($did == 1377) { set %ban.mask $calc($did($did).sel -1) }
+    elseif ($did == 1375) { sdt bndsp }
+    elseif ($did == 1990) { sdt excl.prot }
+    elseif ($did == 133) {
+      sdt splitwin
+      if (!$did($did).state) {
+        .timerntsplt.* off
+        hfree -w netsplit.*
+      }
+    }
+    elseif ($did == 1914) {
+      sdt qcls.auto
+      did $iif(%qcls.auto,-e,-b) $dname 1915
+      if (%qcls.auto) {
+        .timerqcls -io 0 30 scon -a chkqcls
+        chkqcls
+      }
+      else { .timerqcls off }
+    }
+    elseif ($did == 1) { if (slclick select * iswm $did($did,1)) { setclk $wd($did(1,1),4-) } }
+    elseif ($did == 15) { sdt q.auth.auto }
+    elseif ($did == 100) { sdt gs.auth.auto }
+    elseif ($did == 109) { sdt gs.autoghost }
+    elseif ($did == 20) {
+      if ($ydialog(Do you really want to unset all bindings?)) {
+        unset %dbc.?.* %F1 %F2 %F3 %F4 %F5 %F6 %F7 %F8 %F9 %F10 %F11 %F12 %sF1 %sF2 %sF3 %sF4 %sF5 %sF6 %sF7 %sF8 %sF9 %sF10 %sF11 %sF12 %cF6 %cF7 %cF8 %cF9 %cF10 %cF11 %cF12
+        fkey.ref
+      }
+    }
+    elseif ($did == 73) {
+      sdt qryevent
+      did $iif(%qryevent,-e,-b) $dname 1924,1925,1926,1927,1928,1931
+    }
+    elseif ($did == 79) {
+      did $iif($did($did).sel,-e,-b) $dname 777
+      if (endlabeledit labelEdit* iswm $did($did,1)) {
+        var %u = $cell($did,2),%c = $wd($did($did,1),3-),%k
+        if ($did($did).sel < 33) { %k = $replace(%u,Shift+,s,Control+,c) }
+        else { %k = $+(dbc.,$left($gettok(%u,-1,43),1),.,$iif(control isin %u,ctrl,$iif(shift isin %u,shift,def))) }
+        if (%c) {
+          did -oc $dname $did $did($did).sel 1 + 0 0 0 %c $+ 	0 0 0 %u
+          set % $+ %k %c
+        }
+        else {
+          did -oc $dname $did $did($did).sel 1 + 0 0 0	0 0 0 %u
+          unset % [ $+ [ %k ] ]
+        }
+      }
+    }
+    elseif ($did == 1830) {
+      sdt news.awin
+      did $iif($did($did).state,-e,-b) $dname 57
+    }
+    elseif ($did == 329) {
+      var %x = $$eddialog(Enter an exclude in nick!ident@host format!)
+      if (*!*@* !iswm %x) { errdialog you have to enter an exclude in nick!ident@host format! }
+      elseif ($hget(pexclude,%x)) { errdialog you already added this exclude! }
+      else {
+        hadd pexclude %x 1
+        hsave -ob pexclude scripts\tables\pexclude.tbl
+        did -a $dname 332 %x
+        did -e $dname 158
+      }
+    }
+    elseif ($did == 332) { did $iif($did($did).sel,-e,-b) $dname 210,330 }
+    elseif ($did == 158) {
+      if ($ydialog(Do you really want to remove all excludes?)) {
+        hdel -w pexclude *
+        hsave -ob pexclude scripts\tables\pexclude.tbl
+        did -r $dname 332
+        did -b $dname 210,330,158
+      }
+    }
+    elseif ($did == 330) {
+      while ($did(332).sel) {
+        hdel pexclude $did(332).seltext
+        did -d $dname 332 $v1
+      }
+      did -b $dname 210,330
+      if (!$did(332).lines) { did -b $dname 158 }
+      hsave -ob pexclude scripts\tables\pexclude.tbl
+    }
+    elseif ($did == 601) {
+      sdt nick.comp
+      did $iif(%nick.comp,-e,-b) $dname 42,40,41,603
+    }
+    elseif ($did == 615) { sdt q.autorecmode }
+    elseif ($did == 103) { sdt gs.autorecmode }
+    elseif ($did == 1551) { sdt x.autorecmode }
+    elseif ($did == 777) {
+      var %u = $cell(79,2)
+      if ($did(79).sel < 33) { unset % [ $+ [ $replace(%u,Shift+,s,Control+,c) ] ] }
+      else { unset %dbc. [ $+ [ $left($gettok(%u,-1,43),1) ] $+ ] . [ $+ [ $iif(control isin %u,ctrl,$iif(shift isin %u,shift,def))) ] ] }
+      did -o $dname 79 $did(79).sel 1 +fs 0 0 0	0 0 0 %u
+    }
+    elseif ($did == 825) {
+      sdt q.hosthide
+      did $iif($did($did).state,-e,-b) $dname 127
+    }
+    elseif ($did == 101) {
+      sdt gs.hosthide
+      did $iif($did($did).state,-e,-b) $dname 102
+    }
+    elseif ($did == 826) {
+      sdt x.hosthide
+      did $iif($did($did).state,-e,-b) $dname 126
+    }
+    elseif ($did == 148) { sdt getexternalip }
+    elseif ($did == 961) {
+      if ($did($did).sel) {
+        loadnetdata $did($did).seltext
+        did $iif($did($did).sel == $did($did).lines,-b,-e) $dname 972
+        did $iif($did($did).sel == 1,-b,-e) $dname 971
+        did $iif($did($did).sel,-e,-b) $dname 963
+      }
+    }
+    elseif ($did == 962) { autocon -a }
+    elseif ($did == 963) { autocon }
+    elseif ($did == 971) {
+      if ($did(961).sel) {
+        var %l = $v1,%t = $did(961).seltext
+        did -d $dname 961 %l
+        did -ic $dname 961 $calc(%l -1) %t
+        set %autoconservs $didtok(961,32)
+        if ($did(961).sel != $did(961).lines) { did -e $dname 972 }
+        if ($did(961).sel == 1) { did -b $dname 971 }
+      }
+    }
+    elseif ($did == 972) {
+      if ($did(961).sel) {
+        var %l = $v1,%t = $did(961).seltext
+        did -d $dname 961 %l
+        did -ic $dname 961 $calc(%l +1) %t
+        set %autoconservs $didtok(961,32)
+        if ($did(961).sel == $did(961).lines) { did -b $dname 972 }
+        if ($did(961).sel != 1) { did -e $dname 971 }
+      }
+    }
+    elseif ($did == 1315) { sdt x.auth.auto }
+    elseif ($did == 1464) { sdt totd }
+    elseif ($istok(1924 1925 1926 1927 1928 1931,$did,32)) {
+      var %v = $replace($did,1924,j,1925,q,1926,p,1927,k,1928,n,1931,o)
+      set %qrytypes $iif($did($did).state,%qrytypes $+ %v,$remove(%qrytypes,%v))
+    }
+    elseif ($did == 2024) {
+      sdt anti.idle
+      did $iif($did($did).state,-e,-b) $dname 2982
+      if (%anti.idle) { .timeraidle -io 0 %aidle.max scon -at1 aidle }
+      else { .timeraidle off }
+    }
+    elseif ($did == 2025) { sdt kickcounter }
+    elseif ($did == 267) {
+      popdll.new
+      popdll.add 1	+ 1 0 &Defaulttb.ldef Default
+      if ($findfile(iconsets\buttons\,*.ico,1)) { popdll.add 2	+ 2 0 &Buttonstb.ldef Buttons }
+      if ($findfile(iconsets\classic\,*.ico,1)) { popdll.add 3	+ 3 0 &Classictb.ldef Classic }
+      if ($findfile(iconsets\gartoon\,*.ico,1)) { popdll.add 4	+ 4 0 &Gartoontb.ldef Gartoon }
+      if ($findfile(iconsets\jaffa\,*.ico,1)) { popdll.add 5	+ 5 0 &Jaffatb.ldef Jaffa }
+      if ($findfile(iconsets\kresky\,*.ico,1)) { popdll.add 6	+ 6 0 &kreskytb.ldef kresky }
+      if ($findfile(iconsets\metrox\,*.ico,1)) { popdll.add 7	+ 7 0 &Metroxtb.ldef Metrox }
+      if ($findfile(iconsets\modern\,*.ico,1)) { popdll.add 8	+ 8 0 Mod&erntb.ldef Modern }
+      if ($findfile(iconsets\moonshine\,*.ico,1)) { popdll.add 9	+ 9 0 M&oonshinetb.ldef Moonshine }
+      if ($findfile(iconsets\megapack\,*.ico,1)) { popdll.add 10	+ 10 0 M&Ptb.ldef MP }
+      if ($findfile(iconsets\phoenity\,*.ico,1)) { popdll.add 11	+ 11 0 p&hoenitytb.ldef phoenity }
+      popdll.disp
+    }
+    elseif ($did == 2074) {
+      sdt rssticker
+      if ($did($did).state) {
+        did -e $dname 1828,1830,1827,1829,224,225,1814,70,5
+        if (%news.awin) { did -e $dname 57 }
+        if ($did(224).sel) { did -e $dname 226,227 }
+        if ($did(224).lines > 1) { did -e $dname 241 }
+        .timernwstick -io 0 $calc(%nwstick.mins *60) newsticker
+      }
+      else {
+        did -b $dname 57,1828,1830,1827,1829,224,225,226,227,1814,70,241,5
+        .timernwstick off
+      }
+    }
+    elseif ($did == 2089) { sdt querystats }
+    elseif ($did == 2311) { sdt mail.beep }
+    elseif ($did == 2323) {
+      prevbmp $dname 2325 344 quit 2 $did($did).seltext
+      did $iif($did($did).sel,-e,-b) $dname 165,2327
+    }
+    elseif ($did == 2326) {
+      did -a $dname 2323 $$eddialog(Enter a new quit message!)
+      did -e $dname 164
+      savebuf -o $dname 2323 scripts\txt\quitmsg.txt
+    }
+    elseif ($did == 2327) {
+      while ($did(2323).sel) { did -d $dname 2323 $v1 }
+      did -b $dname 165,2327
+      if (!$did(2323).lines) { did -b $dname 164 }
+      savebuf -o $dname 2323 scripts\txt\quitmsg.txt
+      prevbmp $dname 2325 344 quit 2
+    }
+    elseif ($did == 165) { quitmsg.edit }
+    elseif ($did == 164) {
+      if ($ydialog(Do you really want to remove all quit messages?)) {
+        did -r $dname 2323
+        did -b $dname 164,165,2327
+        savebuf -o $dname 2323 scripts\txt\quitmsg.txt
+        prevbmp $dname 2325 344 quit 2
+      }
+    }
+    elseif ($did == 2333) {
+      prevbmp $dname 2335 344 kick 2 $did($did).seltext
+      did $iif($did($did).sel,-e,-b) $dname 163,2337
+    }
+    elseif ($did == 159) {
+      if ($ydialog(Do you really want to remove all kick messages?)) {
+        did -r $dname 2333
+        did -b $dname 163,2337,159
+        savebuf -o $dname 2333 scripts\txt\kickmsg.txt
+        prevbmp $dname 2335 344 kick 2
+      }
+    }
+    elseif ($did == 163) { kickmsg.edit }
+    elseif ($did == 2336) {
+      did -a $dname 2333 $$eddialog(Enter a new kick message!)
+      did -e $dname 159
+      savebuf -o $dname 2333 scripts\txt\kickmsg.txt
+    }
+    elseif ($did == 2337) {
+      while ($did(2333).sel) { did -d $dname 2333 $v1 }
+      did -b $dname 163,2337
+      if (!$did(2333).lines) { did -b $dname 159 }
+      savebuf -o $dname 2333 scripts\txt\kickmsg.txt
+      prevbmp $dname 2335 344 kick 2
+    }
+    elseif ($did == 653) {
+      prevbmp $dname 658 344 action 2 * $chkme $replace($gettok($did(653).seltext,2-,58),<nick>,$randnick)
+      did $iif($did($did).sel,-e,-b) $dname 204,655
+    }
+    elseif ($did == 204) { slaps.edit }
+    elseif ($did == 656) {
+      var %z = $$eddialog(Enter a slap in "title: text" format.Example: "Crevasse: pushes <nick> into a crevasse")
+      if (?*:?* iswm %z) {
+        tokenize 58 %z
+        did -a $dname 653 $1 $+ : $2-
+        did -e $dname 203
+        saveslaps
+      }
+      else { errdialog slaps must be in the format "title: text", for example: "Crevasse: pushes <nick> into a crevasse" }
+    }
+    elseif ($did == 203) {
+      if ($ydialog(Do you really want to remove all slaps?)) {
+        did -r $dname 653
+        did -b $dname 203,204,655
+        prevbmp $dname 658 344 action 2
+        saveslaps
+      }
+    }
+    elseif ($did == 210) { exclude.edit }
+    elseif ($did == 655) {
+      while ($did(653).sel) { did -d $dname 653 $v1 }
+      did -b $dname 655,204
+      prevbmp $dname 658 344 action 2
+      saveslaps
+    }
+    elseif ($did == 2426) { sdt joinclones }
+    elseif ($did == 2947) { sdt joincchan }
+    elseif ($did == 1579) {
+      var %v = %autoconserv. [ $+ [ $did($did).seltext ] ],%y = $wd(%v,1),%x
+      if (%v) && (%y != &null) { %x = %y }
+      if ($did($did).seltext == > All other networks) {
+        did -ra $dname 637 Default nickname
+        did -era $dname 81 %nick.def
+        did -ra $dname 83 %nick.away
+        did -b $dname 135
+      }
+      else {
+        did -e $dname 135
+        if (%x) {
+          did -ra $dname 637 Default nick (from favs)
+          did -bra $dname 81 %x
+        }
+        else {
+          did -ra $dname 637 Default nickname
+          did -era $dname 81 %nick.def. [ $+ [ $did(1579).seltext ] ]
+        }
+        did -ra $dname 83 %nick.away. [ $+ [ $did(1579).seltext ] ]
+      }
+    }
+    elseif ($did == 306) {
+      noop $dialog(netsel,netsel,-4)
+      if (%netsel.result) {
+        if (!$istok($didtok($dname,1579,44),%netsel.result,44)) {
+          did -ac $dname 1579 %netsel.result
+          unset %netsel.result
+          did -e $dname 135
+          var %v = %autoconserv. [ $+ [ $did(1579).seltext ] ],%y = $wd(%v,1),%x
+          if (%v) && (%y != &null) { %x = %y }
+          if (%x) {
+            did -ra $dname 637 Default nick (from favs)
+            did -bra $dname 81 %x
+          }
+          else {
+            did -ra $dname 637 Default nickname
+            did -era $dname 81 %nick.def. [ $+ [ $did(1579).seltext ] ]
+          }
+          did -ra $dname 83 %nick.away. [ $+ [ $did(1579).seltext ] ]
+        }
+        else { errdialog this network is already in the list! }
+      }
+    }
+    elseif ($did == 135) {
+      if ($did(81).enabled) { unset %nick.def. $+ $did(1579).seltext }
+      unset %nick.away. $+ $did(1579).seltext
+      did -d $dname 1579 $did(1579).sel
+      did -c $dname 1579 1
+      did -ra $dname 637 Default nickname
+      did -era $dname 81 %nick.def
+      did -ra $dname 83 %nick.away
+      if ($did(1579).seltext == > All other networks) { did -b $dname $did }
+    }
+    elseif ($istok(123 124 125 136 324,$did,32)) { savenetdata }
+    elseif ($did == 68) { savetitlebar }
+    elseif ($istok(65 66,$did,32)) {
+      set %mailacc. $+ $did(29).seltext $puttok(%mailacc. [ $+ [ $did(29).seltext ] ],$did(66).state,3,32)
+      unset %mailchk. $+ $did(29).seltext
+      mail.tref -n
+    }
+    elseif ($did == 62) {
+      set %mailacc. $+ $did(29).seltext $puttok(%mailacc. [ $+ [ $did(29).seltext ] ],$did(62).state,5,32)
+      unset %mailchk. $+ $did(29).seltext
+      mail.tref -n
+    }
+  }
+  elseif ($devent == edit) {
+    if ($istok(304 172 279 245 229 236 216 64 11 21 23 1915 1828 170 171 172 173 174 176 177 178 179 180 193 194 195 196 197 198 316 317 318 319 320 321 322 324 325 326 327 1236 77 1340 2307 2982 999,$did,32)) { numonlyedit $dname $did }
+    if ($did == 17) { set %q.auth.nick $did($did) }
+    elseif ($istok(186 187,$did,32)) {
+      hadd awaypreset $replace($did(154).seltext,$chr(32),_) $iif($remove($did(187),$chr(32)),$v1,$iif(%nick.away,$v1,<me>)) $iif($did(186),$v1,gone)
+      hsave -ob awaypreset scripts\tables\awaypreset.tbl
+    }
+    elseif ($did == 343) {
+      var %d = $did($did)
+      noop $regsub(%d,/^[ ]*/,,%d) $regsub(%d,/[ ]*$/,,%d)
+      if (%d) && (!$istok($didtok(331,1),%d,1)) {
+        var %o = $encode(%game.oldtitle,m),%n = $encode(%d,m)
+        did -oc $dname 331 $did(331).sel %d
+        set %game. $+ %n $+ .added 1
+        set %game. $+ %n $+ .path %game. [ $+ [ %o ] $+ ] .path
+        set %game. $+ %n $+ .cmdline %game. [ $+ [ %o ] $+ ] .cmdline
+        set %game. $+ %n $+ .setaway %game. [ $+ [ %o ] $+ ] .setaway
+        set %game. $+ %n $+ .awaynick %game. [ $+ [ %o ] $+ ] .awaynick
+        set %game. $+ %n $+ .awaymsg %game. [ $+ [ %o ] $+ ] .awaymsg
+        set %game. $+ %n $+ .favs %game. [ $+ [ %o ] $+ ] .favs
+        unset %game. [ $+ [ %o ] $+ ] .*
+        set %game.oldtitle %d
+      }
+    }
+    elseif ($did == 344) { set %game. [ $+ [ $encode($did(331).seltext,m) ] $+ ] .path $did($did) }
+    elseif ($did == 345) { set %game. [ $+ [ $encode($did(331).seltext,m) ] $+ ] .cmdline $did($did) }
+    elseif ($did == 346) { set %game. [ $+ [ $encode($did(331).seltext,m) ] $+ ] .awaynick $did($did) }
+    elseif ($did == 357) { set %game. [ $+ [ $encode($did(331).seltext,m) ] $+ ] .awaymsg $did($did) }
+    elseif ($did == 304) {
+      set %sbar.refdelay $iif($did($did) isnum 1-,$v1,1)
+      sbar.timer
+    }
+    elseif ($did == 81) {
+      if ($did(1579).seltext == > All other networks) { set %nick.def $did($did) }
+      elseif ($did($did)) { set %nick.def. $+ $did(1579).seltext $did($did) }
+      else { unset %nick.def. $+ $did(1579).seltext }
+    }
+    elseif ($did == 83) {
+      if ($did(1579).seltext == > All other networks) { set %nick.away $did($did) }
+      elseif ($did($did)) { set %nick.away. $+ $did(1579).seltext $did($did) }
+      else { unset %nick.away. $+ $did(1579).seltext }
+    }
+    elseif ($did == 1236) { set %auto.awaytime $iif($did($did),$calc($v1 *60),3000) }
+    elseif ($did == 77) {
+      set %lag.chk.delay $iif($did($did) isnum 5-,$v1,5)
+      lagchktimer
+    }
+    elseif ($did == 1340) {
+      crmlagbar
+      set %lag.chk.len $iif($did($did) isnum 10-,$v1,1000)
+      drawrect -nrf @tb.lagbar %tb.lagcol.bg 1 0 0 100 22
+      toolbar.dlaghist
+    }
+    elseif ($did == 172) {
+      set %titlebar.cint $iif($did($did) isnum 1-,$v1,1)
+      titlebar.ctmr
+    }
+    elseif ($did == 96) { set %gs.auth.nick $did($did) }
+    elseif ($did == 2304) {
+      set %mailacc. $+ $did(29).seltext $puttok(%mailacc. [ $+ [ $did(29).seltext ] ],$iif($remove($did($did),$chr(32)),$v1,&null),1,32)
+      unset %mailchk. $+ $did(29).seltext
+      mail.tref -n
+    }
+    elseif ($did == 2305) {
+      set %mailacc. $+ $did(29).seltext $puttok(%mailacc. [ $+ [ $did(29).seltext ] ],$iif($remove($did($did),$chr(32)),$v1,&null),2,32)
+      unset %mailchk. $+ $did(29).seltext
+      mail.tref -n
+    }
+    elseif ($did == 2306) {
+      set %mailacc. $+ $did(29).seltext $puttok(%mailacc. [ $+ [ $did(29).seltext ] ],$iif($did($did),$encode($did($did),m),&null),4,32)
+      unset %mailchk. $+ $did(29).seltext
+      mail.tref -n
+    }
+    elseif ($did == 279) { set %maxwhousers $did($did) }
+    elseif ($did == 216) { set %paste.breaklines.bytes $iif($did($did) >= 10,$v1,500) }
+    elseif ($istok(92 120 121 122,$did,32)) { savenetdata }
+    elseif ($did == 517) { sns.save }
+    elseif ($did == 518) { sns.save }
+    elseif ($did == 41) {
+      set %nickcomp.format $did($did)
+      prevbmp $dname 43 146 own 2 $replace($did($did),<nick>,$randnick) sample text
+    }
+    elseif ($did == 11) { set %pastedelay.ms $iif($did($did),$v1,2000) }
+    elseif ($did == 21) { set %pasteminlinedelay.num $iif($did($did) > 0,$v1,1) }
+    elseif ($did == 23) { set %pasteminlinedelay.bytes $iif($did($did) > 1,$v1,2) }
+    elseif ($did == 1915) { set %qcls.secs $calc($iif($did($did),$v1,15) *60) }
+    elseif ($did == 18) { set %pass.q $encode($did($did),m) }
+    elseif ($did == 97) { set %pass.gs $encode($did($did),m) }
+    elseif ($did == 603) { set %nick.comp.chr $iif($did($did),$v1,:) }
+    elseif ($did == 1317) { set %x.auth.nick $did($did) }
+    elseif ($did == 1318) { set %pass.x $encode($did($did),m) }
+    elseif ($did == 1828) {
+      set %nwstick.mins $iif($did($did),$v1,5)
+      .timernwstick -io 0 $calc(%nwstick.mins *60) newsticker
+    }
+    elseif ($did == 2307) {
+      set %mail.delay $iif($did($did) !isnum 1-999,300,$calc($did($did) *60))
+      .timermailchk -io 0 %mail.delay checkmail
+    }
+    elseif ($did == 2323) { prevbmp $dname 2325 344 quit 2 $did($did) }
+    elseif ($did == 2333) { prevbmp $dname 2335 344 kick 2 $did($did) }
+    elseif ($did == 653) {
+      if (?*:?* iswm $did(653)) { prevbmp $dname 658 344 action 2 * $chkme [ [ $replace($gettok($did(653),2-,58),<nick>,$randnick) ] ] }
+      else { prevbmp $dname 658 344 info 2 Invalid slap format. }
+    }
+    elseif ($did == 2901) {
+      set %sbr.format $did(2901)
+      prevbmp settings 2902 200 own 2 $replace($did(settings,2901),<text>,OS) Windows $os
+    }
+    elseif ($did == 2982) {
+      set %aidle.max $iif($did($did) < 10 || $did($did) !isnum,10,$did($did))
+      .timeraidle -io 0 %aidle.max scon -at1 aidle
+    }
+  }
+  elseif ($devent == close) {
+    var %i = $did(110).lines,%c,%s
+    while (%i > 1) {
+      var %c = $cell(110,%i,1),%s = $calc($wd($did(110,%i),5) -1)
+      if (%c == CTCPflood) { set %pprot.ctcpflood %s }
+      elseif (%c == Inviteflood) { set %pprot.inviteflood %s }
+      elseif (%c == Noticeflood) { set %pprot.noticeflood %s }
+      elseif (%c == Queryflood) { set %pprot.queryflood %s }
+      elseif (%c == Textflood) { set %pprot.textflood %s }
+      elseif (%c == Ban) { set %pprot.ban %s }
+      elseif (%c == Spam) { set %pprot.spam %s }
+      elseif (%c == Highlightflood) { set %pprot.highlightflood %s }
+      dec %i
+    }
+    unset %game.oldtitle
+    cprot.setsave
+    rss.setsave
+    savetitlebar
+    if (%rssticker) { newsticker }
+    unset % [ $+  [ $dname $+ .oa ] ]
+  }
+}
+alias setup {
+  nndlg -mh settings
+  if ($1 == -c) {
+    tokenize 124 $2-
+    did -i settings 1 1 cb root 2
+    var %w = $didwm(settings,1,* $+ $1 $+ *)
+    did -i settings 1 1 branch expand %w
+    did -i settings 1 1 cb root 2 %w
+    var %i = $didwm(settings,1,* $+ $2 $+ *)
+    did -c settings 1 %i
+    setclk 2 %w $iif(%i > 1,%i)
+  }
+}
+alias settings.drawicon {
+  var %w = @sprev.settings. $+ $1,%f = $mkfullfn($2-)
+  if (!$window(%w)) { ppwin settings $1 }
+  drawrect -nrf %w $rgb(face) 1 0 0 100 100
+  if ($isfile(%f)) { drawpic -ns %w $int($calc(($window(%w).w -16)/2-1)) $int($calc(($window(%w).h -16)/2-1)) 16 16 %f }
+  drawdot %w
+}
+alias setclk {
+  var %t
+  if ($1- == 2) { var %t = 1000 Logo }
+  elseif ($1- == 2 2) { %t = 1001 Awaysystem }
+  elseif ($1- == 2 2 2) { %t = 1263 Awaysystem - Log/Pager }
+  elseif ($1- == 2 2 3) { %t = 1264 Awaysystem - Messages }
+  elseif ($1- == 2 2 4) { %t = 1265 Awaysystem - Miscellaneous }
+  elseif ($1- == 2 2 5) { %t = 142 Awaysystem - Presets }
+  elseif ($1- == 2 3) { %t = 149 Content filter }
+  elseif ($1- == 2 4) { %t = 82 Copy & paste }
+  elseif ($1- == 2 5) { %t = 956 Favorite networks }
+  elseif ($1- == 2 6) { %t = 326 Games }
+  elseif ($1- == 2 7) { %t = 903 Key bindings }
+  elseif ($1- == 2 8) { %t = 237 Mail-check }
+  elseif ($1- == 2 9) { %t = 1001 Messages }
+  elseif ($1- == 2 9 2) { %t = 982 Kick messages }
+  elseif ($1- == 2 9 3) { %t = 983 Quit messages }
+  elseif ($1- == 2 9 4) { %t = 139 Slaps }
+  elseif ($1- == 2 10) { %t = 1001 Miscellaneous }
+  elseif ($1- == 2 10 2) { %t = 1921 Miscellaneous (1) }
+  elseif ($1- == 2 10 3) { %t = 1993 Miscellaneous (2) }
+  elseif ($1- == 2 11) { %t = 1001 Network services }
+  elseif ($1- == 2 11 2) { %t = 986 Chan/NickServ settings }
+  elseif ($1- == 2 11 3) { %t = 90 GameSurge/AuthServ auth settings }
+  elseif ($1- == 2 11 4) { %t = 900 QuakeNet/Q auth settings }
+  elseif ($1- == 2 11 5) { %t = 987 UnderNet/X identify settings }
+  elseif ($1- == 2 12) { %t = 1812 Newstickers }
+  elseif ($1- == 2 13) { %t = 1001 Protections }
+  elseif ($1- == 2 13 2) { %t = 910 Channel protections }
+  elseif ($1- == 2 13 3) { %t = 911 Personal protections }
+  elseif ($1- == 2 13 4) { %t = 1992 Protection excludes }
+  elseif ($1- == 2 14) { %t = 170 Status bar }
+  elseif ($1- == 2 15) { %t = 308 Themes }
+  elseif ($1- == 2 16) { %t = 984 Titlebar }
+  elseif ($1- == 2 17) { %t = 1001 Toolbar }
+  elseif ($1- == 2 17 2) { %t = 263 Customize toolbar }
+  elseif ($1- == 2 17 3) { %t = 264 Customize lag bar }
+  else { return }
+  tokenize 32 %t
+  if ($1 == 1001) { did -ra settings 190 $2- }
+  did -f settings $1 $+ ,1
+  dialog -t settings NNScript %version settings - $2- [/setup]
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

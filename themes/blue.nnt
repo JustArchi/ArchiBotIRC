@@ -1,0 +1,146 @@
+Name Blue
+Version 3.52
+NNTVersion 1.03
+Author Tig0ti (ported by SynSh0ck and greeny)
+Email p2psmith@gmail.com
+Homepage http://www.hybridfm.net/
+Description None.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 12[11 hh:nn:ss 12] 
+
+NickColSelf 12
+NickColOp 13
+NickColVoice 13
+NickColRegular 13
+NickColProtect 13
+NickColIgnore 12
+
+Brackets 12: [13 <text> 12]
+LineSep 12 ——————————————————————————————————————————
+Prefix 10  12·09 ·
+
+GenEcho <pre>10 <text>
+GenError <pre> 09Error12 :10 <text>
+GenHighlight 12: [13 <text> 12]
+
+ChanText  12[08 <cmode><nick> 12]13 <text>
+ChanTextOwn  12[13 <cmode><me> 12]11 <text>
+ChanAction  12!08 <cmode><nick> 09<text>
+ChanActionOwn  12!13 <cmode><me> 11<text>
+
+QueryText  12[08 <nick> 12]13 <text>
+QueryTextOwn  12[13 <me> 12]11 <text>
+QueryAction  12!08 <nick> 09<text>
+QueryActionOwn  12!13 <me> 11<text>
+
+Msg  12[08 <nick> 12]13 <text>
+MsgOwn <pre> 11/msg 12[13 <target> 12] :08 <text>
+Action  12!08 <nick> 09<text>
+ActionOwn <pre> 11/me 12[13 <target> 12] :08 <text>
+
+ChanNotice <pre> 12[08 <cmode><nick> 12(13<chan>12) ]13 <text>
+Notice <pre> 12[08 <nick> 12(13<address>12) ]13 <text>
+NoticeOwn <pre> 11/notice 12[13 <target> 12] :08 <text>
+ServerNotice <pre> 12[08 <server> 12]13 <text>
+
+CTCP <pre> 09CTCP12 [10 <ctcp> 12]10 requested by12 [13 <nick> 12]
+CTCPOwn <pre> 09CTCP12 [10 <ctcp> 12]10 to12 [13 <target> 12]
+ChanCTCP <pre> 09CTCP12 [10 <ctcp> 12]10 requested at10 <chan> 10by12 [13 <nick> 12]
+CTCPReply <pre> 09CTCP12 [10 <ctcp> 12]10 received by10 <nick>: <text>
+CTCPReplyOwn <pre> 09CTCP12 [10 <ctcp> 12]10 sent to10 <target>: <text>
+
+Join <pre> 09Joins 12:10 <nick> 12[13 <address> 12]
+JoinOwn <pre> 09Joined12 :10 <chan>!if <topic> <pre> 11Topic 12: <topic>!if <topic> <pre> 11Set by 12:13 <topicnick> 11on13 <topicdate>
+Part <pre> 09Parts 12:10 <nick> 12[13 <address> 12] <message brackets="1">
+Quit <pre> 09Quits12 :10 <nick> 12[13 <address> 12] <message brackets="1">
+Nick <pre> 09Nick 12:10 <nick> <newnick brackets="1">
+NickOwn <pre> 09Nick 12:10 <nick> <newnick brackets="1">
+Mode <pre> 09ChanMode12 :10 <nick> 10sets mode12 [13 <mode> 12]
+UserMode <pre> 09UserMode 12:10 <mode>
+Kick <pre> 09Kicks 12: 10<kickednick> 10was kicked from10 <chan> 10by 12[13 <nick> 12] <message brackets="1">
+KickOwn <pre> 09Kicks 12: 10you 10were kicked from10 <chan> 10by 12[13 <nick> 12] <message brackets="1">
+WallOp  12[08 <nick> 12]13 <text>
+
+DNS <pre> 11/dns 12[13 <address> 12]08 ...
+DNSError <pre> 08Failed10 to resolve10 <address>
+DNSResolve <pre> 11Resolved 12[13 <address> 12]08 to10 <raddress>
+
+Notify <pre>11 <nick> 10is online <note brackets="1">
+UnNotify <pre>11 <nick> 10is offline <note brackets="1">
+
+LUsers1 12     : ›11  Users 12:13 <users> 12[13 Invisible: <invisible> 12]
+LUsers2 12     : ›11  Operators 12:13 <operators>
+LUsers3 12     : ›11  Unknown 12:13 <connections>
+LUsers4 12     : ›11  Channels 12:13 <channels>
+LUsers5 12     : ›11  Clients 12:13 <clients>12     : ›11  Servers 12:13 <servers>
+
+Welcome1 !empty
+Welcome2 <pre> 09Host12 :10 <host> 10running12 [13 <version> 12]
+Welcome3 <pre> 09Created on12 :10 <created>
+Welcome4 <pre> 09Usermodes12 :10 <usermodes><pre> 09Chanmodes12 :10 <chanmodes>
+SupportedInfo <pre> 09Protocols supported12 :10 <protocols>
+
+ChannelModes <pre> 09Modes12 :10 at10 <chan> 12: [13 <modes> 12]
+ChannelCreation <pre> 09Created on12 :10 <created>
+Bans <pre> 11Bans 12[13 <chan> 12]08 <ban> <nick brackets="1">
+BansEnd <pre> 11Bans 12[13 <chan> 12]08 end
+UnableToSend <pre> 09Error12 :10 cannot send to channel 12: [13 <chan> 12]
+NotOpped <pre> 09Error12 :10 you are not channel operator at10 <chan>
+HiddenHost <pre> 09Host12 :10 <host> 12is your new hostname
+RegisterFirst <pre> 09Error12 :10 register first!
+
+WhoisStart   12 [11 /whois13 <nick> 12] ————————————————————————————
+WhoisAddress  12         : ›11 Address 12:13 <address> 12         : ›11 Name 12:13 <name>
+WhoisChans  12         : ›11 Channels 12:13 <chans>
+WhoisServer  12         : ›11 Server 12:13 <server> 12[11 <info> 12]
+WhoisStatus  12         : ›11 IRCop 12:13 <status>
+WhoisAway  12         : ›11 Away 12:13 <reason>
+WhoisAuth  12         : ›11 Authed As 12:13 <auth>
+WhoisRealIP  12         : ›11 Real Hostname 12:13 is connecting from <address> 12[11 <ip> 12]
+WhoisIdle  12         : ›11 Idle 12:13 <idle> 12[11 Sign on12 :13 <signontime> 12·11 Online time12 :13 <signonago> 12]
+WhoisEnd  12   [13 End 12] ———————————————————————————
+
+WhowasStart  12   [11 /whowas13 <nick> 12] ————————————————————————————
+WhowasAddress  12         : ›11 Address 12:13 <address> 12         : ›11 Name 12:13 <name>
+WhowasServer  12         : ›11 Server 12:13 <server> 12[11 <info> 12]
+WhowasAway  12         : ›11 Away 12:13 <reason>
+WhowasEnd  12   [13 End 12] ———————————————————————————
+
+Who <pre> 11/who 12[13 <chan> 12]08 <nick> <name brackets="1"> 08is10 <address> 08on10 <server>
+WhoEnd <pre> 11/who 12[13 <target> 12]08 end
+
+Invite <pre> 09Invite 12: 10to <chan> by 12[13 <nick> 12]
+InviteOwn <pre> 09Invite 12:10 <nick> was invited to join12 [13 <chan> 12]
+InviteAlreadyOnChan <pre> 09Error12 :10 <nick> is already on12 [13 <chan>12 ]
+
+NoTopic <pre> 09Error12 :10 no topic set 12: [13 <chan> 12]
+Topic 12 ——————————————————————————————————————————<pre> 11Topic 12: <topic>
+TopicBy <pre> 11Set by 12:13 <nick> 11on13 <date>12 ——————————————————————————————————————————
+TopicChange <pre> 09Topic 12:10 set by10 <nick> 12:13 <topic>
+
+Names <pre> 11/names 12[13 <chan> 12]08 <names>
+NamesEnd <pre> 11/names 12[13 <chan> 12]08 end
+
+UnknownCmd <pre> 09Error12 : 10/<cmd> 10is an unknown command
+NickInUse <pre> 09Error12 :10 nick10 <nick> 10is already in use
+AwayStatus 12         : ›11 Away 12:13 <reason>
+ChanFull <pre> 09Error12 :10 cannot join10 <chan> 12: [13 channel is full 12]
+ChanInviteOnly <pre> 09Error12 :10 cannot join10 <chan> 12: [13 invite only 12]
+ChanBanned <pre> 09Error12 :10 cannot join10 <chan> 12: [13 you are banned 12]
+ChanKeyRequired <pre> 09Error12 :10 cannot join10 <chan> 12: [13 key required 12]
+ChanRegOnly <pre> 09Error12 :10 cannot join10 <chan> 12: [13 registered only 12]
+NoSuchNick <pre> 09Error12 :10 no such nick 12: [13 <nick> 12]
+NoSuchChan <pre> 09Error12 :10 no such channel 12: [13 <chan> 12]
+
+RawDef <pre>10 <text>
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 32764 15963694 15963694 16366197 16166235 14973703 16568480 8355711 13816530 1 13 4 4 9 13 10 9 12 11 12 0 11 12 12 0 10 9 9 9 9 1 0 1 8 14 12 1 1 0
+Scheme1 Orange 16777215 0 8323072 37632 255 127 10223772 32764 2282239 2280959 7332607 5499647 52972 10351615 8355711 13816530 1 13 4 4 9 13 10 9 12 11 12 0 11 12 12 0 10 9 9 9 9 1 0 1 8 14 12 1 1 0
+Scheme2 Brown 16777215 0 8323072 37632 255 127 10223772 32764 7444400 7707308 10928072 9876412 5867155 12767962 8355711 13816530 1 13 4 4 9 13 10 9 12 11 12 0 11 12 12 0 10 9 9 9 9 1 0 1 8 14 12 1 1 0
+Scheme3 Blue++ 16777215 0 8404224 37632 255 127 10223772 32764 15963694 15963694 16366197 16166235 14973703 16568480 8355711 13816530 2 13 4 4 9 13 10 9 12 11 12 0 11 12 12 0 10 9 9 9 9 2 0 2 8 14 12 2 2 0
+Scheme4 Orange++ 16777215 0 8323072 37632 255 127 10223772 30613 2282239 2280959 7332607 5499647 52972 10351615 8355711 13816530 7 13 4 4 9 13 10 9 12 11 12 0 11 12 12 0 10 9 9 9 9 7 0 7 8 14 12 7 7 0
+Scheme5 Green 16777215 0 8323072 37632 255 127 10223772 32764 8761712 9088882 11455650 10993810 8098139 13621954 8355711 13816530 1 13 4 4 9 13 10 9 12 11 12 0 11 12 12 0 10 9 9 9 9 1 0 1 8 14 12 1 1 0

@@ -1,0 +1,144 @@
+Name VoKs (light)
+Version 1.11
+NNTVersion 1.03
+Author voks
+Email voks@nnscript.com
+Homepage http://www.markushenn.de
+Description CWL schemes couldn't be implemented as good as in the MTS version and dark schemes have to be in an extra theme. Blame greeny for both. :-P
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 10[01HH10:01nn10:01ss10]
+
+NickColSelf 7
+NickColOp 1
+NickColVoice 2
+NickColRegular 10
+NickColProtect 3
+NickColIgnore 4
+
+Brackets 02(<text>02)
+LineSep 
+Prefix 02:::
+
+GenEcho <pre> <text>
+GenError <pre> error: <text>
+GenHighlight 02(<text>02)
+
+ChanText 10[02<cmode><nick>10] <text>
+ChanTextOwn 10[02<cmode><me>10] <text>
+ChanAction • 02<cmode><nick> <text>
+ChanActionOwn • 02<cmode><me> <text>
+
+QueryText 10[<nick>10] <text>
+QueryTextOwn 10[<me>10] <text>
+QueryAction • <nick> <text>
+QueryActionOwn • <me> <text>
+
+Msg 12*<nick>!<address>12* <text>
+MsgOwn <pre> 12 *<target>12* <text>
+Action • <nick>02!<address> <text>
+ActionOwn • <target> <text>
+
+ChanNotice 02-<nick>12@<chan>02- <text>
+Notice 02-<nick>02- <text>
+NoticeOwn <pre> -<target>- <text>
+ServerNotice 02-<server>02- <text>
+
+CTCP 10?<nick>10? <ctcp> <text>
+CTCPOwn <pre> 10?<target>10? <ctcp> <text>
+ChanCTCP 10?<nick>10@<chan>10? <ctcp> <text>
+CTCPReply 10!<nick>10! <ctcp> <text>
+CTCPReplyOwn <pre> 10!<target>10! <ctcp> <text>
+
+Join <pre> 03join: 02(<nick>02) (03<address>02)
+JoinOwn <pre> 03joined 02(<chan>02)!if <topic> <pre> 10Topic is (<topic>10)!if <topic> <pre> 10Set by (<topicnick>10) on (<topicdate>10)
+Part <pre> 05part: 02(<nick>02)05 <message>
+Quit <pre> 05quit: 02(<nick>02)05 <message>
+Nick <pre> 10nick: 02(<nick>02)10 is now known as 02(<newnick>02)
+NickOwn <pre> 10nick: 02(<me>02)10 is now known as 02(<newnick>02)
+Mode <pre> 10mode: 02(<nick>02)10 sets 02(<mode>02)
+UserMode <pre> 10usermode: set to 02(<mode>02)
+Kick <pre> 04kick: 02(<kickednick>02)04 was kicked by 02(<nick>02)04 <message>
+KickOwn <pre> 04kick: 02(<me>02)04 was kicked by 02(<nick>02)04 <message>
+WallOp <pre> wallop: 02(<nick>02)05 <text>
+
+DNS <pre> dns: resolving 02(<address>02)...
+DNSError <pre> dns: unable to resolve 02(<address>02)
+DNSResolve <pre> dns: resolved 02(<address>02) to 02(<raddress>02)
+
+Notify <pre> notify: 02(<nick>02) is now online!
+UnNotify <pre> unnotify: 02(<nick>02) is now offline!
+
+LUsers1 <pre> there are 02(<users>02) users and 02(<invisible>02) invisible on 02(<servers>02) servers
+LUsers2 <pre> there are 02(<operators>02) operator(s) online
+LUsers3 <pre> there are 02(<connections>02) unknown connection(s)
+LUsers4 <pre> there are 02(<channels>02) channels formed
+LUsers5 <pre> i have 02(<clients>02) clients and 02(<servers>02) servers
+
+Welcome1 <pre> welcome to the internet relay network, 02(<nick>02)
+Welcome2 <pre> your host is 02(<host>02), running version 02(<version>02)
+Welcome3 <pre> this server was created 02(<created>02)
+Welcome4 <pre> server: 02(<server>02), version: 02(<version>02), usermodes: 02(<usermodes>02), channelmodes: 02(<chanmodes>02)
+SupportedInfo <pre> supported by this server: 02(<protocols>02)
+
+ChannelModes <pre> modes on <chan>: 02(<modes>02)
+ChannelCreation <pre> <chan> creation time: 02(<created>02)
+Bans <pre> <ban> set on <banned> by <nick>
+BansEnd <pre> end of <chan> ban list!
+UnableToSend <pre> unable to send message to <chan>!
+NotOpped <pre> you're not opped on <chan>!
+HiddenHost <pre> <host> is now your hidden host!
+RegisterFirst <pre> register first!
+
+WhoisStart 
+WhoisAddress 02—› 10<nick> 02is "10<name>02" 02(<address>)
+WhoisChans !if <opchans> —› <nick> 02opped in10 <opchans>!if <hopchans> —› <nick> 02helpopped in10 <hopchans>!if <vchans> —› <nick> 02voiced in10 <vchans>!if <regchans> —› <nick> 02reg in10 <regchans>
+WhoisServer —› <nick> 02using10 <server> 02(<info>)
+WhoisStatus —› <nick> 02is10 <status>
+WhoisAway —› <nick> 02is away10 <reason>
+WhoisAuth —› <nick> 02authed as "10<auth>02"
+WhoisRealIP —› <nick> 02real host10 <address> 02(<ip>)
+WhoisIdle —› <nick> 02has been idle for10 <idle>—› <nick> 02signed on10 <signonago> 02ago
+WhoisEnd 
+
+WhowasStart 
+WhowasAddress 02—› 10<nick> 02was "10<name>02" (<address>)
+WhowasServer —› <nick> 02used10 <server> 02(<info>)
+WhowasAway —› <nick> 02was away10 <reason>
+WhowasEnd 
+
+Who <pre> 10<chan> <ident> <address> <server> <nick> <status> <name>
+WhoEnd <pre> 10<target> End of /WHO list.
+
+Invite <pre> 03invite: 02(<nick>02)03 invites you to join 02(<chan>02)
+InviteOwn <pre> 03invite: 02(<nick>02)03 has been invited to join 02(<chan>02)
+InviteAlreadyOnChan <pre> 03invite: 02(<nick>02)03 is already on 02(<chan>02)
+
+NoTopic <pre> 10No topic in 02(<chan>02)10 set
+Topic <pre> 10Topic is (<topic>10)
+TopicBy <pre> 10Set by (<nick>10) on (<date>10)
+TopicChange <pre> 10topic: 02(<nick>02)10 changes topic to 02(<topic>02)
+
+Names <pre>names: 02(<chan>02) <names>
+NamesEnd <pre> end of /names list for 02(<chan>02)
+
+UnknownCmd <pre> error: unknown command 02(<cmd>02)
+NickInUse <pre> error: nickname 02(<nick>02) is already in use! Press Control+F1 to retry!
+AwayStatus <pre> away: 02(<nick>02) is marked as being away as 02(<reason>02)
+ChanFull <pre> can't join <chan> 02(full (+l)02)! Press Control+F2 to retry!
+ChanInviteOnly <pre> can't join <chan> 02(invite only (+i)02)! Press Control+F2 to retry!
+ChanBanned <pre> can't join <chan> 02(you're banned (+b)02)! Press Control+F2 to retry!
+ChanKeyRequired <pre> can't join <chan> 02(requires key (+k)02)! Press Control+F2 to retry!
+ChanRegOnly <pre> can't join <chan> 02(auth'ed only (+r)02)!
+NoSuchNick <pre> no such nickname: 02(<nick>02)
+NoSuchChan <pre> no such channel: 02(<chan>02)
+
+RawDef <pre> raw <numeric>: <text>
+
+Scheme0 Default 16777215 0 16744192 37632 255 150 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 0 14 10 7 10 10 1 1 1 1 1 1 1 7 6 1 1 1 1 5 0 0 1 0 1 14 6 0 0 1
+Scheme1 grey 16777215 0 16744192 37632 255 150 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 15 14 10 7 10 10 1 1 1 1 1 1 1 7 6 1 1 1 1 5 15 15 1 15 1 14 6 15 15 1
+Scheme2 Color_Whole_Lines 16777215 0 16744192 37632 255 150 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 0 14 10 7 10 10 3 3 4 10 10 1 2 10 10 1 5 5 10 10 0 0 1 0 1 14 14 0 0 1
+Scheme3 CWL_grey 16777215 0 16744192 37632 255 150 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 15 14 10 7 10 10 3 3 4 10 10 1 2 10 10 1 5 5 10 10 15 15 1 15 1 14 14 15 15 1

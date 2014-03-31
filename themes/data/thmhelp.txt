@@ -1,0 +1,894 @@
+[general]
+
+——› General identifiers:
+<gt>: The '>' character. Use this instead of just '>'.
+<lt>: The '<' character. Use this instead of just '<'.
+<me>: Your nickname.
+<myaddress>: Your address.
+<myhost>: Your hostname/IP.
+<myident>: Your ident.
+<myport>: The server port you're connected to.
+<myserver>: The server you're connected to.
+<mynetwork>: The network you're connected to.
+<timestamp>: The timestamp.
+<pre>: The prefix for the current theme (you cannot use this in the "Prefix" section itself.)
+<linesep>: The line separator for the current theme (you cannot use this in the "Linesep" section itself.)
+
+——› General Properties:
+align="N": Aligns the nicknames with N characters spacing. Negative values are possible.
+Example: <nick align="15">
+
+brackets="1": Only displays the identifier if it is not empty and covers it in brackets. Useful in part messages for example.
+Example: <message brackets="1">
+
+——› General prefixes:
+!if <identifier> ...: Only displays the line if <identifier> has a value.
+Example: "!if <opchans> The user is opped in: <opchans>" would only be displayed if the user is opped in a channel.
+
+!script ...: Executes the script after the prefix. If possible, do not use these in themes. <identifiers> are preferred and already provide many possibilities. Also, !script lines will not be shown in previews for security reasons.
+Example: "!script join #nnscript" would join #nnscript in a certain event.
+
+!empty: Doesn't display the event at all.
+
+——› Other info:
+You can use any mIRC $identifier in the theme, they will however not be evaluated in the preview. They will work in the loaded theme, but you will not see a preview of them. This is due to security reasons.
+[e-normal-1-0-Author]
+——› Description:
+The author of the theme.
+[e-normal-1-0-Name]
+——› Description:
+The name of the theme.
+[e-normal-1-0-Version]
+——› Description:
+The version number of the theme.
+[e-normal-1-0-NNTVersion]
+——› Description:
+The version number of the NoNameScript theme engine required for the theme.
+[e-normal-1-0-Email]
+——› Description:
+The theme author's e-mail address.
+[e-normal-1-0-Homepage]
+——› Description:
+The theme author's homepage.
+[m-normal-1-0-Description]
+——› Description:
+A short description of your theme and/or other notes.
+[o-normal-2-0-Colors]
+——› Description:
+The colors used for the various events and lists.
+[r-normal-2-0-RGB]
+——› Description:
+The RGB color codes used in the theme. You can create various schemes which use different colors to make your theme more appealing.
+[f-normal-3-0-Font]
+——› Description:
+The font the theme is using.
+[s-normal-3-0-FontSize]
+——› Description:
+The font size the theme is using.
+[c-normal-4-0-TimestampEnabled]
+——› Description:
+Determines if global timestamping is enabled.
+[e-normal-4-0-Timestamp]
+——› Description:
+Your timestamp format.
+
+——› Identifiers:
+Year	yy	= 99
+	yyyy	= 1999
+Month	m	= 1
+	mm	= 01
+	mmm	= Jan
+	mmmm	= January
+Day	d	= 1
+	dd	= 01
+	ddd	= Mon
+	dddd	= Monday
+Hours	h	= 5
+	hh	= 05
+	H	= 17
+	HH	= 17
+Minutes	n	= 1
+	nn	= 01
+Seconds	s	= 1
+	ss	= 01
+AM/PM	t	= a/p
+	tt	= am/pm
+	T	= A/P
+	TT	= AM/PM
+Ordinal	oo	= st/nd/rd/th
+Timezone	z	= +0
+	zz	= +0000
+	zzz	= +0000 GMT
+[d-normal-5-0-NickColSelf]
+——› Description:
+The color of yourself in the nicklist/chat windows.
+[d-normal-5-0-NickColOp]
+——› Description:
+The color of operators in the nicklist/chat windows.
+[d-normal-5-0-NickColVoice]
+——› Description:
+The color of voiced users in the nicklist/chat windows.
+[d-normal-5-0-NickColRegular]
+——› Description:
+The color of regular users in the nicklist/chat windows.
+[d-normal-5-0-NickColProtect]
+——› Description:
+The color of protected users in the nicklist/chat windows.
+[d-normal-5-0-NickColIgnore]
+——› Description:
+The color of ignored users in the nicklist/chat windows.
+[m-info-11-1-GenEcho]
+——› Event:
+The script echoes a general info-type message.
+
+——› Identifiers:
+<text>: The message's text.
+[m-info-11-1-GenError]
+——› Event:
+The script echoes an error message.
+
+——› Identifiers:
+<text>: The error's text.
+[e-normal-11-1-GenHighlight]
+——› Description:
+The highlighted parts of GenError and GenEcho messages.
+
+——› Identifiers:
+<text>: The highlighted text.
+[m-normal-11-1-LineSep]
+——› Description:
+The line separator used by the script.
+[e-normal-11-1-Prefix]
+——› Description:
+A custom prefix you can use in any event.
+[m-join-6-1-Join]
+——› Event:
+A user joins a channel.
+
+——› Identifiers:
+<address>: The user's address.
+<chan>: The channel in which the join takes place.
+<clonenum>: The number of clones on the channel.
+<clones>: The nickname of the clones in the channel, if any.
+<comchannum>: The number of channels both you and the user have joined.
+<comchans>: The channels both you and the user have joined.
+<nick>: The user's nickname, or nickname:channel in non-channel windows.
+<users>: The amount of users in the channel.
+[m-join-6-1-JoinOwn]
+——› Event:
+You are joining a channel.
+
+——› Identifiers:
+<chan>: The channel in which the join takes place.
+<users>: The amount of users in the channel.
+<oppedusers>: The amount of opped users in the channel.
+<oppeduserspercent>: The percentage of opped users in the channel.
+<hoppedusers>: The amount of helpopped users in the channel.
+<hoppeduserspercent>: The percentage of helpopped users in the channel.
+<voicedusers>: The amount of voiced users in the channel.
+<voiceduserspercent>: The percentage of voiced users in the channel.
+<regusers>: The amount of regular users in the channel.
+<reguserspercent>: The percentage of regular users in the channel.
+<synctime>: The time needed to synchronize the joining of the channel, in seconds.
+<topic>: The topic currently set in the channel.
+<topicnick>: The user who set the topic on the channel.
+<topicdate>: The time the topic was set on the channel.
+<topicdateago>: The time the topic has been set on the channel.
+[m-part-6-1-Part]
+——› Event:
+A user leaves a channel.
+
+——› Identifiers:
+<address>: The user's address.
+<chan>: The channel in which the part takes place.
+<cmode>: The user's mode prefix in the channel.
+<message>: The user's leave message (if any).
+<nick>: The user's nickname, or nickname:channel in non-channel windows.
+<users>: The amount of users in the channel.
+[m-quit-6-1-Quit]
+——› Event:
+A user quits IRC.
+
+——› Identifiers:
+<address>: The user's address.
+<chan>: The channel in which the quit is displayed.
+<cmode>: The user's mode prefix in the channel.
+<message>: The user's quit message (if any).
+<nick>: The user's nickname.
+<users>: The amount of users in the channel.
+[m-kick-6-1-Kick]
+——› Event:
+A user gets kicked out of an IRC channel.
+
+——› Identifiers:
+<address>: The address of the user performing the kick.
+<chan>: The channel in which the kick takes place.
+<cmode>: The mode prefix in the channel of the user performing the kick.
+<kickednick>: The kicked user's nickname.
+<kickedcmode>: The kicked user's mode prefix in the channel.
+<message>: The kick message.
+<nick>: The nickname of the user performing the kick, or nickname:channel in non-channel windows.
+<users>: The amount of users in the channel.
+[m-kick-6-1-KickOwn]
+——› Event:
+You get kicked out of an IRC channel.
+
+——› Identifiers:
+<address>: The address of the user performing the kick.
+<chan>: The channel in which the kick takes place.
+<kickedcmode>: Your mode prefix in the channel.
+<nick>: The kicking user's nickname.
+<cmode>: The kicking user's mode prefix in the channel.
+<message>: The kick message.
+<users>: The amount of users in the channel.
+[m-nick-6-1-Nick]
+——› Event:
+A user changes his nickname.
+
+——› Identifiers:
+<address>: The user's address.
+<chan>: The channel in which the nick change takes place.
+<cmode>: The user's mode prefix in the channel.
+<newnick>: The user's new nickname.
+<nick>: The user's old nickname, or nickname:channel in non-channel windows.
+[m-nick-6-1-NickOwn]
+——› Event:
+You change your nickname.
+
+——› Identifiers:
+<newnick>: Your new nickname.
+[m-mode-6-1-Mode]
+——› Event:
+A user changes one or more channel modes.
+
+——› Identifiers:
+<address>: The user's address.
+<chan>: The channel in which the mode change takes place.
+<cmode>: The user's mode prefix in the channel.
+<mode>: The modes which are set.
+<nick>: The user's nickname, or nickname:channel in non-channel windows.
+[m-mode-6-1-UserMode]
+——› Event:
+Your usermode gets changed.
+
+——› Identifiers:
+<mode>: The modes which are set.
+[m-normal-7-1-ChanText]
+——› Event:
+A user writes text in a channel.
+
+——› Identifiers:
+<address>: The user's address.
+<chan>: The channel where the text is written.
+<cmode>: The user's mode prefix in the channel.
+<cnick>: The user's nickname, colored after the mIRC's nick coloring settings.
+<cnickcolor>: Same as above, but only the color without the nickname.
+<nick>: The user's nickname.
+<text>: The text which is written.
+[m-own-7-1-ChanTextOwn]
+——› Event:
+You write text in a channel.
+
+——› Identifiers:
+<chan>: The channel where your text is written.
+<cme>: Your nickname, colored after the mIRC's nick coloring settings.
+<cmecolor>: Same as above, but only the color without the nickname.
+<cmode>: Your mode prefix in the channel.
+<text>: The text which is written.
+[m-normal-7-1-QueryText]
+——› Event:
+A user messages you in a query.
+
+——› Identifiers:
+<nick>: The user's nickname.
+<cnick>: The user's nickname, colored after the mIRC's nick coloring settings.
+<cnickcolor>: Same as above, but only the color without the nickname.
+<text>: The text which is written.
+<address>: The user's address.
+[m-own-7-1-QueryTextOwn]
+——› Event:
+You message a user in a query.
+
+——› Identifiers:
+<cme>: Your nickname, colored after the mIRC's nick coloring settings.
+<cmecolor>: Same as above, but only the color without the nickname.
+<text>: The text which is written.
+[m-normal-7-1-Msg]
+——› Event:
+You receive a message without having a query open.
+
+——› Identifiers:
+<nick>: The user's nickname.
+<text>: The text you receive.
+[m-normal-7-1-MsgOwn]
+——› Event:
+You send a message to a user or channel and don't have a query/channel open.
+
+——› Identifiers:
+<target>: The target you send the message to.
+<text>: The text you send.
+[m-action-7-1-ChanAction]
+——› Event:
+A user performs an action in a channel.
+
+——› Identifiers:
+<address>: The user's address.
+<chan>: The channel where the text is written.
+<cmode>: The user's mode prefix in the channel.
+<cnick>: The user's nickname, colored after the mIRC's nick coloring settings.
+<cnickcolor>: Same as above, but only the color without the nickname.
+<nick>: The user's nickname.
+<text>: The text which is written.
+[m-action-7-1-ChanActionOwn]
+——› Event:
+You perform an action in a channel.
+
+——› Identifiers:
+<chan>: The channel where your text is written.
+<cme>: Your nickname, colored after the mIRC's nick coloring settings.
+<cmecolor>: Same as above, but only the color without the nickname.
+<cmode>: Your mode prefix in the channel.
+<text>: The text which is written.
+[m-action-7-1-QueryAction]
+——› Event:
+A user performs an action in a query.
+
+——› Identifiers:
+<nick>: The user's nickname.
+<cnick>: The user's nickname, colored after the mIRC's nick coloring settings.
+<cnickcolor>: Same as above, but only the color without the nickname.
+<text>: The text which is written.
+<address>: The user's address.
+[m-action-7-1-QueryActionOwn]
+——› Event:
+You perform an action in a query.
+
+——› Identifiers:
+<cme>: Your nickname, colored after the mIRC's nick coloring settings.
+<cmecolor>: Same as above, but only the color without the nickname.
+<text>: The text which is written.
+[m-action-7-1-Action]
+——› Event:
+You receive an action without having a query open.
+
+——› Identifiers:
+<nick>: The user's nickname.
+<text>: The action you receive.
+[m-action-7-1-ActionOwn]
+——› Event:
+You send an action to a user or channel and don't have a query/channel open.
+
+——› Identifiers:
+<target>: The target you send the action to.
+<text>: The text you send.
+[m-whois-8-1-WhoisStart]
+——› Event:
+The /whois begins.
+
+——› Identifiers:
+<nick>: The user's nickname.
+[m-whois-8-1-WhoisAddress]
+——› Event:
+The server sends address and name info for the whoised nickname.
+
+——› Identifiers:
+<address>: The user's address.
+<host>: The user's host.
+<ident>: The user's ident.
+<name>: The user's real name.
+<nick>: The user's nickname.
+[m-whois-8-1-WhoisChans]
+——› Event:
+The server sends channel info for the whoised nickname.
+
+——› Identifiers:
+<nick>: The user's nickname.
+<chans>: The user's channels.
+<opchans>: Channels where the user is opped in.
+<hopchans>: Channels where the user is helpopped in.
+<vchans>: Channels where the user is voiced in.
+<regchans>: Channels where the user is regular in.
+<channum>: The number of channels the user has joined.
+<comchannum>: The number of channels both you and the user have joined.
+<comchans>: The channels both you and the user have joined.
+
+——› Note:
+In the channel identifiers (NOT the common channel identifiers), you can use the property "hlcommon" to underline common channels.
+
+Example:
+<opchans hlcommon="1">
+[m-whois-8-1-WhoisServer]
+——› Event:
+The server sends server info for the whoised nickname.
+
+——› Identifiers:
+<info>: Server info text.
+<nick>: The user's nickname.
+<server>: The user's server.
+[m-whois-8-1-WhoisStatus]
+——› Event:
+The server sends the whoised nickname's status, like IRC operator or admin.
+
+——› Identifiers:
+<status>: The user's status.
+<nick>: The user's nickname.
+[m-whois-8-1-WhoisAway]
+——› Event:
+The server sends away info for the whoised nickname.
+
+——› Identifiers:
+<reason>: The user's away message.
+<nick>: The user's nickname.
+[m-whois-8-1-WhoisAuth]
+——› Event:
+The server sends auth info for the whoised nickname.
+
+——› Identifiers:
+<auth>: The user's auth nickname.
+<nick>: The user's nickname.
+[m-whois-8-1-WhoisRealIP]
+——› Event:
+The server sends real IP info for the whoised nickname.
+
+——› Identifiers:
+<address>: The user's real address.
+<ip>: The user's real IP address.
+<nick>: The user's nickname.
+[m-whois-8-1-WhoisIdle]
+——› Event:
+The server sends idle and signon time info for the whoised nickname.
+
+——› Identifiers:
+<nick>: The user's nickname.
+<idle>: The user's idle time.
+<signontime>: The user's signon time.
+<signonago>: The time the user has been signed on.
+[m-whois-8-1-WhoisEnd]
+——› Event:
+The /whois ends.
+
+——› Identifiers:
+<nick>: The user's nickname.
+[m-whois-8-1-WhowasStart]
+——› Event:
+The /whowas begins.
+
+——› Identifiers:
+<nick>: The user's nickname.
+[m-whois-8-1-WhowasAddress]
+——› Event:
+The server sends address and name info for the whowased nickname.
+
+——› Identifiers:
+<address>: The user's address.
+<host>: The user's host.
+<ident>: The user's ident.
+<name>: The user's real name.
+<nick>: The user's nickname.
+[m-whois-8-1-WhowasServer]
+——› Event:
+The server sends server info for the whowased nickname.
+
+——› Identifiers:
+<info>: Server info text.
+<nick>: The user's nickname.
+<server>: The user's server.
+[m-whois-8-1-WhowasAway]
+——› Event:
+The server sends away info for the whowased nickname.
+
+——› Identifiers:
+<reason>: The user's away message.
+<nick>: The user's nickname.
+[m-whois-8-1-WhowasEnd]
+——› Event:
+The /whowas ends.
+
+——› Identifiers:
+<nick>: The user's nickname.
+[m-notice-9-1-Notice]
+——› Event:
+A user notices you.
+
+——› Identifiers:
+<address>: The user's address.
+<cnick>: The user's nickname, colored after the mIRC's nick coloring settings.
+<cnickcolor>: Same as above, but only the color without the nickname.
+<nick>: The user's nickname.
+<text>: The text which is written.
+[m-notice-9-1-NoticeOwn]
+——› Event:
+You send a notice to a user or channel.
+
+——› Identifiers:
+<target>: The target you send the message to.
+<text>: The text you send.
+[m-notice-9-1-ChanNotice]
+——› Event:
+A user performs a channel notice.
+
+——› Identifiers:
+<address>: The user's address.
+<chan>: The channel where the notice is sent to.
+<cmode>: The user's mode prefix in the channel.
+<cnick>: The user's nickname, colored after the mIRC's nick coloring settings.
+<cnickcolor>: Same as above, but only the color without the nickname.
+<nick>: The user's nickname.
+<text>: The text which is written.
+[m-notice-9-1-ServerNotice]
+——› Event:
+The server notices you.
+
+——› Identifiers:
+<server>: The server's address.
+<text>: The text which is written.
+[m-ctcp-9-1-CTCP]
+——› Event:
+You receive a CTCP.
+
+——› Identifiers:
+<address>: The user's address.
+<ctcp>: The CTCP which is sent.
+<nick>: The user's nickname.
+<text>: The text sent with the CTCP (if any).
+[m-ctcp-9-1-CTCPOwn]
+——› Event:
+You send a CTCP to a user or channel.
+
+——› Identifiers:
+<ctcp>: The CTCP which is sent.
+<target>: The target.
+<text>: The text sent with the CTCP (if any).
+[m-ctcp-9-1-ChanCTCP]
+——› Event:
+You receive a channel CTCP.
+
+——› Identifiers:
+<address>: The user's address.
+<chan>: The channel the CTCP is sent to.
+<cmode>: The user's mode prefix in the channel.
+<ctcp>: The CTCP which is sent.
+<nick>: The user's nickname.
+<text>: The text sent with the CTCP (if any).
+[m-ctcp-9-1-CTCPReply]
+——› Event:
+You receive a CTCP reply.
+
+——› Identifiers:
+<address>: The user's address.
+<ctcp>: The CTCP reply which is sent.
+<nick>: The user's nickname.
+<text>: The text sent with the CTCP reply (if any).
+[m-ctcp-9-1-CTCPReplyOwn]
+——› Event:
+You send a CTCPReply to a user or channel.
+
+——› Identifiers:
+<ctcp>: The CTCPReply which is sent.
+<target>: The target.
+<text>: The text sent with the CTCPReply (if any).
+[e-normal-12-1-Brackets]
+——› Description:
+The brackets which appear when you use the brackets="1" property.
+
+——› Identifiers:
+<text>: The text which appears in the brackets.
+[m-info-12-1-DNS]
+——› Event:
+You try to DNS resolve an address or nickname.
+
+——› Identifiers:
+<address>: The DNS'ed address or nickname.
+[m-info-12-1-DNSError]
+——› Event:
+A DNS request failed.
+
+——› Identifiers:
+<address>: The DNS'ed address or nickname.
+[m-info-12-1-DNSResolve]
+——› Event:
+You receive a DNS result.
+
+——› Identifiers:
+<address>: The DNS'ed address or nickname.
+<ip>: The resolved IP.
+<raddress>: The resolved address.
+[m-notify-12-1-Notify]
+——› Event:
+A user on your notify list goes online.
+
+——› Identifiers:
+<nick>: The nickname of the user.
+<note>: The notify note (if any).
+[m-notify-12-1-UnNotify]
+——› Event:
+A user on your notify list goes offline.
+
+——› Identifiers:
+<nick>: The nickname of the user.
+<note>: The notify note (if any).
+[m-info-12-1-Names]
+——› Event:
+You receive the /names list.
+
+——› Identifiers:
+<chan>: The names' channel.
+<names>: The names in the channel.
+[m-info-12-1-NamesEnd]
+——› Event:
+The /names list you received is complete.
+
+——› Identifiers:
+<chan>: The names' channel.
+[m-topic-6-1-TopicChange]
+——› Event:
+A user changes the topic in a channel.
+
+——› Identifiers:
+<chan>: The channel in which the topic change takes place.
+<cmode>: The user's mode prefix in the channel.
+<nick>: The user's nickname.
+<topic>: The topic which is being set.
+[m-invite-12-1-Invite]
+——› Event:
+You are being invited into a channel.
+
+——› Identifiers:
+<chan>: The channel you are being invited to.
+<nick>: The user who invites you.
+[m-invite-12-1-InviteOwn]
+——› Event:
+You invite someone into a channel.
+
+——› Identifiers:
+<chan>: The channel you invite the user to.
+<nick>: The user you invite.
+[m-invite-12-1-InviteAlreadyOnChan]
+——› Event:
+Someone you invited is already on the channel.
+
+——› Identifiers:
+<chan>: The channel you invited the user to.
+<nick>: The user you invited.
+[m-info-10-1-AwayStatus]
+——› Event:
+The server sends you away status information about a user.
+
+——› Identifiers:
+<reason>: The user's away message.
+<nick>: The user's nickname.
+[m-info-10-1-Bans]
+——› Event:
+The server sends you one line of the channel ban list.
+
+——› Identifiers:
+<ban>: The ban mask.
+<banned>: The ban date/time.
+<bannedago>: How long ago the ban was set.
+<chan>: The channel.
+<nick>: The nick of the user who set the ban.
+[m-info-10-1-BansEnd]
+——› Event:
+The server sends you the end of the channel ban list.
+
+——› Identifiers:
+<chan>: The channel.
+[m-info-10-1-ChannelCreation]
+——› Event:
+The server sends you the channel creation time.
+
+——› Identifiers:
+<chan>: The channel.
+<created>: The channel creation date/time.
+<createdago>: How long ago the channel was created.
+[m-info-10-1-ChannelModes]
+——› Event:
+The server sends you channel mode information.
+
+——› Identifiers:
+<chan>: The channel.
+<modes>: The channel modes.
+[m-info-10-1-ChanFull]
+——› Event:
+The channel you want to join is full (+l).
+
+——› Identifiers:
+<chan>: The channel.
+[m-info-10-1-ChanInviteOnly]
+——› Event:
+The channel you want to join is invite only (+i).
+
+——› Identifiers:
+<chan>: The channel.
+[m-info-10-1-ChanBanned]
+——› Event:
+You are banned on the channel you want to join (+b).
+
+——› Identifiers:
+<chan>: The channel.
+[m-info-10-1-ChanKeyRequired]
+——› Event:
+The channel you want to join requires a key (+k).
+
+——› Identifiers:
+<chan>: The channel.
+[m-info-10-1-ChanRegOnly]
+——› Event:
+The channel you want to join requires you to be auth'ed/registered (+r).
+
+——› Identifiers:
+<chan>: The channel.
+[u-info-10-1-CustomRaws]
+——› Event:
+You can add custom raw events here.
+
+——› Identifiers:
+<numeric>: The numeric of the RAW.
+<text>: The text which is being sent to you.
+[m-info-10-1-HiddenHost]
+——› Event:
+Your host has been hidden.
+
+——› Identifiers:
+<host>: Your new fake host.
+[m-info-10-1-LUsers1]
+——› Event:
+The server sends you line 1 of the /lusers reply (users, invisible users, servers).
+
+——› Identifiers:
+<users>: Number of visible users on the network.
+<invisible>: Number of invisible users on the network.
+<servers>: Number of servers on the network.
+[m-info-10-1-LUsers2]
+——› Event:
+The server sends you line 2 of the /lusers reply (operators online).
+
+——› Identifiers:
+<operators>: Number of operators on the network.
+[m-info-10-1-LUsers3]
+——› Event:
+The server sends you line 3 of the /lusers reply (unknown connections).
+
+——› Identifiers:
+<connections>: Number of unknown connections to the network.
+[m-info-10-1-LUsers4]
+——› Event:
+The server sends you line 4 of the /lusers reply (number of channels formed).
+
+——› Identifiers:
+<channels>: Number of channels formed on the network
+[m-info-10-1-LUsers5]
+——› Event:
+The server sends you line 5 of the /lusers reply (local clients and servers).
+
+——› Identifiers:
+<clients>: Number of clients on the current server.
+<servers>: Number of servers linked to the current server.
+[m-info-10-1-NickInUse]
+——› Event:
+The nickname you want to change to is already in use and the server replies with an error message.
+
+——› Identifiers:
+<nick>: The nickname that is already in use.
+[m-info-10-1-NoSuchNick]
+——› Event:
+The server sends you an error message about a user not being on the network.
+
+——› Identifiers:
+<nick>: The nickname.
+[m-info-10-1-NoSuchChan]
+——› Event:
+The server sends you an error message about a channel not existing on the network.
+
+——› Identifiers:
+<chan>: The channel.
+[m-info-10-1-NoTopic]
+——› Event:
+There is no topic set in the channel.
+
+——› Identifiers:
+<chan>: The channel.
+[m-info-10-1-NotOpped]
+——› Event:
+You are unable to perform an operation because you don't have operator status in a channel.
+
+——› Identifiers:
+<chan>: The channel.
+[m-info-10-1-RegisterFirst]
+——› Event:
+You receive an error message because you need to register before performing a certain action.
+[m-info-10-1-RawDef]
+——› Event:
+The server sends an unknown RAW message to you.
+
+——› Identifiers:
+<numeric>: The numeric of the RAW.
+<text>: The text which is being sent to you.
+[m-info-10-1-SupportedInfo]
+——› Event:
+The server sends you the supported protocols.
+
+——› Identifiers:
+<protocols>: The supported protocols on the server.
+[m-topic-10-1-Topic]
+——› Event:
+The server sends the topic after you joined a channel.
+
+——› Identifiers:
+<chan>: The channel.
+<topic>: The channel's topic.
+[m-topic-10-1-TopicBy]
+——› Event:
+The server sends your further topic information after you joined.
+
+——› Identifiers:
+<chan>: The channel.
+<date>: The date when the current topic was set.
+<dateago>: The time the current topic has been set.
+<nick>: The user who set the current topic.
+[m-info-10-1-UnknownCmd]
+——› Event:
+The server sends you an error message after you typed an invalid command.
+
+——› Identifiers:
+<cmd>: The command you typed.
+[m-info-10-1-UnableToSend]
+——› Event:
+You are unable to message a specific channel.
+
+——› Identifiers:
+<chan>: The channel.
+[m-wallops-7-1-WallOp]
+——› Event:
+You receive a wallop message.
+
+——› Identifiers:
+<nick>: The user who sent the message.
+<text>: The message.
+[m-info-10-1-Welcome1]
+——› Event:
+The server sends you line 1 of the welcome message (welcome).
+
+——› Identifiers:
+<nick>: The nickname that is welcomed (you).
+[m-info-10-1-Welcome2]
+——› Event:
+The server sends you line 2 of the welcome message (host, version).
+
+——› Identifiers:
+<host>: The server you're connected to.
+<version>: The version number of the server software (IRCd).
+[m-info-10-1-Welcome3]
+——› Event:
+The server sends you line 3 of the welcome message (server creation time).
+
+——› Identifiers:
+<created>: The server creation time and date.
+[m-info-10-1-Welcome4]
+——› Event:
+The server sends you line 4 of the welcome message (server, version, supported user- and channelmodes).
+
+——› Identifiers:
+<server>: The server you're connected to.
+<version>: The version number of the server software (IRCd).
+<usermodes>: The usermodes supported on the server.
+<chanmodes>: The channelmodes supported on the server.
+[m-info-12-1-Who]
+——› Event:
+The server sends you information after you made a /who request.
+
+——› Identifiers:
+<address>: The user's address.
+<chan>: The channel you requested information from or a channel the user has joined.
+<host>: The user's host.
+<ident>: The user's ident.
+<name>: The user's real name.
+<nick>: The user's nickname.
+<server>: The user's server.
+<status>: The user's status.
+[m-info-12-1-WhoEnd]
+——› Event:
+The /who information ends.
+
+——› Identifiers:
+<target>: The user/channel you requested the /who information from.

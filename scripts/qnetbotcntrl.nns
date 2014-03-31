@@ -1,0 +1,533 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - Q control - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias q.uc {
+  authchk
+  if (!$2) && ($active ischan) { tokenize 32 $1 $v1 }
+  if (!$2) { errdialog insufficient parameters! }
+  elseif ($1 == Q) { errdialog you can't get information from Q itself. }
+  elseif (!$chan($2)) || ($2 !ischan) { errdialog you are not on $2 $+ ! }
+  elseif (q !ison $2) { errdialog Q is not on $2 $+ ! }
+  elseif ($remc(q)) { errdialog there is already another request from Q. Please wait for it to finish. }
+  else {
+    if (!$dialog(q.uc)) {
+      set -u60 %q.not.hide. $+ $cid 1
+      set %q.not.hide.nick. $+ $cid $1
+      set %q.not.hide.chan. $+ $cid $2
+      dialog -m q.uc q.uc
+      did -ra q.uc 4 $iif($3,$3,getting info...)
+      .msg q whois $1
+      .msg q chanlev $2 $me
+    }
+    else {
+      dialog -v q.uc
+      did -bu q.uc 2,9,10,11,12,13,14,15,16,17,19,20,22,21
+      set -u60 %q.not.hide. $+ $cid 1
+      set %q.not.hide.nick. $+ $cid $1
+      set %q.not.hide.chan. $+ $cid $2
+      dialog -t q.uc Q channel access for $remove(%q.not.hide.nick. [ $+ [ $cid ] ],$chr(35)) in %q.not.hide.chan. [ $+ [ $cid ] ] [/q.uc]
+      did -ra q.uc 5 Flags in %q.not.hide.chan. [ $+ [ $cid ] ]
+      did -ra q.uc 8 + $+ $gettok($did(q.uc,2).seltext,-1,43)
+      did -ra q.uc 3 $remove(%q.not.hide.nick. [ $+ [ $cid ] ] $+ 's auth nick,$chr(35))
+      did -r q.uc 2
+      did -ra q.uc 4 $iif($3,$3,getting info...)
+      did -ra q.uc 8 +
+      .msg q whois $1
+      .msg q chanlev %q.not.hide.chan. [ $+ [ $cid ] ] $me
+    }
+  }
+}
+alias q.uc.enable { if ($dialog(q.uc)) { did -e $v1 21 } }
+dialog q.uc {
+  title Q channel access for $remove(%q.not.hide.nick. [ $+ [ $cid ] ],$chr(35)) in %q.not.hide.chan. [ $+ [ $cid ] ] [/q.uc]
+  size -1 -1 478 382
+  option pixels
+  icon scripts\pics\nntray.ico, 0
+  box "Other chans (double-click to view)", 6, 4 2 263 308
+  list 2, 12 18 248 284, size
+  box "<nick>'s auth nick", 3, 276 2 198 48
+  edit "getting info...", 4, 286 18 180 22, read center
+  text "Currently:", 7, 286 74 50 16
+  edit "+", 8, 342 70 118 22, read center
+  check "&Op", 12, 286 96 60 16
+  check "&Autoop", 9, 286 112 59 16
+  check "&Voice", 10, 286 128 52 16
+  check "A&utovoice", 17, 286 144 73 16
+  check "&Known", 16, 286 160 50 16
+  check "&Master", 13, 286 176 58 16
+  check "Ow&ner", 14, 286 192 56 16
+  check "&Protect", 19, 286 208 60 16
+  check "&Topic changer", 11, 286 224 90 16
+  check "&Devoice", 22, 380 96 60 16
+  check "&Deop", 20, 380 112 50 16
+  check "&Ban", 15, 380 128 44 16
+  text "Personal flags:", 23, 380 192 79 16
+  check "Auto invite", 24, 380 208 82 16
+  check "No welcome", 25, 380 224 86 16
+  text "Note: You can only change the flags if you have sufficient privileges!", 101, 285 244 176 29
+  button "&Close", 21, 393 284 80 24, disable ok
+  box Flags in %q.not.hide.chan. [ $+ [ $cid ] ], 5, 276 52 198 227
+  icon 56, 4 316 468 60
+  text "Loading...", 57, 66 339 336 16, center
+  box "", 58, 3 309 471 69
+}
+on *:dialog:q.uc:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 2 ListView report showsel single rowselect > $mdxfile(views)
+    did -i $dname 2 1 settxt bgcolor none
+    did -ra $dname 3 $remove(%q.not.hide.nick. [ $+ [ $cid ] ] $+ 's auth nick,$chr(35))
+    did -i $dname 2 1 headerdims 130:1 92:2
+    did -i $dname 2 1 headertext + 0 Channel   	+c 0 Modes
+    did -b $dname 2,9,10,11,12,13,14,15,16,17,19,20,22,23,24,25
+    .timerq.uc.enable 1 5 q.uc.enable
+    openad q.uc 57 56 58
+  }
+  elseif ($devent == sclick) {
+    if ($did == 2) {
+      sortmdx $dname $did
+      if (rclick * iswm $did($did,1)) && ($did($did).sel) {
+        popdll.new
+        popdll.add 1	+ 1 0 &Change channelq.uc.chgchan
+        popdll.add 2	+ 2 0 -
+        popdll.add 3	+ 3 0 &Refresh channelsq.uc %q.not.hide.nick. [ $+ [ $cid ] ] %q.not.hide.chan. [ $+ [ $cid ] ]
+        popdll.disp
+      }
+    }
+    elseif ($did == 56) { openad.clicked % [ $+ [ $dname $+ .oa ] ] }
+    elseif ($did == 14) && ($did($did).state) {
+      did -u $dname $did
+      idialog For security reasons, owner permissions must be given manually. For help type: "/msg Q help giveowner".
+    }
+    elseif ($istok(9 10 11 12 13 14 15 16 17 19 20 22 24 25,$did,32)) {
+      authchk
+      var %mode = $replacex($did,24,j,25,w,22,q,20,d,19,p,17,g,16,k,15,b,14,n,13,m,12,o,11,t,10,v,9,a)
+      if (!$did($did).state) && ($did(4).text == %q.auth.nick) {
+        if (!$ydialog(Do you really want to remove mode + $+ %mode from yourself?)) {
+          did -c $dname $did
+          return
+        }
+      }
+      var %s = $iif($did($did).state,+,-) $+ %mode
+      set -u60 %q.not.hide. $+ $cid 1
+      set -u60 %q.not.hide.modechange. $+ $cid $did(8)
+      .msg q chanlev %q.not.hide.chan. [ $+ [ $cid ] ] $chr(35) $+ $did(4).text %s
+      did -b $dname 2,9,10,11,12,13,14,15,16,17,19,20,22,23,24,25
+    }
+  }
+  elseif ($devent == dclick) && ($did == 2) { q.uc.chgchan }
+  ;elseif ($devent == close) {
+  ;  .timer 1 1 unset % $+ q.not.hide.*
+  ;}
+}
+alias q.uc.checks {
+  did $iif(a isin $1,-c,-u) q.uc 9
+  did $iif(v isin $1,-c,-u) q.uc 10
+  did $iif(t isin $1,-c,-u) q.uc 11
+  did $iif(o isin $1,-c,-u) q.uc 12
+  did $iif(m isin $1,-c,-u) q.uc 13
+  did $iif(n isin $1,-c,-u) q.uc 14
+  did $iif(b isin $1,-c,-u) q.uc 15
+  did $iif(k isin $1,-c,-u) q.uc 16
+  did $iif(g isin $1,-c,-u) q.uc 17
+  did $iif(p isin $1,-c,-u) q.uc 19
+  did $iif(d isin $1,-c,-u) q.uc 20
+  did $iif(q isin $1,-c,-u) q.uc 22
+  did $iif(j isin $1,-c,-u) q.uc 24
+  did $iif(w isin $1,-c,-u) q.uc 25
+}
+alias q.uc.chgchan {
+  authchk
+  if ($remc(q)) { errdialog there is already another request from Q. Please wait for it to finish. }
+  else {
+    did -bu q.uc 2,9,10,11,12,13,14,15,16,17,19,20,22,23,24,25
+    set %q.not.hide.chan. $+ $cid $chr(35) $+ $gettok($gettok($did(q.uc,2).seltext,1,9),2-,35)
+    dialog -t q.uc Q channel access for $remove(%q.not.hide.nick. [ $+ [ $cid ] ],$chr(35)) in %q.not.hide.chan. [ $+ [ $cid ] ] [/q.uc]
+    did -ra q.uc 5 Flags in %q.not.hide.chan. [ $+ [ $cid ] ]
+    did -ra q.uc 8 + $+ $gettok($did(q.uc,2).seltext,-1,43)
+    q.uc.checks $did(q.uc,8)
+    set -u60 %q.not.hide. $+ $cid 1
+    .msg q chanlev %q.not.hide.chan. [ $+ [ $cid ] ] $me
+  }
+}
+alias q.checkauth {
+  if ($q.net) {
+    set -u60 %q.newauthck. $+ $cid 1
+    !auth * *
+  }
+}
+alias q.doauth {
+  if ($q.net) {
+    if (%q.auth.nick) && (%pass.q) {
+      !.auth %q.auth.nick $decode(%pass.q,m)
+      if (%q.hosthide) && (x !isincs $usermode) && ((!%q.hosthide.nbnc) || ((!%psybnc.info. [ $+ [ $cid ] ]) && (!%sbnc.info. [ $+ [ $cid ] ]))) { mode $me +x }
+    }
+    else {
+      var %n = $$eddialog(Please enter your Q auth name.),%p = $$epdialog(Please enter your Q auth password.)
+      set %q.auth.nick %n
+      set %pass.q $encode(%p,m)
+      if ($dialog(settings)) {
+        did -ra settings 17 %n
+        did -ra settings 18 %p
+      }
+      !.auth %n %p
+      if (%q.hosthide) && (x !isincs $usermode) && ((!%q.hosthide.nbnc) || ((!%psybnc.info. [ $+ [ $cid ] ]) && (!%sbnc.info. [ $+ [ $cid ] ]))) { mode $me +x }
+    }
+  }
+}
+on ^*:notice:*:?:{ if ($fulladdress == Q!TheQBot@CServe.quakenet.org) { q.process.input $1- } }
+on ^*:text:*:?:{ if ($fulladdress == Q!TheQBot@CServe.quakenet.org) { q.process.input $1- } }
+alias q.process.input {
+  if (You are now logged in as ?*. iswm $1-) { set %q.authed. $+ $cid 1 }
+  elseif (?* is not available once you have authed. iswm $1-) { set %q.authed. $+ $cid 1 }
+  if (%q.welcomeedit. [ $+ [ $cid ] ]) && (Welcome message for %q.not.mode.chan. [ $+ [ $cid ] ] $+ : * iswm $1-) {
+    set -u60 %q.welcomeedit.msg. $+ $cid $5-
+    .timerq.wmsgchg 1 0 did -e q.cc 1,2,10,13,14,15,16,17,18,19,20,22,23,24,31,32,33,34,36,39 $chr(124) .msg q welcome %q.not.mode.chan. [ $+ [ $cid ] ] $$!eddialog(Please enter a new Q welcome message for %q.not.mode.chan. [ $+ [ $cid ] ] $+ .,%q.welcomeedit.msg. [ $+ [ $cid ] ] )
+    unset %q.welcomeedit. $+ $cid
+    haltdef
+  }
+  if (%q.newauthck. [ $+ [ $cid ] ]) {
+    if ($1- == AUTH is not available once you have authed.) {
+      if (%q.hosthide) && (x !isincs $usermode) && ((!%q.hosthide.nbnc) || ((!%psybnc.info. [ $+ [ $cid ] ]) && (!%sbnc.info. [ $+ [ $cid ] ]))) { mode $me +x }
+      haltdef
+    }
+    elseif ($1- == Username or password incorrect.) { haltdef }
+    unset %q.newauthck. $+ $cid
+  }
+  if (%q.not.hide. [ $+ [ $cid ] ]) {
+    if (%q.not.hide.modechange. [ $+ [ $cid ] ]) {
+      if ($dialog(q.uc)) {
+        if ($1- == Nothing changed. Your requested flag combination change was either the same as the existing flags, impossible, or you don't have enough access.) {
+          did -ra q.uc 8 %q.not.hide.modechange. [ $+ [ $cid ] ]
+        }
+        elseif ($regex($1-,^Done\.\s+Flags for .+ on \#.+ are now\: \+[a-z]*\.$)) {
+          did -ra q.uc 8 $left($9,-1)
+        }
+        elseif (Done.*User ?* is no longer known on ?*. iswm $1-) {
+          did -ra q.uc 8 +
+          did -u q.uc 9,10,11,12,13,14,15,16,17,19,20,22,23,24,25
+        }
+        q.uc.checks $did(q.uc,8)
+        var %x = $didwm(q.uc,2,? +* 0 0 0 %q.not.hide.chan. [ $+ [ $cid ] ] $+ 	*)
+        if ($did(q.uc,8) != +) {
+          if (%x) { did -o q.uc 2 %x $puttok($did(q.uc,2,%x),$did(q.uc,8),-1,32) }
+          else { did -a q.uc 2 1 + 0 0 0 %q.not.hide.chan. [ $+ [ $cid ] ] $+ $chr(9) $+ + 0 0 0 $did(q.uc,8) }
+        }
+        elseif (%x) { did -d q.uc 2 %x }
+        did -e q.uc 2,10,11,12,13,14,15,16,19,20,22
+        did $iif(o isin $did(q.uc,8),-e,-b) q.uc 9
+        did $iif(v isin $did(q.uc,8),-e,-b) q.uc 17
+        if ($did(q.uc,4) == %q.auth.nick) { did -e q.uc 23,24,25 }
+      }
+      unset %q.not.hide.modechange. $+ $cid %q.not.hide. $+ $cid
+    }
+    elseif (?* is only available to authed users. Try AUTH to authenticate with your iswm $1-) {
+      if ($dialog(q.uc)) {
+        dialog -c $v1
+        .timer 1 0 errdialog You have probably entered a wrong Q username/password in the setup or aren't authed and cannot access this feature before correcting the error.
+      }
+    }
+    elseif ($1- == User %q.not.hide.nick. [ $+ [ $cid ] ] is not authed.) {
+      if ($dialog(q.uc)) {
+        dialog -c $v1
+        .timer 1 0 errdialog %q.not.hide.nick. [ $+ [ $cid ] ] is not authed so you cannot retrieve information!
+      }
+    }
+    elseif (-Information for user * (using account *): iswm $1-) {
+      if ($dialog(q.uc)) { did -ra q.uc 4 $left($gettok($1-,-1,32),-2) }
+      set %q.not.hide.inc. $+ $cid 1
+    }
+    elseif (-Information for account *: iswm $1-) {
+      if ($dialog(q.uc)) { did -ra q.uc 4 $right(%q.not.hide.nick. [ $+ [ $cid ] ],-1) }
+      set %q.not.hide.inc. $+ $cid 1
+    }
+    elseif ($1- == Couldn't find that channel) {
+      if ($dialog(q.uc)) {
+        if (!$did(q.uc,2).enabled) {
+          did -a q.uc 2 1 + 0 0 0 Unknown
+          did -ra q.uc 8 Unknown
+          did -e q.uc 21
+        }
+      }
+    }
+    elseif (%q.not.hide.inc. [ $+ [ $cid ] ]) && ($regex($1-,^\#.+\s+\+[a-z]+(?:\s+)?)) {
+      if ($dialog(q.uc)) {
+        inc %q.not.hide.inc. $+ $cid
+        if ($1 == %q.not.hide.chan. [ $+ [ $cid ] ]) {
+          did -ra q.uc 8 $2
+          q.uc.checks $2
+        }
+        did -a q.uc 2 1 + 0 0 0 $1 $+ 	0 0 0 $2
+      }
+    }
+    elseif ($1- == End of list.) {
+      unset %q.not.hide.inc. $+ $cid
+    }
+    elseif ($1- == User not known in any channels.) {
+      if ($dialog(q.uc)) {
+        did -ra q.uc 8 +
+        did -e q.uc 2,21
+      }
+    }
+    elseif (Can't find user ?*. iswm $1-) {
+      if ($dialog(q.uc)) {
+        dialog -c $v1
+        .timer -o 1 0 errdialog $1-
+      }
+    }
+    elseif ($1- == You do not have sufficient access on %q.not.hide.chan. [ $+ [ $cid ] ] to use chanlev.) {
+      if ($dialog(q.uc)) {
+        dialog -c $v1
+        .timer -o 1 0 errdialog $1-
+      }
+      unset %q.not.hide. $+ $cid
+    }
+    ;elseif ($regex(quc,$1-,/^Flags for ([^ ]+) on %q.not.hide.chan. [ $+ [ $cid ] ] $+ : \+.+/i)) && ($regml(quc,1) == $me) {
+    elseif (Flags for ?* on %q.not.hide.chan. [ $+ [ $cid ] ] $+ : +* iswm $1-) && ($3 == $me) {
+      if ($dialog(q.uc)) {
+        if (n isin $6) || ((m isin $6) && (n !isin $did(q.uc,8))) {
+          did -e q.uc 10,11,12,13,14,15,16,19,20,22
+          did $iif(o isin $did(q.uc,8),-e,-b) q.uc 9
+          did $iif(v isin $did(q.uc,8),-e,-b) q.uc 17
+        }
+        if ($did(q.uc,4) == %q.auth.nick) { did -e q.uc 23,24,25 }
+        did -e q.uc 2,21
+      }
+      unset %q.not.hide. $+ $cid
+    }
+    elseif ($1- == /msg Q CHANLEV #channel [nick] [+-mode]) { unset %q.not.hide. $+ $cid }
+    haltdef
+  }
+  if (%q.not.mode. [ $+ [ $cid ] ]) {
+    if ($1- == AUTH is not available once you have authed.) {
+      if ($dialog(q.cc)) { dialog -c $v1 }
+    }
+    elseif ($1- == You do not have sufficient access on %q.not.mode.chan. [ $+ [ $cid ] ] to use chanlev.) {
+      if ($dialog(q.cc)) {
+        dialog -c $v1
+        .timer -o 1 0 errdialog $1-
+      }
+    }
+    elseif ($1-5 == Current channel flags for %q.not.mode.chan. [ $+ [ $cid ] ] $+ :) {
+      if ($dialog(q.cc)) {
+        did -ra q.cc 8 $6
+        q.cc.checks
+        did -e q.cc 10,13,14,15,16,17,18,19,20,22,23,24,31,32,33,34,36,39
+      }
+      unset %q.not.mode. $+ $cid
+    }
+    elseif ($1- == You do not have sufficient access on %q.not.mode.chan. [ $+ [ $cid ] ] to use chanflags.) {
+      if ($dialog(q.cc)) {
+        .timer -o 1 0 errdialog $1-
+        q.cc.checks
+        did -e q.cc 10,13,14,15,16,17,18,19,20,22,23,24,31,32,33,34,36,39
+      }
+      unset %q.not.mode. $+ $cid
+    }
+    elseif ($1- == Known users on %q.not.mode.chan. [ $+ [ $cid ] ] $+ :) {
+      set %q.not.mode.inc. $+ $cid 1
+    }
+    elseif (%q.not.mode.inc. [ $+ [ $cid ] ]) && ($regex(cmodes,$1-,^[A-Za-z0-9\`\|\\_\-\[\]\^]+\s+\+[agbmnotvkqdpwj]+(?:\s+)?)) {
+      if ($dialog(q.cc)) {
+        if ($1 == %q.auth.nick) {
+          did -ra q.cc 1111 $2
+          did -ra q.cc 101 Note: you can only change the flags if you have sufficient privileges! $+ $crlf $+ Current modes: $2
+        }
+        did -i q.cc 2 1 headertext + 0 User $nbr($did(q.cc,2).lines) $+ 	+c 0 Modes
+        did -a q.cc 2 1 + 0 0 0 $1 $+ 	0 0 0 $2
+      }
+    }
+    elseif ($regex(acccount,$1-,^Total: \d+ \(owner: \d+\x2C master: \d+\x2C op: \d+\x2C voice: \d+\x2C known: \d+\x2C ban: \d+\)\.$)) {
+      if ($dialog(q.cc)) { did -e q.cc 1,2 }
+      unset %q.not.mode.inc. $+ $cid
+    }
+    haltdef
+  }
+}
+alias q.cc.checks {
+  did $iif(w isin $did(q.cc,8),-c,-u) q.cc 13
+  did $iif(c isin $did(q.cc,8),-c,-u) q.cc 14
+  did $iif(v isin $did(q.cc,8),-c,-u) q.cc 15
+  did $iif(t isin $did(q.cc,8),-c,-u) q.cc 16
+  did $iif(p isin $did(q.cc,8),-c,-u) q.cc 17
+  did $iif(k isin $did(q.cc,8),-c,-u) q.cc 18
+  did $iif(f isin $did(q.cc,8),-c,-u) q.cc 19
+  did $iif(e isin $did(q.cc,8),-c,-u) q.cc 20
+  did $iif(b isin $did(q.cc,8),-c,-u) q.cc 22
+  did $iif(g isin $did(q.cc,8),-c,-u) q.cc 23
+  did $iif(a isin $did(q.cc,8),-c,-u) q.cc 24
+}
+alias q.cc {
+  authchk
+  if (!$1) && ($active ischan) { tokenize 32 $v1 }
+  if (!$1) { errdialog insufficient parameters! }
+  elseif (!$chan($1)) || ($1 !ischan) { errdialog you are not on $1 $+ ! }
+  elseif (q !ison $1) { errdialog Q is not on $1 $+ ! }
+  elseif ($remc(q)) { errdialog there is already another request from Q. Please wait for it to finish. }
+  else {
+    if (!$dialog(q.cc)) {
+      set -u60 %q.not.mode. $+ $cid 2
+      set %q.not.mode.chan. $+ $cid $1
+      dialog -m q.cc q.cc
+      did -b q.cc 1,2,10,13,14,15,16,17,18,19,20,22,23,24,31,32,33,34,36,39
+      .msg q chanlev $1   
+      .msg q chanflags $1
+    }
+    else {
+      dialog -v q.cc
+      did -bu q.cc 1,2,10,13,14,15,16,17,18,19,20,22,23,24,31,32,33,34,36,39
+      did -ra q.cc 8 +
+      did -r q.cc 2
+      dialog -t q.cc Q channel flags in $1 [/q.cc]
+      did -ra q.cc 5 Flags in $1
+      set -u60 %q.not.mode. $+ $cid 2
+      set %q.not.mode.chan. $+ $cid $1
+      .msg q chanlev $1      
+      .msg q chanflags $1
+    }
+  }
+}
+dialog q.cc {
+  title Q channel flags in %q.not.mode.chan. [ $+ [ $cid ] ] [/q.cc]
+  size -1 -1 479 393
+  option pixels
+  icon scripts\pics\nntray.ico, 0
+  box "User access (right-click to change)", 100, 4 2 258 322
+  list 2, 11 18 244 298, size
+  box Flags in %q.not.mode.chan. [ $+ [ $cid ] ], 5, 268 2 207 292
+  text "Currently:", 7, 278 22 54 16
+  edit "+", 8, 338 18 128 22, read center
+  text "", 1111, -200 -200 0 0
+  check "&Autolimit", 14, 278 46 67 16
+  button "&Show", 33, 378 44 42 20
+  button "&Edit", 34, 423 44 42 20
+  check "Auto&op", 24, 278 62 61 16
+  check "Auto&voice", 23, 278 78 74 16
+  check "&Bitch mode", 22, 278 94 76 16
+  check "&Enforce bans", 20, 278 110 91 16
+  text "Enforce &modes", 10, 295 127 76 16
+  button "&Show", 31, 378 124 42 20
+  button "&Edit", 32, 422 124 42 20
+  check "&Force topic", 19, 278 142 79 16
+  check "&Known only", 18, 278 158 83 16
+  check "&Protect", 17, 278 174 67 16
+  check "&Topic save", 16, 278 190 82 16
+  check "Voice a&ll", 15, 278 206 67 16
+  check "&Welcome msg.", 13, 278 222 93 16
+  button "&Show", 36, 378 219 42 20
+  button "&Edit", 39, 422 219 42 20
+  text "Note: you can only change the flags if you have sufficient privileges!", 101, 278 245 182 42
+  button "C&lose", 1, 394 298 80 24, disable ok
+  button "&Cancel", 1000, -20 -20 2 2, cancel
+  icon 56, 5 327 468 60
+  text "Loading...", 57, 66 347 336 16, center
+  box "", 58, 4 322 471 69
+}
+alias q.cc.accrem {
+  .msg q chanlev %q.not.mode.chan. [ $+ [ $cid ] ] $+($chr(35),$gettok($gettok($did(q.cc,2).seltext,6,32),1,9) -,$right($gettok($did(q.cc,2).seltext,-1,32),-1))
+  q.cc %q.not.mode.chan. [ $+ [ $cid ] ]
+}
+alias q.cc.accadd { noop $dialog(q.cc.accadd,q.cc.accadd,-4) }
+dialog q.cc.accadd {
+  title "Add user to channel"
+  size -1 -1 255 220
+  option pixels
+  icon scripts\pics\nntray.ico, 0
+  box "", 1, -20 177 290 148
+  text "Auth name", 5, 6 8 62 16
+  edit "", 4, 94 4 156 22, autohs limit 15
+  text "Modes", 6, 6 32 40 16
+  check "&Auto", 7, 96 30 46 18
+  check "&Known", 16, 96 46 59 18
+  check "&Voice", 11, 96 62 50 18
+  check "A&utovoice", 15, 96 78 74 18
+  check "&Op", 12, 96 94 38 18
+  check "&Master", 9, 96 110 58 18
+  check "Ow&ner", 13, 96 126 58 18
+  check "&Protect", 14, 96 142 63 18
+  check "&Topic changer", 8, 96 158 88 18
+  check "&Quiet", 17, 187 30 51 18
+  check "&Deop", 18, 187 46 51 18
+  check "&Ban", 10, 187 62 44 18
+  button "&Ok", 2, 86 190 80 24
+  button "&Cancel", 3, 170 190 80 24, cancel
+}
+on *:dialog:q.cc.accadd:*:*:{
+  if ($devent == sclick) {
+    if ($did == 2) {
+      if ($didwm(q.cc,2,* $did(4) $+ 	*)) { errdialog this user is already in the list. Please use the "Change access" feature to change this user's access in the channel. }
+      elseif ($did(4)) && (($did(7).state) || ($did(8).state) || ($did(9).state) || ($did(10).state) || ($did(11).state) || ($did(12).state) || ($did(13).state) || ($did(14).state) || ($did(15).state) || ($did(16).state) || ($did(17).state) || ($did(18).state)) {
+        .msg q chanlev %q.not.mode.chan. [ $+ [ $cid ] ] $+($chr(35),$did(4) +,$iif($did(7).state,a),$iif($did(8).state,t),$iif($did(9).state,m),$iif($did(10).state,b),$iif($did(11).state,v),$iif($did(12).state,o),$iif($did(13).state,n),$iif($did(14).state,p),$iif($did(15).state,g),$iif($did(16).state,k),$iif($did(17).state,q),$iif($did(18).state,d))
+        q.cc %q.not.mode.chan. [ $+ [ $cid ] ]
+        dialog -c $dname
+      }
+      else { errdialog insufficient parameters. }
+    }
+  }
+}
+on *:dialog:q.cc:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 2 ListView report showsel single rowselect > $mdxfile(views)
+    did -i $dname 2 1 headerdims 150:1 70:2
+    did -i $dname 2 1 headertext + 0 User	+c 0 Modes
+    did -i $dname 2 1 settxt bgcolor none
+    did -b $dname 2
+    .timerq.cc.enable 1 5 q.cc.enable
+    openad q.cc 57 56 58
+  }
+  elseif ($devent == sclick) {
+    if ($did == 2) {
+      if (rclick * iswm $did($did,1)) && ($did($did).sel) {
+        var %n = $wd($gettok($did($did).seltext,1,9),6)
+        popdll.new
+        popdll.add 1	+g 1 0 %n $+ :
+        popdll.add 2	+ 2 0 -
+        popdll.add 3	+ 3 0 &Change accessq.uc $chr(35) $+ %n $wd($dialog($dname).title,5) %n
+        popdll.add 4	 $+ $iif((n isin $did(1111) || m isin $did(1111)) && (m !isin $wd($did($did).seltext,-1) || n isin $did(1111)) && (n !isin $wd($did($did).seltext,-1)),+,+g) 4 0 &Remove accessq.cc.accrem
+        popdll.add 5	+ 5 0 -
+        popdll.add 6	 $+ $iif(n isin $did(1111) || m isin $did(1111),+,+g) 6 0 &Add userq.cc.accadd
+        popdll.add 7	+ 7 0 -
+        popdll.add 8	+ 8 0 &Refresh usersq.cc %q.not.mode.chan. [ $+ [ $cid ] ]
+        popdll.disp
+      }
+      else { sortmdx $dname $did }
+    }
+    elseif ($istok(13 14 15 16 17 18 19 20 22 23 24,$did,32)) {
+      if ($did($did).state) && ($did == 18) {
+        if (!$ydialog(Setting this channel flag will cause ALL unknown users on the channel to be banned. Are you sure you want to proceed?)) {
+          did -u $dname $did
+          return
+        }
+      }
+      did -b $dname 10,13,14,15,16,17,18,19,20,22,23,24,31,32,33,34,36,39
+      .msg q chanflags %q.not.mode.chan. [ $+ [ $cid ] ] $iif($did($did).state,+,-) $+ $replace($did,13,w,14,c,15,v,16,t,17,p,18,k,19,f,20,e,22,b,23,g,24,a)
+      set -u60 %q.not.mode. [ $+ [ $cid ] ] 1
+      .timerq.cc.enable 1 5 q.cc.enable
+    }
+    elseif ($did == 56) { openad.clicked % [ $+ [ $dname $+ .oa ] ] }
+    elseif ($did == 33) { .msg q autolimit %q.not.mode.chan. [ $+ [ $cid ] ] }
+    elseif ($did == 34) { .msg q autolimit %q.not.mode.chan. [ $+ [ $cid ] ] $$eddialog(Please enter a new autolimit for %q.not.mode.chan. [ $+ [ $cid ] ] $+ .) }
+    elseif ($did == 31) { .msg q chanmode %q.not.mode.chan. [ $+ [ $cid ] ] }
+    elseif ($did == 32) { .msg q chanmode %q.not.mode.chan. [ $+ [ $cid ] ] $$eddialog(Please enter new enforced channel modes for %q.not.mode.chan. [ $+ [ $cid ] ] $+ .) }
+    elseif ($did == 36) { .msg q welcome %q.not.mode.chan. [ $+ [ $cid ] ] }
+    elseif ($did == 39) {
+      did -b $dname 1,2,10,13,14,15,16,17,18,19,20,22,23,24,31,32,33,34,36,39
+      set -u60 %q.welcomeedit. $+ $cid 1
+      .msg q welcome %q.not.mode.chan. [ $+ [ $cid ] ]
+      .timerq.wmsgchg 1 3 did -e $dname 1,2,10,13,14,15,16,17,18,19,20,22,23,24,31,32,33,34,36,39 $chr(124) .msg q welcome %q.not.mode.chan. [ $+ [ $cid ] ] $$!eddialog(Please enter a new Q welcome message for %q.not.mode.chan. [ $+ [ $cid ] ] $+ .) $chr(124) unset % $+ q.welcomeedit. $+ $cid
+    }
+  }
+  elseif ($devent == close) { unset % [ $+  [ $dname + .oa ] ] }
+}
+alias q.cc.enable { if ($dialog(q.cc)) { did -e $v1 10,13,14,15,16,17,18,19,20,22,23,24,31,32,33,34,36,39 } }
+alias q.cc.ea {
+  .msg q chanflags %q.not.mode.chan. [ $+ [ $cid ] ] $iif($1 isin $did(q.cc,8),-,+) $+ $1
+  q.cc.ref %q.not.mode.chan. [ $+ [ $cid ] ]
+}
+alias q.cc.ref {
+  set -u60 %q.not.mode. $+ $cid 1
+  .msg q chanflags $1
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

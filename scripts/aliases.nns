@@ -1,0 +1,1884 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - aliases - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+huge { if (%hugemode) { font -z $v1 | unset %hugemode } | else { set %hugemode $window($active).fontsize $qt($window($active).font) | font -z $calc($window($active).fontsize *3) $qt($window($active).font) } }
+digittime {
+  var %i = $int($1),%s,%m = 0
+  if (%i >= 86400) {
+    %s = %s $+ $int($calc(%i /86400)) $+ d
+    %i = $calc(%i % 86400)
+  }
+  if (%i >= 3600) || (%m) {
+    %s = %s $int($calc(%i /3600)) $+ :
+    %i = $calc(%i % 3600)
+    %m = 1
+  }
+  if (%i >= 60) || (%m) {
+    %s = %s $+ $base($int($calc(%i /60)),10,10,$iif(%m,2,1)) $+ :
+    %i = $calc(%i % 60)
+    %m = 1
+  }
+  %s = %s $+ $base(%i,10,10,$iif(%m,2,1))
+  return %s
+}
+debuginfo {
+  if ($1 == -s) {
+    var %r,%s = alias script
+    while (%s) {
+      var %v = $gettok(%s,1,32),%t = 1,%i = $ [ $+ [ %v ] $+ ] (0)
+      while (%t <= %i) {
+        var %x = $+($replace(%v,alias,09,script,08),$nopath($ [ $+ [ %v ] $+ ] (%t)),[,$file($ [ $+ [ %v ] $+ ] (%t)).size,])
+        if ($len(%r %x) > 350) {
+          %r = %r $+ ...
+          break
+        }
+        %r = %r %x
+        inc %t
+      }
+      %s = $deltok(%s,1,32)
+    }
+    if ($2) {
+      .notice $2 %r $+($server,/,$scon(0) mIRC,$version NN,%version,/,$nopath($hget(Kte_Data,CurTheme)) $iif(%psybnc.version. [ $+ [ $cid ] ],$v1) Win,$os)
+      thmecho -a Debugging info sent to $2
+    }
+    else { thmecho -a $gtd(Debugging info) %r $+($server,/,$scon(0) mIRC,$version NN,%version,/,$nopath($hget(Kte_Data,CurTheme)) $iif(%psybnc.version. [ $+ [ $cid ] ],$v1) Win,$os) }
+  }
+  else {
+    var %v = $var(%*),%t = $nnticks,%f = $mkfn($+(nndebug_,$me,_,$ctime,.log))
+    .fopen -o dbg %f
+    .fwrite -n dbg NNScript debug log
+    .fwrite -n dbg ==================
+    .fwrite dbg $crlf
+    .fwrite -n dbg Log created	: $longtime
+    .fwrite -n dbg mIRC version	: $version
+    .fwrite -n dbg Script version	: %version
+    .fwrite -n dbg nns.dll version	: $dll(scripts\dlls\nnscript.dll,Version,)
+    .fwrite -n dbg mIRC location	: $nofile($mircexe)
+    .fwrite -n dbg Script location	: $mircdir
+    if ($left($mircdir,1) != $left($mircexe,1)) {
+      var %df = $disk($left($mircexe,1)).free,%ds = $disk($left($mircexe,1)).size
+      .fwrite -n dbg $left($mircexe,2) free space	: $+($bytes(%df).suf,/,$bytes(%ds).suf) $nbr($percent(%df,%ds,1))
+    }
+    var %df = $disk($left($mircdir,1)).free,%ds = $disk($left($mircdir,1)).size
+    .fwrite -n dbg $left($mircdir,2) free space	: $+($bytes(%df).suf,/,$bytes(%ds).suf) $nbr($percent(%df,%ds,1))
+    .fwrite -n dbg Script uptime	: $uptime(mirc,1)
+    .fwrite -n dbg IAL		: $iif($ial,enabled,disabled)
+    .fwrite dbg $crlf
+    .fwrite -n dbg NNT version	: %nntversion
+    .fwrite -n dbg NNT theme	: $thmdata(%thm.current,name) $thmdata(%thm.current,version) $iif(%thm.scheme,with $wd($thmdata(%thm.current,scheme $+ $v1),1) scheme) by $thmdata(%thm.current,author)
+    .fwrite -n dbg NNT theme file	: $mkfullfn(%thm.current) $+ , $+($bytes($file(%thm.current).size,b)) $+ b
+    .fwrite dbg $crlf
+    .fwrite -n dbg Windows version	: Windows $os
+    .fwrite -n dbg Windows uptime	: $uptime(system,1)
+    .fwrite -n dbg Display res.	: $window(-1).w $+ * $+ $window(-1).h pixels
+    .fwrite dbg $crlf
+    if ($alias(0)) {
+      var %c = 1,%s = 0,%l = 0
+      while ($alias(%c)) {
+        .fwrite -n dbg $iif(%c == 1,Aliases loaded,	) $+ 	: $alias(%c)
+        .fwrite -n dbg 			> Size	: $lines($alias(%c)) lines, $bytes($file($alias(%c)).size,b) $+ b
+        .fwrite -n dbg 			> Mod.	: $asctime($file($alias(%c)).mtime,%timeformat.long)
+        inc %s $file($alias(%c)).size
+        inc %l $lines($alias(%c))
+        inc %c
+      }
+      if ($alias(0) != 1) { .fwrite -n dbg Total		: $alias(0) alias files $nbr($bytes(%s).suf $+ $chr(44) %l lines) }
+    }
+    else { .fwrite -n dbg Aliases loaded	: no alias files loaded! }
+    .fwrite dbg $crlf
+    if ($script(0)) {
+      var %c = 1,%s = 0,%l = 0
+      while ($script(%c)) {
+        .fwrite -n dbg $iif(%c == 1,Scripts loaded,	) $+ 	: $script(%c)
+        .fwrite -n dbg 			> Size	: $lines($script(%c)) lines, $bytes($file($script(%c)).size,b) $+ b
+        .fwrite -n dbg 			> Mod.	: $asctime($file($script(%c)).mtime,%timeformat.long)
+        inc %s $file($script(%c)).size
+        inc %l $lines($script(%c))
+        inc %c
+      }
+      if ($script(0) != 1) { .fwrite -n dbg Total		: $script(0) remote scripts $nbr($bytes(%s).suf $+ $chr(44) %l lines) }
+    }
+    else { .fwrite -n dbg Scripts loaded	: no remote scripts loaded! }
+    .fwrite dbg $crlf
+    .fwrite -n dbg Variables	: %v
+    .fwrite dbg $crlf
+    var %s = 1
+    while ($scon(%s)) {
+      scid $scon(%s)
+      .fwrite -n dbg Network		: $iif($network,$v1,<no network name>) $nbr($iif($server,$+($v1,[,$serverip,]:,$port),not connected))
+      if (%psybnc.active. [ $+ [ $cid ] ]) { .fwrite -n dbg Bouncer		: %psybnc.version. [ $+ [ $cid ] ] }
+      .fwrite -n dbg Nickname	: $me $nbr(alternative: $anick)
+      .fwrite -n dbg Address		: $host $nbr($ip)
+      if ($q.net) { .fwrite -n dbg Authed (Q)	: $iif(%q.authed. [ $+ [ $cid ] ],yes,no) }
+      if (%curlag. [ $+ [ $cid ] ]) { .fwrite -n dbg Lag		: $iif($v1 != n/a,$calc($v1 /1000) second(s),n/a) }
+      .fwrite dbg $crlf
+      if ($chan(0)) {
+        var %c = 1,%u = 0,%j = 0,%z = $str(0,$calc($len($chan(0)) -1))
+        while ($chan(%c)) {
+          .fwrite -n dbg $iif(%c == 1,Chans joined,	) $+ 	: $+([,%z,%c,]) $left($nick($chan(%c),$me).pnick,- $+ $len($me)) $+ $chan(%c) $+([,$nick($chan(%c),0),/,$ialchan(*,$chan(%c),0),])
+          inc %j $ialchan(*,$chan(%c),0)
+          inc %u $nick($chan(%c),0)
+          inc %c
+        }
+        if ($chan(0) != 1) { .fwrite -n dbg Total		: $chan(0) channels $nbr(%u users $+ $chr(44) %j IAL entries) }
+      }
+      else { .fwrite -n dbg Chans joined	: no channels joined! }
+      .fwrite dbg $crlf
+      if ($query(0)) {
+        var %c = 1,%u = 0,%z = $str(0,$calc($len($query(0)) -1))
+        while ($query(%c)) {
+          .fwrite -n dbg $iif(%c == 1,Queries	,	) $+ 	: $+([,%z,%c,]) $query(%c) $iif($gettok($address($query(%c),0),2-,33),$nbr($v1))
+          inc %c
+        }
+        if ($query(0) != 1) { .fwrite -n dbg Total		: $query(0) queries }
+      }
+      else { .fwrite -n dbg Queries		: no queries opened! }
+      .fwrite dbg $crlf
+      inc %s
+    }
+    scid -r
+    if ($dialog(0)) {
+      var %c = 1,%u = 0,%z = $str(0,$calc($len($dialog(0)) -1))
+      while ($dialog(%c)) {
+        .fwrite -n dbg $+($iif(%c == 1,Dialogs open,	),	: [,%z,%c,]) $dialog(%c) $iif($dialog(%c).modal,$nbr(modal))
+        inc %c
+      }
+      if ($dialog(0) != 1) { .fwrite -n dbg Total		: $dialog(0) dialogs open }
+    }
+    else { .fwrite -n dbg Dialogs open	: no dialogs open! }
+    .fwrite dbg $crlf
+    if ($window(0)) {
+      var %c = 1,%u = 0,%z = $str(0,$calc($len($window(0)) -1))
+      while ($window(%c)) {
+        .fwrite -n dbg $+($iif(%c == 1,Windows open,	),	: [,%z,%c,]) $window(%c)
+        .fwrite -n dbg 			> Lines	: $line($window(%c),0)
+        .fwrite -n dbg 			> Con.	: $iif($window(%c).anysc,any,$iif($scid($window(%c).cid).network,$v1,$scid($window(%c).cid).server) $nbr($window(%c).cid))
+        inc %c
+      }
+      if ($window(0) != 1) { .fwrite -n dbg Total		: $window(0) windows open }
+    }
+    else { .fwrite -n dbg Windows open	: no windows open! }
+    .fwrite dbg $crlf
+    if ($timer(0)) {
+      var %c = 1,%u = 0,%z = $str(0,$calc($len($timer(0)) -1))
+      while ($timer(%c)) {
+        .fwrite -n dbg $+($iif(%c == 1,Timers running,	),	: [,%z,%c,]) $timer(%c)
+        .fwrite -n dbg 			> Command	: $timer(%c).com
+        if ($timer(%c).time) { .fwrite -n dbg 			> Time		: $v1 }
+        .fwrite -n dbg 			> Repetitions	: $iif($timer(%c).reps,$v1,infinite)
+        .fwrite -n dbg 			> Delay		: $timer(%c).delay second(s)
+        .fwrite -n dbg 			> Type		: $timer(%c).type
+        .fwrite -n dbg 			> Any con.	: $iif($timer(%c).anysc,yes,no $nbr($iif($scid($timer(%c).cid).network,$v1,$scid($timer(%c).cid).server) only))
+        inc %c
+      }
+      if ($timer(0) != 1) { .fwrite -n dbg Total		: $timer(0) timers running }
+    }
+    else { .fwrite -n dbg Timers running	: no timers running! }
+    .fwrite dbg $crlf
+    if ($sock(*,0)) {
+      var %c = 1,%u = 0,%z = $str(0,$calc($len($sock(*,0)) -1))
+      while ($sock(*,%c)) {
+        .fwrite -n dbg $+($iif(%c == 1,Sockets open,	),	: [,%z,%c,]) $sock(*,%c).name
+        .fwrite -n dbg 			> Host/Port	: $+($sock(*,%c).ip,:,$sock(*,%c).port)
+        .fwrite -n dbg 			> Status	: $sock(*,%c).status
+        .fwrite -n dbg 			> Sent/Received	: $+($bytes($sock(*,%c).sent).suf,/,$bytes($sock(*,%c).rcvd).suf)
+        .fwrite -n dbg 			> Type		: $upper($sock(*,%c).type)
+        inc %c
+      }
+      if ($sock(*,0) != 1) { .fwrite -n dbg Total		: $sock(*,0) sockets open }
+    }
+    else { .fwrite -n dbg Sockets open	: no sockets open! }
+    .fwrite dbg $crlf
+    .fwrite -n dbg DCC chats	: $chat(0)
+    .fwrite -n dbg DCC gets	: $get(0) $nbr($dccbw(get))
+    .fwrite -n dbg DCC sends	: $send(0) $nbr($dccbw(send))
+    .fwrite dbg $crlf
+    if ($dll(0)) {
+      var %c = 1,%u = 0,%z = $str(0,$calc($len($dll(0)) -1))
+      while ($dll(%c)) {
+        .fwrite -n dbg $+($iif(%c == 1,DLLs loaded,	),	: [,%z,%c,]) $dll(%c)
+        inc %c
+      }
+      if ($dll(0) != 1) { .fwrite -n dbg Total		: $dll(0) DLLs loaded }
+    }
+    else { .fwrite -n dbg DLLs loaded	: no DLLs loaded! }
+    .fwrite dbg $crlf
+    .fwrite -n dbg ======================
+    .fwrite -n dbg Debug log created by NNScript %version in $calc($nnticks - %t) sec(s)
+    .fwrite dbg End of file.
+    .fclose dbg
+    if ($1) { if ($ydialog(Do you want to send the debugging information to $1 $+ ? If you want to make sure what data is sent $+ $chr(44) you can view %f in your mIRC directory. Of course $+ $chr(44) no passswords or other sensible data is sent.)) { dcc send -c $1 %f } }
+    else { thmecho -a Debugging log saved to $mircdir $+ %f }
+  }
+}
+beats {
+  tokenize 58 $wd($asctime($calc($gmt -3600+ $daylight)),4)
+  return @ $+ $int($calc(($1 *3600+ $2 *60+ $3)/86.4))
+}
+loaddefcmds {
+  didtok $1-2 44 Run netstat (/netstat),Clipboard editor (/cbedit),Show power (/power),Open nnscript.com (/news),Auth on QuakeNet (/q.doauth),Identify on UnderNet (/x.doauth),Identify on GameSurge (/gs.doauth),File info (/finfo),Directory info (/dinfo),Application quicklaunch (/cprog),Check for updates (/checkver),Advertise script (/advertise),Close queries (/close -m),Alarm timer (/alarm),DCC relay (/dccrelay),DCC history (/dcchist),Kick/ban history (/kbhist),IP2nick (/ip2nick),Close all @windows (/closewins),Close all DCCs (/close -cfgis)
+  didtok $1-2 44 Clear all windows on this server (/clr -e),Clear all windows on all servers (/clr -c),System information (/sysinfo),Show MOTD (/motd),Show server info (/info),RGB list (/nn.rgb),ASCII table (/ascii),Channel central (/cc),DCC monitor (/dccs),Clone scanner (/cscan),Script statistics (/stat),Command list (/cmdlist),Clear window (/clear),Say URL (/surl),Help (/help),About (/nnabout),Blacklist (/black),Away system (/aw),Set back (/back),Theme setup (/themes),Script setup (/setup),Window arrangement (/winarr),mIRC options (/mircopt),Channels list (/chanlist),Channels folder (/chanfolder),Log viewer (/viewlog)
+}
+mkdir.recursive {
+  if ($right($1-,1) != \) { tokenize 32 $1- $+ \ }
+  if ($isdir($1-)) { return }
+  var %d = $noqt($1-),%i = 1,%t = $numtok($1-,92)
+  while (%i <= %t) {
+    var %o = $gettok(%d,1- $+ %i,92)
+    if (!$isdir(%o)) { mkdir $qt(%o) }
+    inc %i
+  }
+}
+writepermission {
+  var %i,%f
+  while ($isfile(%f)) || (!%f) {
+    %i = $calc(%i +1)
+    %f = $qt($mircdir $+ %i $+ .tmp)
+  }
+  write -c %f NNScript writing permission test. You can delete this file.
+  .remove %f
+  return 1
+  :error
+  reseterror
+  return 0
+}
+convertfontsize {
+  if ($prop == pixels) {
+    if ($1 <= 6) { return 8 }
+    elseif ($1 == 7) { return 10 }
+    elseif ($1 == 8) { return 11 }
+    elseif ($1 == 9) { return 12 }
+    elseif ($1 == 10) { return 14 }
+    elseif ($1 == 11) { return 15 }
+    elseif ($1 == 12) { return 16 }
+    elseif ($1 == 13) { return 18 }
+    elseif ($1 == 14) { return 20 }
+    elseif ($1 == 15) { return 21 }
+    elseif ($1 == 16) { return 22 }
+    elseif ($1 == 17) { return 23 }
+    elseif ($1 >= 18) { return 24 }
+  }
+  else {
+    if ($1 <= 8) { return 6 }
+    elseif ($1 == 9) { return 7 }
+    elseif ($1 == 10) { return 7 }
+    elseif ($1 == 11) { return 8 }
+    elseif ($1 == 12) { return 9 }
+    elseif ($1 == 13) { return 10 }
+    elseif ($1 == 14) { return 10 }
+    elseif ($1 == 15) { return 11 }
+    elseif ($1 == 16) { return 12 }
+    elseif ($1 == 17) { return 13 }
+    elseif ($1 == 18) { return 13 }
+    elseif ($1 == 19) { return 14 }
+    elseif ($1 == 20) { return 14 }
+    elseif ($1 == 21) { return 15 }
+    elseif ($1 == 22) { return 16 }
+    elseif ($1 == 23) { return 17 }
+    elseif ($1 >= 24) { return 18 }
+  }
+}
+chkme {
+  if ($me != $null) { return $me }
+  else { return yournick }
+}
+wait {
+  var %o = $calc($nnticks + $1)
+  while ($nnticks < %o) { }
+}
+nntip { return $tip($trnum,$1,$2,,scripts\pics\nn.ico,,,) }
+tryremove {
+  .remove $1-
+  return
+  :error
+  reseterror
+  write -c $1-
+}
+numonlyedit {
+  var %f = $did($1,$2),%g = $did($1,$2,1).selstart
+  if ($mid(%f,%g,1) !isnum) {
+    did -ra $1-2 $remove(%f,$v1)
+    did -c $1-2 1 %g
+  }
+}
+surl {
+  if (($dde(opera,WWW_GetWindowInfo)) || ($dde(firefox,WWW_GetWindowInfo)) || ($dde(netscape6,WWW_GetWindowInfo)) || ($dde(iexplore,WWW_GetWindowInfo,1))) && ($regex(url,$v1,/^"([^"]+)"\x2C"([^"]*)"(?:\x2C".*")?$/)) { say $sbr(Currently browsing) $regml(url,1) $iif($regml(url,2),$nbr($v1)) }
+  else { thmerror -a No browser found. }
+}
+nnticks {
+  if (%precisetiming) {
+    if ($nndll(PerformanceCounter)) { return $v1 }
+    else {
+      unset %precisetiming
+      thmerror -s Precise timing is not available on your PC. Option unset.
+      return $calc($ticks /1000)
+    }
+  }
+  else { return $calc($ticks /1000) }
+}
+loadhash {
+  var %tb = scripts\tables\topichist.tbl scripts\tables\pexclude.tbl scripts\tables\black.tbl scripts\tables\awaypreset.tbl scripts\tables\peaks.tbl scripts\tables\rss.tbl scripts\tables\rssdone.tbl themes\data\vthm.tbl themes\data\thmcmp.tbl themes\data\thmprep.tbl
+  while (%tb) {
+    var %utb = $wd(%tb,1),%t = $left($nopath(%utb),-4)
+    _hmake %t
+    if ($isfile(%utb)) { hload -b %t %utb }
+    %tb = $deltok(%tb,1,32)
+  }
+}
+anyconnection {
+  var %x = 0
+  scon -at1 var % $+ x = 1
+  return %x
+}
+thmdisp {
+  if ($status == connected) {
+    if ($ [ $+ [ $1 ] ]) { return $v1 }
+    else { return Unknown }
+  }
+  else { return Not connected }
+}
+createpass {
+  var %a
+  if ($1 == -alnum) {
+    %a = 1
+    tokenize 32 $2-
+  }
+  var %i = $iif($1 isnum 5-50,$int($1),$rand(10,15)),%r,%t,%z,%o
+  while (%i) {
+    %t = $r(1,$iif(%a,4,5))
+    if (%t isnum 1-2) { %z = $r(0,9) }
+    elseif (%t == 3) { %z = $r(a,z) }
+    elseif (%t == 4) { %z = $r(A,Z) }
+    else { %z = $mid([]()<>?!+-*:=~$&/_|%#,$r(1,21),1) }
+    if (%o !=== %z) && ($count(%r,%z) < 2) { %r = %r $+ %z }
+    else { continue }
+    %o = %z
+    dec %i
+  }
+  $iif($isid,return,thmecho -a Created random $iif(%a,alpha-numeric) password:) %r
+}
+randslap {
+  if ($1) {
+    var %s = $read(scripts\txt\slaps.txt,n)
+    if (%s) { [ [ $gettok(%s,2-,58) ] ] }
+    else { me slaps $iif($1 == $me,himself,$1) around a bit with a large trout }
+  }
+}
+bncnick {
+  var %a = $psybnc.nick($1),%b = $sbnc.nick($1)
+  return $iif(%a || %b,1,0)
+}
+bold {
+  tokenize 44 $2-
+  mdx SetFont $dname $* 14 700 Tahoma
+}
+osgen { if (!$istok(95 98 NT Me,$os,32)) { return 1 } }
+listsel {
+  var %d = $iif($2,$1,$dname),%o = $iif($2,$2,$iif($1,$1,$did)),%i = $did(%d,%o).lines,%r
+  while (%i > 1) {
+    if (s isin $wd($did(%d,%o,%i),2)) { %r = %r %i }
+    dec %i
+  }
+  return %r
+}
+remsfs {
+  var %i = 2,%r = $gettok($1-,1,9)
+  while ($gettok($1-,%i,9)) {
+    %r = $+(%r,	,+ $wd($v1,2-))
+    inc %i
+  }
+  return %r
+}
+notice.chkwin {
+  var %w = $specialcidwin(Notices)
+  if (!$window(%w)) {
+    window -nk0v %w
+    thmecho %w Notice window for $thmhl($curconserv) opened on $thmhl($longtime)
+    echo %w 
+  }
+}
+mkfullfn {
+  var %r = $remove($iif(!$regex($1-,/^"?[a-z]\:(\\.*)?/i),$mircdir) $+ $1-,")
+  if ($prop == noqt) { return %r }
+  else { return $qt(%r) }
+}
+relpath {
+  var %f = $mkfullfn($1-)
+  if ($+(",$mircdir,?*") iswm %f) { return " $+ $mid(%f,$calc($len($mircdir) +2) $+ -) }
+  else { return %f }
+}
+hop {
+  var %c = $iif($1,$1,$active)
+  if (%c !ischan) { thmerror -a Invalid window! }
+  else {
+    if (%c == $active) { thmecho %c Attempting to rejoin $thmhl(%c) $+ ... }
+    .hop %c $2-
+  }
+}
+csauth.edit {
+  set %cs.edit 1
+  noop $dialog(cs.add,cs.add,-4)
+  if (%cs.chan) && (%cs.pass) {
+    unset %pass.cs. $+ $did(settings,211).seltext
+    set %pass.cs. $+ %cs.chan %cs.pass
+    did -oc settings 211 $did(settings,211).sel %cs.chan
+  }
+  unset %cs.edit %cs.pass %cs.chan
+}
+awlog.edit {
+  did -oc settings 85 $did(settings,85).sel $$eddialog(Enter the changed away log trigger!,$did(settings,85).seltext)
+  set %away.log.trigger $mkregex($didtok(settings,85,44))
+}
+awmsg.edit {
+  did -oc settings 632 $did(settings,632).sel $$eddialog(Enter the changed away message exclude!,$did(settings,632).seltext)
+  set %away.ad.excl $didtok(settings,632,44)
+}
+kickmsg.edit {
+  did -oc settings 2333 $did(settings,2333).sel $$eddialog(Enter the changed kick message!,$did(settings,2333).seltext)
+  savebuf -o $dname 2333 scripts\txt\kickmsg.txt
+  prevbmp settings 2335 344 kick 2 $did(settings,2333).seltext
+}
+quitmsg.edit {
+  did -oc settings 2323 $did(settings,2323).sel $$eddialog(Enter the changed quit message!,$did(settings,2323).seltext)
+  savebuf -o $dname 2323 scripts\txt\quitmsg.txt
+  prevbmp settings 2325 344 quit 2 $did(settings,2323).seltext
+}
+slaps.edit {
+  var %x = $$eddialog(Enter the changed slap!,$did(settings,653).seltext)
+  if (?*:?* iswm %x) {
+    tokenize 58 %x
+    did -d settings 653 $did(settings,653).sel
+    did -ac settings 653 $1 $+ : $2-
+    saveslaps
+    prevbmp settings 658 344 action 2 * $chkme $replace($gettok($did(settings,653).seltext,2-,58),<nick>,$randnick)
+  }
+  else { errdialog slaps must be in the format "title: text", for example: "Crevasse: pushes <nick> into a crevasse" }
+}
+exclude.edit {
+  var %o = $did(settings,332).seltext,%x = $$eddialog(Enter the changed exclude!,%o)
+  if (%o != %x) {
+    if (*!*@* !iswm %x) { errdialog you have to enter an exclude in nick!ident@host format! }
+    elseif ($hget(pexclude,%x)) { errdialog you already added this exclude! }
+    else {
+      did -oc settings 332 $did(settings,332).sel %x
+      hdel pexclude %o
+      hadd pexclude %x 1
+      hsave -ob pexclude scripts\tables\pexclude.tbl
+    }
+  }
+}
+8ball {
+  if ($right($1-,1) != ?) { thmerror -a You have to ask a yes/no question! :) }
+  else {
+    var %a = $+(",$gettok(Signs point to yes|Yes|Reply hazy $+ $chr(44) try again|Without a doubt|My sources say no|As I see it $+ $chr(44) yes|You may rely on it|Concentrate and ask again|Outlook not so good|It is decidedly so|Better not tell you now|Very doubtful|Yes - definitely|It is certain|Cannot predict now|Most likely|Ask again later|My reply is no|Outlook good|Don't count on it,$r(1,20),124),.")
+    if ($1 == -s) { say The 8-Ball's answer to $qt($2-) is: %a }
+    else { thmecho -a The 8-Ball's answer to $thmhl($1-) is: %a }
+  }
+}
+loadfonts {
+  nndll GetFonts
+  var %t = $hget(fonts,0).item
+  while (%t) {
+    did -a $1-2 $replace($hget(fonts,%t).item,,$chr(32))
+    dec %t
+  }
+  if ($hget(fonts)) { hfree fonts }
+}
+isfont {
+  nndll GetFonts
+  var %r = 0
+  if ($hget(fonts,$replace($1,$chr(32),))) { %r = 1 }
+  if ($hget(fonts)) { hfree fonts }
+  return %r
+}
+clr {
+  if ($1 == -a) { clear $active }
+  elseif ($1 == -e) {
+    var %i = $window(*,0),%a
+    while (%i) {
+      %a = $window(*,%i)
+      if (!$vwin(%a)) { clear %a }
+      dec %i
+    }
+  }
+  elseif ($1 == -c) { scon -a clr -e }
+}
+server.dlg { server $1 $$eddialog(Please enter a server to connect to.) }
+popdll.color {
+  xpopup -p $1 $rgb(hilight) $rgb(face) $rgb(3dlight) $rgb(shadow) $rgb(shadow) $rgb(shadow) $rgb(3dlight) $rgb(shadow) $rgb(shadow) $rgb(text)
+}
+popdll.new {
+  set %xpopup.tmpname $trnum
+  xpopup -c %xpopup.tmpname office2003
+  popdll.color %xpopup.tmpname
+}
+popdll.add {
+  xpop -a %xpopup.tmpname $gettok($1-,1,1)
+  if ($gettok($1-,2-,1)) { set %xpopup.tmpcmd. [ $+ [ $wd($gettok($1-,2-,9),2) ] ] $v1 }
+}
+popdll.disp {
+  xpopup -s %xpopup.tmpname +lt $nndll(MousePos)
+  xpopup -d %xpopup.tmpname
+  unset %xpopup.tmpname %xpopup.tmpcmd.*
+}
+q.changepass {
+  var %x = $$epdialog(Enter your new password)
+  .msg q newpass $decode(%pass.q,m) %x %x
+  thmecho -a Changing Q password...
+  set %pass.q $encode(%x,m)
+}
+randnick {
+  var %c = $chan($r(1,$chan(0))),%n = $nick(%c,$r(1,$nick(%c,0)))
+  if (%n) && (%n != $me) { return %n }
+  else { return $wd(someone dude pal guy greeny mute,$r(1,6)) }
+}
+cmdlist {
+  nndlg -m cmdlist
+  if ($1 == -l) {
+    did -f cmdlist 2
+    loadbotcmds l
+  }
+  elseif ($1 == -b) {
+    did -f cmdlist 7
+    loadbotcmds b
+  }
+  elseif ($1 == -x) {
+    did -f cmdlist 11
+    loadbotcmds x
+  }
+  elseif ($1 == -q) {
+    did -f cmdlist 1
+    loadbotcmds q
+  }
+  elseif ($1 == -s) {
+    did -f cmdlist 13
+    loadbotcmds s
+  }
+  else { loadbotcmds n }
+}
+loadbotcmds {
+  did -r cmdlist 3
+  did -ra cmdlist 4 Please choose a command!
+  filter -k scripts\txt\cmdlist.txt loadbotcmds.filter $+([,$1,_?*])
+}
+loadbotcmds.filter { did -a cmdlist 3 $mid($1-,4,-1) }
+server {
+  if ($regex($1,/^-[sar]+$/)) { !server $1- }
+  else {
+    var %prm = $1,%g = $1-,%ä,%ö,%ü = $1,%m,%x,%n,%q,%s,%nm = $iif($me,$me,NNUser),%na = $iif($anick,$anick,[NNUser]),%ne = $iif($emailaddr,$v1,nn@us.er),%nf = $iif($fullname,$v1,NNScript user)
+    if (-* iswm $1) { %n = $2 }
+    else { %n = $1 }
+    if (%autoconserv. [ $+ [ %n ] ]) {
+      tokenize 32 $v1
+      if ($gettok(%nsset. [ $+ [ %n ] ],5,32)) { %s = $v1 }
+      if ($1- != $null) && (($1 != &null) || ($2 != &null) || ($3 != &null) || ($9- != &null)) { %x = -i $iif(%awretain && $gettok(%away.status,3,32),$v1,$iif($1 != &null,$1,$iif(%s,%s,%nm))) $iif($2 != &null,$2,%na) $iif($3 != &null,$3,%ne) $iif($9- != &null,$9-,%nf) }
+      if ($8 != &null) { %n = $8 }
+      %q = $+($iif($6,$+($iif(p !isincs %prm,p),$iif(f !isincs %prm,f),$iif(o !isincs %prm,o))),$iif($7 && $sslready,e),$iif(-* iswm %ü,$mid(%ü,2-)))
+      if ($regex(sr1,%g,/( -i [^ ]+ [^ ]+ [^ ]+ [^ ]+)/)) { %ö = $regml(sr1,1) }
+      if ($regex(sr2,%g,/( -jn [^ ]+(?: [^ ]+)?)/)) { %ä = $regml(sr2,1) }
+      noop $regsub(%n,:,$chr(32),%n) $regsub(%n,:,$chr(32),%n)
+      !server $iif(%q,- $+ %q) %n $iif(%ö,%ö,$iif(%x,%x,$iif(%s,-i %s %na %ne %nf))) %ä
+    }
+    else { !server $1- }
+  }
+}
+savetitlebar {
+  var %s,%o = %titlebar,%e = %titlebar.edit
+  set %titlebar.edit $strip($did(settings,2380))
+  set %titlebar $replaceidents(%titlebar.edit)
+  if (@* iswm %titlebar) { set %titlebar $!chr(64) $iif($mid(%titlebar,2,1) != $chr(32),$!+) $mid(%titlebar,2) }
+  titlebar.ctmr
+}
+edlen {
+  var %i = $did($1,$2).lines,%r = 0
+  while (%i) {
+    inc %r $len($did($1,$2,%i))
+    dec %i
+  }
+  return %r
+}
+edtxt {
+  var %i = $did($1,$2).lines,%r
+  while (%i) {
+    %r = $did($1,$2,%i) $+ %r
+    dec %i
+  }
+  return %r
+}
+_do { $1- }
+_hmake {
+  if ($hget($1)) { hfree $1 }
+  hmake $1-
+}
+ad { advertise }
+advertise {
+  var %x = 12( NoNameScript $replace(%version,.,.) 12:: by greeny & mute 12:: www.nnscript.com 12:: www.esnation.com 12)
+  me $iif($cchan($active),$strip(%x),%x)
+}
+aidle {
+  var %t = $timer(0)
+  while (%t) {
+    if ($+(ialq.,$cid,.*) iswm $timer(%t)) || ($uptime(server,3) < 60) { return }
+    dec %t
+  }
+  .msg $me AIDLE
+}
+anydcc {
+  var %g = $get(0),%s = $send(0)
+  while (%g) {
+    if ($get(%g).status == active) { return 1 }
+    dec %g
+  }
+  while (%s) {
+    if ($send(%g).status == active) { return 1 }
+    dec %s
+  }
+}
+chkrgb { return $iif($regex($1,/^\d+\x2C\d+\x2C\d+$/),$rgb( [ $1 ] ),0) }
+ascii { nndlg -m ascii }
+asecho { return $iif($cid == $activecid,-a,-s) }
+authchk {
+  if ($status == connected) {
+    if (!%q.auth.nick) || (!%pass.q) {
+      if ($ydialog(You forgot to set your Q auth settings in the options dialog! Would you like to set them up now?)) { setup -c Network services|QuakeNet }
+      halt
+    }
+    elseif (!%q.authed. [ $+ [ $cid ] ]) {
+      errdialog you're not authed! Please auth before using this feature.
+      halt
+    }
+  }
+  else {
+    errdialog you're not connected to the server!
+    halt
+  }
+}
+savenetdata {
+  var %s = $iif($remove($did(settings,121),$chr(32)),$v1,&null) $iif($remove($did(settings,122),$chr(32)),$v1,&null) $iif($remove($did(settings,120),$chr(32)),$v1,&null) $did(settings,123).state $did(settings,124).state $did(settings,125).state $did(settings,324).state $iif($did(settings,136).sel != 1,$remove($gettok($did(settings,136).seltext,2,160),$chr(32)),&null) $iif($remove($did(settings,92),$chr(32)),$did(settings,92),&null)
+  if (%s != &null &null &null 0 0 0 0 &null &null) { set %autoconserv. $+ $did(settings,961).seltext %s }
+  else { unset %autoconserv. $+ $did(settings,961).seltext }
+  if ($remove($did(settings,121),$chr(32))) { set %nick.def. $+ $did(settings,961).seltext $v1 }
+  else { unset %nick.def. $+ $did(settings,961).seltext }
+  if ($did(settings,1579).seltext == $did(settings,961).seltext) {
+    if ($did(settings,121)) {
+      did -ra settings 637 Default nick (from favs)
+      did -bra settings 81 $v1
+    }
+    else {
+      did -ra settings 637 Default nickname
+      did -era settings 81 %nick.def. [ $+ [ $did(settings,961).seltext ] ]
+    }
+  }
+}
+loadnetdata {
+  var %n = $1
+  did -ra settings 71 Network data $iif(%n,$nbr(%n))
+  if (!%n) {
+    did -b settings 71,72,74,75,91,123,124,92,120,121,122,125,134,136,128,324
+    did -r settings 136
+  }
+  else {
+    did -e settings 71,72,74,75,91,123,124,125,134,136,128
+    if ($sslready) { did -e settings 324 }
+    tokenize 32 %autoconserv. [ $+ [ %n ] ]
+    did -era settings 121 $iif($1 != &null,$1)
+    did -era settings 122 $iif($2 != &null,$2)
+    did -era settings 120 $iif($3 != &null,$3)
+    did $iif($4,-c,-u) settings 123
+    did $iif($5,-c,-u) settings 124
+    did $iif($6,-c,-u) settings 125
+    did $iif($7,-c,-u) settings 324
+    did -ra settings 136 > Random server
+    if ($isfile($serversini)) {
+      window -h @loadprefservs
+      loadbuf -tservers @loadprefservs $serversini
+      filter -k @loadprefservs lnet.serv n?*=?*SERVER:?*GROUP: $+ %n
+      close -@ @loadprefservs
+    }
+    if (!$8) || ($8 == &null) { did -c settings 136 1 }
+    else {
+      if ($didwm(settings,136,*  $+ $8,1)) { did -c settings 136 $v1 }
+      else {
+        did -a settings 136 Unknown $+($nbr($gettok($8,1-2,58)),$str( ,200),$8)
+        if ($didwm(settings,136,*  $+ $8,1)) { did -c settings 136 $v1 }
+      }
+    }
+    did -era settings 92 $iif($9- != &null,$9-)
+  }
+}
+autocon {
+  if ($1 == -a) { var %x = 960,%y = 961 }
+  else { var %x = 961,%y = 960 }
+  var %d = $did(settings,%x).sel,%v = $did(settings,%x).seltext
+  if (%d) {
+    if ($1 == -a) && (($numtok(%autoconservs,32) > 50) || ($len(%autoconservs %v) > 3000)) { errdialog you cannot add any more networks to the list. }
+    else {
+      if ($1 != -a) {
+        unset %autoconserv. [ $+ [ %v ] ]
+        did -b settings 971,972
+        if ($did(settings,1579).seltext == $did(settings,961).seltext) {
+          did -ra settings 637 Default nickname
+          did -era settings 81 %nick.def. [ $+ [ $did(settings,961).seltext ] ]
+        }
+      }
+      set %autoconservs $ [ $+ [ $iif($1 == -a,add,rem) ] $+ ] tok(%autoconservs,%v,32)
+      did -a settings %y %v
+      did -d settings %x %d
+      if ($did(961).sel) {
+        did $iif($did(settings,961).sel == $did(settings,961).lines,-b,-e) settings 972
+        did $iif($did(settings,961).sel == 1,-b,-e) settings 971
+      }
+      else { did -b settings 971,972 }
+      did -b settings $calc(%x +2)
+      loadnetdata $did(settings,961).seltext
+    }
+  }
+}
+c.add {
+  var %x
+  if (! !isin $1) && (@ !isin $1) { %x = $1 $+ !*@* }
+  elseif (! isin $1) && (@ !isin $1) { %x = $1 $+ @* }
+  elseif (! !isin $1) && (@ isin $1) { %x = *! $+ $1 }
+  else { %x = $1 }
+  return $remove(%x,$chr(32),$chr(44))
+}
+cap { return $upper($left($1-,1)) $+ $lower($right($1-,-1)) }
+cchan { if (c isincs $gettok($chan($1).mode,1,32)) { return 1 } }
+j.retry {
+  if (!$timer(joinretry. $+ $cid)) {
+    set %joinretry. $+ $cid $1
+    .timer 1 0 thmecho $asecho Press $thmhl(Control+F2) to retry joining $thmhl($1)
+  }
+  else { haltdef }
+}
+joinretry.do {
+  if (!%joinretry. [ $+ [ $cid ] ]) || ($me ison %joinretry. [ $+ [ $cid ] ]) { .timerjoinretry. $+ $cid off }
+  else { join -n %joinretry. [ $+ [ $cid ] ] }
+}
+nickretry.do {
+  if (!%nickretry. [ $+ [ $cid ] ]) || ($me == %nickretry. [ $+ [ $cid ] ]) { .timernickchg. $+ $cid off }
+  else { nick %nickretry. [ $+ [ $cid ] ] 1 }
+}
+channel { cc $1- }
+specialday {
+  var %d = $asctime(ddmm)
+  if (%d == 0101) { return Happy new year to you! }
+  elseif (%d == 1402) { return Want to be my valentine? <3 }
+  elseif (%d == 1703) { return It's St. Patrick's day, time to get some booze! }
+  elseif (%d == 1205) { return Happy $ord($calc($asctime(yyyy) -1984)) birthday greeny! :) }
+  elseif (%d == 3110) { return Trick or treat? }
+  elseif (%d == 0612) { return Beware of Santa Claus! }
+  elseif (%d == 2412) || (%d == 2512) || (%d == 2612) { return We wish you a merry christmas... *sings* }
+}
+chgday {
+  var %i = $scon(0)
+  while (%i) {
+    scid $scon(%i)
+    var %w = $window(*,0)
+    while (%w) {
+      var %t = ""
+      if ($istok(channel query chat,$window(*,%w).type,32)) { %t = $window(*,%w) }
+      elseif ($window(*,%w).type == status) { %t = -s }
+      if (%t) { thmecho %t Day changed to $thmhl($asctime(dddd $+ $chr(44) mmmm doo yyyy)) $+ . $specialday }
+      dec %w
+    }
+    dec %i
+  }
+  .timerdcre 1 300 .timerdc -io 00:00 1 0 chgday
+}
+wd { return $gettok($1,$2,32) }
+nomsg { if ($status != connected) || (($active !ischan) && (!$query($active)) && (!$chat($mid($active,2)))) { return 1 } }
+closewins {
+  var %i = $window(0)
+  while (%i) {
+    if (!$vwin($window(%i))) { close -@ $window(%i) }
+    dec %i
+  }
+}
+chkdccs {
+  if ($isfile($2-)) { dcc send $1- }
+  else { thmerror -a The file $2- does not exist anymore! }
+}
+chkhlwin {
+  var %w = $specialcidwin(Highlight)
+  if (!$window(%w)) {
+    window -nk0v %w
+    thmecho %w Highlight window for $thmhl($curconserv) opened on $thmhl($longtime)
+    echo %w 
+  }
+}
+chkmdir {
+  var %x
+  noop $regsub($mircexe,\s+,$chr(32),%x)
+  return $isfile(%x)
+}
+chkudir {
+  var %d = $nndll(GetEV,AppData)
+  if (!%d) { return $true }
+  var %x
+  noop $regsub(%d,\s+,$chr(32),%x)
+  return $isdir(%x)
+}
+chkqcls {
+  var %x = $query(0)
+  while (%x) {
+    if (%qcls.ls. [ $+ [ $cid ] $+ ] . [ $+ [ $query(%x) ] ] isnum) && ($calc($ctime - $v1) >= %qcls.secs) && (!$istok(message highlight,$window($query(%x)).sbcolor,32)) && ($query(%x) != $active) { close -m $query(%x) }
+    dec %x
+  }
+}
+chnm { if ($1 isincs $wd($chan($2).mode,1)) { return 1 } }
+cpdsel { return $iif($did(settings,$1).sel,$v1,1) }
+cprog { nndlg -m cprog }
+open {
+  var %g
+  if ($1 == -g) {
+    %g = 1
+    tokenize 32 $2-
+  }
+  if ($cr $+ * iswm $1-) { errdialog no path specified. }
+  else {
+    tokenize 13 $1-
+    var %f = $mkfullfn($1)
+    if ($exists(%f)) {
+      if (%g) { showmirc -m }
+      run -p %f $2
+    }
+    else { errdialog the specified path/file $nbr(%f) does not exist. Perhaps you forgot to enclose the path in quotation marks? }
+  }
+  return
+  :error
+  reseterror
+  errdialog $1- could not be launched.
+}
+cprogrun {
+  run $1-
+  return
+  :error
+  reseterror
+  errdialog $1- could not be launched.
+}
+cs.chanauth {
+  var %c = $$1
+  tokenize 32 %pass.cs. [ $+ [ $network ] $+ ] . [ $+ [ %c ] ]
+  if ($1-) { $iif(!$wd(%nsset. [ $+ [ $network ] ],1),!.msg) !chanserv identify %c $decode($1,m) }
+}
+curconserv {
+  if ($status == connected) && ($network !isnum) {
+    if ($network) { return $network }
+    else { return $server }
+  }
+  else { return disconnected }
+}
+dayavg {
+  var %z = $calc($1 /(($ctime - %install.time)/86400))
+  if ($2 != $null) { %z = $round(%z,$2) }
+  return %z
+}
+dbclick {
+  var %x = $right($1,1)
+  tokenize 32 $2-
+  if ($mouse.key & 2) { if (%dbc. [ $+ [ %x ] $+ ] .ctrl) { .timer 1 0 _do [ [ $v1 ] ] } }
+  elseif ($mouse.key & 4) { if (%dbc. [ $+ [ %x ] $+ ] .shift) { .timer 1 0 _do [ [ $v1 ] ] } }
+  else { if (%dbc. [ $+ [ %x ] $+ ] .def) { .timer 1 0 _do [ [ $v1 ] ] } }
+}
+mailnum { return $iif(%email.checker,$iif($int(%mail.curin) isnum,$v1,n/a),n/a) }
+loadidents {
+  didtok $1-2 44 1 + 0 0 0 <cb>	+ 0 0 0 The amount of lines and data currently in your clipboard,1 + 0 0 0 <cbcontent>	+ 0 0 0 The first three lines currently in your clipboard,1 + 0 0 0 <channels>	+ 0 0 0 The number of channels you have joined on the current connection,1 + 0 0 0 <contime>	+ 0 0 0 The duration you have been connected to the current server,1 + 0 0 0 <date>	+ 0 0 0 The current date,1 + 0 0 0 <down>	+ 0 0 0 You current DCC download bandwidth,1 + 0 0 0 <idle>	+ 0 0 0 Your current idle time,1 + 0 0 0 <ip>	+ 0 0 0 Your current IP address,1 + 0 0 0 <lag>	+ 0 0 0 Your lag on the current server in milliseconds,1 + 0 0 0 <mircver>	+ 0 0 0 The mIRC version you're using,1 + 0 0 0 <net>	+ 0 0 0 The network you're currently connected to,1 + 0 0 0 <nick>	+ 0 0 0 Your current nickname,1 + 0 0 0 <nnver>	+ 0 0 0 The NNScript version you're using,1 + 0 0 0 <rss>	+ 0 0 0 The latest RSS news received
+  didtok $1-2 44 1 + 0 0 0 <time>	+ 0 0 0 The current time,1 + 0 0 0 <topic>	+ 0 0 0 The topic in the active channel (if any),1 + 0 0 0 <up>	+ 0 0 0 You current DCC upload bandwidth,1 + 0 0 0 <uptime>	+ 0 0 0 Your system uptime,1 + 0 0 0 <mails>	+ 0 0 0 The number of mails in your inbox. Mail-checker must be enabled.
+}
+replaceidents {
+  var %s
+  noop $regsub($1-,/([^ ])(<[^>]+>)/g,\1 \$+ \2,%s) $regsub(%s,/(<[^>]+>)([^ ])/g,\1 \$+ \2,%s)
+  return $replace(%s,<mails>,$!mailnum,<contime>,$!uptime(server,2),<lag>,$!displag,<uptime>,$!uptime(system,2),<rss>,$!rss.latest,<topic>,$!actopic,<cb>,$!cbc,<cbcontent>,$!cbcontent,<channels>,$!chan(0),<date>,$!asctime(%dateformat),<ip>,$!ip,<mircver>,$!version,<nnver>,% $+ version,<time>,$!asctime(%timeformat.short),<net>,$!curconserv,<idle>,$!sduration($idle).nosec,<nick>,$!me,<up>,$!dccbw(send),<down>,$!dccbw(get),[,[[,],]])
+}
+cbcontent {
+  var %i = 1,%r,%t
+  while (%i < 4) {
+    if ($cb(%i) == $null) {
+      inc %i
+      continue
+    }
+    elseif ($len($cb(%i)) > 50) { %t = $left($cb(%i),50) $+ ... }
+    else { %t = $cb(%i) }
+    if (%r != $null) { %r = $+(%r,/,%t) }
+    else { %r = %t }
+    inc %i
+  }
+  if (%r != $null) { return %r }
+  else { return n/a }
+}
+actopic {
+  if ($active ischan) {
+    if ($chan($active).topic) { return $v1 }
+    else { return No topic in $active set! }
+  }
+  else { return n/a }
+}
+query_log {
+  set -u60 %bnc.privatelogquery $2
+  query -n $1
+  unset %bnc.privatelogquery
+}
+query {
+  var %n,%g
+  if ($1 == -n) {
+    %n = -n
+    tokenize 32 $2-
+  }
+  if ($window($1,1).type != query) {
+    query %n $1
+    if ($window($1,1).type == query) {
+      thmls $1
+      thmecho $1 $iif(%bnc.privatelogquery,$v1 private log,Query) with $thmhl($1) $+ $iif($address($1,0),/ $+ $thmhl($gettok($address($1,0),2,33))) opened on $thmhl($longtime) $+ .
+      stat.queryref
+      if (%querystats) {
+        thmecho $1 Total queries: $thmhl(%stat.queries) $+ / $+ $thmhl(~ $+ $iif($dayavg(%stat.queries,1) < %stat.queries,$v1,%stat.queries) per day)
+        thmecho $1 Queries today: $thmhl(%stat.queriestoday)
+        if ($comchan($1,0)) {
+          var %i = $comchan($1,0),%r
+          while (%i) {
+            if ($1 !isreg $comchan($1,%i)) { var %p = $left($nick($comchan($1,%i),$1).pnick,1) }
+            else { unset %p }
+            var %r = %r %p $+ $comchan($1,%i)
+            dec %i
+          }
+          thmecho $1 Common channels: $thmhl(%r)
+        }
+      }
+      thmls $1
+      echo -i2 $1 
+      if ($2- != $null) { msg $1- }
+      set $+(%,qcls.ls.,$cid,.,$$1) $ctime
+    }
+  }
+  else { window -a $1 }
+}
+markread { scon -a markread.single }
+markread.single {
+  var %i = $window(*,0)
+  while (%i) {
+    window -g0 $qt($window(*,%i))
+    dec %i
+  }
+}
+dccbw {
+  var %i = $ [ $+ [ $1 ] $+ ] (0),%r
+  while (%i) {
+    if ($ [ $+ [ $1 ] $+ ] (%i).status == active) { inc %r $ [ $+ [ $1 ] $+ ] (%i).cps }
+    dec %i
+  }
+  if (%r) { return $bytes(%r,3).suf $+ /s }
+  else { return 0B/s }
+}
+dccfin.sd {
+  if (%dccfin.sd) && (!$anydcc) {
+    unset %dccfin.sd
+    if ($dialog(dccstats)) { did -b $v1 12 }
+    nndlg -m dccfin.sd
+  }
+}
+dccfin.sdt {
+  if (!$1) {
+    did -b dccfin.sd 3
+    did -ra dccfin.sd 2 Shutting down...
+    if ($osgen) { run shutdown -s }
+    else { run rundll32 User,ExitWindows }
+    exit
+  }
+  else { did -ra dccfin.sd 2 $1 seconds remaining... }
+}
+dccgets { if ($1 isnum 1- $+ $get(0)) { return $+([&,$1,] $shorten(20,$get($1).file),	from $shorten(15,$get($1)),:ds) -g $1 } }
+dccsends { if ($1 isnum 1- $+ $send(0)) { return $+([,$1,] $shorten(20,$send($1).file),	to $shorten(15,$send($1)),:ds) -s $1 } }
+dccs { nndlg -mhd dccstats }
+dccstats.ref {
+  if (!$dialog(dccstats)) { .timerdccstats off }
+  else {
+    var %i = 1,%k = 0
+    if ($dialog(dccstats).tab == 14) {
+      if ($send(0)) {
+        window -h @dccstats.ref
+        while (%i <= $send(0)) {
+          if ($send(%i).done) { echo @dccstats.ref 1 + 0 0 0 $+($send(%i).file,	0 0 0 $send(%i),	0 0 0 $sduration($send(%i).secs).nosec,	0 0 0 $bytes($send(%i).cps,3).suf,/s	0 0 0 $bytes($send(%i).size,3).suf,	0) 0 0 Done. }
+          elseif ($istok(waiting inactive failed,$send(%i).status,32)) { echo @dccstats.ref 1 + 0 0 0 $+($send(%i).file,	0 0 0 $send(%i),	0 0 0 $sduration($send(%i).secs).nosec,	0 0 0 $bytes($send(%i).cps,3).suf,/s	0 0 0 $bytes($send(%i).size,3).suf,	0) 0 0 $cap($send(%i).status) }
+          else {
+            echo @dccstats.ref 1 + 0 0 0 $+($send(%i).file,	0 0 0 $send(%i),	0 0 0 $sduration($send(%i).secs).nosec,	0 0 0 $bytes($send(%i).cps,3).suf,/s	0 0 0 $bytes($send(%i).size,3).suf,	0 0 0 $bytes($send(%i).sent,3).suf $nbr($send(%i).pc $+ %),	0) 0 0 $sduration($calc(($send(%i).size - $send(%i).sent)/ $send(%i).cps)).nosec
+            var %x = 1
+          }
+          inc %i
+        }
+      }
+      else {
+        did -r dccstats 20
+        did -a dccstats 20 1 + 0 0 0 No sends!
+      }
+    }
+    else {
+      if ($get(0)) {
+        window -h @dccstats.ref
+        while (%i <= $get(0)) {
+          if ($get(%i).done) { echo @dccstats.ref 1 + 0 0 0 $+($get(%i).file,	0 0 0 $get(%i),	0 0 0 $sduration($get(%i).secs).nosec,	0 0 0 $bytes($get(%i).cps,3).suf,/s	0 0 0 $bytes($get(%i).size,3).suf,	0) 0 0 Done. }
+          elseif ($istok(waiting inactive failed,$get(%i).status,32)) { echo @dccstats.ref 1 + 0 0 0 $+($get(%i).file,	0 0 0 $get(%i),	0 0 0 $sduration($get(%i).secs).nosec,	0 0 0 $bytes($get(%i).cps,3).suf,/s	0 0 0 $bytes($get(%i).size,3).suf,	0) 0 0 $cap($get(%i).status) }
+          else {
+            echo @dccstats.ref 1 + 0 0 0 $+($get(%i).file,	0 0 0 $get(%i),	0 0 0 $sduration($get(%i).secs).nosec,	0 0 0 $bytes($get(%i).cps,3).suf,/s	0 0 0 $bytes($get(%i).size,3).suf,	0 0 0 $bytes($get(%i).rcvd,3).suf $nbr($get(%i).pc $+ %),	0) 0 0 $sduration($calc(($get(%i).size - $get(%i).rcvd)/ $get(%i).cps)).nosec
+            var %x = 1
+          }
+          inc %i
+        }
+      }
+      else {
+        did -r dccstats 20
+        did -ra dccstats 20 1 + 0 0 0 No gets!
+      }
+    }
+    did -ra dccstats 21 $iif($get(0) == 1,1 get,$get(0) gets) $+ , $iif($send(0) == 1,1 send,$send(0) sends)
+    if ($window(@dccstats.ref)) {
+      filter -cwo @dccstats.ref dccstats 20
+      close -@ @dccstats.ref
+      did -e dccstats 12,15,20
+    }
+    else { did -b dccstats 12,20 }
+  }
+}
+spcnull { if (!$1-) || ($count($1-,$chr(32)) == $len($1-)) { return 1 } }
+dinfo {
+  var %d,%s = 0
+  if ($isdir($1-)) { %d = $1- }
+  else { %d = $$sdir(C:\,Choose a directory!,Ok) }
+  say $sbr(Directory info for) %d $sbr(Files) $findfile(%d,*.*,0,inc %s $file($1-).size) $sbr(Size) $bytes(%s,3).suf $sbr(Attributes) $iif($upper($file($gettok(%d,1-,92)).attr),$v1,none)
+}
+finfo {
+  var %f = $iif($regex($1,^-[cm]+$),$2-,$1-),%s = 0,%n = 1
+  if (!$isfile(%f)) { noop $$msfile(c:\,Choose a file!,Ok) }
+  else { goto spec }
+  while ($msfile(%n)) {
+    %f = $msfile(%n)
+    :spec
+    say $sbr(File info for) %f $sbr(Size) $bytes($file(%f).size,3).suf $sbr(Created) $asctime($file(%f).ctime,dddd $+ $chr(44) dd.mm.yyyy HH:nn:ss) $sbr(Modified) $asctime($file(%f).mtime,dddd $+ $chr(44) dd.mm.yyyy HH:nn:ss) $sbr(Attributes) $iif($upper($file(%f).attr),$v1,none) $iif(-*c* iswm $1,$sbr(CRC) $crc(%f)) $iif(-*m* iswm $1,$sbr(MD5) $md5(%f,2)) $iif(-*s* iswm $1,$sbr(SHA1) $sha1(%f,2))
+    inc %n
+  }
+}
+vcb { if ($1- != $null) && ($1- != $chr(32)) { return 1 } }
+rcb {
+  var %r = 0,%i = $cb(0)
+  while (%i) {
+    if ($vcb($cb(%i))) { inc %r }
+    dec %i
+  }
+  return %r
+}
+sp {
+  var %i = $timer(0),%a
+  while (%i) {
+    if (pastedel.?*.?* iswm $timer(%i)) {
+      %a = 1
+      .timer $+ $timer(%i) off
+    }
+    dec %i
+  }
+  if (%a) { thmecho -a Pasting stopped! }
+  else { thmerror -a No pasting in progress! }
+}
+brand { return $replace($1-,(tm),™,(c),©,(r),®)) }
+trnum {
+  set %trnum $base($calc($base(%trnum,36,10) +1),10,36)
+  return %trnum
+}
+fkey.ldef {
+  unset %sF3 %sF4 %sF5 %sF6 %sF7 %sF8 %sF9 %sF10 %sF11 %sF12 %cF1 %cF2 %cF3 %cF4 %cF5 %cF6 %cF7 %cF8 %cF9 %cF10 %cF11 %cF12
+  set %dbc.C.ctrl channel
+  set %dbc.C.def channel
+  set %dbc.C.shift channel
+  set %dbc.N.ctrl we $!1
+  set %dbc.N.def query $!1
+  set %dbc.N.shift kb $!1
+  set %dbc.Q.ctrl dcc chat $!1
+  set %dbc.Q.def we $!1
+  set %dbc.Q.shift close -m $!1
+  set %dbc.S.ctrl lusers
+  set %dbc.S.def umoded
+  set %dbc.S.shift umoded
+  set %F1 help
+  set %F2 showmirc -m
+  set %F3 rundcc
+  set %F4 run $!getdir
+  set %F5 a afk
+  set %F6 re
+  set %F7 chanfolder
+  set %F8 cbedit
+  set %F9 sysinfo
+  set %F10 viewlog $!active
+  set %F11 themes
+  set %F12 setup
+  set %sF1 run notepad
+  set %sF2 url -an http://www.nnscript.com
+}
+f1 { if (%f1) { .timer 1 0 %f1 } }
+f2 { if (%f2) { .timer 1 0 %f2 } }
+f3 { if (%f3) { .timer 1 0 %f3 } }
+f4 { if (%f4) { .timer 1 0 %f4 } }
+f5 { if (%f5) { .timer 1 0 %f5 } }
+f6 { if (%f6) { .timer 1 0 %f6 } }
+f7 { if (%f7) { .timer 1 0 %f7 } }
+f8 { if (%f8) { .timer 1 0 %f8 } }
+f9 { if (%f9) { .timer 1 0 %f9 } }
+f10 { if (%f10) { .timer 1 0 %f10 } }
+f11 { if (%f11) { .timer 1 0 %f11 } }
+f12 { if (%f12) { .timer 1 0 %f12 } }
+sf1 { if (%sf1) { .timer 1 0 %sf1 } }
+sf2 { if (%sf2) { .timer 1 0 %sf2 } }
+sf3 { if (%sf3) { .timer 1 0 %sf3 } }
+sf4 { if (%sf4) { .timer 1 0 %sf4 } }
+sf5 { if (%sf5) { .timer 1 0 %sf5 } }
+sf6 { if (%sf6) { .timer 1 0 %sf6 } }
+sf7 { if (%sf7) { .timer 1 0 %sf7 } }
+sf8 { if (%sf8) { .timer 1 0 %sf8 } }
+sf9 { if (%sf9) { .timer 1 0 %sf9 } }
+sf10 { if (%sf10) { .timer 1 0 %sf10 } }
+sf11 { if (%sf11) { .timer 1 0 %sf11 } }
+sf12 { if (%sf12) { .timer 1 0 %sf12 } }
+cf6 { if (%cf6) { .timer 1 0 %cf6 } }
+cf7 { if (%cf7) { .timer 1 0 %cf7 } }
+cf8 { if (%cf8) { .timer 1 0 %cf8 } }
+cf9 { if (%cf9) { .timer 1 0 %cf9 } }
+cf10 { if (%cf10) { .timer 1 0 %cf10 } }
+cf11 { if (%cf11) { .timer 1 0 %cf11 } }
+cf12 { if (%cf12) { .timer 1 0 %cf12 } }
+cf1 {
+  if (%nickretry. [ $+ [ $cid ] ]) {
+    if (!$timer(nickchg. $+ $cid)) {
+      thmecho -a Retrying to take the nick $thmhl(%nickretry. [ $+ [ $cid ] ]) $+ ... press $thmhl(Control+F1) again to abort!
+      .timernickchg. $+ $cid 0 15 nickretry.do
+    }
+    else {
+      thmecho -a Stopped trying to take the nick $thmhl(%nickretry. [ $+ [ $cid ] ]) $+ .
+      .timernickchg. $+ $cid off
+      unset %nickretry. $+ $cid
+    }
+  }
+  else { thmerror -a No nick to take. }
+}
+cf2 {
+  if (%joinretry. [ $+ [ $cid ] ]) {
+    if (!$timer(joinretry. $+ $cid)) {
+      thmecho -a Retrying to join $thmhl(%joinretry. [ $+ [ $cid ] ]) $+ ... press $thmhl(Control+F2) again to abort!
+      .timerjoinretry. $+ $cid 0 15 joinretry.do
+    }
+    else {
+      thmecho -a Stopped trying to join $thmhl(%joinretry. [ $+ [ $cid ] ]) $+ .
+      .timerjoinretry. $+ $cid off
+      unset %joinretry. $+ $cid
+    }
+  }
+  else { thmerror -a No channel to join. }
+}
+cf5 {
+  if (%pp.remignore) {
+    .ignore %pp.remignore
+    thmecho -a Removed $thmhl($gettok(%pp.remignore,-1,32)) from your ignore list.
+    unset %pp.remignore
+  }
+}
+rundcc {
+  if (%rcvd.files) {
+    var %x = $gettok(%rcvd.files,-1,124)
+    if ($isfile(%x)) { run %x }
+    else { errdialog the file $nopath(%x) is not in your download folder anymore! }
+  }
+  else { errdialog no files received. }
+}
+newget {
+  if ($gettok(%rcvd.files,-1,124) != $1-) {
+    if ($numtok(%rcvd.files,124) == 5) { set %rcvd.files $+($gettok(%rcvd.files,2-5,124),|,$1-) }
+    else { set %rcvd.files $instok(%rcvd.files,$1-,0,124) }
+  }
+}
+fclschk { if ($fopen($1)) { .fclose $1 } }
+lnet.serv { if ($regex(as,$1-,/^n\d+=(.+)SERVER:(.+)GROUP:.+/i)) { did -a settings 136 $+($regml(as,1) $nbr($gettok($regml(as,2),1,58)),$str( ,200),$regml(as,2)) } }
+fkey.ref {
+  did -hr settings 79
+  var %r,%i = 1,%s = F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 SF1 SF2 SF3 SF4 SF5 SF6 SF7 SF8 SF9 SF10 SF11 SF12 CF6 CF7 CF8 CF9 CF10 CF11 CF12 Nicklist Control+Nicklist Shift+Nicklist Channel Control+Channel Shift+Channel Query Control+Query Shift+Query Status Control+Status Shift+Status
+  while ($wd(%s,%i)) {
+    %r = $v1
+    if (%i < 32) { did -a settings 79 1 + 0 0 0 % [ $+ [ %r ] ] $+ 	0 0 0 $replace(%r,s,Shift+,c,Control+) }
+    else { did -a settings 79 1 + 0 0 0 %dbc. [ $+ [ $left($gettok(%r,-1,43),1) ] $+ ] . [ $+ [ $iif(control isin %r,ctrl,$iif(shift isin %r,shift,def))) ] ] $+ 	0 0 0 %r doubleclick }
+    inc %i
+  }
+  did -v settings 79
+}
+fshtml {
+  var %x
+  noop $regsub($fixticker($1-),/<[/a-z!][^>]*>/gi,,%x)
+  return %x
+}
+getip { sco getip myip.nnscript.com 80 }
+gtchnm {
+  var %x
+  if ($1 isincs $wd($chan($2).mode,1)) { %x = 1 }
+  return $iif(%x,-,+) $+ $1
+}
+hdd {
+  var %i = $disk(0),%s
+  while (%i) {
+    if ($disk(%i).type == fixed) { inc %s $disk(%i). [ $+ [ $$1 ] ] }
+    dec %i
+  }
+  return %s
+}
+getscon {
+  var %i = $scon(0)
+  while (%i) {
+    if ($scon(%i) == $cid) { return %i }
+    dec %i
+  }
+}
+htmlcd {
+  if ($regex(html,$1-,/(%[0-9a-fA-F]{2})/g)) {
+    var %x = $v1,%r = $1-,%d
+    while (%x) {
+      if (!$istok(%d,$regml(html,%x),32)) { %r = $replace(%r,$regml(html,%x),$chr($base($mid($regml(html,%x),2),16,10))) }
+      %d = %d $regml(html,%x)
+      dec %x
+    }
+    return %r
+  }
+  else { return $1- }
+}
+htmlfrm {
+  var %i = 1,%r
+  while (%i <= $len($1-)) {
+    if ($mid($1-,%i,1) isalnum) { %r = %r $+ $v1 }
+    else { %r = %r $+ % $+ $base($asc($mid($1-,%i,1)),10,16,2) }
+    inc %i
+  }
+  return %r
+}
+ident {
+  if ($address($me,5)) { return $remove($gettok($gettok($v1,2,33),1,64),~) }
+  elseif ($readini($mircini,ident,active)) {
+    if ($gettok($readini($mircini,options,n6),33,44)) { return $gettok($emailaddr,1,64) }
+    elseif ($readini($mircini,ident,userid)) { return $v1 }
+  }
+}
+initdccstats.timer {
+  .timerdccstats off
+  var %d = %curdcc.delay,%r
+  if (%d == 1) { .timerdccstats -mo 0 500 dccstats.ref }
+  else {
+    if (%d == 2) { %r = 1 }
+    elseif (%d == 3) { %r = 2 }
+    elseif (%d == 4) { %r = 5 }
+    elseif (%d == 5) { %r = 10 }
+    .timerdccstats -o 0 %r dccstats.ref
+  }
+}
+isachl { if ($highlight) && ($highlight($1-)) && ($1- !isnum) { return 1 } }
+chankey.prompt {
+  var %c = %chankey.prompt.chan
+  unset %chankey.prompt.chan
+  var %p = $$epdialog(The channel %c requires a key!Since you have not entered a key (or an incorrect one) $+ $chr(44) please specify it now!)
+  set $+(%,pass.chan.,$curconserv,.,%c) $encode(%p,m)
+  join %c %p
+}
+jnnch {
+  var %x = 0
+  if ($isid) {
+    scon -at1 if ($q.net) && ($me ison #nnscript) $chr(123) inc % $+ x $chr(125)
+    if (%x) { return 1 }
+  }
+  else {
+    var %i = $scon(0),%j = 0
+    while (%i) {
+      scid $scon(%i)
+      if ($q.net) {
+        if ($me ison #nnscript) {
+          window -a #nnscript
+          break
+        }
+        else { var %j = $scon(%i) }
+      }
+      dec %i
+    }
+    if (%j) { scid %j join #nnscript }
+    else { server -m irc.quakenet.org -j #nnscript }
+  }
+}
+join {
+  if (-*i* iswm $1) { join -i }
+  var %i = 1,%s,%z,%q = /,\s|\s,/g
+  noop $regsub($1-,%q,$chr(44),%z)
+  while (%i <= $numtok(%z,44)) {
+    var %c = $gettok(%z,%i,44),%h = $wd(%c,1)
+    if (%joinretry. [ $+ [ $cid ] ] == %h) {
+      unset %joinretry. $+ $cid
+      .timerjoinretry. $+ $cid off
+    }
+    if ($regex($1,^-[inx]$)) && (%i == 1) { %c = $wd(%c,2-) }
+    if (%c) {
+      var %u = $+($iif($left(%c,1) !isin $iif($chantypes,$v1,$chr(35)),$chr(35)),$remove($wd(%c,1),$chr(32))) $wd(%c,2-)
+      if ($me ison $wd(%u,1)) { if ($appactive) { window -a %u } }
+      elseif ($wd(%c,2-)) || ((%chanpasses.save) && (%pass.chan. [ $+ [ $curconserv ] $+ ] . [ $+ [ %u ] ])) { join $iif($regex($1,^-[inx]$),$1) %u $decode(%pass.chan. [ $+ [ $curconserv ] $+ ] . [ $+ [ %u ] ],m) }
+      else { %s = $addtok(%s,%u,44) }
+    }
+    inc %i
+  }
+  if (%s) { join $iif($regex($1,^-[inx]$),$1) %s }
+}
+kc { if (%kickcounter) { return $nbr($calc(%stat.kickcount +1)) } }
+kick.msg {
+  if ($read(scripts\txt\kickmsg.txt,n)) { return $v1 }
+  else { return Don't annoy me }
+}
+cbc { return $+($iif($cb(0),$v1,0),l/,$iif($cb(0).len,$v1,0),b) }
+mdx {
+  var %m = $dll(scripts\dlls\mdx.dll,$1,$2-)
+  if (ERROR * iswmcs %m) { thmerror -a MDX warning $nbr($wd(%m,3-)) }
+}
+mdxfile { return $+($scriptdir,dlls\,$1,.mdx) }
+mdxunsel {
+  var %w1 = $+(@mdxunsel.,$1,.,$2,.1),%w2 = $+(@mdxunsel.,$1,.,$2,.2),%z
+  window -h %w1
+  window -h %w2
+  filter -iwr 2- $+ $did($1,$2).lines $1 $2 %w1
+  var %i = 1,%t = $line(%w1,0)
+  while (%i <= %t) {
+    noop $regsub($wd($line(%w1,%i),3-),/	\+[fs]+ (\d+) (\d+) (\d+)/g,	+ \1 \2 \3,%z)
+    echo %w2 0 + %z
+    inc %i
+  }
+  if ($3 != /s) {
+    filter -cwo %w2 $1-2
+    close -@ %w2
+  }
+  close -@ %w1
+}
+mkregex {
+  if ($1 != $null) {
+    if ($prop == re) { return $replacex($mid($1,5,-5),\^,^,\.,.,\|,|,|,$chr(44),\$,$,\\,\,\?,?,\+,+,\[,[,\],],.*,*,.,?,\ $+ $chr(123),$chr(123),\ $+ $chr(125),$chr(125),\ $+ $chr(40),$chr(40),\ $+ $chr(41),$chr(41)) }
+    else { return /\b( $+ $replacex($1,\,\\,$,\$,^,\^,|,\|,$chr(44),|,+,\+,.,\.,[,\[,],\],*,.*,?,.,$chr(123),\ $+ $chr(123),$chr(125),\ $+ $chr(125),$chr(40),\ $+ $chr(40),$chr(41),\ $+ $chr(41)) $+ )\b/i }
+  }
+}
+ccontrol {
+  if ($me isop $1) || ($me ishop $1) || (o isincs $usermode) || ($pos($prefix,$left($nick($1,$me).pnick,1)) < $pos($prefix,@)) { return 1 }
+  return 0
+}
+mode {
+  if ($1 != $null) { set -u60 $+(%,modedsp.,$cid,.,$1) 1 }
+  !mode $1-
+}
+motd {
+  set %motd.manual. $+ $cid 1
+  .raw motd $1-
+}
+nndlg { dialog $iif($dialog($2),-v $$2-,$1-2 $$2-) }
+n.comp {
+  var %ul = $minirc.actchan
+  if ($2) { return $nick(%ul,$fline(%ul,$+(*,$1,*),$2,1)) }
+  else { return $fline(%ul,$+(*,$1,*),$2,1) }
+}
+longtime {
+  if ($1 isnum) { return $asctime($1,dddd $+ $chr(44) mmmm doo yyyy $+ $chr(44) HH:nn:ss) }
+  else { return $asctime(dddd $+ $chr(44) mmmm doo yyyy $+ $chr(44) HH:nn:ss) }
+}
+nbr { if ($1- != $null) { return ( $+ $1- $+ ) } }
+news { url -an http://www.nnscript.com/ }
+newserv {
+  if (!$istok(%serv.hist,$1-,124)) {
+    if ($numtok(%serv.hist,124) == 6) {
+      set %serv.hist $deltok(%serv.hist,1,124)
+      set %serv.hist $instok(%serv.hist,$1-,6,124)
+    }
+    else { set %serv.hist $instok(%serv.hist,$1-,6,124)
+    }
+  }
+}
+mircopt { .com.sendkeys % $+ O }
+chanfolder { .com.sendkeys % $+ J }
+chanlist { .com.sendkeys % $+ L }
+nndll { return $dll(scripts\dlls\nnscript.dll,$1,$2-) }
+notstatus {
+  if ($active == Status Window) {
+    thmerror -a You can't do this in $thmhl($active) $+ .
+    halt
+  }
+}
+sco {
+  sockclose $iif(-* iswm $1,$2,$1)
+  sockopen $1-
+}
+dopaste {
+  var %z = $rcb,%ul = $minirc.actchan,%u = $iif(%paste.stripcodes,$iif(!%paste.stripcodes.mode || $cchan(%ul),1))
+  if (%z == 1) && (%paste.singleeditbox) {
+    var %; = $cb(0)
+    while (%;) {
+      if ($cb(%;) != $null) {
+        editbox -a $v1
+        break
+      }
+      dec %;
+    }
+  }
+  elseif (!%paste.nodelay) {
+    if (!%nopaste) {
+      if (!%paste.skip) && (((%pastedelay) && (!%pasteminlinedelay)) || ((%pasteminlinedelay) && (%z > %pasteminlinedelay.num) || ($cb(0).len > %pasteminlinedelay.bytes))) {
+        var %i = 1,%n = 1,%d = 0,%t = $trnum,%h = 1,%y,%m,%j = 1,%r
+        if (%z == 1) {
+          if (%paste.singleeditbox) {
+            while (!$vcb($cb(%n))) { inc %n }
+            editbox -a $iif(%u,$strip($cb(%n)),$cb(%n))
+          }
+          else { pastecb %u }
+        }
+        else {
+          if (%pastenotify) { thmecho %ul Delaying paste of $thmhl(%z) lines/ $+ $thmhl($cb(0).len) bytes for $thmhl($calc(%pastedelay.ms /1000)) second(s) per line! Type /sp to stop! }
+          while (%i <= $cb(0)) {
+            if ($vcb($cb(%i))) {
+              var %rg = $iif($len($cb(%i)) > 3000,$left($cb(%i),3000) $+ ...,$cb(%i)),%y = $iif(%u,$strip(%rg),%rg),%m = %y
+              :split
+              if (%paste.breaklines) { %y = $left(%m,%paste.breaklines.bytes) }
+              set $+(%,tmppaste.,%t,.,%d) $iif(%u,$strip(%y),%y)
+              $+(.timerpastedel.,%t,.,%d) -m 1 %d pastetmp %ul %t %d $iif(%z == %h && (!%paste.breaklines || %paste.breaklines.bytes > $len(%m)),$chr(124) thmecho %ul Pasting finished after $thmhl($round($calc(%d /1000),1)) seconds)
+              inc %d %pastedelay.ms
+              if (%paste.breaklines) && ($len(%m) >= %paste.breaklines.bytes) {
+                %m = $mid(%m,$calc(%paste.breaklines.bytes +1))
+                goto split
+              }
+              inc %h
+            }
+            inc %i
+          }
+        }
+        set %paste.skip 1
+        .timerpskip -io 1 0 unset % $+ paste.skip
+        haltdef
+      }
+      elseif (%pasteminlinedelay) && (%z <= %pasteminlinedelay.num) && ($cb(0).len <= %pasteminlinedelay.bytes) { pastecb %u }
+    }
+  }
+  else { pastecb }
+}
+pastetmp {
+  if (%tmppaste. [ $+ [ $2 ] $+ ] . [ $+ [ $3 ] ] != $null) { msg $1 $v1 }
+  unset $+(%,tmppaste.,$2,.,$3)
+}
+pastecb {
+  var %i = 1,%t,%y,%ul = $minirc.actchan
+  while (%i <= $cb(0)) {
+    if ($vcb($cb(%i))) {
+      var %t = $iif(%paste.stripcodes,$iif(!%paste.stripcodes.mode || $cchan(%ul),1)),%m = $iif(%t,$strip($cb(%i)),$cb(%i))
+      :split
+      if (%paste.breaklines) { %y = $left(%m,%paste.breaklines.bytes) }
+      else { %y = %m }
+      msg %ul %y
+      if (%paste.breaklines) && ($len(%m) >= %paste.breaklines.bytes) {
+        %m = $mid(%m,$calc(%paste.breaklines.bytes +1))
+        goto split
+      }
+    }
+    inc %i
+  }
+}
+putqt { return $qt($remove($1-,")) }
+strq { if ($1 != $null) { return $putqt($1-) } }
+cmdexe { return $qt($iif($nndll(GetEV,ComSpec),$v1,command)) }
+power {
+  var %tc = 0,%tu = 0,%oc = 0,%po = 0,%i = $scid(0)
+  while (%i) {
+    scid $scon(%i)
+    if ($status == connected) {
+      var %c = $chan(0)
+      while (%c) {
+        inc %tc
+        inc %tu $calc($nick($chan(%c),0) -1)
+        if ($ccontrol($chan(%c))) {
+          inc %oc
+          inc %po $calc($nick($chan(%c),0) -1)
+        }
+        dec %c
+      }
+    }
+    dec %i
+  }
+  scid -r
+  if (!$isid) {
+    if ($1 == -e) { thmecho -a Stats: you're opped in $thmhl($+(%oc,/,%tc)) channels on $thmhl($scid(0)) $iif($scid(0) == 1,network.,networks.) You have the power over $thmhl($+(%po,/,%tu)) users. }
+    else { say I'm opped in $sbr($+(%oc,/,%tc)) channels on $sbr($scid(0)) $iif($scid(0) == 1,network.,networks.) I have the power over $sbr($+(%po,/,%tu)) users. }
+  }
+  else { return %po }
+}
+prevbmp {
+  if ($dialog($1)) {
+    var %w = $+(@sprev.,$1,.,$2)
+    if (!$window(%w)) { ppwin $1- }
+    drawrect -nf %w $color(back) 1 0 0 $window(%w).w $window(%w).h
+    if ($6- != $null) { drawtext -npb %w $color($4) $color(back) $qt($window(Status Window).font) $window(Status Window).fontsize $5 1 $6- }
+    drawdot %w
+  }
+}
+ppwin {
+  mdx SetControlMDX $1-2 Window > $mdxfile(dialog)
+  var %w = $+(@sprev.,$1,.,$2)
+  window -phf %w -1 -1 $window(-1).w $window(-1).h
+  did -a $1-2 grab $window(%w).hwnd %w
+}
+x.doauth {
+  if ($u.net) {
+    if (%x.auth.nick) && (%pass.x) { !.msg x@channels.undernet.org login %x.auth.nick $decode(%pass.x,m) }
+    else {
+      var %n = $$eddialog(Please enter your X login name.),%p = $$epdialog(Please enter your X login password.)
+      set %x.auth.nick %n
+      set %pass.x $encode(%p,m)
+      if ($dialog(settings)) {
+        did -ra settings 1317 %n
+        did -ra settings 1318 %p
+      }
+      !.msg x@channels.undernet.org login %n %p
+    }
+    if (%x.hosthide) && (x !isincs $usermode) && ((!%x.hosthide.nbnc) || (!%psybnc.info. [ $+ [ $cid ] ])) { mode $me +x }
+  }
+}
+gs.doauth {
+  if ($gsurge) {
+    if (%gs.auth.nick) && (%pass.gs) { !.msg authserv@services.gamesurge.net auth %gs.auth.nick $decode(%pass.gs,m) }
+    else {
+      var %n = $$eddialog(Please enter your GameSurge login name.),%p = $$epdialog(Please enter your GameSurge login password.)
+      set %gs.auth.nick %n
+      set %pass.gs $encode(%p,m)
+      if ($dialog(settings)) {
+        did -ra settings 96 %n
+        did -ra settings 97 %p
+      }
+      !.msg authserv@services.gamesurge.net auth %n %p
+    }
+    if (%gs.hosthide) && (x !isincs $usermode) && ((!%gs.hosthide.nbnc) || (!%psybnc.info. [ $+ [ $cid ] ])) { mode $me +x }
+  }
+}
+ns.doauth {
+  tokenize 32 %nsset. [ $+ [ $network ] ]
+  if ($4) && ($5 == $me) { $iif($1,!.nickserv,!.msg nickserv) identify $decode($4,m) }
+  else { !.nickserv identify $$eddialog(Please enter your registered nickname.) $$epdialog(Please enter your registered password.) }
+}
+percent {
+  var %z = $calc($1 / $2 *100)
+  if ($3 != $null) { %z = $round(%z,$3) }
+  if (%z) { return %z $+ % }
+  else { return 0% }
+}
+quit.msg { return $read(scripts\txt\quitmsg.txt,n) }
+randfilter { return $calc($r(0,2) -1) }
+reconnect {
+  if ($status == connected) { quit Reconnecting... }
+  server
+}
+sayget {
+  var %x
+  :re
+  if ($get($1)) && ($1) { %x = $1 }
+  elseif ($1 == -a) && ($get(0)) {
+    if (!%x) { %x = 1 }
+    elseif ($get($calc(%x +1))) { inc %x }
+    else { return }
+  }
+  elseif ($get(1)) { %x = 1 }
+  else {
+    thmerror -a No such get.
+    return
+  }
+  say $sbr(Receiving) $get(%x).file $nbr($bytes($get(%x).size,3).suf) from $get(%x) at $bytes($get(%x).cps,3).suf $+ /s, $get(%x).pc $+ % $nbr($bytes($get(%x).rcvd,3).suf) done, $duration($calc(($get(%x).size - $get(%x).rcvd)/ $get(%x).cps)) remaining
+  if ($1 == -a) { goto re }
+}
+saysend {
+  var %x
+  :re
+  if ($send($1)) && ($1) { %x = $1 }
+  elseif ($1 == -a) && ($send(0)) {
+    if (!%x) { %x = 1 }
+    elseif ($send($calc(%x +1))) { inc %x }
+    else { return }
+  }
+  elseif ($send(1)) { %x = 1 }
+  else {
+    thmerror -a No such send.
+    return
+  }
+  say $sbr(Sending) $send(%x).file $nbr($bytes($send(%x).size,3).suf) to $send(%x) at $bytes($send(%x).cps,3).suf $+ /s, $send(%x).pc $+ % $nbr($bytes($send(%x).sent,3).suf) done, $duration($calc(($send(%x).size - $send(%x).sent)/ $send(%x).cps)) remaining
+  if ($1 == -a) { goto re }
+}
+sbr {
+  var %s = $replace(%sbr.format,<text>, $+ $1-)
+  if ($cchan($active)) { return $strip(%s) }
+  else { return %s }
+}
+sdt {
+  if ($did($did).state) { set % $+ $1 1 }
+  else { unset % $+ $1 }
+}
+sdur {
+  if ($1 >= 3600) { return $duration($1-,3) }
+  else { return $mid($duration($1-,3),4-) }
+}
+serversini {
+  if ($readini($mircini,files,servers)) { return $qt($v1) }
+  else { return servers.ini }
+}
+saveslaps {
+  var %i = 1,%s,%z
+  .fopen -o slaps scripts\txt\slaps.txt
+  while (%i <= $did(settings,653).lines) {
+    noop $regsub($did(settings,653,%i),/([^ ])(<nick>)([^ ])/g,\1 \$+ \2 \$+ \3,%s) $regsub(%s,/([^ ])(<nick>)/g,\1 \$+ \2,%s) $regsub(%s,/(<nick>)([^ ])/g,\1 \$+ \2,%s)
+    tokenize 58 $replace(%s,<nick>,$!iif($$1 == $!me,himself,$1))
+    .fwrite -n slaps $1 $+ :me $2-
+    inc %i
+  }
+  .fclose slaps
+}
+loadslaps {
+  if ($isfile(scripts\txt\slaps.txt)) {
+    var %s,%r = $!iif($$1 == $!me,himself,$1)
+    .fopen slaps scripts\txt\slaps.txt
+    while (!$feof) {
+      noop $regsub($replace($fread(slaps),$chr(32) $+ $!+ %r,<nick>,%r $!+ $+ $chr(32),<nick>,$chr(32) $+ $!+ %r $!+ $+ $chr(32),<nick>,%r,<nick>),/([^ ])(<nick>)([^ ])/g,\1 \$+ <nick> \$+ \3,%s)
+      if (?*:me ?* iswm %s) {
+        tokenize 58 %s
+        did -a settings 653 $1 $+ : $wd($2-,2-)
+      }
+    }
+    .fclose slaps
+  }
+}
+sduration {
+  var %y = $int($calc($1 /31557600)),%r = $calc($1 % 31557600),%x
+  noop $regsub($duration(%r,$iif($prop == nosec,2,1)),/(\d+)(.)[^ ]+/g,\1\2,%x)
+  return $iif(%y,%y $+ y) %x
+}
+shorten {
+  if ($len($2-) > $1) { return $left($2-,$calc($1 -3)) $+ ... }
+  else { return $2- }
+}
+sinfo {
+  if ($server) {
+    var %info = $sbr(Network) $iif($network,$v1,unknown) $sbr(Lag) $iif($status == connected && $curlag isnum,$calc($v1 /1000) $+ s,n/a)
+    if (%psybnc.info. [ $+ [ $cid ] ]) {
+      tokenize 32 %psybnc.info. [ $+ [ $cid ] ]
+      say $sbr(Server info) psyBNC $2 connected to $server %info
+    }
+    elseif (%sbnc.info. [ $+ [ $cid ] ]) {
+      tokenize 32 %sbnc.info. [ $+ [ $cid ] ]
+      say $sbr(Server info) sBNC $2 connected to $server %info
+    }
+    else { say $sbr(Server info) $+($server,:,$port) $nbr($serverip) %info }
+  }
+  else { thmerror -a You're not connected... }
+}
+slnc {
+  if (%silencenum. [ $+ [ $cid ] ]) { nndlg -m silence }
+  else { thmerror -a The /silence command doesn't seem to be supported on this server! }
+}
+sns.save { set %nsset. $+ $did(settings,54).seltext $did(settings,55).state $did(settings,69).state $did(settings,535).state $iif($did(settings,518),$encode($v1,m),0) $iif($did(settings,517),$remove($v1,$chr(32)),0) }
+sns.load {
+  did -r settings 517,518,211
+  if ($did(settings,54).lines) {
+    did -e settings 523,524,55,56,69,529,535,517,518
+    did -b settings 212,534
+    if (%nsset. [ $+ [ $did(settings,54).seltext ] ]) {
+      tokenize 32 $v1
+      did -c settings $iif($1,55,56)
+      did -u settings $iif($1,56,55)
+      did $iif($2,-c,-u) settings 69
+      did $iif($3,-c,-u) settings 535
+      var %i = $var(%pass.cs. [ $+ [ $did(settings,54).seltext ] $+ ] .*,0)
+      if (%i) { did -e settings 166 }
+      while (%i) {
+        did -a settings 211 $gettok($var(%pass.cs. [ $+ [ $did(settings,54).seltext ] $+ ] .*,%i),4-,46)
+        dec %i
+      }
+      if ($3) { did -e settings 593,211 }
+      else { did -b settings 593,211,212,534,166 }
+      if ($5) { did -a settings 517 $5 }
+      if ($4) { did -a settings 518 $decode($4,m) }
+    }
+    else {
+      did -c settings 55
+      did -u settings 56,69,535
+    }
+  }
+  else { did -b $dname 523,524,55,56,69,529,535,517,518,593,166,212,534 }
+}
+sortmdx {
+  if (headerclick headerEvent ?* iswm $did($did,1)) {
+    var %z,%x = $wd($did($did,1),3),%w = $+(@mdxunsel.,$dname,.,$did,.2),%r
+    mdxunsel $dname $did /s
+    filter $iif(%sortheader. [ $+ [ $dname ] $+ ] . [ $+ [ $did ] ] == %x,-cwoet,-cwot) %x 9 %w $dname $did *
+    close -@ %w
+    did -i $dname $did 1 page headertext
+    noop $regsub($puttok($remove($wd($did($did,1),2-),(asc.),(desc.)),$remove($iif(%x == 1,$wd($gettok($did($did,1),%x,9),2-),$gettok($did($did,1),%x,9)),(asc.),(desc.)) $nbr($iif(%sortheader. [ $+ [ $dname ] $+ ] . [ $+ [ $did ] ] == %x,desc.,asc.)),%x,9),/(\+[clr]) 1/g,\1 0,%r)
+    did -i $dname $did 1 %r
+    if (%sortheader. [ $+ [ $dname ] $+ ] . [ $+ [ $did ] ] != %x) { set $+(%,sortheader.,$dname,.,$did) %x }
+    else { unset $+(%,sortheader.,$dname,.,$did) }
+  }
+}
+sound {
+  notstatus
+  var %x = $sound($gettok($1-,-1,46)) $+ $$1-
+  if ($isfile(%x)) { .splay %x }
+  elseif ($isfile($1-)) { .splay $1- }
+  else { thmerror -a Warning: the file $thmhl($1-) does not exist! }
+  ctcp $active sound $1-
+}
+sub.dcchistory {
+  if ($1 isnum 1-5) {
+    var %r = $gettok(%rcvd.files,$1,124)
+    return $+([&,$replace($chr($calc($1 +90)),[,5,\,4,],3,^,2,_,1),]) $shorten(30,$nopath(%r))) $iif($1 == $numtok(%rcvd.files,124),	F3) $+ :open %r
+  }
+}
+sub.dcchsend {
+  if ($1 isnum 1-5) {
+    var %r = $gettok(%rcvd.files,$1,124)
+    return $iif(%r,$+([&,$replace($chr($calc($1 +90)),[,5,\,4,],3,^,2,_,1),]) $shorten(30,$nopath(%r))) $+ :chkdccs $2 %r
+  }
+}
+tchans {
+  var %i = 0
+  scon -at1 inc % $+ i $!chan(0)
+  return %i
+}
+tlt {
+  url -an $+(http://online.babylon.com/combo/index.html?word=,$2-,&lang=,$1,&type=hp)
+  set %lasttrans $1
+}
+toggle {
+  if (!% [ $+ [ $1 ] ]) { set % $+ $1 1 }
+  else { unset % $+ $1 }
+}
+rpfrm.filter {
+  [ [ $gettok($1-,2-,44) ] ]
+  set %rpfrm.done 1
+}
+tracert {
+  if (. isin $1) { run $cmdexe /K tracert $gettok($1,1,58) }
+  else { thmerror -a Invalid address. }
+}
+netstat { run $cmdexe /K netstat }
+cping {
+  if (. isin $1) { run $cmdexe /K ping $gettok($1,1,58) }
+  else { thmerror -a Invalid address. }
+}
+u.net { if ($status == connected) && (undernet isin $server) || ($network === UnderNet) { return 1 } }
+q.net { if ($status == connected) && (*.quakenet.org iswm $server) && ($network === QuakeNet) { return 1 } }
+gsurge { if ($status == connected) && (*.gamesurge.net iswm $server) && ($network === GameSurge) { return 1 } }
+ucase {
+  var %i = $numtok($1-,32),%r
+  while (%i) {
+    %r = $upper($left($wd($1-,%i),1)) $+ $lower($right($wd($1-,%i),-1)) %r
+    dec %i
+  }
+  return %r
+}
+umoded { nndlg -m umoded }
+unsetvars {
+  unset %checkmail.sinfo %mail.notified %tb.laghover %appactive %rconnected.* %ghosttry.* %psybnc.info.* $&
+    %aw.remindflood %aw.reminded.* %modedsp.*.* %tmppaste.*.* %sortheader.*.* %dccfin.sd %nsplit.dly %thmed.prvschm %thmedprev.last $&
+    %qcls.ls.*.* %topiclen.* %q.authed.* %dialog.border %lview.curlog %lview.curdir %maxbans.* %whois.* %whowas.* %psybnc.modehide.* $&
+    %ip2nick.prog %joinretry.* %nickretry.* %tb.lagchk.wait
+  unset %motd.manual.* %who.show.* %away.curpage %chancentral.chan %chancentral.cid %thm.skipprev $&
+    %silencenum.* %lactive %laghistory.* %sysinfo.curpage %pingticks.*.* %usermodes.* %away.seen.*.* %contentfilter.edit $&
+    %cs.edit %cs.pass %cs.chan %getcountry %q.newauthck.* %rss.error %rss.tag %rss.link %rss.title %rss.desc %rss.first %rss.found %hotlink.cip $&
+    %contentfilter.edit %games.favaddedit %ialupdate.* %ctcp.emfp.* %psybnc.cid %minirc %sysinfo.gather.* %names.show.* %joinprog.*.* %topicset.*.*
+  unset %psybnc.messages.* %sbnc.messages.* %sbar.oldct.* %xpopup.tmpcmd.* %pprot.blockallqueries %q.welcomeedit.* %getupdate.*
+}
+titlebar.ref {
+  if ($titlebar != [ [ %titlebar ] ]) { titlebar $v2 }
+  return
+  :error
+  titlebar [error in formatting string: $error $+ ]]
+  reseterror
+}
+titlebar.ctmr {
+  if (%titlebar.cref) {
+    .timertitlebar -io 0 %titlebar.cint titlebar.ref
+    .timertitlebar -e
+  }
+  else {
+    .timertitlebar off
+    titlebar.ref
+  }
+}
+vclip {
+  if ($cb(0)) {
+    var %i = 1
+    thmecho -a Clipboard content:
+    while (%i <= $cb(0)) {
+      if ($len($cb(%i)) > 3000) { echo -a $left($cb(%i),3000) $+ ... }
+      else { echo -a $iif($cb(%i) != $null,$v1,) }
+      inc %i
+    }
+    thmecho -a End of clipboard content.
+  }
+  else { thmerror -a Clipboard empty or not viewable. }
+}
+emule {
+  if (!%emuledir) || ($1 == -r) { set %emuledir $$sdir(C:\,Please choose your eMule directory) }
+  var %o = %emuledir $+ onlinesig.dat,%p = %emuledir $+ config\preferences.ini,%s = %emuledir $+ config\statistics.ini
+  if ($isfile(%o)) && ($isfile(%p)) && ($isfile(%s)) { say $sbr(eMule $readini(%p,eMule,AppVersion) stats) $iif($gettok($read(%o,1),1,124),Connected to $gettok($read(%o,1),2,124) $nbr($+($gettok($read(%o,1),3,124),:,$gettok($read(%o,1),4,124))) $+ : $gettok($read(%o,2),1,124) $+ KB/s down $+ $chr(44) $gettok($read(%o,2),2,124) $+ KB/s up $nbr($gettok($read(%o,2),3,124) users in queue),Not connected) $+ , $findfile($readini(%p,eMule,TempDir),*.part,0,0) files in queue $nbr($bytes($readini(%s,Statistics,TotalDownloadedBytes)).suf total down $+ $chr(44) $bytes($readini(%s,Statistics,TotalUploadedBytes)).suf total up) }
+  else { errdialog invalid eMule directory (onlinesig.dat, statistics.ini or preferences.ini not found). Type /emule -r to choose a new directory }
+}
+ffxp {
+  if ($1 == -r) { unset %fxpdir }
+  while (!$isfile(%fxpdir $+ stats.dat)) { set %fxpdir $$sdir(C:\,Choose your FlashFXP 2.* directory!) }
+  var %f = $iif($readini(%fxpdir $+ stats.dat,#total#,x),$v1,0),%d = $iif($readini(%fxpdir $+ stats.dat,#total#,fd),$v1,0),%u = $iif($readini(%fxpdir $+ stats.dat,#total#,fu),$v1,0),%t = $file(%fxpdir $+ stats.dat).ctime
+  say $sbr(FlashFXP stats) $sbr(Total) $bytes(%f,3).suf FXP'ed, $bytes(%d,3).suf down, $bytes(%u,3).suf up since $asctime(%t,dddd $+ $chr(44) dd.mm.yyyy) $sbr(Average) $bytes($calc(%f /($ctime - %t))).suf $+ /s $nbr($bytes($calc(%f /(($ctime - %t)/86400)),3).suf $+ /day) FXP, $bytes($calc(%d /($ctime - %t)),3).suf $+ /s $nbr($bytes($calc(%d /(($ctime - %t)/86400)),3).suf $+ /day) down, $bytes($calc(%u /($ctime - %t)),3).suf $+ /s $nbr($bytes($calc(%u /(($ctime - %t)/86400)),3).suf $+ /day) up
+}
+no1 { return $remove($1-,) }
+vwin { if ($regex($1-,/@(?:loading|EchoBench|The dopefish lives!|addfavservsel|popup\.\d+|lagbar(?:\.\d+)?|startuplogo|startupinfo|startupesnation|tb.lagbar|tb.infobox|colorpicker|about|habout|cprot\.setload|loadnets|reflist|winpic|events|sprev\..+\.\d+)/i)) { return 1 } }
+cell {
+  if ($dialog($1)) && ($1 !isnum) {
+    if ($4) { var %t = $did($1,$2,$3),%c = $4 }
+    else { var %t = $did($1,$2).seltext,%c = $3 }
+  }
+  else {
+    if ($3) { var %t = $did($1,$2),%c = $3 }
+    else { var %t = $did($1).seltext,%c = $2 }
+  }
+  return $wd($gettok($gettok(%t,1,4),%c,9),$iif(%c == 1,6-,5-))
+}
+remc { if (($1 == who) && ((%who.show. [ $+ [ $cid ] ]) || (%ialupdate. [ $+ [ $cid ] ]) || (%ip2nick.prog))) || (($1 == q) && ((%q.not.hide. [ $+ [ $cid ] ]) || (%q.not.mode. [ $+ [ $cid ] ]))) { return 1 } }
+who {
+  if ($show) { set -u60 $+(%,who.show.,$cid) 1 }
+  !.raw who $1-
+}
+names {
+  if ($show) { set -u60 $+(%,names.show.,$cid) 1 }
+  !.raw names $1-
+}
+ialupdate {
+  .ial on
+  if ($1 ischan) {
+    if ($ialchan(*,$1,0) != $nick($1,0)) {
+      if (%showialupd) { thmecho -a Updating IAL for $thmhl($1) $+ , please wait... }
+      .who $1
+    }
+    else { thmecho -a The IAL for $thmhl($1) is already filled! }
+  }
+  else { thmerror -a Invalid or no channel specified. }
+}
+ialq.start {
+  set -u600 %ialupdate. $+ $cid $remtok(%ialupdate. [ $+ [ $cid ] ],$1,32)
+  .who $1
+}
+ialq.update {
+  if ($1 == add) {
+    set -u600 %ialupdate. $+ $cid $addtok(%ialupdate. [ $+ [ $cid ] ],$2,32)
+  }
+  elseif ($1 == remove) {
+    set -u600 %ialupdate. $+ $cid $remtok(%ialupdate. [ $+ [ $cid ] ],$2,32)
+    if (!$numtok(%ialupdate. [ $+ [ $cid ] ],32)) { unset %ialupdate. $+ $cid }
+  }
+}
+chgedcol {
+  mdx SetColor $1-2 background $3
+  mdx SetColor $1-2 textbg $3
+}
+qnetchkwlc { if (($1 == Q!TheQBot@CServe.quakenet.org) || ($1 == L!TheLBot@lightweight.quakenet.org)) && ($regex(qnetchkwlc,$2,^\[#([^\] ]+)\])) { return $chr(35) $+ $regml(qnetchkwlc,1) } }
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

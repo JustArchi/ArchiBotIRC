@@ -1,0 +1,146 @@
+Name Run
+Version 1.00
+NNTVersion 1.03
+Author sPecter
+Email sPecter@nefkom.net
+Homepage None.
+Description My first theme for NN-Script. This is for all users who like clean themes with nice colors. Feel free to send me an e-mail if you got another scheme! Bugs can also be reported via e-mail. Last but not least, have fun using my theme. DO NOT RIP ;)
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 01,03 ddd 7,7 01,02 HH:nn:ss 
+
+NickColSelf 7
+NickColOp 3
+NickColVoice 2
+NickColRegular 1
+NickColProtect 15
+NickColIgnore 5
+
+Brackets 07(01<text>07)
+LineSep 
+Prefix      
+
+GenEcho <pre> 03info14: <text brackets="1">
+GenError <pre> 03error14: <text brackets="1">
+GenHighlight <text brackets="1">
+
+ChanText <pre> 07(03<cmode><nick>07)03 says14: <text>
+ChanTextOwn <pre> 07(03<cmode><me>07)03 says14: <text>
+ChanAction <pre><pre> 03x   03<cmode>01<nick> 07)) <text>
+ChanActionOwn <pre><pre>03x   03<cmode>01<me> 07)) <text>
+
+QueryText <pre> <nick brackets="1">03 says14: <text>
+QueryTextOwn <pre> <me brackets="1"> 03says14:00 <text>
+QueryAction <pre><pre>03x   01<nick> 07)) <text>
+QueryActionOwn <pre><pre>03x   01<me> 07)) <text>
+
+Msg <pre> 03message from14: <nick brackets="1"> <text>
+MsgOwn <pre> 03message to14: <target brackets="1"> <text>
+Action <pre> 03action from14: <nick brackets="1"> <text>
+ActionOwn <pre> 03action to14: <target brackets="1"> <text>
+
+ChanNotice <pre> 03channel notice14:01 <nick> <address brackets="1">02 <text>
+Notice <pre> 03notice from14: <nick brackets="1"> <text>
+NoticeOwn <pre> 03notice to14: <target brackets="1"> <text>
+ServerNotice <pre> 03server notice14: <server brackets="1">02 <text>
+
+CTCP <pre> 03ctcp from14:01 <nick> <address brackets="1"> <ctcp> <text>
+CTCPOwn <pre> 03ctcp to14:00 <target brackets="1"> <ctcp> <text>
+ChanCTCP <pre> 03channel ctcp14:01 <nick> <address brackets="1"> <ctcp> <text>
+CTCPReply <pre> 03ctcp reply from14:01 <nick> <address brackets="1"> <ctcp> <text>
+CTCPReplyOwn <pre> 03ctcp reply to14: <target brackets="1"> <ctcp> <text>
+
+Join <pre> 03join14:01 <nick> <address brackets="1">03 clones <clonenum brackets="1">03 has joined 01<chan>
+JoinOwn <linesep><pre> 03joined the channel14: <chan brackets="1"><pre> 03––09––03–––––––––––––––––––––––––––––––––––––––––––09––03––!if <topic> <pre> 03topic14:01 <topic>!if <topic> <pre> 03set by14:01 <topicnick>!if <topic> <pre> 03set on14:01 <topicdate> 07(03<topicdateago>07)<pre> 03users14: <users brackets="1">03 total<pre> 03––09––03–––––––––––––––––––––––––––––––––––––––––––09––03––<linesep>
+Part <pre> 03part14:01 <nick> <address brackets="1">03 has left 01<chan>
+Quit <pre> 03quit14:01 <nick> <address brackets="1">03 has left IRC
+Nick <pre> 03nick14: <nick brackets="1">03 is now known as <newnick brackets="1">
+NickOwn <pre> 03nick14: <newnick brackets="1">03 is now your new nickname
+Mode <pre> 03mode14: <nick brackets="1">03 sets mode14: <mode>
+UserMode <pre> 03usermode14: <me brackets="1">03 sets mode14: <mode>
+Kick <pre> 03kick14: <kickednick brackets="1">03 was kicked out of01 <chan> 03by <nick brackets="1"> <message>
+KickOwn <pre> 03kick14: <me brackets="1">03 was kicked out of01 <chan> 03by <nick brackets="1"> <message>
+WallOp <pre><pre> <nick brackets="1">03 wallops14: <text>
+
+DNS <pre> 03dns14:02 resolving <address brackets="1">
+DNSError <pre> 03dns14: 02unable to resolve <address brackets="1">
+DNSResolve <pre> 03dns14: 02resolved <address brackets="1">02 to <raddress brackets="1">
+
+Notify <pre> 03notify14: <nick brackets="1">03 is now online07!
+UnNotify <pre> 03unotify14: <nick brackets="1">03 is now offline07!
+
+LUsers1 <linesep><pre> 03stats14: <myserver brackets="1">03 ::09::03::<pre> 03––09––03–––––––––––––––––––––––––––––––––––––––––––09––03––<pre> 03users14: <users brackets="1"><pre> 03invisible14: <invisible brackets="1"><pre> 03servers14: <servers brackets="1">
+LUsers2 <pre> 03operators14: <operators brackets="1">
+LUsers3 <pre> 03unknown14: <connections brackets="1">
+LUsers4 <pre> 03channels14: <channels brackets="1">
+LUsers5 <pre> 03clients14: <clients brackets="1"><pre> 03servers14: <servers brackets="1"><pre> 03––09––03–––––––––––––––––––––––––––––––––––––––––––09––03––<linesep>
+
+Welcome1 <pre> 03welcome 09to 03the 09internet 03relay 09network07!<pre> 03You're using sPecters' Theme, 09have fun07!
+Welcome2 <pre> 03your host is14: <host brackets="1">03 server version14: <version brackets="1">
+Welcome3 <pre> 03this server was created14: <created brackets="1">
+Welcome4 <pre> 03running version14: <version brackets="1">03 on <server brackets="1"><pre> 03usermodes14: <usermodes brackets="1"><pre> 03channelmodes14: <chanmodes brackets="1">
+SupportedInfo <pre> 03protocols supported14: <protocols brackets="1">
+
+ChannelModes <pre> 03channel modes for14: <chan brackets="1">02 <modes>
+ChannelCreation <pre> 03channel created14: <chan brackets="1"> 03on <created brackets="1"> 03this was <createdago brackets="1"> 03ago
+Bans <pre> 03ban14:03 channel <chan brackets="1">03 banmask <ban brackets="1">03 set by <nick brackets="1">03 on <banned brackets="1">
+BansEnd <pre> 03banlist end for channel14: <chan brackets="1">
+UnableToSend <pre> 03unable to message send message to14: <chan brackets="1">
+NotOpped <pre> 03you're not channel operator in14: <chan brackets="1">
+HiddenHost <pre> 03hidden host14: <host brackets="1">02 is now your hidden host
+RegisterFirst <pre> 03register 09first07!
+
+WhoisStart <linesep><pre><pre><pre>03whois14: <nick brackets="1">03 ::09::03::<pre><pre><pre>03––09––03–––––––––––––––––––––––––––––––––––––––––––09––03––
+WhoisAddress <pre><pre><pre>03name14: <name brackets="1"> 03address14: <address brackets="1">
+WhoisChans !if <opchans> <pre><pre><pre>02opped14: <opchans brackets="1">!if <hopchans> <pre><pre><pre>02helpopped14: <opchans brackets="1">!if <vchans> <pre><pre><pre>02voiced14: <vchans brackets="1">!if <regchans> <pre><pre><pre>02regular14: <regchans brackets="1">
+WhoisServer <pre><pre><pre>03server14: <server brackets="1"> 02<info>
+WhoisStatus !if <status> <pre><pre><pre>03userstatus14: <status brackets="1">
+WhoisAway !if <reason> <pre><pre><pre>03user is away14: <reason brackets="1">
+WhoisAuth !if <auth> <pre><pre><pre>03user is authed as14: <auth brackets="1">
+WhoisRealIP !if <ip> <pre><pre><pre>03address14: <address brackets="1">03 ip14: <ip brackets="1">
+WhoisIdle <pre><pre><pre>03idle14: <idle brackets="1"><pre><pre><pre>03signed on14: <signontime brackets="1">03 this is14: <signonago brackets="1">03 ago
+WhoisEnd <pre><pre><pre>03––09––03–––––––––––––––––––––––––––––––––––––––––––09––03––<pre><pre><pre>03whois end14: <nick brackets="1">03 ::09::03::<linesep>
+
+WhowasStart <linesep><pre><pre><pre>03whowas14: <nick brackets="1">03 ::09::03::<pre><pre><pre>03––09––03–––––––––––––––––––––––––––––––––––––––––––09––03––
+WhowasAddress <pre><pre><pre>03address14: <address brackets="1"><pre><pre><pre>03name14: <name brackets="1">
+WhowasServer <pre><pre><pre>03server14: <server brackets="1">02 <info>
+WhowasAway !if <reason> <pre><pre><pre>03user was away14: <reason brackets="1">
+WhowasEnd <pre><pre><pre>03––09––03–––––––––––––––––––––––––––––––––––––––––––09––03––<pre><pre><pre>03whowas end14: <nick brackets="1">03 ::09::03::<linesep>
+
+Who <pre> 03who channel14: <chan brackets="1">03 nickname14: <nick brackets="1">03 status14: <status brackets="1">03 address14: <address brackets="1">03 name14: <name brackets="1">
+WhoEnd <pre> 03who end for channel14: <target brackets="1">
+
+Invite <pre> <nick brackets="1">03 invites you to join14:02 <chan>
+InviteOwn <pre> <nick brackets="1">03 has been invited to14:02 <chan>
+InviteAlreadyOnChan <pre> <nick brackets="1">03 is already on14: 02<chan>
+
+NoTopic <pre> 03no topic set14: <chan brackets="1">
+Topic <linesep><pre> 03––09––03–––––––––––––––––––––––––––––––––––––––––––09––03––<pre> 03channel14: <chan brackets="1"><pre> 03topic14: <topic>
+TopicBy <pre> 03set by14: <nick><pre> 03set on14: <date> 07(03<dateago>07)<pre> 03––09––03–––––––––––––––––––––––––––––––––––––––––––09––03––<linesep>
+TopicChange <pre> 03topic14: <nick brackets="1">03 changed topic to14: <topic>
+
+Names <pre> 03names on14: <chan brackets="1">02 <names>
+NamesEnd <pre> 03named end for channel14: <chan brackets="1">
+
+UnknownCmd <pre> 03unknown command14: <cmd brackets="1">
+NickInUse <pre> 03nickname is already in use14: <nick brackets="1">
+AwayStatus <pre> 03away14: <nick brackets="1">03 is marked as being away14: <reason brackets="1">
+ChanFull <pre> 03unable to join the channel14: <chan brackets="1">02 reached the channel limit 07(01+l07)
+ChanInviteOnly <pre> 03unable to join the channel14: <chan brackets="1">02 invite only 07(01+i07)
+ChanBanned <pre> 03unable to join the channel14: <chan brackets="1">02 you're banned 07(01+b07)
+ChanKeyRequired <pre> 03unable to join the channel14: <chan brackets="1"> 02you need the correct key 07(01+k07)
+ChanRegOnly <pre> 03unable to join the channel14: <chan brackets="1"> 02registered users only 07(01+r07)
+NoSuchNick <pre> 03no such nickname14: <nick brackets="1">
+NoSuchChan <pre> 03no such channel14: <chan brackets="1">
+
+RawDef <pre> 03raw14: <numeric brackets="1">02 <text>
+
+Scheme0 Default 1907997 14219262 7562556 2455367 170 8026 4194368 32764 899325 6737065 9671424 16776960 10000504 9044106 5750781 9627645 0 3 2 5 1 1 1 1 2 2 1 1 1 1 1 1 2 2 1 1 1 0 1 0 1 1 1 0 0 1
+Scheme1 Earth 1907997 14085369 2116727 10053171 170 8026 4194368 3368601 899325 12287296 9671424 16776960 10000504 9044106 5999547 9627645 0 3 2 5 1 1 1 1 2 2 1 1 1 1 1 1 2 2 1 1 1 0 1 0 1 1 1 0 0 1
+Scheme2 Banana 1907997 14219262 2302326 23743 170 8026 4194368 32764 899325 3911138 9671424 16776960 10000504 9044106 5621744 9627645 0 3 2 5 1 1 1 1 2 2 1 1 1 1 1 1 2 2 1 1 1 0 1 0 1 1 1 0 0 1
+Scheme3 Produce 1907997 14219262 3750715 5527126 170 8026 4194368 3224696 899325 6974058 9671424 16776960 10000504 9044106 3881131 9627645 0 3 3 5 1 1 1 1 3 3 1 1 1 1 1 1 3 3 1 1 1 0 1 0 1 1 1 0 0 1
+Scheme4 Gold 1907997 14219262 2130419 19622 170 8026 4194368 3905023 899325 3905023 9671424 16776960 10000504 9044106 3905023 9627645 0 3 2 5 1 1 1 1 2 2 1 1 1 1 1 1 2 2 1 1 1 0 1 0 1 1 1 0 0 1
+Scheme5 DecoGreen 1907997 14219262 4365422 2455367 170 8026 4194368 14281962 899325 11394780 9671424 16776960 10000504 9044106 6861201 9627645 0 3 2 5 1 1 1 1 2 2 1 1 1 1 1 1 2 2 1 1 1 0 1 0 1 1 1 0 0 1

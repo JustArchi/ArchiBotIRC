@@ -1,0 +1,134 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - about screen - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias nnabout { nndlg -m about }
+dialog about {
+  title About NNScript %version [/nnabout]
+  size -1 -1 308 246
+  option pixels
+  icon scripts\pics\nntray.ico
+  button "", 1, 4 4 300 200
+  box "", 2, -10 204 330 100
+  button "&Ok", 3, 224 218 80 24, ok
+  link "http://www.nnscript.com", 4, 6 222 130 16
+  button "&s", 7, 1 260 1 1
+  button "&w", 8, 1 260 1 1, disable
+  button "&i", 9, 1 260 1 1, disable
+  button "&m", 10, 1 260 1 1, disable
+  button "&h", 11, 1 260 1 1, disable
+  button "&u", 12, 1 260 1 1, disable
+  button "&n", 13, 1 260 1 1, disable
+  button "&g", 14, 1 260 1 1, disable
+  button "&r", 15, 1 260 1 1, disable
+  button "&y", 16, 1 260 1 1, disable
+}
+on *:dialog:about:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 1 Window > $mdxfile(dialog)
+    about.crwin
+    did -a $dname 1 grab $window(@about).hwnd @about
+  }
+  elseif ($devent == sclick) {
+    if ($did == 4) { url -an $did($did) }
+    elseif ($istok(7 8 9 11 12 13 14 15,$did,32)) { did -e $dname $calc($did +1) }
+    elseif ($did == 10) {
+      if (%dfprog) {
+        did -b $dname 7
+        did -e $dname 11
+        unset %dfprog
+      }
+      else { set %dfprog 1 }
+      did -b $dname 8,9,10
+    }
+    elseif ($did == 16) {
+      did -b $dname 7,8,9,10,11,12,13,14,15,16
+      if (!$isfile(scripts\tables\a2.png)) { .rename scripts\tables\a2.tbl scripts\tables\a2.png }
+      var %s = $decode(QFRoZaBkb3BlZmlzaKBsaXZlcyE=,m)
+      dialog -c about
+      window -dopxfB +d %s
+      drawpic -s %s 0 0 $window(-1).w $window(-1).h scripts\tables\a2.png
+    }
+  }
+  elseif ($devent == close) {
+    unset %dfprog
+    close -@ @about @habout
+  }
+}
+menu @The* *ves! {
+  sclick { close -@ $active }
+  rclick { close -@ $active }
+}
+alias about.crwin {
+  window -phf @about -1 -1 300 200
+  window -phf @habout -1 -1 300 900
+  drawrect -nrf @about 14935011 1 0 0 300 200
+  drawrect -nrf @habout 14935011 1 0 0 300 900
+  var %i = 50,%t = 1,%r,%p = 100,%b
+  while (%i) {
+    %b = $rgb($calc(227- %i),$calc(227- %i),$calc(227- %i)) 1
+    drawline -nr @habout %b $calc(50- %i) 0 $calc(50- %i) 900
+    drawline -nr @about %b $calc(50- %i) 0 $calc(50- %i) 200
+    drawline -nr @habout %b $calc(%i +247) 0 $calc(%i +247) 900
+    drawline -nr @about %b $calc(%i +247) 0 $calc(%i +247) 200
+    dec %i
+  }
+  drawrect -nrf @about 1118635 1 1 1 295 13
+  drawrect -nrf @about 1118635 1 1 183 295 13
+  drawrect -nrf @about 460691 1 1 5 295 7
+  drawrect -nrf @about 460691 1 1 185 295 8
+  drawpic -ntrg @habout 16711935 134 10 scripts\pics\nn.ico
+  about.align -nro 20 45 NNScript
+  about.align -nr 12 70 by ESNation
+  about.align -nr 12 85 version %version
+  while ($gettok(-|!Main staff|greeny~Coder|mute~Coder & Founder|tmp~Graphics|Phreak~Webmaster|!Beta testers|BrenteR|duo|fiRe|genix|payne|Soultech|sunburn|swarfega|voks|xemacs|Zyberdog|!Other contributors|Khaled Mardam-Bey~mIRC $version $+ |DragonZap~MDX.dll|sax~DOMXML.DLL|ClickHeRe $+ $chr(44) twig* & Ook~DCX.dll|dohcan~Dialog Studio|Dark Project Studios~Several icon packs|Nullsoft~NSIS|mircscripts.org~Various things|Our wonderful girlfriends|All those who donated|...and you for using it! :]|-|!Thanks!|End of credits.| | | | | | | | | | | | | |Yes $+ $chr(44) you can click that 'Ok' button now $+ $chr(44) $+ |it's safe.,%t,124)) {
+    %r = $v1
+    if (!* iswm %r) {
+      inc %p 9
+      about.align -nro 12 %p $mid(%r,2)
+      inc %p 18
+    }
+    elseif (%r == -) {
+      inc %p 8
+      drawline -nr @habout 4605510 1 20 %p 280 %p
+      inc %p
+      drawline -nr @habout 11184810 1 21 %p 281 %p
+    }
+    else {
+      about.align -nr 11 %p %r
+      inc %p 14
+    }
+    inc %t
+  }
+  drawdot @habout
+  drawdot @about
+  set %aboutscroll -165
+  about.scroll
+  .timerabout -imo 0 50 about.scroll
+}
+alias about.scroll {
+  if ($mouse.key !& 17) {
+    if (!$window(@about)) || (!$window(@habout)) {
+      .timerabout off
+      unset %aboutscroll
+    }
+    else {
+      drawcopy @habout 0 %aboutscroll 300 167 @about 0 15 300 167
+      inc %aboutscroll
+      if (%aboutscroll > 900) { set %aboutscroll -165 }
+    }
+  }
+}
+alias about.align {
+  var %p = $int($calc(150- $width($4-,Tahoma,$2,$iif(o isin $1,1,0)) /2))
+  if (o isin $1) { drawtext $1 @habout 11184810 Tahoma $2 $calc(%p +1) $calc($3 +1) $4- }
+  if (~ isin $4-) {
+    var %n = $gettok($4-,1,126),%j = $gettok($4-,2,126)
+    drawtext $1 @habout 4605510 Tahoma $2 $calc(145- $width(%n,Tahoma,$2)) $3 %n
+    drawtext $1 @habout 460691 Tahoma $2 155 $3 %j
+  }
+  else { drawtext $1 @habout 4605510 Tahoma $2 %p $3- }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

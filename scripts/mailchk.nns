@@ -1,0 +1,160 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - mail checker - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias mail.setload {
+  tokenize 32 %mailacc. [ $+ [ $did(29).seltext ] ]
+  did -ra $dname 2304 $iif($1 != &null,$1)
+  did -ra $dname 2305 $iif($2 != &null,$2)
+  did $iif($3,-u,-c) $dname 65
+  did $iif($3,-c,-u) $dname 66
+  did -ra $dname 2306 $iif($4 != &null,$decode($4,m))
+  did $iif($5,-c,-u) $dname 62
+}
+alias mail.tref {
+  var %x = $var(%mailchk.*,0),%m = 0,%s = 0,%z,%u = $iif($1 == -n,0,1),%c = 0
+  if (%x) {
+    while (%x) {
+      tokenize 32 [ [ $var(%mailchk.*,%x) ] ]
+      if ($1 == +OK) && ($2 isnum) && ($3 isnum) {
+        inc %m $2
+        inc %s $3
+        inc %c
+      }
+      dec %x
+    }
+    if (!%mail.notified) && (!%checkmail.sinfo) && (%m) && ((%mail.curin < %m) || (%mail.curin !isnum)) && (%u) {
+      set -u60 %mail.notified 1
+      if (%mail.beep) { beep }
+      if (%mail.echo) { thmecho -a There are now %m mails in your inbox! Type /mail.sstat for more. }
+      if (%balloon.mail) { noop $nntip(New E-Mail!,You have %m mail(s) $nbr($bytes(%s,3).suf) in your inbox.) }
+    }
+    set %mail.curin %m
+    toolbar.refinfo
+  }
+  else {
+    set %mail.curin n/a
+    toolbar.refinfo
+  }
+}
+alias mail.sstat {
+  var %x = $var(%mailchk.*,0),%t = %x,%m = 0,%n,%u
+  if (%x) {
+    thmls -a
+    thmecho -a Mail account information
+    while (%x) {
+      tokenize 32 [ [ $var(%mailchk.*,%x) ] ]
+      %n = $gettok($var(%mailchk.*,%x),2-,46)
+      if ($1 == +OK) && ($2 isnum) {
+        if ($2 isnum) {
+          thmecho -a $thmhl(%n) $+ : $thmhl($iif($2,$2,no)) $iif($2 == 1,mail,mails) inbox $iif($3 && $3 isnum,$thmhl($nbr($bytes($3).suf) in size))
+          %u = 1
+          inc %m $2
+        }
+      }
+      else {
+        thmecho -a $thmhl(%n) $+ : an error occured while checking this account!
+        %u = 1
+      }
+      dec %x
+    }
+    if (!%u) { thmecho -a No accounts checked or no new mails. }
+    elseif (%t > 1) { thmecho -a Totals: $thmhl(%t) $iif(%t == 1,account,accounts) $+ , $thmhl(%m) $iif(%m = 1,mail,mails) inbox. }
+    thmls -a
+  }
+  else { thmecho -a No accounts checked or no new mails. }
+}
+alias checkmail {
+  if (!$fullscreen) {
+    var %x = $var(%mailacc.*,0)
+    while (%x) {
+      tokenize 32 [ [ $var(%mailacc.*,%x) ] ]
+      var %u = $gettok($var(%mailacc.*,%x),2-,46),%s = mailchk. $+ %u,%p
+      if ($4) {
+        if ($3) { var %s = imap $+ %s,%p = $iif($5 && $sslready,993,143) }
+        else { var %s = pop3 $+ %s,%p = $iif($5 && $sslready,995,110) }
+        sco $iif($5 && $sslready,-e) %s $gettok($1,1,58) $iif($gettok($1,2,58) isnum 1-65535,$v1,%p)
+        sockmark %s 1 0 1 0 $2-
+      }
+      else { thmerror -a incomplete mail account data! $nbr(Account: %u) }
+      dec %x
+    }
+  }
+}
+alias mail.cancel {
+  unset %checkmail.sinfo
+  sockclose ????mailchk.*
+}
+on *:sockopen:????mailchk.*:{
+  if ($sockerr) {
+    thmerror -a Couldn't connect to the mail server! (Account: $gettok($sockname,2-,46) $+ , error message: $sock($sockname).wsmsg $+ )
+    set % $+ $mid($sockname,5) -ERR 0 0
+    mail.cancel
+  }
+}
+on *:sockread:pop3mailchk.*:{
+  var %m
+  if ($sockerr) {
+    thmerror -a Couldn't connect to the POP3 server! (Account: $gettok($sockname,2-,46) $+ , error message: $sock($sockname).wsmsg $+ )
+    set % $+ $mid($sockname,5) -ERR 0 0
+    mail.cancel
+  }
+  sockread %m
+  if (+OK* iswm %m) {
+    tokenize 32 $sock($sockname).mark
+    if ($1 == 1) { sockwrite -n $sockname USER $5 }
+    elseif ($1 == 2) { sockwrite -n $sockname PASS $decode($7,m) }
+    elseif ($1 == 3) { sockwrite -n $sockname STAT }
+    elseif ($1 == 4) {
+      set % $+ $mid($sockname,5) %m
+      sockwrite -n $sockname QUIT
+    }
+    sockmark $sockname $puttok($1-,$calc($1 +1),1,32)
+  }
+  elseif (-ERR * iswm %m) {
+    set % $+ $mid($sockname,5) -ERR 0 0
+    thmerror -a Couldn't connect to the POP3 server! (Account: $gettok($sockname,2-,46) $+ , error message: $wd(%m,2-) $+ )
+    sockwrite -n $sockname QUIT
+    mail.cancel
+  }
+}
+on *:sockread:imapmailchk.*:{
+  var %m
+  if ($sockerr) {
+    thmerror -a Couldn't connect to the IMAP server! (Account: $gettok($sockname,2-,46) $+ , error message: $sock($sockname).wsmsg $+ )
+    set % $+ $mid($sockname,5) -ERR 0 0 ?
+    mail.cancel
+  }
+  sockread %m
+  tokenize 32 $sock($sockname).mark
+  if ($regex(imaperr,%m,/^\* (?:NO|BAD) (.+)/)) { thmerror -a Couldn't connect to the IMAP server! (Account: $gettok($sockname,2-,46) $+ , error message: $regml(imaperr,1) $+ ) }
+  elseif (& OK * iswm %m) {
+    if ($1 == 1) { sockwrite -n $sockname * LOGIN $5 $decode($7,m) }
+    elseif ($1 == 2) { sockwrite -n $sockname * LIST "" * }
+    sockmark $sockname $puttok($1-,$calc($1 +1),1,32)
+  }
+  elseif ($regex(imap,%m,/^\* (\d+) RECENT$/)) {
+    sockmark $sockname $puttok($puttok($1-,$calc($2 + $regml(imap,1)),2,32),$calc($4 -1),4,32)
+    if ($4 == 1) {
+      set % $+ $mid($sockname,5) +OK $wd($sock($sockname).mark,2) 0
+      sockwrite -n $sockname * LOGOUT
+    }
+  }
+  elseif ($regex(imapfolders,%m,/^\* LIST \(.*\) (?:".+"|[^ ]+) (".+"|[^ ]+))) && ($wd($1-,3)) {
+    sockmark $sockname $puttok($1-,$calc($4 +1),4,32)
+    sockwrite -n $sockname * EXAMINE $regml(imapfolders,1)
+  }
+  elseif (%m == * OK LIST completed.) { sockmark $sockname $puttok($1-,0,3,32) }
+}
+on *:sockclose:????mailchk.*:{
+  if ($sock(????mailchk.*,0) == 1) {
+    mail.tref
+    if (%checkmail.sinfo) {
+      unset %checkmail.sinfo
+      mail.sstat
+    }
+  }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

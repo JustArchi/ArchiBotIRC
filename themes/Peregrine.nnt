@@ -1,0 +1,146 @@
+Name Peregrine
+Version 1.31
+NNTVersion 1.03
+Author Soultech (ported by swarfega)
+Email Groovieghoul@gmail.com
+Homepage http://www.nnscript.com
+Description none.
+
+Font Tahoma
+FontSize 10
+
+TimestampEnabled 1
+Timestamp 14[01hh:nn:ss14]
+
+NickColSelf 7
+NickColOp none
+NickColVoice none
+NickColRegular none
+NickColProtect none
+NickColIgnore none
+
+Brackets 14(<text>14)
+LineSep 14((
+Prefix 14••
+
+GenEcho <pre> <text>
+GenError <pre> Error: <text>
+GenHighlight 14[<text>14]
+
+ChanText 14(<cmode><nick>14) <text>
+ChanTextOwn 14(<cmode><me>14) <text>
+ChanAction 14••01 <cmode><nick>01 <text>
+ChanActionOwn 14••01 <cmode><me>01 <text>
+
+QueryText 14(<nick>14) <text>
+QueryTextOwn 14(<me>14) <text>
+QueryAction 14••01 <nick>01 <text>
+QueryActionOwn 14••01 <me>01 <text>
+
+Msg 14••<nick>!<address>14•• <text>
+MsgOwn 14—› •<target>14• <text>
+Action 14•• <nick> 01<text>
+ActionOwn -<gt> 14•• <target> 01<text>
+
+ChanNotice     <pre> 01Notice14: <nick>@<chan> 14[10<address>14]01 <text>
+Notice     <pre> 01Notice14:01 <nick> 14[10<address>14]01 <text>
+NoticeOwn     <pre>01 Notice14:01 <text>
+ServerNotice 14-<server>14- <text>
+
+CTCP     <pre> 01CTCP14: 14(01<ctcp>14)01 requested for 10<nick>14 [1<address>14]
+CTCPOwn     <pre> 01CTCP14: 14(01<ctcp>14)
+ChanCTCP     <pre> 01CTCP1401: 14(01<ctcp>14)01 requested for 01<chan>
+CTCPReply     <pre> CTCP14: 14(<ctcp>11) response from 10<nick> 14[01<address>14] <text>
+CTCPReplyOwn     <pre> CTCP14: 14(<ctcp>14) <text>
+
+Join     01—› Join14:01 <nick> 14[10<address>14]01 has joined <chan>
+JoinOwn     01—›01 Now talking in <chan>
+Part     01—›01 Part14:01 <nick> 14[10<address>14]01 has left <chan>
+Quit     <pre>01 Quit14:01 <nick> 14[10<address>14] 14(01<message>14)
+Nick     14•01 Nick14: 10<nick>01 is now known as 10<newnick>
+NickOwn     14•01 Nick14:01 You are now known as 10<newnick>
+Mode     <pre> 01Channel Mode14(01s14)14: 10<nick> 1sets mode14(01s14) 14(01<mode>14)
+UserMode 14•01 User Mode14: 14(01<mode>14) 0was set to your nick 10<me>
+Kick     <pre>01 Kick14:10 <kickednick>01 was kicked by 10<nick> 14(01<message>14)
+KickOwn     <pre>01 Kick14:01 You were kicked from <chan> by 10<nick> 14[<address>14] 14(1<message>14)
+WallOp !<nick>! <text>
+
+DNS <pre> Dns resolving <address>
+DNSError <pre> Dns unable to resolve <address>
+DNSResolve <pre> Dns resolved <address> to <raddress>
+
+Notify <pre> <nick> is now online
+UnNotify <pre> <nick> is now offline
+
+LUsers1 There are <users> users and <invisible> invisible on <servers> servers
+LUsers2 <operators> operator(s) online
+LUsers3 <connections> unknown connection(s)
+LUsers4 <channels> channels formed
+LUsers5 I have <clients> clients and <servers> servers
+
+Welcome1 Welcome to the Internet Relay Network, <nick>
+Welcome2 Your host is <host>, running version <version>
+Welcome3 This server was created <created>
+Welcome4 <server> <version> <usermodes> <chanmodes>
+SupportedInfo <protocols> are supported by this server
+
+ChannelModes <chan> <modes>
+ChannelCreation <chan> created on <created>
+Bans <ban> set by <nick> (<banned>)
+BansEnd <chan> End of Channel Ban List
+UnableToSend Unable to message <chan>
+NotOpped <pre> <chan>: you're not channel operator
+HiddenHost <host> is now your hidden host
+RegisterFirst Register first!
+
+WhoisStart 14(10 • 14) 14•14• 01 whois14'01ing01 <nick> 14————————————————————————————
+WhoisAddress 11<nick align="15"> <pre> 14(10 • 14)01 Address14:14 [10<name>14!01<address>14]
+WhoisChans !if <opchans> 11<nick align="15"> <pre> 14(10 • 14) 01opped in <opchans hlcommon="1">!if <hopchans> 11<nick align="15"> <pre> 14(10 • 14) 01helpopped in <hopchans hlcommon="1">!if <vchans> 11<nick align="15"> <pre> 14(10 • 14) 01voiced in <vchans hlcommon="1">!if <regchans> 11<nick align="15"> <pre> 14(10 • 14) 01reg in <regchans hlcommon="1">
+WhoisServer 11<nick align="15"> <pre> 14(10 • 14)01 Server14: [01<server>14]10-14[01<info>14]
+WhoisStatus 11<nick align="15"> <pre> 14(10 • 14)01 Status14: 10<nick>01 is an 10<status>
+WhoisAway 11<nick align="15"> <pre> 14(10 • 14)01 Away14: 14[10<reason>14]
+WhoisAuth 11<nick align="15"> <pre> 14(10 • 14)01 Auth14: 14[10<nick>01 is authed as 10<auth>14]
+WhoisRealIP 11<nick align="15"> <pre> 14(10 • 14)01 Host14: 14[10<nick>01 is using host 10<ip>14]
+WhoisIdle 11<nick align="15"> <pre> 14(10 • 14)01 Idle14: 14[01<idle>14]10-14[01Connected On14:01 <signontime>14]
+WhoisEnd 14(10 • 14) <pre> 01/whois14'01ing <nick> 14————————————————————————————
+
+WhowasStart 14(10 • 14) 14•14• 01 whowas14'01ing <nick> 14————————————————————————————
+WhowasAddress 11<nick align="15"> <pre> 14(10 • 14)01 Address14:14 [10<name>14!01<address>14]
+WhowasServer 11<nick align="15"> <pre> 14(10 • 14)01 Server14: [01<server>14]10-14[01<info>14]
+WhowasAway 11<nick align="15"> <pre> 14(10 • 14)01 Away14: 14[10<reason>14]
+WhowasEnd 14(10 • 14) <pre> 01end of whowas 14————————————————————————
+
+Who <chan> <nick> <status> <address> <name>
+WhoEnd <target> End of /WHO list.
+
+Invite <pre> <nick> invites you to join <chan>
+InviteOwn <nick> has been invited to <chan>
+InviteAlreadyOnChan <nick> is already on channel
+
+NoTopic <chan> No topic is set.
+Topic <pre> Topic is '<topic>'
+TopicBy <pre> Set by <nick> on <date>
+TopicChange     14• 01Topic Change14: 10<nick> 01sets the topic to14:01 <topic>
+
+Names <chan> <names>
+NamesEnd <chan> End of /NAMES list.
+
+UnknownCmd <cmd> Unknown command
+NickInUse <nick> Nickname is already in use.
+AwayStatus <pre> <nick> is marked as being away: <reason>
+ChanFull <chan> unable to join channel (full)
+ChanInviteOnly <chan> unable to join channel (invite only)
+ChanBanned <chan> unable to join channel (banned)
+ChanKeyRequired <chan> unable to join channel (need correct key)
+ChanRegOnly <chan> unable to join channel (registered only)
+NoSuchNick <nick> No such nick
+NoSuchChan <chan> No such channel
+
+RawDef <text>
+
+Scheme0 Default 16777215 14869218 1250240 37632 255 127 10223772 32764 65535 64512 10526880 4605510 6579300 16711935 6579300 11115405 11 2 1 1 1 1 10 10 10 10 10 1 1 10 1 1 10 10 11 1 1 11 1 11 1 1 1 11 11 1
+Scheme1 Platinum 10 6579300 1250240 37632 3947775 127 10223772 32764 65535 64512 5921370 13948116 8289918 16711935 1250240 5921370 11 15 4 4 4 4 15 15 15 15 15 10 4 4 15 10 15 15 15 15 15 11 10 11 10 15 12 11 11 10
+Scheme2 NN4 0 8289918 1250240 37632 3947775 127 10223772 32764 65535 64512 14869218 3815994 8289918 16711935 1250240 12566463 11 15 4 4 4 4 15 15 15 15 15 10 4 4 15 10 15 15 15 15 15 11 10 11 10 15 12 11 12 10
+Scheme3 Pluto 0 12428418 1250240 37632 3947775 127 10223772 32764 65535 64512 14869218 2369060 8289918 16711935 11240261 12566463 11 15 4 4 4 4 15 15 15 15 15 10 4 4 15 10 15 15 15 15 15 11 10 11 10 15 12 11 11 10
+Scheme4 Underwater 0 14869218 1250240 37632 3947775 127 10223772 32764 65535 64512 14869218 5717542 8289918 16711935 13144397 12566463 11 15 4 4 4 4 15 15 15 15 15 10 4 4 15 10 15 15 15 15 15 11 10 11 10 15 12 11 11 10
+Scheme5 Moonlight 0 7890254 1250240 37632 3947775 127 10223772 32764 65535 64512 14869218 3219220 8289918 16711935 10983557 12566463 11 15 4 4 4 4 15 15 15 15 15 10 4 4 15 10 15 15 15 15 15 11 10 11 10 15 12 11 11 10

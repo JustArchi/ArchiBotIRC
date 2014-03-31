@@ -1,0 +1,141 @@
+Name New theme
+Version 0.1
+NNTVersion 1.03
+Author unknown
+Email unknown
+Homepage unknown
+Description None.
+
+Font Fixedsys
+FontSize 12
+
+TimestampEnabled 0
+Timestamp [HH:nn]
+
+NickColSelf none
+NickColOp none
+NickColVoice none
+NickColRegular none
+NickColProtect none
+NickColIgnore none
+
+Brackets (<text>)
+LineSep -
+Prefix *
+
+GenEcho <pre> <text>
+GenError <pre> Error: <text>
+GenHighlight <text>
+
+ChanText <lt><cmode><nick><gt> <text>
+ChanTextOwn <lt><cmode><me><gt> <text>
+ChanAction <pre> <cmode><nick> <text>
+ChanActionOwn <pre> <cmode><me> <text>
+
+QueryText <lt><nick><gt> <text>
+QueryTextOwn <lt><me><gt> <text>
+QueryAction <pre> <nick> <text>
+QueryActionOwn <pre> <me> <text>
+
+Msg <pre><nick><pre> <text>
+MsgOwn -<gt> <pre><target><pre> <text>
+Action <pre><nick><pre> <text>
+ActionOwn -<gt> <pre><target><pre> <text>
+
+ChanNotice -<nick>@<chan>- <text>
+Notice -<nick>- <text>
+NoticeOwn -<gt> -<target>- <text>
+ServerNotice -<server>- <text>
+
+CTCP [<nick> <ctcp>] <text>
+CTCPOwn -<gt> [<target>] <ctcp> <text>
+ChanCTCP [<nick>:<chan> <ctcp>] <text>
+CTCPReply [<nick> <ctcp> reply] <text>
+CTCPReplyOwn -<gt> [<target>] <ctcp> <text>
+
+Join <pre> <nick> (<address>) has joined <chan>
+JoinOwn <pre> Now talking in <chan>!if <topic> <pre> Topic is '<topic>'!if <topic> <pre> Set by <topicnick> on <topicdate>
+Part <pre> <nick> (<address>) has left <chan>
+Quit <pre> <nick> (<address>) Quit <message brackets="1">
+Nick <pre> <nick> is now known as <newnick>
+NickOwn <pre> Your nick is now <newnick>
+Mode <pre> <nick> sets mode: <mode>
+UserMode <pre> <me> sets mode: <mode>
+Kick <pre> <kickednick> was kicked by <nick> (<message>)
+KickOwn <pre> You were kicked from <chan> by <nick> (<message>)
+WallOp !<nick>! <text>
+
+DNS <pre> Dns resolving <address>
+DNSError <pre> Dns unable to resolve <address>
+DNSResolve <pre> Dns resolved <address> to <raddress>
+
+Notify <pre> <nick> is now online
+UnNotify <pre> <nick> is now offline
+
+LUsers1 There are <users> users and <invisible> invisible on <servers> servers
+LUsers2 <operators> operator(s) online
+LUsers3 <connections> unknown connection(s)
+LUsers4 <channels> channels formed
+LUsers5 I have <clients> clients and <servers> servers
+
+Welcome1 Welcome to the Internet Relay Network, <nick>
+Welcome2 Your host is <host>, running version <version>
+Welcome3 This server was created <created>
+Welcome4 <server> <version> <usermodes> <chanmodes>
+SupportedInfo <protocols> are supported by this server
+
+ChannelModes <chan> <modes>
+ChannelCreation <chan> created on <created>
+Bans <chan> <ban> set by <nick> (<banned>)
+BansEnd <chan> End of Channel Ban List
+UnableToSend Unable to message <chan>
+NotOpped <pre> <chan>: you're not channel operator
+HiddenHost <host> is now your hidden host
+RegisterFirst Register first!
+
+WhoisStart -
+WhoisAddress <nick> is <address> <pre> <name>
+WhoisChans <nick> on <chans>
+WhoisServer <nick> using <server> <info>
+WhoisStatus <nick> is an <status>
+WhoisAway <nick> is away: <reason>
+WhoisAuth <nick> is authed as <auth>
+WhoisRealIP <nick> is actually <address> [<ip>]
+WhoisIdle <nick> has been idle <idle>, signed on <signontime>
+WhoisEnd <nick> End of /WHOIS list.-
+
+WhowasStart -
+WhowasAddress <nick> was <address> <pre> <name>
+WhowasServer <nick> used <server> <info>
+WhowasAway <nick> was away: <reason>
+WhowasEnd <nick> End of /WHOWAS list.-
+
+Who <chan> <nick> <status> <address> <name>
+WhoEnd <target> End of /WHO list.
+
+Invite <pre> <nick> invites you to join <chan>
+InviteOwn <nick> has been invited to <chan>
+InviteAlreadyOnChan <nick> is already on channel
+
+NoTopic <chan> No topic is set.
+Topic <pre> Topic is '<topic>'
+TopicBy <pre> Set by <nick> on <date>
+TopicChange <pre> <nick> changes topic to '<topic>'
+
+Names <chan> <names>
+NamesEnd <chan> End of /NAMES list.
+
+UnknownCmd <cmd> Unknown command
+NickInUse <nick> Nickname is already in use.
+AwayStatus <pre> <nick> is marked as being away: <reason>
+ChanFull <chan> unable to join channel (full)
+ChanInviteOnly <chan> unable to join channel (invite only)
+ChanBanned <chan> unable to join channel (banned)
+ChanKeyRequired <chan> unable to join channel (need correct key)
+ChanRegOnly <chan> unable to join channel (registered only)
+NoSuchNick <nick> No such nick
+NoSuchChan <chan> No such channel
+
+RawDef <text>
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 0 6 4 5 2 3 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 0 1 0 1 14 6 0 0 1

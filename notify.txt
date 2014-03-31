@@ -1,0 +1,104 @@
+;################################ NOTIFY #############################
+;#####################################################################
+
+on *:TEXT:.notifylist:*: {
+  if (%c.notify) {
+    describe %ch Lista oczekuj¹cych na grê: $get.usernamelist(%c.notify)
+  }
+  else { describe %ch Nikt nie oczekuje na grê }
+}
+/*
+on *:TEXT:.notify:*: {
+  var %u = $getid($nick)
+  if ($istok(%c.notify,%u,46)) { 
+    notice $nick Wypisa³eœ siê z listy oczekuj¹cych na grê.
+    set %c.notify $remtok(%c.notify,%u,1,46)
+  return }
+  if (%game.on) { msg $nick Zapisy do gry s¹ otwarte, nie mo¿esz dopisaæ siê do listy oczekuj¹cych na grê. | return }
+  if (!$game.canjoin(%u)) { return }
+  if ($numtok(%c.notify,46) => 10) { 
+    describe $chan Lista oczekuj¹cych na zapisy osi¹gnê³a limit. Lista oczekuj¹cych: $get.usernamelist(%c.notify)
+  }
+  set %c.notify $addtok(%c.notify,%u,46)
+  notice $nick Zostaniesz powiadomiony, gdy wystartuje gra na tym kanale.
+}
+*/
+on *:TEXT:.notify:*: {
+  var %u = $getid($nick)
+  if ($istok(%c.notify,%u,46)) { 
+    notice $nick Wypisa³eœ siê z listy oczekuj¹cych na grê.
+    set %c.notify $remtok(%c.notify,%u,1,46)
+  return }
+  if (%game.on) { msg $nick Zapisy do gry s¹ otwarte, nie mo¿esz dopisaæ siê do listy oczekuj¹cych na grê. | return }
+  if (!$game.canjoin(%u)) { return }
+  if ($numtok(%c.notify,46) => 10) { 
+    describe $chan Lista oczekuj¹cych na zapisy osi¹gnê³a limit. Lista oczekuj¹cych: $get.usernamelist(%c.notify)
+  }
+  set %c.notify $addtok(%c.notify,%u,46)
+  notice $nick Zostaniesz powiadomiony, gdy wystartuje gra na tym kanale.
+}
+
+alias spreadnotify {
+  if (!%c.notify) { timerspreadnotify off | return }
+  if (!%game.on) { return }
+  if (%game.confirmed) { return }
+  var %kolejka = 1
+  var %l = $numtok(%c.notify,46)
+  echo -ag zapisanych: $numtok(%c.notify,46)
+  timerkolejka %l 5 kolej
+  ; echo -ag numer %i
+  ;var %u = $nauth($gettok(%c.notify,%i,46))
+  ;echo -ag nick obecny %u
+  ;echo -ag qauth $gettok(%c.notify,%i,46)
+  ;if ( %u !ison $chan ) { $deltok(%c.notify,%i,46) }
+  ;if (!%c.challenge) {
+  ; notice %u  Wystartowa³a gra na PLIH 1. mod: %c.gamemode $+ $chr(44) $enclose2($getname($gettok(%c.gameauths,1,46))) hostuje grê, Gracze w puli: $enclose2($numtok(%c.gameauths,46)) Powiadomionych graczy: $enclose2($numtok(%c.notify,46))$+.
+  ;}
+  ;else { notice %u  Wystartowa³a gra na PLIH 1. mod: %c.gamemode $+ $chr(44) $enclose2($getname($gettok(%c.gameauths,1,46)) i $getname($gettok(%c.gameauths,2,46))) s¹ kapitanami, Zapisanych graczy: $enclose2($numtok(%c.gameauths,46)) Powiadomionych graczy: $enclose2($numtok(%c.notify,46))$+.
+  ;}
+  ;inc %i
+  ;}
+}
+
+alias kolej {
+  if (!%c.notify) { timerkolejka off | return }
+  if (!%game.on) { return }
+  if (%game.confirmed) { return }
+  echo -ag teraz: %kolejka
+  if (%kolejka <= $numtok(%c.notify,46)) {
+    var %u = $nauth($gettok(%c.notify,%kolejka,46))
+    echo -ag nick obecny %u
+    echo -ag qauth $gettok(%c.notify,%kolejka,46)
+    if (!%c.challenge) {
+      msg %u  Wystartowa³a gra na PLIH 1. mod: %c.gamemode $+ $chr(44) $enclose2($getname($gettok(%c.gameauths,1,46))) hostuje grê, Gracze w puli: $enclose2($numtok(%c.gameauths,46)) Powiadomionych graczy: $enclose2($numtok(%c.notify,46))$+.
+    }
+    else { msg %u  Wystartowa³a gra na PLIH 1. mod: %c.gamemode $+ $chr(44) $enclose2($getname($gettok(%c.gameauths,1,46)) i $getname($gettok(%c.gameauths,2,46))) s¹ kapitanami, Zapisanych graczy: $enclose2($numtok(%c.gameauths,46)) Powiadomionych graczy: $enclose2($numtok(%c.notify,46))$+.
+    }
+    inc %kolejka
+  }
+  else { set %kolejka 1 }
+  if (%kolejka <= $numtok(%c.notify,46)) {
+    var %u = $nauth($gettok(%c.notify,%kolejka,46))
+    echo -ag nick obecny %u
+    echo -ag qauth $gettok(%c.notify,%kolejka,46)
+    if (!%c.challenge) {
+      msg %u  Wystartowa³a gra na PLIH 1. mod: %c.gamemode $+ $chr(44) $enclose2($getname($gettok(%c.gameauths,1,46))) hostuje grê, Gracze w puli: $enclose2($numtok(%c.gameauths,46)) Powiadomionych graczy: $enclose2($numtok(%c.notify,46))$+.
+    }
+    else { msg %u  Wystartowa³a gra na PLIH 1. mod: %c.gamemode $+ $chr(44) $enclose2($getname($gettok(%c.gameauths,1,46)) i $getname($gettok(%c.gameauths,2,46))) s¹ kapitanami, Zapisanych graczy: $enclose2($numtok(%c.gameauths,46)) Powiadomionych graczy: $enclose2($numtok(%c.notify,46))$+.
+    }
+    inc %kolejka
+  }
+  else { set %kolejka 1 }
+  if (%kolejka <= $numtok(%c.notify,46)) {
+    var %u = $nauth($gettok(%c.notify,%kolejka,46))
+    echo -ag nick obecny %u
+    echo -ag qauth $gettok(%c.notify,%kolejka,46)
+    if (!%c.challenge) {
+      msg %u  Wystartowa³a gra na PLIH 1. mod: %c.gamemode $+ $chr(44) $enclose2($getname($gettok(%c.gameauths,1,46))) hostuje grê, Gracze w puli: $enclose2($numtok(%c.gameauths,46)) Powiadomionych graczy: $enclose2($numtok(%c.notify,46))$+.
+    }
+    else { msg %u  Wystartowa³a gra na PLIH. mod: %c.gamemode $+ $chr(44) $enclose2($getname($gettok(%c.gameauths,1,46)) i $getname($gettok(%c.gameauths,2,46))) s¹ kapitanami, Zapisanych graczy: $enclose2($numtok(%c.gameauths,46)) Powiadomionych graczy: $enclose2($numtok(%c.notify,46))$+.
+    }
+    inc %kolejka
+  }
+  else { set %kolejka 1 }
+}

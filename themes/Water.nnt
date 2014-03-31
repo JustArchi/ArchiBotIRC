@@ -1,0 +1,146 @@
+Name Water
+Version 1.4
+NNTVersion 1.03
+Author greeny
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 11[00HH11:00nn11:00ss11]
+
+NickColSelf 7
+NickColOp 0
+NickColVoice 11
+NickColRegular 10
+NickColProtect none
+NickColIgnore 4
+
+Brackets 11(<text>11)
+LineSep 11•›››››››››››››››››10›››››››››››››11››››››››10›››11›› ›10›››11› ››10› ›› ›11› ›10› 11› 10 ›
+Prefix 11:::
+
+GenEcho <pre> <text>
+GenError <pre> 11Error:11 <text>
+GenHighlight 11(<text>11)
+
+ChanText 11[<cmode><nick>11]: <text>
+ChanTextOwn 11[<cmode><me>11]: <text>
+ChanAction 11: <cmode><nick> <text>
+ChanActionOwn 11: <cmode><me> <text>
+
+QueryText 11[<nick>11]: <text>
+QueryTextOwn 11[<me>11]: <text>
+QueryAction 11: <nick> <text>
+QueryActionOwn 11: <me> <text>
+
+Msg 11*<nick>11!<address>11* <text>
+MsgOwn —› 11*<target>11* <text>
+Action 11: <nick>11!<address> <text>
+ActionOwn —› 11: <target> <text>
+
+ChanNotice 11-<nick>11@<chan>11- <text>
+Notice 11-<nick>11- <text>
+NoticeOwn —› 11-<target>11- <text>
+ServerNotice 11-<server>11- <text>
+
+CTCP 11?<nick>11? <ctcp> <text>
+CTCPOwn —› 11?<target>11? <ctcp> <text>
+ChanCTCP 11?<nick>11@<chan>11? <ctcp> <text>
+CTCPReply 11!<nick>11! <ctcp> <text>
+CTCPReplyOwn —› 11!<target>11! <ctcp> <text>
+
+Join <pre> 11Join:11 <nick brackets="1"> <address brackets="1">
+JoinOwn <linesep><pre> 11Now talking in:11 <chan brackets="1"><linesep>!if <topic> <pre> 11Topic:11 <topic>!if <topic> <pre> 11Set by:11 <topicnick> <topicdate brackets="1"><pre> 11Users:11 <users> users, <oppedusers><oppeduserspercent brackets="1"> 11ops, <voicedusers><voiceduserspercent brackets="1"> 11voiced, <regusers><reguserspercent brackets="1"> 11regulars<pre> 11Join synced in:11 <synctime> second(s)<linesep>
+Part <pre> 11Part:11 <nick brackets="1"> <address brackets="1"> <message brackets="1">
+Quit <pre> 11Quit:11 <nick brackets="1"> <address brackets="1"> <message brackets="1">
+Nick <pre> 11Nick:11 <nick brackets="1">11 is now known as <newnick brackets="1">
+NickOwn <pre> 11Nick:11 <me brackets="1">11 is now known as <newnick brackets="1">
+Mode <pre> 11Mode:11 <nick brackets="1">11 sets <mode brackets="1">
+UserMode <pre> 11UserMode:11 is now <mode brackets="1">
+Kick <pre> 11Kick:11 <kickednick brackets="1">11 was kicked by <nick brackets="1">11 <message>
+KickOwn <pre> 11Kick:11 <me brackets="1">11 was kicked by <nick brackets="1">11 <message>
+WallOp <pre> 11Wallop:11 <nick brackets="1"> <text>
+
+DNS <pre> 11DNS:11 resolving <address>...
+DNSError <pre> 11DNS:11 unable to resolve <address>
+DNSResolve <pre> 11DNS:11 resolved <address> to <raddress>
+
+Notify <pre> <nick brackets="1"> is online
+UnNotify <pre> <nick brackets="1"> is offline
+
+LUsers1 <pre> 11Users: <users brackets="1">11, Invisible: <invisible brackets="1">11, Servers: <servers brackets="1">
+LUsers2 <pre> 11Operators online: <operators brackets="1">
+LUsers3 <pre> 11Unknown connections: <connections brackets="1">
+LUsers4 <pre> 11Channels formed: <channels brackets="1">
+LUsers5 <pre> 11Local clients:11 <clients brackets="1">11 on <servers brackets="1">11 server(s)
+
+Welcome1 <pre> Welcome to the Internet Relay Network, <nick>
+Welcome2 <pre> 11Host:11 <host brackets="1">11 running version <version brackets="1">
+Welcome3 <pre> 11Server created on:11 <created brackets="1">
+Welcome4 <pre> <server brackets="1"> <version brackets="1"> <usermodes brackets="1"> <chanmodes brackets="1">
+SupportedInfo <pre> 11Protocols supported:11 <protocols brackets="1">
+
+ChannelModes <pre> <chan> <modes>
+ChannelCreation <pre> <chan> created on <created>
+Bans <pre> <chan> <ban> set by <nick> (<banned>)
+BansEnd <pre> <chan> End of Channel Ban List
+UnableToSend <pre> 11Unable to send message to <chan brackets="1">
+NotOpped <pre> you're not an operator:11 <chan brackets="1">
+HiddenHost <pre> <host> is now your hidden host
+RegisterFirst <pre> Register first!
+
+WhoisStart 11•›››››››››››››››››10›››››››››››››11››››››››10›››11›› ›10›››11› ››10› ›› ›11› ›10› 11› 10 ›
+WhoisAddress <pre> 11Whois report for <nick> <name brackets="1"><pre> 11Address:11 $replace(<address>,@,00@11,.,00.11,~,00~11,-,00-11)
+WhoisChans <pre> 11Channels:11 $replace(<chans>,$chr(35),$+(00,$chr(35),11))
+WhoisServer <pre> 11Server:11 <server>00,11 <info>
+WhoisStatus <nick> is an <status>
+WhoisAway <pre> 11Away:11 <reason>
+WhoisAuth <pre> 11Auth:11 <auth>
+WhoisRealIP <nick> is actually <address> [<ip>]
+WhoisIdle <pre> 11Idle:11 <idle>00,11 signed on <signonago> ago
+WhoisEnd 11•›››››››››››››››››10›››››››››››››11››››››››10›››11›› ›10›››11› ››10› ›› ›11› ›10› 11› 10 ›
+
+WhowasStart 11•›››››››››››››››››10›››››››››››››11››››››››10›››11›› ›10›››11› ››10› ›› ›11› ›10› 11› 10 ›
+WhowasAddress <pre> 11Whowas report for <nick> <name brackets="1"><pre> 11Address:11 $replace(<address>,@,00@11,.,00.11,~,00~11,-,00-11)
+WhowasServer <pre> 11Server:11 <server>00,11 <info>
+WhowasAway <pre> 11Away:11 <reason>
+WhowasEnd 11•›››››››››››››››››10›››››››››››››11››››››››10›››11›› ›10›››11› ››10› ›› ›11› ›10› 11› 10 ›
+
+Who <pre> 11/Who:11 <nick> <address brackets="1">11 <name>
+WhoEnd <pre> 11End of (00/who11) list for <target brackets="1">
+
+Invite <pre> 11Invite:11 <nick brackets="1">11 invites you to join <chan brackets="1">
+InviteOwn <pre> 11Invite:11 <nick brackets="1">11 has been invited to join <chan brackets="1">
+InviteAlreadyOnChan <pre> 11Invite:11 <nick brackets="1">11 is already on <chan brackets="1">
+
+NoTopic <pre> 11No topic set:11 <chan>
+Topic <pre> 11Topic:11 <topic brackets="1">
+TopicBy <pre> 11Set by:11 <nick brackets="1"> on <date brackets="1">
+TopicChange <pre> 11Topic:11 <nick brackets="1">11 changes topic to '<topic>'
+
+Names <pre> 11/Names:11 <chan brackets="1">11 <names>
+NamesEnd <pre> 11End of (00/names11) list for (00<chan>11)
+
+UnknownCmd <pre> 11Invalid command:11 <cmd brackets="1">
+NickInUse <pre> 11Nickname in use:11 <nick brackets="1">
+AwayStatus <pre> <nick> is marked as being away: <reason>
+ChanFull <pre> 11Can't join <chan>:11 (00full (+l)11)
+ChanInviteOnly <pre> 11Can't join <chan>:11 (00invite only (+i)11)
+ChanBanned <pre> 11Can't join <chan>:11 (00you're banned (+b)11)
+ChanKeyRequired <pre> 11Can't join <chan>:11 (00requires key (+k)11)
+ChanRegOnly <pre> 11Can't join <chan>:11 (00registered only (+r)11)
+NoSuchNick <pre> 11No such nickname:11 <nick>
+NoSuchChan <pre> 11No such channel:11 <chan brackets="1">
+
+RawDef <pre> <text>
+
+Scheme0 Default 16777215 0 5389336 50176 2835967 127 10223772 32764 65535 64512 12028160 16762487 7559473 16711935 9539985 12895428 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 2 0 0 0 2 2 0
+Scheme1 Dark 16777215 0 3746577 50176 2835967 127 10223772 32764 65535 64512 12028160 16762487 7559473 16711935 9539985 12895428 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 2 0 0 0 2 2 0
+Scheme2 Dark_Steady 16777215 0 3746577 50176 2835967 127 10223772 32764 65535 64512 12028160 16762487 7559473 16711935 9539985 12895428 2 11 11 11 11 11 11 11 11 11 11 0 0 11 11 0 11 11 11 11 11 2 11 2 11 11 11 2  2 0
+Scheme3 Default_Steady 16777215 0 5389336 50176 2835967 127 10223772 32764 65535 64512 12028160 16762487 7559473 16711935 9539985 12895428 2 11 11 11 11 11 11 11 11 11 11 0 0 11 11 0 11 11 11 11 11 2 11 2 11 11 11 2 2 0
+Scheme4 Plant 16777215 0 1982991 50176 2835967 127 10223772 32764 65535 64512 308992 7864186 3241263 16711935 9539985 12895428 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 2 0 0 0 2 2 0
+Scheme5 Citrus 16777215 0 801336 50366 2835967 127 10223772 32764 65535 65015 47027 7864316 2960759 16711935 9539985 12895428 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 2 0 0 0 2 2 0

@@ -1,0 +1,143 @@
+Name Tribe
+Version 1.0
+NNTVersion 1.03
+Author swarfega
+Email sw4rfega@googlemail.com
+Homepage http://www.nnscript.com
+Description An NNT port of an MTS theme by airjer.
+
+Font Verdana
+FontSize 10
+
+TimestampEnabled 1
+Timestamp 11[00h:nn:sst11]
+
+NickColSelf none
+NickColOp none
+NickColVoice none
+NickColRegular none
+NickColProtect none
+NickColIgnore 4
+
+Brackets (<text>)
+LineSep 00-
+Prefix 00»11»
+
+GenEcho <pre> 15<text>
+GenError <pre> 00[11error00: <text>]
+GenHighlight 11(<text>11)
+
+ChanText 11[00<cmode><nick>11] 00<text>
+ChanTextOwn 11(00<me>11) 00<text>
+ChanAction 02* <cmode><nick> <text>
+ChanActionOwn 02* <cmode><me> <text>
+
+QueryText 11[00<nick>11] 00<text>
+QueryTextOwn 11(00<me>11) 00<text>
+QueryAction 02* <nick> <text>
+QueryActionOwn 02* <me> <text>
+
+Msg 11[00msg02: 00<nick>11] 00<text>
+MsgOwn 11[00<target>11] 00<text>
+Action 02* <nick> <text>
+ActionOwn 02* <target> <text>
+
+ChanNotice 11!00notice11!00(<chan> » <nick>) <text>
+Notice 11!00notice11!00(<nick>) <text>
+NoticeOwn 00-<gt> -<target>- <text>
+ServerNotice 11!00notice11!00(<server>) <text>
+
+CTCP 00[<nick> <ctcp>] <text>
+CTCPOwn 00[<target> <ctcp>] <text>
+ChanCTCP 00[<chan> <ctcp>] <nick> » <text>
+CTCPReply 11[00ctcp02: 00<nick>11] 00<ctcp> <text>
+CTCPReplyOwn 11[00ctcp02: 00<target>11] 00<ctcp> <text>
+
+Join <pre> 02joins 00<nick> 02(<address>)
+JoinOwn 00•¯¯¯¯¯¯¯[11 <chan> 00]00[ modes.. $+ $chan(<chan>).mode $+ ]00[ topic.. <topic> ]00•_______[ 11chanstats 00]
+Part <pre> 02parts 00<nick> 02(<address>)00 <message brackets="1">
+Quit <pre> 02quits 00<nick> 02(<address>)00 <message brackets="1">
+Nick <pre> 11nick change 02[ 00<nick> 11» 00<newnick> 02]
+NickOwn <pre> 11nick change 02[ 00<nick> 11» 00<newnick> 02]
+Mode 02[ 00<nick> <mode> 02]
+UserMode 02[11mode 02[00<me> 02[00<mode>02]]]
+Kick <pre> 00<kickednick> 11kicked by 00<nick> <message brackets="1">
+KickOwn <pre> 11[ 02update 11] ( 00kicked from <chan> by <nick> 00<message brackets="1">
+WallOp 11[00<nick>11] 00$ <text>
+
+DNS 00•¯¯¯¯¯¯¯¯¯¯¯[ 11lookup : dns 00]
+DNSError 00[11address00: unable to resolve (<address>)]
+DNSResolve 00[11address00: <address> [11resolve00: <ip>00]]00•___________[ 11dns 00]
+
+Notify <pre> 11[<nick> is ON irc <note>
+UnNotify <pre> 11[<nick> has QUIT irc (or changed nick)]
+
+LUsers1 <pre> 00There are <users> users online and <invisible> invisible on <servers> servers
+LUsers2 <pre> 00<operators> IRC Operators
+LUsers3 <pre> 00<connections> connections
+LUsers4 <pre> 00<channels> channels
+LUsers5 <pre> 00<clients> clients on <servers> servers
+
+Welcome1 00Welcome to the Internet Relay Network, <nick>
+Welcome2 00[03host01: <host> running <version>
+Welcome3 00[03created on00: <created>
+Welcome4 00[03server00: <server> (version)
+SupportedInfo 00[11protocols00: <protocols>
+
+ChannelModes <pre> 00<chan> 15<modes>
+ChannelCreation <pre> 00<chan> 14created on 15<created>
+Bans <pre> 0<chan> 15<ban>14 set by 00<nick> 14(15<banned>14)
+BansEnd <pre> 00<chan> 14End of Channel Ban List
+UnableToSend 11[00<chan> is moderated, cannot send text 11(15from <myserver>11)]
+NotOpped 11[00you are not channel operator on <chan> 11(15from <myserver>11)]
+HiddenHost 11[00<host> is now your hidden host 11(15from <myserver>11)]
+RegisterFirst <pre> 11[00Register first! 11(15from <myserver>11)]
+
+WhoisStart 00•¯¯¯¯¯¯¯¯¯¯¯¯¯¯[ 11Whois <nick> 00]
+WhoisAddress 00[11u@h00: 00<ident>@<host>00[11realname00: 00<name>
+WhoisChans 00[11channels00: 00<chans>
+WhoisServer 00[11server00: 00<server> 11(15<info>11)
+WhoisStatus 00[11status00: 00<status>
+WhoisAway 00[11away00: 00<reason>
+WhoisAuth 00[11auth00: 00<auth>
+WhoisRealIP 00[11IP00: 00<ip>
+WhoisIdle 00[11idle00: 00<idle>
+WhoisEnd 00•______________00[ 11whois (15from <myserver>:<myport>11) 00]
+
+WhowasStart 00•¯¯¯¯¯¯¯¯¯¯¯¯¯¯00[ 11whowas <nick>00 ]
+WhowasAddress 00[11u@h00: 00<ident>@<host>00[11realname00: 00<name>
+WhowasServer 00[11server00: 00<server> 11(15<info>11)
+WhowasAway 00[11away00: 00<reason>
+WhowasEnd 00•______________00[ 11whowas 00 ]
+
+Who 00<chan> <nick> <Status> <ident>@<host> :3 <name> 
+WhoEnd <pre> 11[00end of <target> search 11(15from <myserver>11)]
+
+Invite <pre> 02[11invite 02[00<nick>02 [00<chan>02]]]
+InviteOwn <pre> 02[11invite 02[00<nick>02 [00<chan>02]]]
+InviteAlreadyOnChan 11[00<nick> is already on <chan> 11(15from <myserver>11)]
+
+NoTopic <pre> 11[00There is no topic set for <chan> 11(15from <myserver>11)]
+Topic <pre> 14Topic: <topic>
+TopicBy <pre> 14Set by:14 14(15<nick>14) on 14(15<date>14)
+TopicChange <pre> 02[11topic changed 02[ 00<nick> 02[ 00<topic> 02]]]
+
+Names 00•¯¯¯¯¯¯¯¯¯¯¯[ 11ookup : names 00]11[11<chan>00: <names>11]
+NamesEnd 00•___________[ 11names 00]
+
+UnknownCmd 11[00unknown commmand  11(15<cmd>11)]
+NickInUse 11[00<nick> is already in use 11(15from <myserver>11)]
+AwayStatus 00[11away00: 00<reason>
+ChanFull 11[00cannot join <chan> - channel full 11(15from <myserver>11)]
+ChanInviteOnly 11[00cannot join <chan> - invite required 11(15from <myserver>11)]
+ChanBanned 11[00cannot join <chan> - you're banned 11(15from <myserver>11)]
+ChanKeyRequired 11[00cannot join <chan> - incorrect key 11(15from <myserver>11)]
+ChanRegOnly 11[00Cannot join <chan> registered users only11(15from <myserver>11)]]
+NoSuchNick 11[00<nick> is not on irc 11(15from <myserver>11)]
+NoSuchChan 11[00no such channel as <chan> 11(15from <myserver>11)]
+
+RawDef <pre> 15<text>
+
+Scheme0 Default 16777215 0 15773896 37632 255 127 10223772 32764 65535 64512 15311195 16744576 12028251 12105983 9539985 12895428 1 0 1 1 0 0 0 0 3 3 3 0 1 1 1 3 0 3 0 0 3 1 0 1 0 15 0 15 1 0
+Scheme1 nuclear 16777215 0 13565841 37632 255 127 10223772 32764 65535 64512 15311195 193536 12028251 12105983 9539985 12895428 1 0 1 1 0 0 0 0 3 3 3 0 1 1 1 3 0 3 0 0 3 1 0 1 0 15 0 15 1 0
+Scheme2 radiation 16777215 0 11975416 37632 255 127 10223772 32764 65535 64512 15311195 66017 12028251 12105983 9539985 12895428 1 0 1 1 0 0 0 0 3 3 3 0 1 1 1 3 0 3 0 0 3 1 0 1 0 15 0 15 1 0

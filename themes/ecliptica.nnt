@@ -1,0 +1,173 @@
+Name Ecliptica::
+Version 4.1 (standard v1.03)
+NNTVersion 1.03
+Author AcidSkull
+Email sw4rfega@googlemail.com
+Homepage http://www.nnscript.com
+Description Ported from an MTS theme by swarfega.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 06|10hh:nn06| 01 »10»
+
+NickColSelf none
+NickColOp none
+NickColVoice none
+NickColRegular none
+NickColProtect none
+NickColIgnore none
+
+Brackets 1[12<text>1]
+LineSep 05————————01—————————12——————-—-———06———
+Prefix 14:14:
+
+GenEcho 12echo:01 <text>
+GenError 12Error:01 <text>
+GenHighlight 12echo:01 <text>
+
+ChanText 14[12<cmode>05<nick>14]06 <text>
+ChanTextOwn 14[12<cmode>01<me>14]06 <text>
+ChanAction [02a01] 0112<nick>01: 5<text>01 [02a01]
+ChanActionOwn [02a01] 0112<cmode><me>01: 05<text>01 [02a01]
+
+QueryText 14[12<nick>14]01 06<text>
+QueryTextOwn 14[01<me>14]06 <text>
+QueryAction [02a01] 0112<nick>01: 05<text>01 [02a01]
+QueryActionOwn 12<me>01: 05<text>01
+
+Msg 14[12<nick>14]01 06<text>
+MsgOwn 14[01<target>14]06 <text>
+Action <pre><nick><pre> <text>
+ActionOwn -<gt> <pre><target><pre> <text>
+
+ChanNotice 14[04Notice14] [01<chan>14] 14[12<nick>12] [01<text>14]
+Notice 14[05Notice14] 14[12<nick>12] [01<text>14]
+NoticeOwn 14[04Notice14] [01<text>14]
+ServerNotice 02-<server>- <text>
+
+CTCP 14[02Ctcp14] 01[12<nick>01]14 14[01<ctcp>14][01<text>14]
+CTCPOwn 14[02Ctcp14] 01[12<target>01]14 14[01<ctcp>14][01<text>14]
+ChanCTCP 14[02Ctcp14] 14[12<Chan>12]14[01<ctcp>14][01<text>14]
+CTCPReply 14[02Ctcp Reply14] 14[12<nick>12]14[01<ctcp>14][01<text>14]
+CTCPReplyOwn 14[02Ctcp Reply14] 14[12<target>12]14[01<ctcp>14][01<text>14]
+
+Join 14[02Join14] [10»14] 01[12<nick>01]01 [14<address>01]
+JoinOwn 14[02Channel14] 01 Joining10 <chan>!if <topic> 12Topic 14::14 04<topic>!if <topic> 14:14: 02Set by15:14 <topicnick> 12on <topicdate>12Channel Modes 14::14 $chan(<chan>).mode 
+Part 14[02Part14] [10«14] 01[12<nick>01]01 [14<address>01]
+Quit 14[02Quit14] [10x14] <nick> [<address>] [<message>]
+Nick 14[02Nick14] <nick> 01changes nick to [<newnick>]
+NickOwn 14[02Nick14] Your new nick is [<newnick>]
+Mode 02Modes15:14 <nick> 02sets mode15:14 <mode>
+UserMode 14[02Mode14] [ 1<mode>14]
+Kick 14[02Kick14]01 <nick> 12kick14 <kickednick> [<message>] - 14[2<chan>14]
+KickOwn 14[02Kick14] [10x14] You have been kicked by <nick> from 14[02<chan>14] [<message>]
+WallOp !<nick>! <text>
+
+DNS 12DNS : 14<address>
+DNSError 12DNS Error : 14unable to resolve <address>
+DNSResolve 12DNS : 14Address <address> ; <raddress>
+
+Notify 14[04Notify14] 14[12<nick>12]01 is online [12 $+ $network $+ 01] 14[1<note>14]
+UnNotify 14[04Notify14] 14[12<nick>12]01 is offline [12 $+ $network $+ 01] 14[1<note>14]
+
+LUsers1 2<users>14 users 14:: 12<invisible>14 invisible 14:: 01<servers>14 servers
+LUsers2 12Opers online 14::01 <operators>
+LUsers3 12Unknown Connections 14::01 <connections>
+LUsers4 12Channels 14::01 <channels>
+LUsers5 02Clients14 <clients> 14:: 12Servers14 <servers>
+
+Welcome1 12Conected to 14::01 <mynetwork> , <nick>
+Welcome2 12Host 14::01 <host>
+Welcome3 12Created 14::01 <created>
+Welcome4 <pre> <server> <version> <usermodes> <chanmodes>
+SupportedInfo 12Protocols Supported 14::01 <protocols>
+
+ChannelModes 12Channel Modes 14::14 <modes>
+ChannelCreation <pre> <chan> created on <created>
+Bans <chan> <ban> set by <nick> (<banned>)
+BansEnd <chan> End of Channel Ban List
+UnableToSend [02&01] 14Can`t send menssage to 15:14 [<chan>]
+NotOpped [02&01] 14You should be an IRC Operator
+HiddenHost 14:14: <host> is now your hidden host
+RegisterFirst 12Register first! 14::14 <me>
+
+WhoisStart <linesep>12Whois:14 <nick> 14::
+WhoisAddress 12Info:14 <address> <name>
+WhoisChans 12Channels14:14 <chans>
+WhoisServer 12Server 14::14 <server>
+WhoisStatus 12Stat 14::14 <status>
+WhoisAway 12Away 14::14 <reason>
+WhoisAuth 12Away 14::14 <nick> is authed as <auth>
+WhoisRealIP 12RealIP: 14::14 is actually <address> [<ip>]
+WhoisIdle 14Idle: Been idle for <idle> 01•14• 01End of Whois 14•01•
+WhoisEnd <linesep>
+
+WhowasStart -
+WhowasAddress <nick> was <address> <pre> <name>
+WhowasServer <nick> used <server> <info>
+WhowasAway <nick> was away: <reason>
+WhowasEnd <nick> End of /WHOWAS list.-
+
+Who <pre> <nick> <address> <server> <status> <name>
+WhoEnd 12Who 14::14 end of /who 01[<target>]
+
+Invite 14[02Invite14]01 <nick> 14has invited you to join 14[02<chan>14]
+InviteOwn 12Invite 14::14 <nick> has been invited to 01<chan>
+InviteAlreadyOnChan 14:14: <nick> <chan> is already on channel
+
+NoTopic <chan> No topic is set.
+Topic 12Topic 14::14 <topic>
+TopicBy <pre> 02Set by15:14 <nick> 12on <date>
+TopicChange 14[02Topic14] 01[12<nick>01] sets new topic:10<topic>
+
+Names 12Names 14::14 <chan>01 <names>
+NamesEnd 12Names 14::14 end of /names <chan>
+
+UnknownCmd [02&01] 14Invalid Command15:14 [<cmd>]01
+NickInUse [02&01] 14<nick>14 is alredy in use
+AwayStatus 12Away 14::01 <reason>
+ChanFull [02&01] 14Can`t join15:14 [<chan>]01 is full
+ChanInviteOnly [02&01] 14Can`t join15:14 [<chan>]01 +i Invited only
+ChanBanned [02&01] 14Can`t join15:14 [<chan>]01 Banned
+ChanKeyRequired [02&01] 14Can`t join15:14 [<chan>]01 +k
+ChanRegOnly <chan> unable to join channel (registered only)
+NoSuchNick [0&01] 14No such nickname15:14 [<nick>]
+NoSuchChan [02&01] 14No such nickname15:14 [<chan>]
+
+RawDef 14<text>
+CRaw461 <pre> 02× 02[12<text>02]12 not enough parameters
+CRaw376  14:14: End of /MOTD command. 
+CRaw375 14:14: - <text> Message of the Day - 
+CRaw372 14:14: 14 <text>
+CRaw250 14[04Notice14] 14[12 $+ $server $+ 12] [01Highest connection count: <text> (<text> clients)
+CRaw266 2Global users14 <text> 14:: 12Max14 <text>
+CRaw265 2Local users14 <text> 14:: 12Max14 <text>
+CRaw306 12Away 14::1 You're now marked as being away
+CRaw305 12Away 14::1 You're no longer marked as being away
+
+Scheme0 Default 12303291 10711888 10451294 37632 12098428 12098428 9729637 32764 65535 64512 13477255 16776960 11902600 13285281 11441789 3219220 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme1 DarkBlue 12303291 16777215 16312538 37632 255 15644296 16310219 32764 657930 64512 15377256 16776960 15908765 13285281 14985592 13684944 8 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 8 1 8 1 14 6 0 8 1
+Scheme2 GrayBlue 12303291 8882563 11842740 37632 255 9211020 11842740 32764 65535 64512 5921370 16776960 10526880 13285281 8421504 4007694 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme3 Arabia 12303291 5987163 4609124 37632 14013394 2377824 7566195 32764 65535 65280 6850711 16776960 6588827 14539738 6779504 12635606 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme4 Kult 12303291 0 8142360 37632 255 6306349 5460819 32764 65535 65280 11960394 16776960 9464912 13285281 7105644 13684944 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme5 Weed 12303291 9221254 4290625 37632 7644013 7644013 5076301 32764 65535 65280 6329184 16776960 5144910 14177237 8955528 402691 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme6 Ocean 12303291 9801864 6903888 37632 255 8546901 5460819 32764 65535 65280 7299427 16776960 10259855 8682885 5523787 14405842 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme7 L-Blue2 12303291 9990971 10910767 37632 12287038 12154684 13341020 32764 65535 65280 12746819 11827519 11302451 13285281 10709044 7427379 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme8 LightBlue 12303291 10252087 13408614 37632 12287038 12748361 12611623 32764 65535 65280 13077844 16776960 12748361 13285281 12748361 7093779 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme9 DarkGreen 12303291 9221254 4290625 37632 7644013 7644013 5076301 32764 65535 65280 6329184 16776960 5144910 14177237 8955528 0 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme10 Green 12303291 1741568 2476034 36864 14013394 1273600 2947328 32764 65535 65280 2077440 16776960 1943040 14539738 1542144 0 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme11 Silence 12303291 7300690 7630941 37632 255 6440247 9729637 32764 65535 64512 8216136 16776960 7229763 13285281 5979960 3022109 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme12 BlueGray 12303291 11644066 13156021 37632 14013394 11972011 14341071 32764 65535 64512 12497575 16776960 11644316 14539738 11576213 9274490 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme13 Blue 12303291 16625794 16548150 37632 14013394 16618323 16699057 32764 65535 64512 16622703 16545059 12601859 14539738 16550469 3804416 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme14 Nebulosa 12303291 10711888 10451294 37632 12098428 12098428 9729637 32764 65535 64512 13477255 16776960 11902600 13285281 11441789 0 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme15 White3 12303291 10711888 10451294 37632 12098428 12098428 8553090 32764 65535 64512 13477255 16776960 11902600 13285281 11441789 16777215 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme16 White2 12303291 7300690 7630941 37632 255 6440247 9729637 32764 65535 64512 6958099 16776960 7229763 13285281 5979960 16777215 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme17 White 12303291 0 8142360 37632 255 6306349 5460819 32764 65535 64512 11960394 16776960 9464912 13285281 7105644 16777215 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme18 Purple 12303291 14075845 13414308 37632 12098428 15182757 15780550 32764 65535 64512 13477255 16776960 11902600 13285281 11441789 6638921 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme19 Rain 12303291 9801864 6903888 37632 8546901 8546901 7299427 32764 65535 64512 7299427 16776960 10259855 8682885 5523787 0 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme20 Arena 12303291 5987163 4609124 37632 14013394 2377824 7566195 32764 65535 64512 6850711 16776960 6588827 14539738 6779504 0 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme21 Yellow 12303291 436157 10480880 37632 12287038 12057855 6484991 32764 65535 16448250 12500670 11827519 1172462 8909303 13158600 0 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme22 Idhai 12303291 9990971 10716781 37632 12287038 12154684 14794914 32764 65535 65280 14790272 11827519 14525036 13285281 12489584 0 15 6 4 5 2 2 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 15 1 15 1 14 6 0 15 1
+Scheme23 BlackWhite 16777215 11842740 11842740 37632 255 11842740 11842740 32764 65535 64512 16777215 16776960 11842740 0 11842740 11842740 13 14 4 5 2 2 3 15 15 15 15 15 5 15 15 15 15 15 3 5 15 13 0 13 0 14 6 0 13 0

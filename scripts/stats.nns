@@ -1,0 +1,178 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - statistical stuff - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias stat { nndlg -m stat }
+dialog stat {
+  title "Script statistics [/stat]"
+  size -1 -1 312 264
+  option pixels
+  icon scripts\pics\nntray.ico
+  tab "General", 7, 5 4 302 230
+  tab "Conversation", 3
+  tab "DCC", 6
+  list 2, 10 30 292 158, size
+  button "&Ok", 1, 228 236 80 24, ok
+  text "Last reset:", 8, 12 192 56 16
+  text "", 9, 80 192 220 16, right
+  text "", 10, 80 206 220 16, right
+  menu "&File", 11
+  item "&Close", 12, 11
+  menu "&Statistics", 4
+  item "&Post selected in active", 14, 4
+  item break, 15, 4
+  item "&Refresh", 13, 4
+  item "R&eset", 5, 4
+}
+alias stat.scriptlines {
+  var %a = $alias(0),%s = $script(0),%l = 0
+  while (%a) {
+    inc %l $lines($alias(%a))
+    dec %a
+  }
+  while (%s) {
+    inc %l $lines($script(%s))
+    dec %s
+  }
+  return %l
+}
+alias stat.lastreset { return $sduration($calc($ctime - %stat.lastreset)).nosec }
+alias stat.ref {
+  did -ra stat 9 $longtime(%stat.lastreset)
+  did -ra stat 10 $stat.lastreset ago
+  did -r stat 2
+  if ($1 == -c) {
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.writtenchars,b) $+ 	+ 0 0 0 Written characters
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.writtenwords,b) $+ 	+ 0 0 0 Written words
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.writtenlines,b) $+ 	+ 0 0 0 Written lines
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.writtenqu,b) $+ 	+ 0 0 0 Questions asked
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.queries,b) $+ 	+ 0 0 0 Queries
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.queriestoday,b) $+ 	+ 0 0 0 Queries today
+  }
+  elseif ($1 == -d) {
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.dccgotfiles,b) $+ 	+ 0 0 0 Files received
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.dccgot,3).suf $+ 	+ 0 0 0 Data received
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.dccsentfiles,b) $+ 	+ 0 0 0 Files sent
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.dccsent,3).suf $+ 	+ 0 0 0 Data sent
+  }
+  else {
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.scriptstarts,b) $+ 	+ 0 0 0 Script starts
+    did -a stat 2 1 + 0 0 0 $bytes($calc($script(0) + $alias(0)),b) $+ 	+ 0 0 0 Script files loaded
+    did -a stat 2 1 + 0 0 0 $bytes($stat.scriptlines,b) $+ 	+ 0 0 0 Script lines
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.scriptcrashes,b) $+ 	+ 0 0 0 Abnormal script shutdowns
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.thmload,b) $+ 	+ 0 0 0 Themes loaded
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.connects,b) $+ 	+ 0 0 0 Connects
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.joins,b) $+ 	+ 0 0 0 Channels joined
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.nicks,b) $+ 	+ 0 0 0 Nick changes
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.topicchanges,b) $+ 	+ 0 0 0 Topic changes
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.opped,b) $+ 	+ 0 0 0 Users opped
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.voiced,b) $+ 	+ 0 0 0 Users voiced
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.deopped,b) $+ 	+ 0 0 0 Users deopped
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.devoiced,b) $+ 	+ 0 0 0 Users devoiced
+    did -a stat 2 1 + 0 0 0 $bytes($power,b) $+ 	+ 0 0 0 Users controlled
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.kickcount,b) $+ 	+ 0 0 0 Users kicked
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.bancount,b) $+ 	+ 0 0 0 Users banned
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.skickcount,b) $+ 	+ 0 0 0 Been kicked
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.sbancount,b) $+ 	+ 0 0 0 Been banned
+    did -a stat 2 1 + 0 0 0 $bytes(%stat.away,b) $+ 	+ 0 0 0 Gone away
+  }
+}
+on *:dialog:stat:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 2 ListView report showsel single rowselect infotip > $mdxfile(views)
+    did -i $dname 2 1 headerdims 80:1 180:2
+    did -i $dname 2 1 headertext +r 0 Value	+ 0 Description
+    did -b $dname 14
+    stat.ref
+  }
+  elseif ($devent == sclick) {
+    if ($did == 4) { stat.ref $replace($dialog($dname).tab,7,-g,6,-d,3,-c) }
+    elseif ($did == 2) {
+      did $iif($did($did).sel,-e,-b) $dname 14
+      sortmdx $dname $did
+      if (rclick * iswm $did($did,1)) {
+        popdll.new
+        popdll.add 1	 $+ $iif($nomsg,+g,+) 1 0 &Post in activestat.say $active
+        popdll.add 2	+ 2 0 -
+        popdll.add 3	+ 3 0 &Refreshstat.ref $replace($dialog($dname).tab,7,-g,3,-c,6,-d)
+        popdll.add 4	+ 4 0 Re&set allstat.reset -v
+        popdll.disp
+      }
+    }
+    elseif ($did == 7) { stat.ref -g }
+    elseif ($did == 6) { stat.ref -d }
+    elseif ($did == 3) { stat.ref -c }
+  }
+  elseif ($devent == menu) {
+    if ($did == 5) { stat.reset -v }
+    elseif ($did == 13) { stat.ref $replace($dialog($dname).tab,7,-g,3,-c,6,-d) }
+    elseif ($did == 12) { dialog -c $dname }
+    elseif ($did == 14) { stat.say $active }
+  }
+}
+alias stat.say {
+  var %x = $1
+  tokenize 9 $did(stat,2).seltext
+  var %a,%t = $dialog(stat).tab,%s = $did(stat,2).sel
+  if (%t == 7) {
+    if (%s == 2) { %a = $bytes(%stat.scriptstarts,b) $nbr($dayavg(%stat.scriptstarts,1) per day) }
+    elseif (%s == 3) { %a = $script(0) remote file(s), $alias(0) alias(es) }
+    elseif (%s == 4) { %a = $bytes($stat.scriptlines,b) }
+    elseif (%s == 5) { %a = $bytes(%stat.scriptcrashes,b) $nbr($dayavg(%stat.scriptcrashes,1) per day) }
+    elseif (%s == 6) { %a = $bytes(%stat.thmload,b) $nbr($dayavg(%stat.thmload,1) per day) }
+    elseif (%s == 7) { %a = $bytes(%stat.connects,b) $nbr($dayavg(%stat.connects,1) per day) }
+    elseif (%s == 8) { %a = $bytes(%stat.joins,b) $nbr($dayavg(%stat.joins,1) per day) }
+    elseif (%s == 9) { %a = $bytes(%stat.nicks,b) $nbr($dayavg(%stat.nicks,1) per day) }
+    elseif (%s == 10) { %a = $bytes(%stat.topicchanges,b) $nbr($dayavg(%stat.topicchanges,1) per day) }
+    elseif (%s == 11) { %a = $bytes(%stat.opped,b) $nbr($dayavg(%stat.opped,1) per day) }
+    elseif (%s == 12) { %a = $bytes(%stat.voiced,b) $nbr($dayavg(%stat.voiced,1) per day) }
+    elseif (%s == 13) { %a = $bytes(%stat.deopped,b) $nbr($dayavg(%stat.deopped,1) per day) }
+    elseif (%s == 14) { %a = $bytes(%stat.devoiced,b) $nbr($dayavg(%stat.devoiced,1) per day) }
+    elseif (%s == 15) { %a = $bytes($power,b) }
+    elseif (%s == 16) { %a = $bytes(%stat.kickcount,b) $nbr($dayavg(%stat.kickcount,1) per day) }
+    elseif (%s == 17) { %a = $bytes(%stat.bancount,b) $nbr($dayavg(%stat.bancount,1) per day) }
+    elseif (%s == 18) { %a = $bytes(%stat.skickcount,b) $nbr($dayavg(%stat.skickcount,1) per day) }
+    elseif (%s == 19) { %a = $bytes(%stat.sbancount,b) $nbr($dayavg(%stat.sbancount,1) per day) }
+    elseif (%s == 20) { %a = $bytes(%stat.away,b) $nbr($dayavg(%stat.away,1) per day) }
+  }
+  elseif (%t == 3) {
+    if (%s == 2) { %a = $bytes(%stat.writtenchars,b) $nbr($round($calc(%stat.writtenchars / %stat.writtenlines),1) per line $+ $chr(44) $round($calc(%stat.writtenchars / %stat.writtenwords),1) per word $+ $chr(44) $round($calc(%stat.writtenchars /(($ctime - %install.time)/60)),1) character(s) per minute) }
+    elseif (%s == 3) { %a = $bytes(%stat.writtenwords,b) $nbr($round($calc(%stat.writtenwords / %stat.writtenlines),1) per line $+ $chr(44) $round($calc(%stat.writtenchars / %stat.writtenwords),1) character(s) per word $+ $chr(44) $round($calc(%stat.writtenwords /(($ctime - %install.time)/60)),1) word(s) per minute) }
+    elseif (%s == 4) { %a = $bytes(%stat.writtenlines,b) $nbr($round($calc(%stat.writtenchars / %stat.writtenlines),1) character(s) per line $+ $chr(44) $round($calc(%stat.writtenwords / %stat.writtenlines),1) word(s) per line $+ $chr(44) $round($calc(%stat.writtenlines /(($ctime - %install.time)/60)),1) line(s) per minute) }
+    elseif (%s == 5) { %a = $bytes(%stat.writtenqu,b) (every $ord($round($calc(%stat.writtenlines / %stat.writtenqu),0)) line you write is a question.) }
+    elseif (%s == 6) { %a = $bytes(%stat.queries,b) $nbr($dayavg(%stat.queries,1) per day) }
+    elseif (%s == 7) { %a = $bytes(%stat.queriestoday,b) }
+  }
+  elseif (%t == 6) {
+    if (%s == 2) { %a = $bytes(%stat.dccgotfiles,b) $nbr($dayavg(%stat.dccgotfiles,1) per day $+ $chr(44) $bytes($calc(%stat.dccgot / %stat.dccgotfiles),3).suf per file) }
+    elseif (%s == 3) { %a = $bytes(%stat.dccgot,3).suf $nbr(average $bytes($calc(%stat.dccgot /(($ctime - %install.time)))).suf $+ /s $+ $chr(44) $bytes($calc(%stat.dccgot / %stat.dccgotfiles),3).suf per file) }
+    elseif (%s == 4) { %a = $bytes(%stat.dccsentfiles,b) $nbr($dayavg(%stat.dccsentfiles,1) per day $+ $chr(44) $bytes($calc(%stat.dccsent / %stat.dccsentfiles),3).suf per file) }
+    elseif (%s == 5) { %a = $bytes(%stat.dccsent,3).suf $nbr(average $bytes($calc(%stat.dccsent /(($ctime - %install.time)))).suf $+ /s $+ $chr(44) $bytes($calc(%stat.dccsent / %stat.dccsentfiles),3).suf per file) }
+  }
+  msg %x $sbr(Statistics) $wd($2,5-) $+ : %a $nbr(last reset: $stat.lastreset ago)
+}
+alias stat.reset {
+  if ($1 == -v) && (!$ydialog(Do you really want to reset all script statistics?)) { return }
+  set %stat.lastreset $ctime | set %stat.writtenchars 0 | set %stat.writtenwords 0 | set %stat.writtenlines 0
+  set %stat.writtenqu 0 | set %stat.queries 0 | set %stat.queriestoday 0 | set %stat.dccgotfiles 0
+  set %stat.dccgot 0 | set %stat.dccsentfiles 0 | set %stat.dccsent 0 | set %stat.scriptstarts 0
+  set %stat.scriptcrashes 0 | set %stat.connects 0 | set %stat.joins 0 | set %stat.nicks 0
+  set %stat.topicchanges 0 | set %stat.opped 0 | set %stat.voiced 0 | set %stat.deopped 0
+  set %stat.devoiced 0 | set %stat.kickcount 0 | set %stat.bancount 0 | set %stat.skickcount 0
+  set %stat.sbancount 0 | set %stat.thmload 0 | set %stat.away 0
+  if ($dialog(stat)) { stat.ref $replace($dialog($dname).tab ,3,-c,6,-d) }
+}
+alias stat.queryref {
+  if (%querydate != $date) {
+    set %querydate $date
+    set %stat.queriestoday 0
+  }
+  inc %stat.queriestoday
+  inc %stat.queries
+}
+on *:active:*:{ if ($dialog(stat)) { did $iif(!$did(stat,2).sel || $nomsg,-b,-e) stat 14 } }
+on *:op:#:{ if ($nick == $me) { inc %stat.opped } }
+on *:deop:#:{ if ($nick == $me) { inc %stat.deopped } }
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

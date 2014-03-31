@@ -1,0 +1,559 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - main events - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+on ^*:part:#:{
+  if ($nick == $me) {
+    $+(.timerialq.,$cid,.,$chan) off
+    ialq.update remove $chan
+  }
+  elseif ($cprot.chkst($nick,$chan)) && (%cprot. [ $+ [ %cprot.curchan ] $+ ] .join-/partflood) { cprot.dchk join-/partflood }
+}
+on ^*:logon:*:{
+  toolbar.conbtn
+  toolbar.refinfo
+  winpic Status Window
+}
+on *:connect:{
+  newserv $+($server,	,$iif($network,$nbr($network)))
+  if ($mouse.key & 4) {
+    thmecho -a Cancelling execution of $thmhl(auto-join) list...
+    .autojoin -s
+  }
+  else { .autojoin -d2 }
+}
+on *:signal:connect:{
+  if (%getexternalip) { .timergetip 1 10 getip }
+  winpic Status Window
+  toolbar.conbtn
+  toolbar.refinfo
+  if (%gs.auth.auto) { gs.doauth }
+  if (%x.auth.auto) { x.doauth }
+  if (%q.auth.auto) { q.doauth }
+  if (%psybnc.info. [ $+ [ $cid ] ]) || (%sbnc.info. [ $+ [ $cid ] ]) { .timer 1 2 q.checkauth }
+  inc %stat.connects
+  if (%awretain) && (%away.status) {
+    tokenize 32 $v1
+    if ($4-) { !away $4- $nbr(since $asctime($1,%timeformat)) }
+  }
+  if (%autoaway) { .timercheckidle -i 0 60 checkidle }
+}
+on *:disconnect:{
+  .signal -n disconnect
+  unset %psybnc.info. $+ $cid
+  unset %sbnc.info. $+ $cid
+  if (%psybnc.cid == $cid) && ($dialog(psybnc)) { dialog -c $v1 }
+}
+on *:signal:disconnect:{
+  winpic Status Window
+  toolbar.conbtn
+  toolbar.refinfo
+  if ($cid == $activecid) && ($toolbar(infobox)) { lagbar.clear }
+  if ($hget(cprot)) { hdel -w cprot $+(*.*.,$cid,.*.*) }
+  if ($hget(pprot)) { hdel -w pprot $+(*.,$cid,.*.*) }
+  unset %ialupdate. $+ $cid %q.newauthck. $+ $cid %psybnc.modehide. $+ $cid %away.seen.*. $+ $cid %q.authed. $+ $cid $&
+    %usermodes. $+ $cid %laghistory. $+ $cid %whois. $+ $cid %whowas. $+ $cid %rconnected. $+ $cid %ghosttry. $+ $cid %modedsp. $+ $cid $+ .*
+  unset %qcls.ls. $+ $cid $+ .* %nickretry. $+ $cid %joinretry. $+ $cid %who.show. $+ $cid %topiclen. $+ $cid %silencenum. $+ $cid %maxbans. $+ $cid $&
+    %pingticks. $+ $cid $+ .* %q.challengeauth. $+ $cid %ctcp.emfp. $+ $cid %names.show. $+ $cid %joinprog.*. $+ $cid %topicset.*. $+ $cid
+  if (%chancentral.cid == $cid) && ($dialog(chancentral)) { dialog -c $v1 }
+}
+on *:appactive:{
+  dcx xSignal 1
+  set %appactive $appactive
+}
+on *:filercvd:*:{
+  dccfin.sd
+  newget $filename
+  inc %stat.dccgot $get(-1).size
+  inc %stat.dccgotfiles
+  if (!$halted) {
+    if (%dcc.sinfo) { thmecho -a DCC get of $thmhl($get(-1).file) from $thmhl($get(-1)) $+ $iif($get(-1).ip != 255.255.255.255,/ $+ $thmhl($v1)) finished. Downloaded $thmhl($bytes($get(-1).size,3).suf) $iif($get(-1).resumed,after resuming from $thmhl($bytes($v1,3).suf)) in $thmhl($sduration($get(-1).secs)) at an average of $thmhl($bytes($get(-1).cps,3).suf $+ /s) $+ . }
+    haltdef
+  }
+}
+on *:filesent:*:{
+  dccfin.sd
+  inc %stat.dccsent $get(-1).size
+  inc %stat.dccsentfiles
+  if (!$halted) {
+    if (%dcc.sinfo) { thmecho -a DCC send of $thmhl($send(-1).file) to $thmhl($send(-1)) $+ $iif($send(-1).ip != 255.255.255.255,/ $+ $thmhl($v1)) finished. Uploaded $thmhl($bytes($send(-1).size,3).suf) $iif($send(-1).resumed,after resuming from $thmhl($bytes($v1,3).suf)) in $thmhl($sduration($send(-1).secs)) at an average of $thmhl($bytes($send(-1).cps,3).suf $+ /s) $+ . }
+    haltdef
+  }
+}
+on *:getfail:*:{
+  inc %stat.dccgot $get(-1).rcvd
+  if (!$halted) {
+    if (%dcc.sinfo) { thmerror -a DCC get of $thmhl($get(-1).file) from $thmhl($get(-1)) $+ $iif($get(-1).ip != 255.255.255.255,/ $+ $thmhl($v1)) failed! Downloaded $thmhl($+($bytes($get(-1).rcvd,3),/,$bytes($get(-1).size,3).suf)) $+ / $+ $thmhl($get(-1).pc $+ %) $iif($get(-1).resumed,after resuming from $thmhl($bytes($v1,3).suf)) in $thmhl($sduration($get(-1).secs)) at an average of $thmhl($bytes($get(-1).cps,3).suf $+ /s) $+ . }
+    haltdef
+  }
+}
+on *:sendfail:*:{
+  inc %stat.dccsent $send(-1).sent
+  if (!$halted) {
+    if (%dcc.sinfo) { thmerror -a DCC send of $thmhl($send(-1).file) to $thmhl($send(-1)) $+ $iif($send(-1).ip != 255.255.255.255,/ $+ $thmhl($v1)) failed! Uploaded $thmhl($+($bytes($send(-1).sent,3),/,$bytes($send(-1).size,3).suf)) $+ / $+ $thmhl($send(-1).pc $+ %) $iif($send(-1).resumed,after resuming from $thmhl($bytes($v1,3).suf)) in $thmhl($sduration($send(-1).secs)) at an average of $thmhl($bytes($send(-1).cps,3).suf $+ /s) $+ . }
+    haltdef
+  }
+}
+on ^*:invite:#:{ if (!$halted) && ($nick != $me) && (%pprot.inviteflood) { checkpp inviteflood } }
+; Need to create 3 identical input events due to mirc sucking.
+on *:input:?:{
+  var %ul = $minirc.actchan
+  if (!$halted) {
+    if ($inpaste) {
+      .timerpaste -io 1 0 dopaste
+      haltdef
+    }
+    elseif (!$cmdchar($1)) || ($ctrlenter) {
+      inc %stat.writtenchars $len($1-)
+      inc %stat.writtenwords $0
+      inc %stat.writtenlines
+      if ($right($1-,1) == ?) { inc %stat.writtenqu }
+      if (%ul) && (!$ctrlenter) && (%nick.comp) && ($right($1,1) isin %nick.comp.chr) && ($len($1) > 3) {
+        var %r = $n.comp($left($1,-1),0)
+        if (%r > 1) {
+          set %nickcomp.text $1-
+          set %nickcomp.chan %ul
+          if (!$dialog(nickcomp)) {
+            nndlg $iif($active == @MinIRC,-mdo,-m) nickcomp
+            while (%r) {
+              did -a nickcomp 3 $n.comp($left($1,-1),%r)
+              dec %r
+            }
+            did -c nickcomp 3 1
+          }
+          haltdef
+          return
+        }
+        elseif ($n.comp($left($1,-1),0)) {
+          var %x = $replace(%nickcomp.format,<nick>,$n.comp($left($1,-1),1))
+          msg %ul $iif($cchan(%ul),$strip(%x),%x) $2-
+          haltdef
+          return
+        }
+      }
+      if (%away.ipback) && (%away.status) { back }
+      msg %ul $1-
+      haltdef
+    }
+  }
+}
+on *:input:#:{
+  var %ul = $minirc.actchan
+  if (!$halted) {
+    if ($inpaste) {
+      .timerpaste -io 1 0 dopaste
+      haltdef
+    }
+    elseif (!$cmdchar($1)) || ($ctrlenter) {
+      inc %stat.writtenchars $len($1-)
+      inc %stat.writtenwords $0
+      inc %stat.writtenlines
+      if ($right($1-,1) == ?) { inc %stat.writtenqu }
+      if (%ul) && (!$ctrlenter) && (%nick.comp) && ($right($1,1) isin %nick.comp.chr) && ($len($1) > 3) {
+        var %r = $n.comp($left($1,-1),0)
+        if (%r > 1) {
+          set %nickcomp.text $1-
+          set %nickcomp.chan %ul
+          if (!$dialog(nickcomp)) {
+            nndlg $iif($active == @MinIRC,-mdo,-m) nickcomp
+            while (%r) {
+              did -a nickcomp 3 $n.comp($left($1,-1),%r)
+              dec %r
+            }
+            did -c nickcomp 3 1
+          }
+          haltdef
+          return
+        }
+        elseif ($n.comp($left($1,-1),0)) {
+          var %x = $replace(%nickcomp.format,<nick>,$n.comp($left($1,-1),1))
+          msg %ul $iif($cchan(%ul),$strip(%x),%x) $2-
+          haltdef
+          return
+        }
+      }
+      if (%away.ipback) && (%away.status) { back }
+      msg %ul $1-
+      haltdef
+    }
+  }
+}
+on *:input:@MinIRC:{
+  var %ul = $minirc.actchan
+  if (!$halted) {
+    if ($inpaste) {
+      .timerpaste -io 1 0 dopaste
+      haltdef
+    }
+    elseif (!$cmdchar($1)) || ($ctrlenter) {
+      inc %stat.writtenchars $len($1-)
+      inc %stat.writtenwords $0
+      inc %stat.writtenlines
+      if ($right($1-,1) == ?) { inc %stat.writtenqu }
+      if (%ul) && (!$ctrlenter) && (%nick.comp) && ($right($1,1) isin %nick.comp.chr) && ($len($1) > 3) {
+        var %r = $n.comp($left($1,-1),0)
+        if (%r > 1) {
+          set %nickcomp.text $1-
+          set %nickcomp.chan %ul
+          if (!$dialog(nickcomp)) {
+            nndlg $iif($active == @MinIRC,-mdo,-m) nickcomp
+            while (%r) {
+              did -a nickcomp 3 $n.comp($left($1,-1),%r)
+              dec %r
+            }
+            did -c nickcomp 3 1
+          }
+          haltdef
+          return
+        }
+        elseif ($n.comp($left($1,-1),0)) {
+          var %x = $replace(%nickcomp.format,<nick>,$n.comp($left($1,-1),1))
+          msg %ul $iif($cchan(%ul),$strip(%x),%x) $2-
+          haltdef
+          return
+        }
+      }
+      if (%away.ipback) && (%away.status) { back }
+      msg %ul $1-
+      haltdef
+    }
+  }
+}
+on ^*:kick:#:{
+  if ($nick == $me) { inc %stat.kickcount }
+  if ($knick == $me) {
+    inc %stat.skickcount
+    $+(.timerialq.,$cid,.,$chan) off
+    ialq.update remove $chan 
+    if ($gettok($readini($mircini,options,n0),8,44)) { .timerjdel 1 0 join $chan $chan($chan).key }
+  }
+}
+on *:topic:#:{
+  if ($nick == $me) { inc %stat.topicchanges }
+  topic.shist $chan $ctime $1-
+}
+on ^*:nick:{
+  if ($nick === $newnick) { haltdef }
+  else {
+    if ($timer(nickchg. $+ $cid)) && ($nick == %nickretry. [ $+ [ $cid ] ]) { nick $nick }
+    if ($nick == $me) {
+      inc %stat.nicks
+      .timernickchg. $+ $cid off
+    }
+    if ($hfind(black,$address($newnick,5),0,W)) {
+      var %c = $comchan($newnick,0)
+      while (%c) {
+        if ($ccontrol($chan)) { black.kick $comchan($newnick,%c) $newnick }
+        dec %c
+      }
+    }
+    if ($query($newnick)) {
+      if (%qcls.ls. [ $+ [ $cid ] $+ ] . [ $+ [ $nick ] ]) {
+        set $+(%,qcls.ls.,$cid,.,$newnick) %qcls.ls. [ $+ [ $cid ] $+ ] . [ $+ [ $nick ] ]
+        unset $+(%,qcls.ls.,$cid,.,$nick)
+      }
+    }
+    winpic $newnick
+  }
+}
+on &^*:notify:{
+  var %i = $ini($mircini,notify,0)
+  while (%i) {
+    var %l = $readini($mircini,n,notify,n $+ $calc(%i -1)),%y = 0
+    if (+* iswm %l) { var %l = $mid(%l,2),%y = 1 }
+    if ($nick == %l) {
+      if (%y) { whois $nick }
+      break
+    }
+    dec %i
+  }
+}
+on ^*:quit:{ if ($query($nick)) { unset $+(%,qcls.ls.,$cid,.,$nick) } }
+on ^*:join:#:{
+  if ($nick != $me) {
+    if ($nick($chan,0)) && ((!$hget(peaks,$chan)) || ($wd($hget(peaks,$chan),1) < $nick($chan,0))) { hadd -m peaks $chan $nick($chan,0) $ctime }
+    if ($ccontrol($chan)) {
+      black.kick $chan $nick
+      if ($cprot.chkst($nick,$chan)) && (%cprot. [ $+ [ %cprot.curchan ] $+ ] .join-/partflood) { cprot.dchk join-/partflood }
+    }
+  }
+  else {
+    inc %stat.joins
+    if ($fulladdress == Q!TheQBot@CServe.quakenet.org) && (%q.auth.auto) { .timersplitauth. $+ $cid 1 10 q.doauth }
+    if (%joinretry. [ $+ [ $cid ] ] == $chan) { $+(.timerjoinretry.,$cid) off }
+  }
+}
+on ^*:open:?:{
+  if (%pprot.blockallqueries) { haltdef }
+  elseif ($nick == $me) { if ($1- == AIDLE) { haltdef } }
+  elseif (!$halted) {
+    if (%pprot.spam) && (($regex($strip($1-),/#.+|www\..+\..+|http.//.+\..+|a.?s.?l\??/i)) || ($count($1-,,,,) > 4)) && ($prot.exclps($fulladdress)) { pprot.dotrig spam }
+    if (%pprot.queryflood) { checkpp queryflood }
+    if (%contentfilter.queries) && (%contentfilter) && ($regex($strip($1-),%contentfilter)) { haltdef }
+    if (!$halted) {
+      if (%query.notify) {
+        var %c = $cid
+        scid $activecid
+        thmecho -a $thmhl($nick) $+ / $+ $thmhl($address) opened a query with $iif(%c != $cid,you on $thmhl($iif($scid(%c).network,$v1,$scid(%c).server)),you) $+ : $1-
+        scid -r
+      }
+    }
+  }
+  if (!$halted) { set $+(%,qcls.ls.,$cid,.,$nick) $ctime }
+}
+on *:open:?:{
+  playmircsound query
+  if (!$halted) {
+    thmls $nick
+    thmecho $nick Query with $thmhl($nick) $+ / $+ $thmhl($gettok($address($nick,0),2,33)) opened on $thmhl($longtime) $+ .
+    stat.queryref
+    if (%querystats) {
+      thmecho $nick Total queries: $thmhl(%stat.queries) $+ / $+ $thmhl(~ $+ $iif($dayavg(%stat.queries,1) < %stat.queries,$v1,%stat.queries) per day)
+      thmecho $nick Queries today: $thmhl(%stat.queriestoday)
+      if ($comchan($nick,0)) {
+        var %i = $comchan($nick,0),%r
+        while (%i) {
+          if ($nick !isreg $comchan($nick,%i)) { var %p = $left($nick($comchan($nick,%i),$nick).pnick,1) }
+          else { unset %p }
+          var %r = %r %p $+ $comchan($nick,%i)
+          dec %i
+        }
+        thmecho $nick Common channels: $thmhl(%r)
+      }
+    }
+    thmls $nick
+    echo $nick 
+  }
+}
+on *:signal:winevent:{
+  if ($1 == Create) {
+    var %w = $window(*,0)
+    while (%w) {
+      if ($window(*,%w).hwnd == $3) {
+        winpic $window(*,%w)
+        return
+      }
+      dec %w
+    }
+  }
+}
+on *:active:*:{ winpic $active }
+on *:close:?:{ unset $+(%,qcls.ls.,$cid,.,$target) }
+on *:ban:*:{
+  if ($nick == $me) { inc %stat.bancount }
+  elseif ($ccontrol($chan)) && (%pprot.ban) && ($banmask iswm $address($me,5)) && ($prot.exclps($fulladdress)) { pprot.dotrig ban $chan $banmask }
+  if ($banmask iswm $ial($me)) { inc %stat.sbancount }
+  if (%bndsp) && ($ialchan($banmask,$chan,0)) {
+    var %i = $v1,%r
+    while (%i) {
+      %r = %r $nick($chan,$ialchan($banmask,$chan,%i).nick).pnick
+      if ($len(%r) > 3000) {
+        %r = %r $+ ...
+        break
+      }
+      dec %i
+    }
+    thmecho $chan This $thmhl($banmask) ban affects: $thmhl($replace(%r,$chr(32),$chr(44) $+ $chr(32)))
+  }
+}
+ctcp ^*:*:*:{
+  if ($nick != $me) {
+    if (!$chan) { if (!$halted) && (%pprot.ctcpflood) { checkpp ctcpflood } }
+    elseif ($cprot.chkst($nick,$chan)) && (%cprot. [ $+ [ %cprot.curchan ] $+ ] .ctcpflood) { cprot.dchk ctcpflood }
+  }
+  if (!$halted) {
+    if ($1 == dcc) {
+      var %p,%a
+      if ($regex($1-,/^DCC SEND .+ \d+ \d+ \d+ \d+$/i)) {
+        %p = 1
+        if ($wd($1-,-3)) { %a = 1 }
+      }
+      if ($2 == send) {
+        if (%p) { thmecho -a Passive DCC send $iif(%a,answer,request) from $thmhl($nick) received. Trying to $iif(%a,send,get) $thmhl($deltok($3-,-4-,32)) $+ / $+ $thmhl($bytes($wd($1-,-2)).suf) $+ ... }
+        else { thmecho -a DCC send request from $thmhl($nick) $+ / $+ $thmhl($longip($wd($1-,-3))) received. Trying to get $thmhl($deltok($3-,-3-,32)) $+ / $+ $thmhl($bytes($wd($1-,-1)).suf) through port $thmhl($wd($1-,-2)) $+ ... }
+      }
+      elseif ($2 == chat) {
+        if (!$5) { thmecho -a Passive DCC chat $iif(%a,answer,request) from $thmhl($nick) received. }
+        else { thmecho -a DCC chat request from $thmhl($nick) $+ / $+ $thmhl($longip($4)) received. Trying to chat through port $thmhl($5) $+ ... }
+      }
+    }
+    if ($istok(version userinfo clientinfo script,$1,32)) && (%sendversion) { .ctcpreply $nick $1 12( NoNameScript $replace(%version,.,.) 12:: www.nnscript.com 12:: www.esnation.com 12) }
+    elseif ($1 == time) { .ctcpreply $nick $1 $asctime }
+    elseif ($1 == finger) { .ctcpreply $nick $1 $iif($readini($mircini,text,finger),$v1,Don't finger me $+ $chr(44) pervert!) }
+    elseif ($istok(sound mp3,$1,32)) && ($gettok($readini($mircini,options,n3),19,44)) {
+      var %x = $sound($gettok($2-,-1,46)) $+ $2-,%z
+      if ($isfile(%x)) { %z = %x }
+      elseif ($isfile($2-)) { %z = $2- }
+      elseif ($gettok($readini($mircini,options,n3),21,44)) { .timercsound 1 0 thmerror $iif($chan,$chan,$nick) Warning: file $thmhl($2-) does not exist. }
+      if (((!$insong) && (!$inwave) && (!$inmidi)) || ($gettok($readini($mircini,options,n3),20,44))) && (%z) { .splay %z }
+    }
+  }
+}
+on ^*:notice:*:#:{
+  if ($nick != $me) {
+    if (!$halted) {
+      var %o = $strip($1-)
+      if ($isachl(%o)) && (%pprot.highlightflood) { checkpp highlightflood }
+      if (%pprot.spam) && (($regex(%o,/#.+|www\..+\..+|http.//.+\..+|a.?s.?l\??/i)) || ($count($1-,,,,) > 4)) && ($prot.exclps($fulladdress)) { pprot.dotrig spam }
+      if (%pprot.noticeflood) { checkpp noticeflood }
+    }
+    if ($cprot.chkst($nick,$chan)) && (%cprot. [ $+ [ %cprot.curchan ] $+ ] .noticeflood) { cprot.dchk noticeflood }
+  }
+}
+on ^*:notice:*:?:{
+  var %o = $strip($1-)
+  if ($nick == NickServ) && ((*/msg nickserv identify* iswm %o) || (*/nickserv identify* iswm %o) || (*/ns identify* iswm %o) || (*is a registered nick*auth* iswm %o) || (*/identify* iswm %o)) {
+    tokenize 32 %nsset. [ $+ [ $network ] ]
+    if ($4) && ($5 == $me) { $iif($1,!.nickserv,!.msg nickserv) identify $decode($4,m) }
+  }
+  if ($nick != $me) && (!$halted) {
+    if ($isachl(%o)) && (%pprot.highlightflood) { checkpp highlightflood }
+    if (%pprot.spam) && (($regex(%o,/#.+|www\..+\..+|http.//.+\..+|a.?s.?l\??/i)) || ($count($1-,,,,) > 4)) && ($prot.exclps($fulladdress)) { pprot.dotrig spam }
+    if (%pprot.noticeflood) { checkpp noticeflood }
+  }
+  elseif ($regex($1-,^LAGCHK \d+(?:\.?\d+)?$)) {
+    var %t = $int($calc(($nnticks - $2)*1000)),%h = %laghistory. [ $+ [ $cid ] ]
+    if ($len(%h) >= 3000) || ($numtok(%h,32) >= 100) { set %laghistory. $+ $cid %t $deltok(%h,-1,32) }
+    else { set %laghistory. $+ $cid %t %h }
+    if ($cid == $activecid) {
+      toolbar.dlag %t
+      toolbar.refinfo
+    }
+    haltdef
+  }
+}
+on *:exit:{
+  sysinfo.chkuptimerecord
+  close -@
+  if ($hget(peaks)) { hsave -ob peaks scripts\tables\peaks.tbl }
+  if ($hget(rssdone)) { hsave -ob rssdone scripts\tables\rssdone.tbl }
+  if ($hget(topichist)) { hsave -ob topichist scripts\tables\topichist.tbl }
+  unsetvars
+  var %i = $dll(0)
+  while (%i) {
+    dll -u $dll(%i)
+    dec %i
+  }
+  set %nocrash 1
+}
+on *:voice:#:{ if ($nick == $me) { inc %stat.voiced } }
+on *:devoice:#:{
+  if ($nick == $me) { inc %stat.devoiced }
+  elseif (? !iswm $nick) && ($vnick == $me) {
+    if ($q.net) && (%q.autorecmode) && (%q.authed. [ $+ [ $cid ] ]) && ((q ison $chan) || (l ison $chan)) && (!%reqvoice. [ $+ [ $cid ] $+ ] . [ $+ [ $chan ] ]) {
+      .msg $iif(q ison $chan,q,l) voice $chan
+      set -u30 $+(%,reqvoice.,$cid,.,$chan) 1
+    }
+    elseif ($u.net) && (%x.autorecmode) && (x ison $chan) && (!%reqvoice. [ $+ [ $cid ] $+ ] . [ $+ [ $chan ] ]) {
+      .msg x voice $chan
+      set -u30 $+(%,reqvoice.,$cid,.,$chan) 1
+    }
+    elseif ($gsurge) && (%gs.autorecmode) && (ChanServ ison $chan) && (!%reqvoice. [ $+ [ $cid ] $+ ] . [ $+ [ $chan ] ]) {
+      .msg chanserv $chan voice $me
+      set -u30 $+(%,reqvoice.,$cid,.,$chan) 1
+    }
+  }
+}
+on ^*:text:*:#:{
+  var %o = $strip($1-)
+  cprot.chktxtevent $1-
+  if ($contentfilter(%o).chan) { haltdef }
+  elseif (!$halted) && ($nick != $me) {
+    var %z = $isachl(%o),%a = $cid
+    if (%z) {
+      if (%pprot.highlightflood) { checkpp highlightflood }
+      if (!$halted) {
+        if (%showhla) && ($chan != $active) && ((@MinIRC != $active) || ($chan != $wd(%minirc,1)) || ($cid != $wd(%minirc,2))) {
+          scid $activecid
+          thmecho -a $thmhl($nick) highlighted you in $iif($activecid != %a,$thmhl($chan) on $thmhl($iif($scid(%a).network,$v1,$scid(%a).server)),$thmhl($chan)) $+ : $1-
+          scid -r
+        }
+        aw.chkhl
+      }
+    }
+  }
+}
+on ^*:text:*:?:{
+  var %o = $strip($1-)
+  if ($nick == $me) { if ($1- == AIDLE) { haltdef } }
+  elseif ($contentfilter(%o).query) { haltdef }
+  elseif (!$halted) && ($nick != $me) {
+    var %z = $isachl(%o),%a = $cid
+    if (%pprot.textflood) { checkpp textflood }
+    if (%z) {
+      if (%pprot.highlightflood) { checkpp highlightflood }
+      if (%showhla) && ($nick != $active) && ($query($nick)) && ((@MinIRC != $active) || ($nick != $wd(%minirc,1)) || ($cid != $wd(%minirc,2))) {
+        scid $activecid
+        thmecho -a $thmhl($nick) highlighted $iif($activecid != %a,you on $thmhl($iif($scid(%a).network,$v1,$scid(%a).server)),you) $+ : $1-
+        scid -r
+      }
+    }
+  }
+}
+on ^*:action:*:#:{
+  var %o = $strip($1-)
+  cprot.chktxtevent $1-
+  if ((%away.msghide) && ($regex(%o,/away|gone|hlsw|zur(?:ü|ue)ck|daddel|spiel|zock|playing|weg|wech|back|returned|left|leaving/i))) || ($contentfilter(%o).chan) { haltdef }
+  elseif (!$halted) && ($nick != $me) {
+    var %z = $isachl(%o),%a = $cid
+    if (%z) {
+      if (%pprot.highlightflood) { checkpp highlightflood }
+      if (!$halted) {
+        if (%showhla) && ($chan != $active) && ((@MinIRC != $active) || ($chan != $wd(%minirc,1)) || ($cid != $wd(%minirc,2))) {
+          scid $activecid
+          thmecho -a $thmhl($nick) highlighted you in $iif($activecid != %a,$thmhl($chan) on $thmhl($iif($scid(%a).network,$v1,$scid(%a).server)),$thmhl($chan)) $+ : $1-
+          scid -r
+        }
+        aw.chkhl
+      }
+    }
+  }
+}
+on ^*:action:*:?:{
+  if ($nick != $me) {
+    var %o = $strip($1-)
+    if ($contentfilter(%o).query) { haltdef }
+    elseif (!$halted) {
+      var %z = $isachl(%o),%a = $cid
+      if (%pprot.textflood) { checkpp textflood }
+      if (%z) {
+        if (%pprot.highlightflood) { checkpp highlightflood }
+        if (%showhla) && ($nick != $active) && ($query($nick)) && ((@MinIRC != $active) || ($nick != $wd(%minirc,1)) || ($cid != $wd(%minirc,2))) && (!$halted) {
+          scid $activecid
+          thmecho -a $thmhl($nick) highlighted $iif($activecid != %a,you on $thmhl($iif($scid(%a).network,$v1,$scid(%a).server)),you) $+ : %o
+          scid -r
+        }
+      }
+    }
+  }
+}
+on *:rawmode:#:{
+  if (%chanpasses.save) {
+    if ($regex(pwchg,$1-,/(\+|\-)[a-z]*k[a-z]*/i)) {
+      if ($regml(pwchg,1) == +) { set %pass.chan. [ $+ [ $curconserv ] $+ ] . [ $+ [ $chan ] ] $encode($chan($chan).key,m) }
+      else { unset %pass.chan. $+ $curconserv $+ . $+ %u }
+    }
+  }
+}
+on *:deop:#:{
+  if ($nick != $me) {
+    if ($cprot.chkst($nick,$chan)) && (%cprot. [ $+ [ %cprot.curchan ] $+ ] .mass-deop) { cprot.dchk mass-deop }
+    if (? !iswm $nick) && ($opnick == $me) {
+      if ($q.net) && (%q.autorecmode) && (%q.authed. [ $+ [ $cid ] ]) && ((q ison $chan) || (l ison $chan)) && (!%reqop. [ $+ [ $cid ] $+ ] . [ $+ [ $chan ] ]) {
+        .msg $iif(q ison $chan,q,l) op $chan
+        set -u30 $+(%,reqop.,$cid,.,$chan) 1
+      }
+      elseif ($u.net) && (%x.autorecmode) && (x ison $chan) && (!%reqop. [ $+ [ $cid ] $+ ] . [ $+ [ $chan ] ]) {
+        .msg x op $chan
+        set -u30 $+(%,reqop.,$cid,.,$chan) 1
+      }
+      elseif ($gsurge) && (%gs.autorecmode) && (ChanServ ison $chan) && (!%reqop. [ $+ [ $cid ] $+ ] . [ $+ [ $chan ] ]) {
+        .msg chanserv $chan op $me
+        set -u30 $+(%,reqop.,$cid,.,$chan) 1
+      }
+    }
+  }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

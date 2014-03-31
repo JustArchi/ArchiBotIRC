@@ -1,0 +1,290 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - clipboard editor - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias cbedit { nndlg -m cbedit }
+dialog cbedit {
+  title "Clipboard editor [/cbedit]"
+  size -1 -1 498 380
+  option pixels
+  icon scripts\pics\nntray.ico
+  edit "", 1, 2 0 494 312, multi return autohs autovs hsbar vsbar
+  edit "", 20, 282 316 66 22, read center
+  text "lines", 21, 354 320 24 14
+  edit "", 22, 394 316 66 22, read center
+  text "bytes", 23, 464 320 28 14
+  button "C&opy", 3, 4 352 80 24
+  button "&Paste", 5, 88 352 80 24
+  button "&Re-load", 29, 184 352 80 24
+  button "&Close", 4, 414 352 80 24
+  box "", 2, -10 338 520 80
+  text "Amount of data currently in the clipboard:", 24, 4 320 206 16
+  menu "&File", 6
+  item "Copy &file to clipboard", 70, 6
+  item "&Save clipboard to file", 30, 6
+  item break, 31, 6
+  item "C&opy data to clipboard", 11, 6
+  item "&Reload clipboard content", 16, 6
+  item break, 28, 6
+  item "&Close", 8, 6
+  menu "&Edit clipboard", 7
+  item "&Add line numbers", 25, 7
+  item break, 26, 7
+  item "&Remove tokens", 10, 7
+  item "R&emove empty lines", 31, 7
+  item "Remove &lines containing...", 46, 7
+  item "Remove lines &not containing...", 47, 7
+  item break, 32, 7
+  menu "Str&ip codes", 9, 7
+  item "&All", 12, 9
+  item break, 13, 9
+  item "&Bold", 14, 9
+  item "&Color", 15, 9
+  item "Reset", 48, 9
+  item "&Reverse", 17, 9
+  item "&Underline", 18, 9
+  item break, 45, 7
+  menu "S&ort", 38, 7
+  menu "&Numerical", 42, 38
+  item "&Ascending (0-9)", 43, 42
+  item "&Descending (9-0)", 44, 42
+  item "&Ascending (A-Z)", 39, 38
+  item "&Descending (Z-A)", 40, 38
+  item break, 49, 7
+  item "Convert to lo&wercase", 33, 7
+  item "Convert to u&ppercase", 34, 7
+  item break, 37, 7
+  item "&Break lines", 50, 7
+  item "&Trim lines", 52, 7
+  item break, 60, 7
+  item "Replace strin&g", 61, 7
+  item break, 51, 7
+  item "Searc&h", 36, 7
+  item "&Select all", 41, 7
+  item break, 35, 7
+  item "&Clear clipboard", 27, 7
+}
+alias cbedit.cpfile {
+  var %f = $$sfile(C:\*.txt)
+  loadbuf -ro cbedit 1 %f
+  cbedit.copy
+  idialog File %f copied to clipboard.
+}
+alias cbedit.opentmp { .fopen -o tmp scripts\txt\cbedit.tmp }
+alias cbedit.closetmp {
+  loadbuf -ro cbedit 1 scripts\txt\cbedit.tmp
+  did -c cbedit 1 1
+  .fclose tmp
+  tryremove scripts\txt\cbedit.tmp
+}
+alias cbedit.cupper {
+  tokenize 32 $1-
+  if ($1 == 1) { did -r cbedit 1 }
+  did -a cbedit 1 $replace($upper($2-),ü,Ü,ú,Ú,ù,Ù,û,Û,ä,Ä,á,Á,à,À,â,Â,ö,Ö,ó,Ó,ò,Ò,ô,Ô) $+ $crlf
+}
+alias cbedit.clower {
+  tokenize 32 $1-
+  if ($1 == 1) { did -r cbedit 1 }
+  did -a cbedit 1 $replace($lower($2-),Ü,ü,Ú,ú,Ù,ù,Û,û,Ä,ä,Á,á,À,à,Â,â,Ö,ö,Ó,ó,Ò,ò,Ô,ô) $+ $crlf
+}
+alias cbedit.strip {
+  tokenize 32 $1-
+  if ($1 == 1) { did -r cbedit 1 }
+  if (o isin %cbedit.strip) { did -a cbedit 1 $strip($remove($2-,),%cbedit.strip) $+ $crlf }
+  else { did -a cbedit 1 $strip($2-,%cbedit.strip) $+ $crlf }
+}
+alias cbedit.break {
+  tokenize 32 $1-
+  if ($1 == 1) { did -r cbedit 1 }
+  var %i = 1,%z = $len($2-)
+  while (%i <= %z) {
+    did -a cbedit 1 $mid($2-,%i,%cbedit.break) $+ $crlf
+    inc %i %cbedit.break
+  }
+}
+alias cbedit.trim {
+  tokenize 32 $1-
+  if ($1 == 1) { did -r cbedit 1 }
+  did -a cbedit 1 $left($2-,%cbedit.trim) $+ $crlf
+}
+alias cbedit.falias {
+  did -h cbedit 1
+  filter -ink cbedit 1 $1-
+  did -fvc cbedit 1 1
+}
+alias cbedit.replace {
+  tokenize 32 $1-
+  if ($1 == 1) { did -r cbedit 1 }
+  did -a cbedit 1 $replace($2-,%cbedit.replace.1,%cbedit.replace.2) $+ $crlf
+}
+alias cbedit.paste {
+  if ($istok(channel query chat,$window($active).type,32)) {
+    window -a $active
+    .com.sendkeys ^V
+    .timer 1 0 dialog -v cbedit
+  }
+  else { errdialog you can't paste in $active $+ ! }
+}
+on *:dialog:cbedit:*:*:{
+  if ($devent == init) {
+    .timercbedit.ref -imo 0 100 cbedit.refcount
+    cbedit.refcount
+    cbedit.load
+  }
+  elseif ($devent == sclick) {
+    if ($did == 3) { cbedit.copy }
+    elseif ($did == 4) { cbedit.close }
+    elseif ($did == 29) { cbedit.load }
+    elseif ($did == 5) { cbedit.paste }
+  }
+  elseif ($devent == menu) {
+    if ($did == 8) { cbedit.close }
+    elseif ($did == 70) { cbedit.cpfile }
+    elseif ($did == 11) { cbedit.copy }
+    elseif ($did == 16) { cbedit.load }
+    elseif ($did == 41) { did -c $dname 1 1 1 -1 }
+    elseif ($did == 39) { filter -ioct 1 32 $dname 1 $dname 1 }
+    elseif ($did == 40) { filter -iocte 1 32 $dname 1 $dname 1 }
+    elseif ($did == 43) { filter -ioctu 1 32 $dname 1 $dname 1 }
+    elseif ($did == 44) { filter -ioctue 1 32 $dname 1 $dname 1 }
+    elseif ($did == 46) { filter -iocx $dname 1 $dname 1 $+(*,$$eddialog(Delete all lines containing the following string:),*) }
+    elseif ($did == 47) { filter -ioc $dname 1 $dname 1 $+(*,$$eddialog(Delete all lines except those containing the following string:),*) }
+    elseif ($did == 36) {
+      var %s = $$eddialog(What do you want to search for?)
+      if ($didwm(cbedit,1,$+(*,%s,*),1)) {
+        var %i = $v1,%l = $pos($did(1,%i),%s,1)
+        did -c $dname 1 %i %l $calc(%l + $len(%s))
+      }
+      else { idialog No occurences of $qt(%s) found. }
+    }
+    elseif ($did == 34) { cbedit.falias cbedit.cupper }
+    elseif ($did == 33) { cbedit.falias cbedit.clower }
+    elseif ($did == 50) {
+      set %cbedit.break $$eddialog(After how many characters do you want lines to be broken up?,80)
+      cbedit.falias cbedit.break
+      unset %cbedit.break
+    }
+    elseif ($did == 52) {
+      set %cbedit.trim $$eddialog(After how many characters do you want lines to be trimmed?,80)
+      cbedit.falias cbedit.trim
+      unset %cbedit.trim
+    }
+    elseif ($did == 31) { filter -iocxg $dname 1 $dname 1 /^[\s]*$/ }
+    elseif ($did == 25) { filter -inco $dname 1 $dname 1 }
+    elseif ($istok(12 14 15 17 18 48,$did,32)) {
+      set %cbedit.strip $replace($did,12,burc,14,b,15,c,17,r,18,u,48,o)
+      cbedit.falias cbedit.strip
+      unset %cbedit.strip
+    }
+    elseif ($did == 27) {
+      if (!$did(cbedit,1).edited) || (($did(cbedit,1).edited) && ($ydialog(Do you really want to discard the changes you made to the clipboard?))) {
+        did -rj $dname 1
+        clipboard
+      }
+    }
+    elseif ($did == 10) { noop $dialog(cbedit.remtok,cbedit.remtok,-4) }
+    elseif ($did == 61) { noop $dialog(cbedit.replace,cbedit.replace,-4) }
+    elseif ($did == 30) {
+      var %f = $relpath($$sfile($mircdir $+ clipboard.txt,Where do you want to save the clipboard?,Save))
+      if (!$isfile(%f)) || ($ydialog(The file $nopath(%f) already exists! Do you want to overwrite it?)) {
+        did -j cbedit 1
+        savebuf -o $dname 1 %f
+        idialog Clipboard saved to %f $+ .
+      }
+    }
+  }
+}
+dialog cbedit.replace {
+  title "Clipboard editor - replace strings"
+  size -1 -1 288 90
+  option pixels
+  icon scripts\pics\nntray.ico
+  box "", 1, -6 48 302 60
+  text "String to be replaced", 2, 6 8 106 16
+  text "New string", 3, 6 32 60 16
+  edit "", 4, 122 4 164 22, autohs limit 100
+  edit "", 5, 122 28 164 22, autohs limit 100
+  button "&Ok", 6, 120 62 80 24, ok
+  button "&Cancel", 7, 204 62 80 24, cancel
+}
+on *:dialog:cbedit.replace:*:*:{
+  if ($devent == sclick) && ($did == 6) {
+    set %cbedit.replace.1 $did(4)
+    set %cbedit.replace.2 $did(5)
+    cbedit.falias cbedit.replace
+    unset %cbedit.replace.?
+  }
+}
+dialog cbedit.remtok {
+  title "Clipboard editor - remove tokens"
+  size -1 -1 240 104
+  option pixels
+  icon scripts\pics\nntray.ico
+  box "", 1, -6 62 254 62
+  text "Token number(s) to remove (single number or range)", 2, 6 8 140 30
+  text "Token separator", 3, 6 44 88 16
+  edit "", 4, 156 4 80 22, center
+  combo 5, 156 40 80 166, size limit 1 drop
+  button "&Ok", 6, 72 76 80 24
+  button "&Cancel", 7, 156 76 80 24, cancel
+}
+on *:dialog:cbedit.remtok:*:*:{
+  if ($devent == init) {
+    did -a $dname 4 1
+    did -a $dname 5 [tab]
+    var %i = 32,%z
+    while (%i < 256) {
+      %z = ""
+      if (%i = 32) { %z = [space] }
+      elseif (%i = 160) { %z = [hard space] }
+      else { %z = $chr(%i) }
+      did -a $dname 5 %z
+      inc %i
+    }
+    did -c $dname 5 2
+  }
+  elseif ($devent == sclick) && ($did == 6) {
+    if (!$regex($did(4),/^[\d\-]+$/)) { errdialog you have to enter a number or number range! }
+    else {
+      cbedit.opentmp
+      var %i = 1,%t = $did(cbedit,1).lines,%z,%ch = $iif($did(5).sel > 1,$calc($v1 +30),9)
+      while (%i <= %t) {
+        %z = $deltok($did(cbedit,1,%i),$did(4),%ch)
+        if ($spcnull(%z)) { .fwrite -n tmp $cr }
+        else { .fwrite -n tmp %z }
+        inc %i
+      }
+      dialog -c $dname
+      cbedit.closetmp
+    }
+  }
+}
+alias cbedit.copy {
+  did -fj cbedit 1
+  .com.sendkeys ^{HOME}+^{END}^C^{HOME}
+  cbedit.refcount
+}
+alias cbedit.refcount {
+  if ($dialog(cbedit)) {
+    if (!$cb(0).len) { did -ra cbedit 20,22 0 }
+    else {
+      if ($did(cbedit,20) != $bytes($cb(0),b)) { did -ra cbedit 20 $v2 }
+      if ($did(cbedit,22) != $bytes($cb(0).len,b)) { did -ra cbedit 22 $v2 }
+    }
+  }
+  else { .timercbedit.ref off }
+}
+alias cbedit.load {
+  if (!$did(cbedit,1).edited) || (($did(cbedit,1).edited) && ($ydialog(Do you really want to discard the changes you made to the clipboard?))) {
+    did -rf $dname 1
+    .com.sendkeys ^V
+    .timer 1 0 cbedit.refcount $chr(124) did -j $dname 1 $chr(124) did -c $dname 1 1
+  }
+}
+alias cbedit.close {
+  if ($did(cbedit,1).edited) { if ($ydialog(Do you really want to discard the changes you made to the clipboard?)) { dialog -x cbedit } }
+  else { dialog -x cbedit }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

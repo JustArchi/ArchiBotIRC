@@ -1,0 +1,146 @@
+Name Schlicht
+Version 1.9
+NNTVersion 1.03
+Author tomate
+Email webmaster@nahkampfnager.de
+Homepage http://www.nahkampfnager.de
+Description None.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 14HH12:14nn12.14ss      
+
+NickColSelf none
+NickColOp 11
+NickColVoice 15
+NickColRegular 14
+NickColProtect none
+NickColIgnore 4
+
+Brackets 12(<text>12)
+LineSep 
+Prefix       
+
+GenEcho <pre> <text>
+GenError <pre> Error12: <text>
+GenHighlight 12<text>
+
+ChanText 11<cmode><nick>11: <text>
+ChanTextOwn 11<cmode><me>11: <text>
+ChanAction <cmode><nick> <text>
+ChanActionOwn <cmode><me> <text>
+
+QueryText <nick>11: <text>
+QueryTextOwn <me>11: <text>
+QueryAction <nick> <text>
+QueryActionOwn <me> <text>
+
+Msg <pre><pre> msg from <nick>12: <text>
+MsgOwn <pre><pre> msg sent to <target>12: <text>
+Action <pre><pre> action from <nick>12: <text>
+ActionOwn <pre><pre> action sent to <target>12: <text>
+
+ChanNotice <pre> notice from <nick>/<chan>12: <text>
+Notice <pre> notice from <nick>12: <text>
+NoticeOwn <pre> notice sent to <target>12: <text>
+ServerNotice <pre> server notice from <server>12: <text>
+
+CTCP <pre> ctcp from <nick>12: <ctcp> <text>
+CTCPOwn <pre> ctcp sent to <target>12: <ctcp> <text>
+ChanCTCP <pre> ctcp from <nick>/<chan>12: <ctcp> <text>
+CTCPReply <pre> ctcp reply from <nick>12: <ctcp> <text>
+CTCPReplyOwn <pre> ctcp reply sent to <target>12: <ctcp> <text>
+
+Join <pre><pre> <nick> 12enters <chan> <address brackets="1">
+JoinOwn <pre> now 12talking in <chan>!if <topic> <pre> 11topic is <topic>!if <topic> <pre> 11set by <topicnick> on <topicdate>
+Part <pre><pre> <nick> 12leaves <chan> <message brackets="1">
+Quit <pre><pre> <nick> 12quits <message brackets="1">
+Nick <pre><pre> <nick> 11changed nick to <newnick>
+NickOwn <pre><pre> <me> 11changed nick to <newnick>
+Mode <pre><pre> <nick> 11sets mode <mode>
+UserMode <pre> <me> 11sets mode <mode>
+Kick <pre><pre> <nick> 12kicked <kickednick> <message brackets="1">
+KickOwn <pre><pre> <nick> 12kicked <me> <message brackets="1">
+WallOp <pre> wallops11: <nick> <text>
+
+DNS <pre> looking up 12<address>
+DNSError <pre> unable to resolve 12<address>
+DNSResolve <pre> resolved 12<address> to 12<raddress>
+
+Notify <pre> <nick> is now 12online! <note brackets="1">
+UnNotify <pre> <nick> is now 12offline! <note brackets="1">
+
+LUsers1 <linesep><pre> 12<users> users and 12<invisible> invisible on 12<servers> servers
+LUsers2 <pre> 12<operators> operator(s) online
+LUsers3 <pre> 12<connections> unknown connection(s)
+LUsers4 <pre> 12<channels> channels formed
+LUsers5 <pre> 12<clients> clients and 12<servers> servers<linesep>
+
+Welcome1 <linesep><pre> 12welcome to the internet relay network, 12<nick>
+Welcome2 <pre> your host is 12<host>, running version 12<version>
+Welcome3 <pre> this server was created on 12<created>
+Welcome4 <pre> server info: 12<server>, version 12<version>, usermodes 12<usermodes>, channel modes 12<chanmodes><linesep>
+SupportedInfo <pre> protocols supported by this server are: 12<protocols>
+
+ChannelModes <pre> 12<chan> modes are: <modes>
+ChannelCreation <pre> 12<chan> was created on <created>
+Bans <pre> 12<chan> ban 12<ban> set by <nick> on <banned>
+BansEnd <pre> 12<chan> end of ban list
+UnableToSend <pre> unable to message 12<chan>
+NotOpped <pre> you're not channel operator on 12<chan>
+HiddenHost <pre> 12<host> is now your hidden host
+RegisterFirst <pre> you have to 12register first!
+
+WhoisStart <linesep>
+WhoisAddress <pre> <nick> is <name> <address brackets="1">
+WhoisChans !if <opchans> <pre> 1<nick> is 12opped in <opchans>!if <hopchans> <pre> 1<nick> is 12helpopped in <hopchans>!if <vchans> <pre> 1<nick> is 12voiced in <vchans>!if <regchans> <pre> 1<nick> is 12reg in in <regchans>
+WhoisServer <pre> 1<nick> is 12using <server>, <info>
+WhoisStatus <pre> 1<nick> is 12an <status>
+WhoisAway <pre> 1<nick> is 12away <reason>
+WhoisAuth <pre> 01<nick> is 12authed as <auth>
+WhoisRealIP <pre> 01<nick> is 12actually <address>, <ip>
+WhoisIdle <pre> 1<nick> is 12idle for <idle>, signed on <signonago> ago
+WhoisEnd <linesep>
+
+WhowasStart <linesep>
+WhowasAddress <pre> <nick> was <name> <address brackets="1">
+WhowasServer <pre> 1<nick> was 12using <server>, <info>
+WhowasAway <pre> 1<nick> was 12away <reason>
+WhowasEnd <linesep>
+
+Who <pre> who 12<chan>: <nick> / <status> / <address> / <name>
+WhoEnd <pre> end of 12<target> who list
+
+Invite <pre> <nick> invites you to join 12<chan>
+InviteOwn <pre> <nick> has been invited to join 12<chan>
+InviteAlreadyOnChan <pre> 12<nick> is already on the channel 12<chan>
+
+NoTopic <pre> there is no topic in 12<chan>
+Topic <pre> 11topic is <topic>
+TopicBy <pre> 11set by <nick> on <date>
+TopicChange <pre><pre> <nick> 11changed topic to <topic>
+
+Names <pre> names on 12<chan>: <names>
+NamesEnd <pre> end of names for 12<chan>
+
+UnknownCmd <pre> 12<cmd> is an unknown command
+NickInUse <pre> nickname 12<nick> is already in use
+AwayStatus <pre> 12<nick> is marked as being away: <reason>
+ChanFull <pre> you can't join channel 12<chan>: +l
+ChanInviteOnly <pre> you can't join channel 12<chan>: +i
+ChanBanned <pre> you can't join channel 12<chan>: +b
+ChanKeyRequired <pre> you can't join channel 12<chan>: +k
+ChanRegOnly <pre> you can't join channel 12<chan>: +r
+NoSuchNick <pre> there is no one using the nick 12<nick>
+NoSuchChan <pre> there is no channel named 12<chan>
+
+RawDef <pre> <text>
+
+Scheme0 Default 16777215 2171169 8388608 36864 255 127 10485920 33023 65535 64512 9474048 16765952 16742400 16711935 9474192 12895428 1 12 14 14 15 15 14 14 14 14 14 0 14 14 14 15 14 14 14 14 14 1 0 1 0 15 15 1 1 0
+Scheme5 Moosgrün 2171169 15199986 8388608 36864 255 127 10485920 33023 65535 64512 9474048 9226369 4952365 16711935 5658198 8421504 1 12 14 14 15 15 14 14 14 15 14 0 14 14 14 14 14 14 14 14 14 1 0 1 0 15 15 1 1 0
+Scheme4 Steingrau 2171169 15199986 8388608 36864 255 127 10485920 33023 65535 64512 9474048 11447982 8421504 16711935 5658198 8421504 1 12 14 14 15 15 14 15 14 15 15 0 14 14 14 14 15 15 14 14 14 1 0 1 0 15 15 1 1 0
+Scheme3 Sonnengelb 16777215 2171169 8388608 36864 255 127 10485920 33023 65535 64512 9474048 1034495 42751 16711935 9474192 12895428 1 12 14 14 15 15 14 14 14 14 14 0 14 14 14 15 14 14 14 14 14 1 0 1 0 15 15 1 1 0
+Scheme2 Grasgrün 16777215 2171169 8388608 36864 255 127 10485920 33023 65535 64512 9474048 9226369 4952365 16711935 9474192 12895428 1 12 14 14 15 15 14 14 14 14 14 0 14 14 14 15 14 14 14 14 14 1 0 1 0 15 15 1 1 0
+Scheme1 Buschenrot 16777215 2171169 8388608 36864 255 127 10485920 33023 65535 64512 9474048 4147687 1973980 16711935 9474192 12895428 1 12 14 14 15 15 14 14 14 14 14 0 14 14 14 15 14 14 14 14 14 1 0 1 0 15 15 1 1 0

@@ -1,0 +1,159 @@
+Name Neptune
+Version 1.0
+NNTVersion 1.03
+Author swarfega
+Email sw4rfega@googlemail.com
+Homepage http://www.nnscript.com
+Description Ported from MTS theme by Scratch.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 11(13 HH:nn:ss 11)
+
+NickColSelf none
+NickColOp none
+NickColVoice none
+NickColRegular none
+NickColProtect none
+NickColIgnore none
+
+Brackets 11(13 13<text>13 11)
+LineSep 11————————————————————————————————————————
+Prefix 11:12:13:
+
+GenEcho <pre> <text>
+GenError <pre> Error: <text>
+GenHighlight <text>
+
+ChanText 11( 12<cmode><nick> 11) <text>
+ChanTextOwn 11( 13<cmode><me> 11) <text>
+ChanAction 11!12 <cmode><nick> <text>
+ChanActionOwn 11!13 <cmode><me> <text>
+
+QueryText 11(12 <nick> 11) <text>
+QueryTextOwn 11(13 <me> 11) <text>
+QueryAction 11!12 <nick> <text>
+QueryActionOwn 11!13 <me> <text>
+
+Msg 11(12 <nick> 11) <text>
+MsgOwn <pre> Message:11 (13 <target> 11) <text>
+Action 11!12 <nick> <text>
+ActionOwn 11!13 <me> <text>
+
+ChanNotice <pre> Notice:11 (12 <nick> 11) (12 <chan> 11) <text>
+Notice <pre> Notice: 11( 12<nick> 11) <address brackets="1"> <text>
+NoticeOwn <pre> Notice:11 (13 <target> 11) <text>
+ServerNotice <pre> Notice:11 (12 <server> 11) <text>
+
+CTCP <pre> CTCP 11(12 <ctcp> 11) requested by12 <nick> 11[ 00<text> 11]
+CTCPOwn <pre> CTCP 11(12 <ctcp> 11) to12 <target> 11[ 00<text> 11]
+ChanCTCP <pre> CTCP 11(12 <ctcp>11) requested by12 <nick> at12 <chan> 11[ 00<text> 11]
+CTCPReply <pre> CTCP 11(12 <ctcp> 11) reply from12 %::nick $+  11[ 00<text> 11]
+CTCPReplyOwn <pre> CTCP 11(12 <ctcp>11) reply sent to12 <target> 11[ 00<text> 11]
+
+Join <pre> 11(13 • 11) Join:12 <nick> <address brackets="1"> joined 12<chan>
+JoinOwn <pre> Join: 12<chan>!if <topic> 11————————————————————————————————————————————!if <topic> <pre> Topic: <topic>!if <topic> <pre> Set by: 13<topicnick> 0· Set on: 13<topicdate>!if <topic> 11————————————————————————————————————————<pre> Channel Modes: 13 $+ $chan(<chan>).mode $+ <pre> Channel Synctime: 13 <synctime>
+Part <pre> 11(13 • 11) Part:12 <nick> <address brackets="1"> parted from 12<chan> 11[ 00<message> 11]
+Quit <pre> 11(13 • 11) Quit: 12<nick> <address brackets="1"> quited from 12IRC 11[ <message> 11]
+Nick <pre> 11(13 ¤ 11) Nickname: 12<nick> changed his nickname to13 <newnick>
+NickOwn <pre> 11(13 ¤ 11) Nickname:12 <me> changed your nickname to13 <newnick>
+Mode <pre> 11(13 ¤ 11) Channel Mode:12 <nick> sets mode 11( 13 $+ $gettok(<mode>,1,32) $+  11)00 to12 $iif($gettok(<mode>,2-,32),$v1 $+ ) in 12<chan>
+UserMode <pre> 11(13 ¤ 11) User Mode:12 <me> set mode <mode brackets="1">
+Kick <pre> 11(13 ¤ 11) Kick: 12<kickednick> was kicked from 12<chan> by 12<nick> 11[ <message> 11]
+KickOwn <pre> 11(13 ¤ 11) Kick:12 You were kicked from12 <chan> by12 <nick> <address brackets="1"> 11[<message>11]
+WallOp 11(12 <nick> 11) $ <text>
+
+DNS <pre> DNS:11 (12 $nick 11)
+DNSError <pre> DNS Error:11 (12 $nick 11)
+DNSResolve <pre> DNS Resolve:11 (12 $nick 11) <address brackets="1"> <raddress brackets="1">
+
+Notify !if <note> <pre> 11( 12<nick> 11) 11( 13$server 11) <note>
+UnNotify !if <note> <pre> 11(12 <nick> 11) (13 $server 11) 00<note>
+
+LUsers1 0  11:12:13: 11(13 • 11) 00/Lusers 11(13 multiplay.uk.quakenet.org 11) 11————————————————————————————0     11:12:13: 11(13 · 11) 00Users: 13<users>0     11:12:13: 11(13 · 11) 00Invisible: 13<invisible>0     11:12:13: 11(13 · 11) 00Servers: 13<servers>
+LUsers2 0     11:12:13: 11(13 · 11) 00Operators: 13<operators>
+LUsers3 0     11:12:13: 11(13 · 11) 00Connections: 13<connections>
+LUsers4 0     11:12:13: 11(13 · 11) 00Channels: 13<channels>
+LUsers5 0     11:12:13: 11(13 · 11) 00Clients: 13<clients>0     11:12:13: 11(13 · 11) 00Linked servers: 13<servers>
+
+Welcome1 !empty
+Welcome2 <pre> 00Host00:13 <host> 11(13 <version> 11)
+Welcome3 <pre>00 Host Creation00:13 <created>
+Welcome4 <pre> 00User Modes: 13<usermodes> <pre> 00Channel Modes: 13<chanmodes>
+SupportedInfo <pre> 00Protocols:13 <protocols>
+
+ChannelModes <pre> <chan> <modes>
+ChannelCreation <pre> Channel Creation:13 <created>
+Bans <chan> <ban> set by <nick> (<banned>)
+BansEnd <chan> End of Channel Ban List
+UnableToSend <pre> Error:13 Cannot send to channel (<chan>)
+NotOpped <pre> <chan>: you're not channel operator
+HiddenHost <pre> 13<host> is now your hidden host
+RegisterFirst <pre> Error:13 You need a registered and identified nick
+
+WhoisStart    <Pre> 11(13 • 11) /Whois 11(13 <nick> 11) 11————————————————————————————
+WhoisAddress       <pre> 11(13 · 11) Address:13 <address>      <pre> 11(13 · 11) Name:13 <name>
+WhoisChans       <pre> 11(13 · 11) 00Channels:13 <chans>
+WhoisServer       <pre> 11(13 · 11) 00Server:13 <server> 11(13 <info> 11)
+WhoisStatus       <pre> 11(13 · 11) 00Status:13 <status>
+WhoisAway       <pre> 11(13 · 11) 00Away:13 <reason>
+WhoisAuth       <pre> 11(13 · 11) 00Login:13 <auth>
+WhoisRealIP       <pre> 11(13 · 11) Name:13 <address brackets="1"> 11( <ip> 11)
+WhoisIdle       <pre> 11(13 · 11) 0Idle:13 <idle> 11( Connected on:13 <signontime> 11(13 $gettok(<signontime>,1,32) 11) · Connected at:13 <signonago> 11)
+WhoisEnd    <pre> 11(13 • 11) /Whois11 11————————————————————————
+
+WhowasStart    <Pre> 11(13 • 11) /Whowas 11(13 <nick> 11) 11————————————————————————————
+WhowasAddress       <pre> 11(13 · 11) Address:13 <address>
+WhowasServer       <pre> 11(13 · 11) 00Server:13 <server> 11(13 <info> 11)
+WhowasAway       <pre> 11(13 · 11) 00Away:13 <reason>
+WhowasEnd    <pre> 11(13 • 11) /Whowas11 11————————————————————————
+
+Who <pre> 13<nick> 11·13 <address> 11·13 <name> 11·13 <server> 11·13 <ident>
+WhoEnd !empty
+
+Invite <pre> 11(13 ¤ 11) Invite:12 You were invited for12 <chan> by12 <nick> 11(13 $address 11)
+InviteOwn <pre> 11(13 ¤ 11) Invite:12 <nick> was invited for12 <chan>
+InviteAlreadyOnChan <pre> Error: 13<nick> is already on <chan>
+
+NoTopic <pre> <chan> No topic is set.
+Topic <pre> Topic is '<topic>'
+TopicBy <pre> Set by <nick> on <date>
+TopicChange <pre> 11(13 ¤ 11) Channel Topic: 12<nick> set topic in12 <chan> to: <topic>
+
+Names    <pre> 11(13 • 11) 00/Names <chan brackets="1"> 11————————————————————————————      <pre> 11(13 · 11) 13<names>
+NamesEnd    <pre> 11(13 • 11) 00/Names 11————————————————————————————
+
+UnknownCmd <pre> Error:13 Unknown command (<cmd>)
+NickInUse <pre> Error:13 Nick <nick> is already in use
+AwayStatus <pre> <nick> is marked as being away: <reason>
+ChanFull <pre> Error:13 Cannot join <chan> (channel is full)
+ChanInviteOnly <pre> Error:13 Cannot join <chan> (invite required)
+ChanBanned <pre> Error:13 Cannot join <chan> (you are banned)
+ChanKeyRequired <pre> Error:13 Cannot join <chan> (incorrect key)
+ChanRegOnly <pre> Error:13 You need a registered and identified nick to join <chan>
+NoSuchNick <pre> Error:13 There was no such nick (<nick>)
+NoSuchChan <pre> Error:13 There is no such channel (<chan>)
+
+RawDef <pre> <text>
+CRaw403 <pre> Error:13 There is no such channel ( $+ $chan $+ ) /halt
+CRaw475 <pre> Error:13 Cannot join $chan (incorrect key) /halt
+CRaw478 <pre> Error:13 Cannot ban on $chan (banlist is full) /halt
+CRaw442 <pre> Error:13 You are not on $chan /halt
+CRaw306 <pre> Away:13 You have marked as being away /halt
+CRaw305 <pre> Back:13 You are no longer away /halt
+CRaw432 <pre> Error:13 Nick $nick is an erroneus nick /halt
+CRaw436 <pre> Error:13 Nick collision with $nick /halt
+CRaw433 <pre> Error:13 Nick $nick is already in use /halt
+CRaw406 <pre> Error:13 There was no such nick ( $+ $nick $+ ) /halt
+CRaw376 <pre> 11(13 • 11) /MOTD11 11———————————————————————— /halt
+CRaw372 <pre> 11(13 · 11) <text> /halt
+CRaw375 <pre> 11(13 • 11) 0/MOTD13 $server 11———————————————————————————— /halt
+CRaw329 <pre> Channel Creation:13 <text> /halt
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 13135365 16099930 16439215 8355711 13816530 1 0 0 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 14 6 0 1 0
+Scheme1 mercury 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 6579300 10526880 13816530 8355711 13816530 1 0 0 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 14 6 0 1 0
+Scheme2 mars 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 329110 1316050 1316080 8355711 13816530 1 0 0 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 14 6 0 1 0
+Scheme3 saturn 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 686090 1681950 3335740 8355711 13816530 1 0 0 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 14 6 0 1 0
+Scheme4 nereid 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 9210880 13158400 16448000 8355711 13816530 1 0 0 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 14 6 0 1 0

@@ -1,0 +1,141 @@
+Name Grey
+Version 1.1
+NNTVersion 1.03
+Author JMC
+Email theme@jmc-online.info
+Homepage http://www.jmc-online.info
+Description None.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 01HH14:01nn14:01ss
+
+NickColSelf 7
+NickColOp 1
+NickColVoice 14
+NickColRegular 14
+NickColProtect none
+NickColIgnore 4
+
+Brackets ‹01<text>›
+LineSep 2×-----------------12-------------2--------12---2-- -12---2- --12- -- -2- -12- 2- 12 -
+Prefix     —› 
+
+GenEcho <pre> 14<text>
+GenError <pre> error 06» 14<text>
+GenHighlight ‹01<text>›
+
+ChanText 06«<cmode><nick>06» <text>
+ChanTextOwn 06«<cmode><me>06» <text>
+ChanAction 06» <cmode><nick> <text>
+ChanActionOwn 06» <cmode><me> <text>
+
+QueryText 06«<nick>06» <text>
+QueryTextOwn 06«<me>06» <text>
+QueryAction 06» <nick> <text>
+QueryActionOwn 06» <me> <text>
+
+Msg 06*01<nick>06*01 <text>
+MsgOwn <pre> 06*01<target>06*01 <text>
+Action 06» <nick> <text>
+ActionOwn 06—›10 <target> <text>
+
+ChanNotice -01<nick>@01<chan>- <text>
+Notice -01<nick>- <text>
+NoticeOwn —› -01<target>- <text>
+ServerNotice -01<server>- <text>
+
+CTCP 06?01<nick>06?01 <ctcp> <text>
+CTCPOwn 06—› ?01<target>06?01 <ctcp> <text>
+ChanCTCP 06?01<nick>06@01<chan>06?01 <ctcp> <text>
+CTCPReply 06!01<nick>06!01 <ctcp> <text>
+CTCPReplyOwn 06—› !01<target>06!01 <ctcp> <text>
+
+Join <pre> join 06» <nick brackets="1"> <address brackets="1">
+JoinOwn <linesep><pre> joined 06» <chan brackets="1"><linesep>!if <topic> <pre> topic 06» <topic brackets="1">!if <topic> <pre> set by 06» <topicnick brackets="1"> on <topicdate brackets="1"><pre> users 06» <users> users, <oppedusers> ops <oppeduserspercent brackets="1">, <voicedusers> voiced <voiceduserspercent brackets="1">, <regusers> regulars <reguserspercent brackets="1"><pre> join synched in 06» <synctime brackets="1"> seconds<linesep>
+Part <pre> part 06» <nick brackets="1"> <address brackets="1"> <message brackets="1">
+Quit <pre> quit 06» <nick brackets="1"> <address brackets="1"> <message brackets="1">
+Nick <pre> nick 06» <nick brackets="1"> is now known as <newnick brackets="1">
+NickOwn <pre> nick 06» <me brackets="1"> is now known as <newnick brackets="1">
+Mode <pre> mode 06» <nick brackets="1"> sets <mode brackets="1">
+UserMode <pre> usermode set to <mode brackets="1">
+Kick <pre> kick 06» <kickednick brackets="1"> was kicked by <nick brackets="1"> <message brackets="1">
+KickOwn <pre> kick 06» <me brackets="1"> was kicked by <nick brackets="1"> <message brackets="1">
+WallOp <pre> wallop 06» <nick brackets="1"> <text>
+
+DNS <pre> dns 06» 14resolving <address brackets="1">...
+DNSError <pre> dns 06» 14unable to resolve <address brackets="1">
+DNSResolve <pre> dns 06» 14resolved <address brackets="1"> to <raddress brackets="1">
+
+Notify <pre> notify 06» <nick brackets="1"> is now online!
+UnNotify <pre> unnotify 06» <nick brackets="1"> is now offline!
+
+LUsers1 <pre> users 06» Total: <users brackets="1"> 01Invisible: <invisible brackets="1"> on <servers brackets="1"> Server(s)
+LUsers2 <pre> operator(s) online 06» <operators brackets="1">
+LUsers3 <pre> unknown connection(s) 06» <connections brackets="1">
+LUsers4 <pre> number of channels formed 06» <channels brackets="1">
+LUsers5 <pre> local clients 06» <clients brackets="1"> on <servers brackets="1"> server(s)
+
+Welcome1 <pre> Welcome to the Internet Relay Network, <nick brackets="1">
+Welcome2 <pre> host 06» <host brackets="1"> running version <version brackets="1">
+Welcome3 <pre> server created on 6» <created Brackets="1">
+Welcome4 <pre> <server brackets="1"> <version> <usermodes> <chanmodes>
+SupportedInfo <pre> protocols supported by this server 06» <protocols brackets="1">
+
+ChannelModes <pre> <chan brackets="1"> modes 06» <modes brackets="1">
+ChannelCreation <pre> channel created 06» <created brackets="1">
+Bans <pre> <chan brackets="1"> <ban> ban set by <nick> <banned brackets="1">
+BansEnd <pre> end of <chan brackets="1"> ban list
+UnableToSend <pre> unable to send message to <chan brackets="1">
+NotOpped <pre> you're not opped on <chan brackets="1">
+HiddenHost <pre> <host brackets="1"> is now your hidden host
+RegisterFirst <pre> register first!
+
+WhoisStart <linesep>    06« 01 whois start 15»
+WhoisAddress  06« <pre> 01 <nick> 14is <address> <name brackets="1">
+WhoisChans  06« <pre> 01 <nick> 14on <chans>
+WhoisServer  06« <pre> 01 <nick> 14using <server> <info brackets="1">
+WhoisStatus  06« <pre> 01 <nick> 14is an <status>
+WhoisAway  06« <pre> 01 <nick> 14is away: <reason>
+WhoisAuth  06« <pre> 01 <nick> 14is authed as <auth>
+WhoisRealIP  06« <pre> 01 <nick>14's real host <address> <ip brackets="1">
+WhoisIdle  06« <pre> 01 <nick> 14has been idle <idle> 06‹01signed on <signontime>06›
+WhoisEnd     06« 01 whois end 15»<linesep>
+
+WhowasStart <linesep>    06« 01 whowas start 15»
+WhowasAddress  06« <pre> 01 <nick> 14was <address> <name brackets="1">
+WhowasServer  06« <pre> 01 <nick> 14using <server>
+WhowasAway  06« <pre> 01 <nick> 14was away: <reason>
+WhowasEnd     06« 01 whowas end 15»<linesep>
+
+Who <pre> 06‹14/who06›14 <nick> <address brackets="1"> <name>
+WhoEnd <pre> 06‹14/who06›14 end.
+
+Invite <pre> invite 06» <nick brackets="1"> invites you to join ‹01 <chan> ›
+InviteOwn <pre> <nick brackets="1"> has been invited to join <chan brackets="1">
+InviteAlreadyOnChan <pre> <nick brackets="1"> is already on that channel
+
+NoTopic <pre> no topic in <chan brackets="1"> set
+Topic <pre> topic 06» <topic brackets="1">
+TopicBy <pre> set by 06» <nick brackets="1"> on <date brackets="1">
+TopicChange <pre> topic 06» <nick brackets="1"> changes topic to ‹01<topic>›
+
+Names <pre> 06‹14/names06›14 <names>
+NamesEnd <pre> 06‹14/names06›14 end.
+
+UnknownCmd <pre> <cmd brackets="1"> is an invalid command
+NickInUse <pre> nickname <nick brackets="1"> is already in use
+AwayStatus <pre> <nick brackets="1"> is marked as being away: <reason>
+ChanFull <pre> can't join <chan> 06‹14full (+l)06›
+ChanInviteOnly <pre> can't join <chan> 06‹14invite only (+i)06›
+ChanBanned <pre> can't join <chan> 06‹14you're banned (+b)06›
+ChanKeyRequired <pre> can't join <chan> 06‹14requires key (+k)06›
+ChanRegOnly <pre> can't join <chan> 06‹14registered only (+r)06›
+NoSuchNick <pre> no such nickname 06» <nick brackets="1">
+NoSuchChan <pre> no such channel 06» <chan brackets="1">
+
+RawDef <pre> <text>
+
+Scheme0 Default 16777215 0 8650765 61470 2829311 185 16723769 3391999 5898215 50176 5982976 9205504 7077904 16715775 2960685 10461087 15 10 1 5 1 1 1 1 2 10 1 1 5 5 1 14 1 1 1 1 1 14 0 15 1 15 1 14 15 1

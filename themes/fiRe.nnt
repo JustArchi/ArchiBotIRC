@@ -1,0 +1,144 @@
+Name fiRe
+Version 1.4
+NNTVersion 1.03
+Author fiRe (ported by GM)
+Email errgrr@gmail.com
+Homepage irc://irc.quakenet.org/GM
+Description None.
+
+Font Verdana
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 08-07HH08:07nn08:07ss08-
+
+NickColSelf 15
+NickColOp 8
+NickColVoice 7
+NickColRegular 14
+NickColProtect 11
+NickColIgnore 4
+
+Brackets (<text>)
+LineSep 7×••••••••••••••8••••••••••7••••••8•••7•• •8•••7• ••8• •• •7• •8• 7• 8 •
+Prefix 08•
+
+GenEcho <pre> 0I07nfo0» <text>
+GenError <pre> 0E07rror0» <text>
+GenHighlight (<text>)
+
+ChanText 08[<cmode><nick>08]: <text>
+ChanTextOwn 08[<cmode><me>08]: <text>
+ChanAction <pre> 08<cmode><nick> <text>
+ChanActionOwn <pre> 08<cmode>03<me> <text>
+
+QueryText 08[<nick>08]: <text>
+QueryTextOwn 08[<me>08]: <text>
+QueryAction <pre> 08<nick> <text>
+QueryActionOwn <pre> 03<me> <text>
+
+Msg <pre> 0M07essage from <nick>0» <text>
+MsgOwn 0M07essaging <target>0»03 <text>
+Action <pre> 0A07ction from <nick>0» <text>
+ActionOwn 0D07escribing <target>0»03 <text>
+
+ChanNotice -<nick>@<chan>- <text>
+Notice -<nick>- <text>
+NoticeOwn 0N07otice to0» <target>: <text>
+ServerNotice -<server>- <text>
+
+CTCP 04<pre> 08(15<nick>08) (15<ctcp>08)15 <text>
+CTCPOwn 08(15<target>08) 08(15<ctcp>08)15 <text>
+ChanCTCP 04<pre> 08(15<nick>08@15<chan>08)15 08(15<ctcp>08) <text>
+CTCPReply 04<pre> 08(15<nick>08) 08(15<ctcp>08) 00R07eply0»15 <text>
+CTCPReplyOwn 08(15<target>08) 08(15<ctcp>08) 00R07eply0»15 <text>
+
+Join <pre> 0J07oin0» (<nick>) (<address>)
+JoinOwn <linesep><pre> 0N07ow talking in0:15 08(15<chan>08)<linesep>!if <topic> <pre> 0T07opic0:15 <topic>!if <topic> <pre> 0S07et by0:15 <topicnick> 08(15<topicdate>08)<pre> 0U07sers0:15 <users> users, <oppedusers> 08(15<oppeduserspercent>08)15 ops, <voicedusers> 08(15<voiceduserspercent>08)15 voiced, <regusers> 08(15<reguserspercent>08)15 regulars<pre> 0J07oin synced in0:15 08(15<synctime>08)15 second(s)<linesep>
+Part <pre> 0P07art0» 07(<nick>07) 07(<address>07) <message brackets="1">
+Quit <pre> 0Q07uit0» 07(<nick>07) 07(<address>07) <message brackets="1">
+Nick <pre> 0N07ick0» 08(<nick>08) is now known as 08(<newnick>08)
+NickOwn <pre> 0N07ick0» 08(<nick>08) is now known as 08(<newnick>08)
+Mode <pre> 0M07ode0» 08(<nick>08) sets mode 08(<mode>08)
+UserMode <pre> 0M07ode0» 08(<me>08) sets mode (<mode>)
+Kick <pre> 0K07ick0» 04(<kickednick>04) was kicked by 04(<nick>04) <message brackets="1">
+KickOwn <pre> 0K07ick0» you were kicked from 04(<chan>04) by 04(<nick>04) <message brackets="1">
+WallOp <pre> !<nick>! <text>
+
+DNS <pre> 0D07NS0» Looking up (<address>)
+DNSError <pre> 0D07NS0» Unable to resolve (<address>)
+DNSResolve <pre> 0D07NS0» Resolved (<address>) to (<raddress>)
+
+Notify <pre> 0N07otify0» (<nick>) is now online!
+UnNotify <pre> 0N07otify0» (<nick>) is now offline!
+
+LUsers1 <pre> 0U07sers0» There are (<users>) users and (<invisible>) invisible on (<servers>) servers
+LUsers2 <pre> 0U07sers0» (<operators>) operator(s) online
+LUsers3 <pre> 0U07sers0» (<connections>) unknown connection(s)
+LUsers4 <pre> 0U07sers0» (<channels>) channels formed
+LUsers5 <pre> 0U07sers0» I have (<clients>) clients and (<servers>) servers
+
+Welcome1 <pre> 0W07elcome0» to the Internet Relay Network, (<nick>)
+Welcome2 <pre> 0H07ost0» (<host>), running version <version>
+Welcome3 <pre> 0C07reated0» <created>
+Welcome4 <pre> 0V07ersion0» (<server>) <version> <usermodes> <chanmodes>
+SupportedInfo <pre> 0P07rotocols0» (<protocols>) are supported by this server
+
+ChannelModes <pre> 0M07odes0» <chan> (<modes>)
+ChannelCreation <pre> 0C07reation time0» (<chan>) was created on <created>
+Bans <pre> 08(15Bans08) 0A7ddress0»15 <ban> 8(<nick>) 0C7han0»15 <chan>
+BansEnd <pre> 0E07nd of0» 08(15ban08)15 list for 08(15<chan>08)
+UnableToSend <pre> 0E07rror0» Unable to send message to <chan>
+NotOpped <pre> 0E07rror0» You're not opped on (<chan>)
+HiddenHost <pre> 0H07ostchange0» <host> is now your hidden host
+RegisterFirst <pre> 0E07rror0» You must register first!
+
+WhoisStart 7×••••(15/whois:<nick>07)8•••••••7••••••8•••7•• •8•••7• ••8• •• •7• •8• 7• 8 •
+WhoisAddress     0N07ame0» <name>    0A07ddress0» <address>
+WhoisChans     0C07hannels0» $replace($sorttok($3-,32,c),@,08@15,+,08+15,%,08%15,$chr(35),07#15)
+WhoisServer     0S07erver0» <server> 08(<info>08)
+WhoisStatus     0I07RC Operator0» 4Yes
+WhoisAway     0A07way0» <reason>
+WhoisAuth     0A07uthnick0» <auth>
+WhoisRealIP     0R7eal Address0» <address>
+WhoisIdle     0I07dle0» <idle> 0S07ignon0» <signontime> 0O07nlinetime0» <signonago>
+WhoisEnd 7×••••(15/whois:end07)8•••••••7••••••8•••7•• •8•••7• ••8• •• •7• •8• 7• 8 •
+
+WhowasStart 7×••••(15/whowas:<nick>07)8•••••••7••••••8•••7•• •8•••7• ••8• •• •7• •8• 7• 8 •
+WhowasAddress     0N07ame0» <name>    0A07ddress0» <address>
+WhowasServer     0S07erver0» <server> 08(<info>08)
+WhowasAway     0A07way0» <reason>
+WhowasEnd 7×••••(15/whowas:end07)8•••••••7••••••8•••7•• •8•••7• ••8• •• •7• •8• 7• 8 •
+
+Who <pre> 08(15/who08) 0N7ick0» 15<nick> 8(<address>) 0R7ealname0»15 <name>
+WhoEnd <pre> 0E07nd of0» 08(15/who08)15 list for 08(15<target>08)
+
+Invite <pre> 0I07nvitation0» (<nick>) wants you to join (<chan>)
+InviteOwn <pre> 0I07nvitation0» You have invited (<nick>) to join (<chan>)
+InviteAlreadyOnChan <pre> 0E07rror0» <nick> is already on (<chan>)
+
+NoTopic <pre> 0T07opic0» No topic set
+Topic <pre> 0T07opic0: 08(<topic>08)
+TopicBy <pre> 0S07et by0: 08(<nick>08) on 08(<date>08)
+TopicChange <pre> 0T07opic0» 08(<nick>08) changes topic to (<topic>08)
+
+Names <pre> 8(15/names08)15 <names>
+NamesEnd <pre> 0E07nd of0» 08(15/names08)15 list for 08(15<chan>08)
+
+UnknownCmd <pre> 0E07rror0» Unknown command (<cmd>)
+NickInUse <pre> 0E07rror0» Nick already in use (<nick>)
+AwayStatus <pre> 0A07way0» <nick> is away: <reason>
+ChanFull <pre> 0E07rror0» Cannot join <chan> (channel full +l)
+ChanInviteOnly <pre> 0E07rror0» Cannot join <chan> (invite only +i)
+ChanBanned <pre> 0E07rror0» Cannot join <chan> (you are banned +b)
+ChanKeyRequired <pre> 0E07rror0» Cannot join <chan> (requires key +k)
+ChanRegOnly <pre> 0E07rror0» Cannot join <chan> (registered only +r)
+NoSuchNick <pre> 0E07rror0» No such nick (<nick>)
+NoSuchChan <pre> 0E07rror0» No such channel (<chan>)
+
+RawDef <pre> <text>
+CRaw307 !script echo $thm.active(whois,ti2c) whois     0R07egistered nick0» 15Yes
+CRaw320 !script echo $thm.active(whois,ti2c) whois     0E07xtra info0» $3-
+
+Scheme0 Default 16777215 0 7822131 13874042 255 127 10223772 357293 4113661 5460991 202 12694272 16711680 4141083 6908265 12885832 13 15 8 4 8 3 8 8 8 8 8 15 8 8 8 3 8 8 15 8 15 13 8 13 8 14 8 13 13 15
+Scheme1 Green 16777215 0 8323072 13477735 255 127 10223772 1940502 6282351 5460991 202 12694272 7822131 1914138 6908265 10522951 13 15 8 4 8 3 8 8 8 8 8 15 8 8 8 3 8 8 15 8 15 13 8 13 8 14 8 13 13 15

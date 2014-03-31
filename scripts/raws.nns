@@ -1,0 +1,175 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - raws - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+raw 0:*:{
+  if (!$2) {
+    if ($dialog(silence)) {
+      if (+*!*@* iswm $1) {
+        did -a silence 1 $mid($1,2)
+        did -e silence 1,2,3,4
+      }
+      elseif (-*!*@* iswm $1) {
+        while ($didwm(silence,1,$mid($1,2),1)) { did -d silence 1 $v1 }
+        did -e silence 1,2,3,4
+      }
+      haltdef
+    }
+  }
+}
+raw 001:*:{
+  set %rconnected. $+ $cid 1
+  .signal -n connect
+}
+raw 005:*:{
+  if ($gettok($wildtok($1-,TOPICLEN=?*,1,32),2,61)) { set %topiclen. $+ $cid $v1 }
+  if ($gettok($wildtok($1-,SILENCE=?*,1,32),2,61)) { set %silencenum. $+ $cid $v1 }
+  if ($gettok($wildtok($1-,MAXBANS=?*,1,32),2,61)) { set %maxbans. $+ $cid $v1 }
+}
+raw 004:*:{ set %usermodes. $+ $cid $4 }
+raw 271:*:{
+  if ($dialog(silence)) {
+    while ($didwm(silence,1,$3,1)) { did -d silence 1 $v1 }
+    did -a silence 1 $3
+    haltdef
+  }
+}
+raw 272:*:{
+  if ($dialog(silence)) {
+    did -e silence 1,2,3,4
+    haltdef
+  }
+}
+raw 315:*:{
+  if (!%who.show. [ $+ [ $cid ] ]) {
+    haltdef
+    if (%showialupd) && ($2 ischan) { thmecho -s Addresses from $thmhl($2) saved. Now $thmhl($ial(*,0)) entries. }
+    if (%ialupdate. [ $+ [ $cid ] ]) {
+      var %c = $wd($v1,1)
+      $+(.timerialq.,$cid,.,%c) 1 $rand(5,10) ialq.start %c
+    }
+  }
+  else { unset $+(%,who.show.,$cid) }
+  if ($dialog(clonescan)) && ($did(clonescan,7).seltext == $2) { cscan.do }
+}
+raw 324:*:{
+  if ($chan($2).key) && ($curconserv) { set $+(%,pass.chan.,$v1,.,$2) $encode($chan($2).key,m) }
+  if (!%modedsp. [ $+ [ $cid ] $+ ] . [ $+ [ $2 ] ]) { haltdef }
+}
+raw 329:*:{
+  if (!%modedsp. [ $+ [ $cid ] $+ ] . [ $+ [ $2 ] ]) { haltdef }
+  else { unset $+(%,modedsp.,$cid,.,$2) }
+}
+raw 330:*:{
+  if ($q.net) && ($2 == $me) {
+    set %q.authed. $+ $cid 1
+    if (!%q.auth.nick) {
+      set %q.auth.nick $3
+      if ($dialog(settings)) { did -ra $v1 17 %q.auth.nick }
+    }
+  }
+}
+raw 333:*:{ topic.shist $2 $4 $chan($2).topic }
+raw 352:*:{ if (!%who.show. [ $+ [ $cid ] ]) { haltdef } }
+raw 366:*:{
+  if ($nick($2,0)) && ((!$hget(peaks,$2)) || ($wd($hget(peaks,$2),1) < $nick($2,0))) { hadd -m peaks $2 $nick($2,0) $ctime }
+  if (%cs.autoident) && (ChanServ ison $2) { cs.chanauth $chan }
+  if (%ialupdate) {
+    if ($nick($2,0) < %maxwhousers) {
+      if (!%ialupdate. [ $+ [ $cid ] ]) { $+(.timerialq.,$cid,.,$2) 1 $rand(5,10) ialq.start $2 }
+      ialq.update add $2
+    }
+    elseif ($nick($2,0) != $null) && (%showialupd) { thmerror -s Addresses from $thmhl($2) not saved. (too many users) }
+  }
+  if ($nick($2,0) == 1) { .timer 1 3 if ($ccontrol($2)) $chr(123) mode $2 $iif($q.net,+CnNt,+nt) $chr(125) }
+}
+raw 371:*:{
+  haltdef
+  var %w = $specialcidwin(Info)
+  if ($window(%w)) { echo -mti6 %w    $2- }
+  else {
+    window -nk0g1v %w
+    thmecho %w Server info on $thmhl($server)
+    echo %w 
+    echo -mti6 %w    $2-
+  }
+}
+raw 372:*:{
+  haltdef
+  if ($window($specialcidwin(MOTD))) { echo -mti6 $v1    $2- }
+}
+raw 374:*:{
+  haltdef
+  var %w = $specialcidwin(Info)
+  if ($window(%w)) {
+    echo %w 
+    thmecho %w End of $thmhl($server) info
+  }
+}
+raw 375:*:{
+  haltdef
+  var %w = $specialcidwin(MOTD)
+  if ($gettok($readini($mircini,options,n1),11,44)) && (!%motd.manual. [ $+ [ $cid ] ]) { return }
+  if ($window($specialcidwin(MOTD))) { window -c %w }
+  window -nk0g1v %w
+  thmecho %w Message of the day on $thmhl($server)
+  echo %w 
+}
+raw 376:*:{
+  haltdef
+  var %w = $specialcidwin(MOTD)
+  if ($window(%w)) {
+    echo %w 
+    thmecho %w End of $thmhl($server) message of the day
+    unset %motd.manual. $+ $cid
+  }
+}
+raw 405:*:{ if ($timer(joinretry. $+ $cid)) && (%joinretry. [ $+ [ $cid ] ] == $2) { return } }
+raw 433:*:{
+  var %n = $2
+  if (%ghosttry. [ $+ [ $cid ] ]) {
+    thmecho $asecho Ghosting unsuccessful, sorry! Try ghosting manually!
+    unset %ghosttry. $+ $cid
+    haltdef
+  }
+  if (%rconnected. [ $+ [ $cid ] ]) {
+    if (%nsset. [ $+ [ $network ] ]) {
+      tokenize 32 $v1
+      if ($4) && (%n == $5) {
+        set -u60 %ghosttry. $+ $cid 1
+        $iif(!$1,.msg) nickserv ghost %n $decode($4,m)
+        thmecho $asecho Auto-ghosting $thmhl(%n) $+ ...
+        .timernsghost. $+ $cid 1 2 nick %n
+        haltdef
+      }
+    }
+    elseif ($gsurge) && (%gs.autoghost) {
+      set -u60 %ghosttry. $+ $cid 1
+      .msg authserv ghost %n
+      thmecho $asecho Auto-ghosting $thmhl(%n) $+ ...
+      .timergsghost. $+ $cid 1 2 nick %n
+      haltdef
+    }
+  }
+  if (!$timer(nickchg. $+ $cid)) {
+    set %nickretry. $+ $cid %n
+    .timer 1 0 thmecho $asecho Press Control+F1 to retry taking the nick $thmhl(%n) $+ !
+  }
+  else { haltdef }
+}
+raw 471:*:{ j.retry $2 }
+raw 473:*:{ j.retry $2 }
+raw 474:*:{ j.retry $2 }
+raw 475:*:{
+  haltdef
+  set %chankey.prompt.chan $2
+  .timerjoinretry. $+ $cid off
+  .timerchankey -io 1 0 chankey.prompt
+}
+raw 511:*:{
+  thmerror -a Your silence list is full! $thmhl($2)
+  haltdef
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

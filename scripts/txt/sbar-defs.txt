@@ -1,0 +1,13 @@
+[Default]
+"iconsets\default\away.ico"Time: <date>, <time>/alarm196normalTime: $date $+ , $time
+"iconsets\default\dccs.ico"DCC: <down> down, <up> up/dccs200normalDCC: $dccbw(get) down, $dccbw(send) up
+"iconsets\default\logview.ico"Clipboard: <cb> - <cbcontent>/cbedit250normalClipboard: $cbc - $cbcontent
+"iconsets\default\channels_folder.ico"Topic: <topic>/cc500normalTopic: $actopic
+[ConnectionInfo]
+"iconsets\megapack\hardware card.ico"IP: <ip>&null196normalIP: $ip
+"iconsets\megapack\hub stack.ico"Network: <net>&null200normalNetwork: $curconserv
+"iconsets\megapack\afro freak.ico"Nick: <nick>&null200normalNick: $me
+"iconsets\megapack\beer.ico"Idle: <idle>&null200normalIdle: $sduration($idle).nosec
+[Newsticker]
+"iconsets\megapack\hourglass.ico"Time: <date>, <time>/alarm196normalTime: $date $+ , $time
+"iconsets\megapack\data file.ico"RSS: <rss>/rss.latest.openurl200normalRSS: $rss.latest

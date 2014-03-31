@@ -1,0 +1,236 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - alarm clock - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+dialog alarm {
+  title "Alarm clock [/alarm]"
+  size -1 -1 262 196
+  option pixels
+  icon scripts\pics\nntray.ico
+  tab "Alarm", 16, 4 4 253 162
+  radio "&at", 2, 22 47 34 18, tab 16
+  edit %alarm.time, 3, 58 45 76 22, tab 16 limit 5 center
+  check "&each day", 21, 180 47 66 18, tab 16
+  radio "&in", 5, 22 71 32 18, tab 16
+  edit %alarm.mins, 6, 58 69 76 22, tab 16 limit 5 center
+  box "Reason", 8, 12 105 238 48, tab 16
+  box "Ring time", 1, 12 29 238 72, tab 16
+  text "o'clock", 4, 142 49 34 16, tab 16
+  text "minute(s)", 7, 142 73 48 16, tab 16
+  combo 9, 22 121 220 200, tab 16 size edit limit 50 drop
+  tab "Options", 17
+  edit %alarm.sound, 14, 20 45 182 22, tab 17 autohs limit 3000
+  box "Ring tone", 13, 12 29 238 48, tab 17
+  button "&...", 15, 206 45 36 22, tab 17
+  box "Miscellaneous", 18, 12 81 238 72, tab 17
+  check "S&how countdown in toolbar info box", 19, 22 97 216 18, tab 17
+  button "C&lear reason history", 20, 22 119 126 24, tab 17
+  button "&Close", 11, 28 168 74 24, cancel
+  button "St&op", 12, 106 168 74 24
+  button "&Start", 10, 184 168 74 24
+}
+on *:dialog:alarm:*:*:{
+  if ($devent == init) {
+    if (%alarm.mode) {
+      did -c $dname 2
+      did -b $dname 6
+    }
+    else {
+      did -c $dname 5
+      did -b $dname 3,21
+    }
+    if (%alarmstb) { did -c $dname 19 }
+    if (%alarm.eday) { did -c $dname 21 }
+    didtok $dname 9 1 %alarm.reason.history
+    did -c $dname 9 1
+    if ($timer(alarm)) || ($timer(alarmre)) {
+      did -b $dname 1,2,3,4,5,6,7,8,9,10,21
+      if (!%alarm.eday) || (!$timer(alarm).time) {
+        alarm.ddur
+        .timeralarm.ddur -io 0 1 alarm.ddur
+      }
+      if (%alarm.reason) { did -o $dname 9 0 $v1 }
+    }
+    else { did -b $dname 12 }
+    if (%alarm.reason) && ($didwm(9,%alarm.reason)) { did -c $dname 9 $v1 }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 10) {
+      if ($did(2).state) {
+        tokenize 58 $did(3)
+        if ($1 isnum 0-23) && ($2 isnum 0-59) {
+          dialog -c $dname
+          .timeralarm -io $+($1,:,$2) 1 0 alarm.ring $iif(%alarm.eday,$chr(124) .timeralarmre 1 300 .timeralarm -io $+($1,:,$2) 1 0 alarm.ring)
+          thmecho -a The alarm clock will ring $iif(%alarm.eday,each day) at $thmhl($+($1,:,$2)) $iif(%alarm.reason,with reason: $thmhl($v1))
+        }
+        else { errdialog $qt($did(3)) is not a valid time! }
+      }
+      else {
+        if ($calc($did(6))) && ($did(6) isnum 0-) {
+          dialog -c $dname
+          var %s = $calc($did(6) *60)
+          .timeralarm -io 1 %s alarm.ring
+          thmecho -a The alarm clock will ring in $thmhl($did(6)) minute(s), at $thmhl($asctime($calc($ctime + %s),%timeformat)) $iif(%alarm.reason,with reason: $thmhl($v1))
+        }
+        else { errdialog you have to enter a time in minutes! }
+      }
+      if (%alarm.reason) {
+        if ($numtok(%alarm.reason.history,1) > 10) { set %alarm.reason.history $deltok(%alarm.reason.history,1,1) }
+        set %alarm.reason.history $addtok(%alarm.reason.history,%alarm.reason,1)
+      }
+      if ($toolbar(infobox)) && (%alarmstb) { alarm.dtbd }
+    }
+    elseif ($did == 21) {
+      sdt alarm.eday
+      .timeralarm* off
+    }
+    elseif ($did == 19) {
+      sdt alarmstb
+      alarm.dtb
+    }
+    elseif ($did == 12) {
+      .timeralarm off
+      alarm.ctb
+      alarm.reen
+      alarm.tdur
+    }
+    elseif ($did == 2) {
+      set %alarm.mode 1
+      did -e $dname 3,21
+      did -b $dname 6
+    }
+    elseif ($did == 5) {
+      unset %alarm.mode
+      did -e $dname 6
+      did -b $dname 3,21
+    }
+    elseif ($did == 9) { set %alarm.reason $did($did) }
+    elseif ($did == 15) {
+      var %x = $relpath($$sfile($nofile(%alarm.sound) $+ *.wav;*.mid;*.mp3;*.ogg;*.wma,Please choose a sound file for the alarm clock,Ok))
+      if ($istok(wav mid mp3,$gettok($remove(%x,"),-1,46),32)) {
+        did -ra $dname 14 %x
+        set %alarm.sound %x
+      }
+      else { errdialog the file type you selected is not supported! You have to choose either a WAV, MID or MP3 file! }
+    }
+    elseif ($did == 20) {
+      unset %alarm.reason.history %alarm.reason
+      did -r $dname 9
+      idialog Alarm reason history cleared.
+    }
+  }
+  elseif ($devent == edit) {
+    if ($did == 14) { set %alarm.sound $did($did) }
+    elseif ($did == 9) { set %alarm.reason $did($did) }
+    elseif ($did == 3) { set %alarm.time $did($did) }
+    elseif ($did == 6) { set %alarm.mins $did($did) }
+  }
+  elseif ($devent == close) { .timeralarm.ddur off }
+}
+alias alarm {
+  if ($1-) {
+    if ($1 == stop) {
+      .timeralarm off
+      alarm.ctb
+      alarm.reen
+      thmecho -a The alarm clock was stopped.
+    }
+    else {
+      var %z = 0
+      if ($2-) { set %alarm.reason $2- }
+      else { unset %alarm.reason }
+      if ($1 isnum 0-) {
+        var %s = $calc($1 *60)
+        .timeralarm -io 1 %s alarm.ring
+        thmecho -a The alarm clock will ring in $thmhl($1) minute(s), at $thmhl($asctime($calc($ctime + %s),%timeformat)) $iif(%alarm.reason,with reason: $thmhl($v1))
+        unset %alarm.mode 1
+        set %alarm.mins $1
+        if ($dialog(alarm)) {
+          did -c alarm 5
+          did -u alarm 2
+          did -ra alarm 6 $1
+        }
+        %z = 1
+      }
+      else {
+        tokenize 58 $1
+        if ($1 isnum 0-23) && ($2 isnum 0-59) {
+          .timeralarm -io $+($1,:,$2) 1 0 alarm.ring
+          thmecho -a The alarm clock will ring at $thmhl($+($1,:,$2)) $iif(%alarm.reason,with reason: $thmhl($v1))
+          unset %alarm.eday
+          set %alarm.mode 1
+          set %alarm.time $+($1,:,$2)
+          if ($dialog(alarm)) {
+            did -c alarm 2
+            did -u alarm 5,21
+            did -ra alarm 3 $+($1,:,$2)
+          }
+          %z = 1
+        }
+      }
+      if (!%z) { thmerror -a invalid parameters. }
+      else {
+        if ($dialog(alarm)) {
+          did -b alarm 1,2,3,4,5,6,7,8,9,10,21
+          did -e alarm 12
+          alarm.ddur
+          .timeralarm.ddur -io 0 1 alarm.ddur
+          if (%alarm.reason) { did -o alarm 9 0 $v1 }
+        }
+        if (%alarm.reason) {
+          if ($numtok(%alarm.reason.history,1) > 10) { set %alarm.reason.history $deltok(%alarm.reason.history,1,1) }
+          set %alarm.reason.history $addtok(%alarm.reason.history,%alarm.reason,1)
+        }
+        if ($toolbar(infobox)) && (%alarmstb) { alarm.dtbd }
+      }
+    }
+  }
+  else { nndlg -m alarm }
+}
+alias alarm.reen {
+  if ($dialog(alarm)) {
+    .timeralarm.ddur off
+    dialog -t alarm Alarm clock [/alarm]
+    did -e alarm 1,2,4,5,7,8,9,10,21, $+ $iif($did(alarm,2).state,3,6)
+    did -b alarm 12
+  }
+}
+alias alarm.ring {
+  alarm.reen
+  alarm.ctb
+  if ($isfile(%alarm.sound)) { splay %alarm.sound }
+  else { beep 10 }
+  thmecho -a Alarm! Your alarm clock has finished! $iif(%alarm.reason,Reason: $thmhl($v1))
+  flash Alarm!
+  idialog Alarm! Your alarm clock has finished! $+ $iif(%alarm.reason,Reason: $v1)
+}
+alias alarm.dtb {
+  if ($toolbar(infobox)) && ($timer(alarm)) && ((!%alarm.eday) || (!$timer(alarm).time)) {
+    if ($did($did).state) { alarm.dtbd }
+    else { alarm.ctb }
+  }
+}
+alias alarm.dtbd {
+  if (!%alarm.eday) || (!$timer(alarm).time) {
+    alarm.tdur
+    .timeralarm.tdur -o 0 1 alarm.tdur
+  }
+}
+alias alarm.ctb {
+  if ($timer(alarm.tdur)) {
+    .timeralarm.tdur off
+    alarm.tdur
+  }
+}
+alias alarm.rsecs {
+  if ($timer(alarm).time) {
+    var %r = $calc($ctime($asctime(dd.mm.yyyy) $timer(alarm).time) - $ctime),%x = $iif(%r < 0,$calc(%r +86400),%r)
+    return %x
+  }
+  else { return $timer(alarm).secs }
+}
+alias alarm.tdur { toolbar.refinfo }
+alias alarm.ddur { if ($dialog(alarm)) { dialog -t alarm Alarm clock - $sdur($alarm.rsecs) remaining [/alarm] } }
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

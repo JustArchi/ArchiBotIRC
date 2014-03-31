@@ -1,0 +1,113 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - alarm timer - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias ip2nick {
+  nndlg -mh ip2nick
+  if ($1) { did -ra ip2nick 2 $1 }
+}
+alias ip2nick.dns {
+  if ($status == connected) {
+    set %ip2nick.prog $scid(0)
+    .dns $1
+  }
+  else { errdialog not connected to server }
+}
+dialog ip2nick {
+  title "IP2Nick [/ip2nick]"
+  size -1 -1 268 268
+  option pixels
+  icon scripts\pics\nntray.ico
+  text "Enter IP", 4, 14 22 44 14
+  edit "", 2, 74 18 122 22, autohs limit 100
+  button "&Do it!", 6, 198 18 58 22
+  box "Results (click for more info)", 3, 4 54 260 180
+  list 5, 12 70 122 156, sort size vsbar
+  text "Network:", 9, 142 70 50 14
+  edit "", 10, 140 84 116 22, read autohs
+  text "Channel:", 12, 142 110 48 14
+  edit "", 11, 140 124 116 22, read autohs
+  text "Address:", 13, 142 150 48 14
+  edit "", 14, 140 164 116 22, read autohs
+  text "Real name:", 15, 142 190 58 14
+  edit "", 16, 140 204 116 22, read autohs
+  button "&Help", 8, 96 240 80 24
+  button "&Close", 7, 184 240 80 24, cancel
+  box "Start search", 1, 4 4 260 44
+}
+alias ip2nick.dowho { 
+  .who $1 
+}
+on *:dialog:ip2nick:*:*:{
+  if ($devent == sclick) {
+    if ($did == 6) {
+      if ($anyconnection) {
+        if (!$remc(who)) {
+          if ($istok($ip 127.0.0.1,$did(2),32)) {
+            errdialog don't enter your own IP!
+          }
+          elseif (!$longip($did(2))) && (?*.?* !iswm $did(2)) {
+            errdialog please enter a valid IP/DNS address 
+          }
+          else {
+            did -r $dname 5,10,11,14,16
+            did -b $dname 1,2,3,4,5,6,9,10,11,12,13,14,15,16
+            ip2nick.dns $did(2)
+            set %ip2nick.prog $calc(2*$scid(0))
+            scon -at1 ip2nick.dowho $remove($did(ip2nick,2),$chr(32))
+          }
+        }
+        else { errdialog there is already another /who in progress, please wait! }
+      }
+      else { errdialog you are not connected to a server! }
+    }
+    elseif ($did == 5) {
+      tokenize 160 $did($did).seltext
+      did -ra $dname 10 $3
+      did -ra $dname 11 $2
+      did -ra $dname 14 $4
+      did -ra $dname 16 $5
+      did -c $dname 10,11,14,16 1
+    }
+    elseif ($did == 8) { idialog IP2Nick information:This tool helps you to find nicknames on IRC with the help of an IP address. However, it is not guaranteed to get any results using this method. You can only find users who are either on one of the channels you've also joined or users which do not have usermode +i set. }
+  }
+  elseif ($devent == dclick) && ($did == 5) { if ($did($did).seltext != <none>) { we $gettok($did($did).seltext,1,160) } }
+}
+on *:dns:{
+  if (%ip2nick.prog) {
+    if (!$dns(0)) {
+      dec -z %ip2nick.prog
+      if (!%ip2nick.prog) {
+        did -e ip2nick 1,2,3,4,5,6,9,10,11,12,13,14,15,16
+        if (!$did(ip2nick,5).lines)) {  did -ra ip2nick 5 <none> }
+      }
+    }
+    else { scon -at1 ip2nick.dowho $raddress }
+    haltdef
+  }
+}
+raw 315:*:{
+  if (%ip2nick.prog) {
+    if ($dialog(ip2nick)) && (!$did(ip2nick,5).lines) && (%ip2nick.prog == 1) {
+      did -ra ip2nick 5 <none>
+      did -e ip2nick 1,2,3,4,5,6,9,10,11,12,13,14,15,16
+    }
+    dec -z %ip2nick.prog
+    if (!%ip2nick.prog) {
+      did -e ip2nick 1,2,3,4,5,6,9,10,11,12,13,14,15,16
+    }
+    haltdef
+  }
+}
+raw 352:*:{
+  if (%ip2nick.prog) {
+    if ($dialog(ip2nick)) {
+      did -az ip2nick 5 $+($6,$str( ,50),$iif($comchan($6,1),$v1,0), ,$iif($scid($cid).network,$scid($cid).network,$scid($cid).server), ,$+($3,@,$4), ,$strip($9-))
+      did -e ip2nick 1,2,3,4,5,6,9,10,11,12,13,14,15,16
+    }
+    haltdef
+  }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

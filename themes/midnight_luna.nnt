@@ -1,0 +1,141 @@
+Name MidNight Luna
+Version 1.0
+NNTVersion 1.03
+Author Roniez
+Email roniez@roniez.net
+Homepage http://www.roniez.net
+Description None.
+
+Font Verdana
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 07[05HH07:05nn07:05ss07]
+
+NickColSelf 13
+NickColOp 9
+NickColVoice 6
+NickColRegular 4
+NickColProtect none
+NickColIgnore none
+
+Brackets 09(07<text>09)
+LineSep 03:02:04:05:06:07:08:09:
+Prefix *
+
+GenEcho 10*11*08* <text>
+GenError 10*11*08* Error: <text>
+GenHighlight 09(07<text>09)
+
+ChanText <lt>09<cmode><nick><gt>14 <text>
+ChanTextOwn 07<lt><cmode><me><gt>13 <text>
+ChanAction 10*11*08* 09<cmode><nick>08 <text>
+ChanActionOwn 10*11*08* 09<cmode><me>08 <text>
+
+QueryText <lt>09<nick><gt>14 <text>
+QueryTextOwn 07<lt><me><gt>13 <text>
+QueryAction 10*11*08* 09<nick>08 <text>
+QueryActionOwn 10*11*08* 09<me>08 <text>
+
+Msg <lt>09<nick><gt> 14<text>
+MsgOwn -<gt> -09<target>- 13<text>
+Action <pre><nick><pre> <text>
+ActionOwn -<gt> <pre><target><pre> <text>
+
+ChanNotice 09[08cn09] 08<nick>:09 <chan> 03:02:04:05:06:07: <text>
+Notice 09[08pn09] 08<lt>09<nick>08<gt>: 03:02:04:05:06:07:07 <text>
+NoticeOwn -<gt>07 -<target>-13 <text>
+ServerNotice 09[08sn09] 08-09<server>08-: 03:02:04:05:06:07: <text>
+
+CTCP CTCP08 <ctcp> from:09 <nick> <address brackets="1">
+CTCPOwn CTCP08 <ctcp> sent to:09 <target>
+ChanCTCP CTCP08 <ctcp> from:09 <nick> to08 <chan>Address:09 <address>
+CTCPReply [09<nick>08 <ctcp> reply]:09 <text>
+CTCPReplyOwn [09<target> 08<ctcp> reply]:09 <text>
+
+Join 03:02:04:05:06:07: <nick> <address brackets="1"> has 08joined09 <chan>
+JoinOwn 03:02:04:05:06:07: 08Now talking in09 <chan>!if <topic> 10*11*08* Topic is '<topic>8'!if <topic> 10*11*08* Set by09 <topicnick> 08on09 <topicdate>
+Part 07:06:05:04:02:03:08 <nick> <address brackets="1"> has left08 <chan>
+Quit 08«06«05«02«08 <nick> <address brackets="1"> has 07left IRC <message brackets="1">
+Nick 08•11¤10•10¤08•09 <nick> is known as09 <newnick>
+NickOwn 10*11*08* Your nick is now09 <newnick>
+Mode 10*11*08*09 <nick> 10sets mode:08 <mode>
+UserMode 10*11*08*09 <me> 10sets usermode:08 <mode>
+Kick 08«06«05«09 <kickednick> was 12kicked by09 <nick> <message brackets="1">
+KickOwn 08You were 12kicked 08from09 <chan> by09 <nick> <message brackets="1">
+WallOp 10!!11!!08!!09 <nick>08 <text>
+
+DNS 10*11*08* Dns resolving <address>
+DNSError 10*11*08* Dns unable to resolve <address>
+DNSResolve 10*11*08* Dns resolved <address> to <raddress brackets="1">
+
+Notify 10*11*08* <nick> is now IRC
+UnNotify 10*11*08* <nick> has left IRC
+
+LUsers1 10*11*08* There are <users> users and <invisible> invisible on <servers> servers
+LUsers2 10*11*08* <operators> operator(s) online
+LUsers3 10*11*08* <connections> unknown connection(s)
+LUsers4 10*11*08* <channels> channels formed
+LUsers5 10*11*08* I have <clients> clients and <servers> servers
+
+Welcome1 10*11*08* Welcome to the Internet Relay Network, <nick>
+Welcome2 10*11*08* Your host is <host>, running version <version brackets="1">
+Welcome3 10*11*08* This server was created <created>
+Welcome4 10*11*08* <server> <version> <usermodes> <chanmodes>
+SupportedInfo 10*11*08* <protocols brackets="1"> are supported by this server
+
+ChannelModes 10*11*08*09 <chan>08 <modes>
+ChannelCreation 03:02:04:05:06:07:09 <chan> created on08 <created>
+Bans 03:02:04:05:06:07: <chan brackets="1">09 <ban> set by08 <nick> (<banned>)
+BansEnd 03:02:04:05:06:07:09 <chan> (End of Channel Ban List)
+UnableToSend 10*11*8* Unable to message09 <chan>
+NotOpped 10*11*8* Error:09 <chan> you're not channel operator
+HiddenHost 10*11*8* Host changed to: <host brackets="1"> is now your hidden host
+RegisterFirst 10*11*8* Error: 9Register first!
+
+WhoisStart 03:02:04:05:06:07: 7Whois for09 <nick>
+WhoisAddress 03:02:04:05:06:07: Host: <address brackets="1"> <pre> <name>
+WhoisChans 03:02:04:05:06:07: Chans:08 <chans>
+WhoisServer 03:02:04:05:06:07: Server:08 <server> <info brackets="1">
+WhoisStatus 03:02:04:05:06:07: is an08 <status>
+WhoisAway 03:02:04:05:06:07: Away:08 <reason>
+WhoisAuth 03:02:04:05:06:07: Auth:08 <auth>
+WhoisRealIP 03:02:04:05:06:07: is actually08 <address> <ip brackets="1">
+WhoisIdle 03:02:04:05:06:07: Idle:08 <idle>, signed on <signontime brackets="1">
+WhoisEnd 03:02:04:05:06:07: Whois End
+
+WhowasStart 03:02:04:05:06:07:07 Whowas for09 <nick>
+WhowasAddress 03:02:04:05:06:07: Host: <address brackets="1"> <pre> <name>
+WhowasServer 03:02:04:05:06:07: Server:08 <server> <info brackets="1">
+WhowasAway 03:02:04:05:06:07: Away:08 <reason>
+WhowasEnd 03:02:04:05:06:07: Whowas End
+
+Who 10*11*8* <chan> <nick> <status> <address> <name>
+WhoEnd 10*11*8* <target> End of /WHO list.
+
+Invite 10*11*08* 09<nick>08 invites you to join09 <chan>
+InviteOwn 10*11*08* 09<nick>08 has been invited to09 <chan>
+InviteAlreadyOnChan 10*11*08*09 <nick> 08is already on channel
+
+NoTopic 10*11*08* Error: No topic is set:09 <chan>
+Topic 10*11*08* Topic is '<topic>8'
+TopicBy 10*11*08* Set by09 <nick> 08on09 <date>
+TopicChange 10*11*08*09 <nick> 10changes topic to: <topic brackets="1">
+
+Names 10*11*8* <chan> <names brackets="1">
+NamesEnd 10*11*8* <chan> End of /NAMES list.
+
+UnknownCmd 12 Error: <cmd> Unknown command
+NickInUse 10*11*08*09 <nick> Nickname is already in use.
+AwayStatus 03:02:04:05:06:07: <nick> is marked as being away: <reason>
+ChanFull 10*11*08* Channel: <chan> is full
+ChanInviteOnly 10*11*08*09 <chan> unable to join channel (8invite only)
+ChanBanned 10*11*08* You are banned from:09 <chan>
+ChanKeyRequired 10*11*08* Channel Closed, use channel key to join 8(/join <chan> key)
+ChanRegOnly 10*11*08* <chan> unable to join channel (registered only)
+NoSuchNick 10*11*08* Error: No such nick:09 <nick>
+NoSuchChan 10*11*08* Error: No such channel:09 <chan>
+
+RawDef 10*11*08* <text>
+
+Scheme0 Default 16777215 1 4205603 2102802 8411206 10448216 12551017 14653819 16756620 15785687 12611147 11895918 133117 14745599 8355711 0 1 6 6 6 6 6 6 6 6 6 6 8 5 7 6 1 6 6 3 5 6 1 13 1 5 14 6 0 1 0

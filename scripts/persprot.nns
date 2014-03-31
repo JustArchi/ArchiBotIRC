@@ -1,0 +1,476 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - personal protections - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+dialog pprot.edit {
+  title "Edit personal protection"
+  size -1 -1 248 274
+  option pixels
+  icon scripts\pics\nntray.ico
+  check "&Enable protection", 14, 12 20 108 18
+  box "", 1, 4 2 238 86
+  text "Times", 2, 32 42 32 16
+  text "Seconds", 3, 32 64 46 16
+  edit "", 5, 118 38 118 22, limit 3
+  edit "", 6, 118 60 118 22, limit 3
+  list 7, 12 110 142 122, size
+  button "&Add occasion", 15, 158 112 76 24
+  button "&Edit actions", 30, 158 136 76 24, disable
+  button "&Remove", 11, 158 168 76 24, disable
+  button "&Ok", 8, 80 246 80 24
+  button "&Cancel", 9, 164 246 80 24, cancel
+  box "Actions to perform", 4, 4 94 240 146
+}
+alias prot.svac {
+  did -i $dname 7 1 cb root 2
+  var %v = 2,%i = $did(7).lines,%r
+  while (%v <= %i) {
+    did -i $dname 7 1 cb root 2 %v
+    var %k = 2,%n = $did(7).lines,%r = %r $calc(%v -1) $+ :
+    while (%k <= %n) {
+      %r = $+(%r,$iif(%k != 2,+),$gettok($did(7,%k),2,9))
+      inc %k
+    }
+    inc %v
+  }
+  return %r
+}
+on *:dialog:pprot.edit:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 7 TreeView haslines hasbuttons showsel notooltips > $mdxfile(views)
+    did -ra $dname 1 $cell(settings,110,1) protection settings
+    var %t = $cell(settings,110,1),%i = 1
+    if (*flood iswm %t) {
+      did -a $dname 5 %pprot. [ $+ [ %t ] $+ ] .times
+      did -a $dname 6 %pprot. [ $+ [ %t ] $+ ] .secs
+    }
+    else {
+      did -ba $dname 5,6 n/a
+      did -b $dname 2,3
+    }
+    if ($did(5) == 1) { did -b $dname 3,6 }
+    if ($wd($did(settings,110).seltext,5) == 2) { did -c $dname 14 }
+    else { did -b $dname 2,3,5,6,7,30,4,15 }
+    tokenize 32 %pprot. [ $+ [ %t ] $+ ] .action
+    did -i $dname 7 1 cb root
+    did -a $dname 7 +be 1 1 0 0 0 Actions
+    did -i $dname 7 1 cb last
+    while (%i <= $0) {
+      did -a $dname 7 +e 1 1 0 0 0 $ord(%i) occasion
+      did -i $dname 7 1 cb last
+      var %v = 1,%z = $numtok($ [ $+ [ %i ] ],43)
+      while (%v <= %z) {
+        var %u = $gettok($gettok($ [ $+ [ %i ] ],2-,58),%v,43)
+        if (%u) { did -a $dname 7 + 1 1 0 0 0 $+($prot.naction(%u),	,%u) }
+        inc %v
+      }
+      did -i $dname 7 1 cb up
+      inc %i
+    }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 8) {
+      var %t = $cell(settings,110,1),%r = $prot.svac
+      if (($did(5) isnum 1-999) && ($did(6) isnum 1-999)) || (*flood !iswm %t) {
+        set %pprot. $+ %t $+ .action %r
+        set %pprot. $+ %t $did(14).state
+        if (*flood iswm %t) {
+          set %pprot. $+ %t $+ .times $did(5)
+          set %pprot. $+ %t $+ .secs $did(6)
+        }
+        did -o settings 110 $did(settings,110).sel 0 +fs 0 0 $calc($did(14).state +1) $+($cell(settings,110,1),	+ 0 0 0 $did(5),	+ 0 0 0 $iif($did(5) == 1,n/a,$did(6)),	+) 0 0 0 $prot.traction(%r)
+        prot.cleanaction
+        dialog -c $dname
+      }
+      else { errdialog please enter valid numbers for the "Times" and "Seconds" fields! }
+    }
+    elseif ($did == 7) {
+      tokenize 32 $did($did,1)
+      if (slclick select * * iswm $1-) {
+        if ($5) { did -e $dname 11 }
+        else { did -b $dname 11,30 }
+        if ($5) && (!$6) { did -e $dname 30 }
+        else { did -b $dname 30 }
+      }
+    }
+    elseif ($did == 14) {
+      if ($did($did).state) {
+        did -e $dname 7,4,15
+        if (*flood iswm $cell(settings,110,1)) { did -e $dname 2,3,5,6 }
+      }
+      else { did -b $dname 2,3,5,6,7,4,11,15 }
+      did -u $dname 7
+    }
+    elseif ($did == 15) { prot.addocc }
+    elseif ($did == 30) {
+      did -i pprot.edit 7 1 page select
+      did -i pprot.edit 7 1 cb root $wd($did(pprot.edit,7,1),4-5)
+      set %pprot.editaction $gettok($wd($prot.svac,$calc($wd($did(7,1),5) -1)),2-,58)
+      noop $dialog(pp.actionadd,pp.actionadd,-4)
+      unset %pprot.editaction
+    }
+    elseif ($did == 11) { prot.delocc }
+  }
+  elseif ($devent == edit) {
+    if ($did == 5) {
+      did $iif($did($did) == 1,-b,-e) $dname 3,6
+      numonlyedit $dname $did
+    }
+    elseif ($did == 6) { numonlyedit $dname $did }
+  }
+}
+dialog pp.actionadd {
+  title "Add action"
+  size -1 -1 301 272
+  option pixels
+  icon scripts\pics\nntray.ico, 0
+  tab "Warnings", 1, 4 6 292 236
+  check "&Beep (if sounds are enabled)", 7, 14 34 162 18, tab 1
+  check "&Flash mIRC (if minimized)", 6, 14 50 142 18, tab 1
+  check "&Show echo message to self:", 24, 14 66 158 18, tab 1
+  edit "<nick> triggered your <type> protection! Taking countermeasures...", 15, 30 84 256 22, disable tab 1 autohs limit 200
+  check "S&how balloon tip (if enabled), message:", 8, 14 108 214 18, tab 1
+  edit "<nick> triggered your <type> protection! Taking countermeasures...", 9, 30 126 256 22, disable tab 1 autohs limit 200
+  check "&Warn user, message:", 22, 14 152 128 18, tab 1
+  edit "Don't <flood>! Taking countermeasures...", 23, 30 170 256 22, disable tab 1 autohs limit 200
+  text "Send as", 3, 32 198 44 16, disable tab 1
+  radio "&notice", 2, 82 196 54 18, disable tab 1
+  radio "&private message", 4, 82 214 104 18, disable tab 1
+  tab "Ignore", 14
+  check "&Ignore", 38, 14 34 56 18, tab 14
+  check "&Complete", 54, 32 50 68 18, disable tab 14
+  check "&Private", 39, 32 66 60 18, disable tab 14
+  check "&DCC", 43, 122 66 48 18, disable tab 14
+  check "C&hannel", 40, 32 82 64 18, disable tab 14
+  check "I&nvite", 44, 122 82 54 18, disable tab 14
+  check "N&otice", 41, 32 98 54 18, disable tab 14
+  check "Co&des", 45, 122 98 54 18, disable tab 14
+  check "C&TCP", 42, 32 114 52 18, disable tab 14
+  check "&Remove after", 46, 32 130 88 18, disable tab 14
+  combo 33, 124 128 56 134, disable tab 14 size edit limit 3 drop
+  combo 50, 124 152 162 170, disable tab 14 size drop
+  text "minutes", 48, 192 132 42 16, disable tab 14
+  text "Ignore mask:", 49, 50 156 66 16, disable tab 14
+  tab "Misc.", 5
+  check "&Blacklist user", 16, 14 34 86 18, tab 5
+  check "&Custom command:", 30, 14 50 110 18, tab 5
+  edit "", 31, 30 68 256 22, disable tab 5 autohs limit 200
+  check "&Play sound:", 47, 14 94 80 18, tab 5
+  edit "", 52, 30 112 220 22, disable tab 5 autohs limit 400
+  check "&Unban yourself", 80, 14 182 100 18, hide tab 5
+  check "&Kick user", 82, 14 138 80 18, hide tab 5
+  edit "Don't <flood>!", 83, 30 156 256 22, hide disable tab 5 autohs limit 200
+  check "&Ignore spam", 81, 14 138 80 18, hide tab 5
+  button "&...", 53, 252 112 34 22, disable tab 5
+  check "C&lose query if one is open", 13, 14 198 156 18, tab 5
+  check "Block all incoming queries for", 21, 14 215 158 18, tab 5
+  edit "60", 25, 176 213 58 22, tab 5 limit 4 disabled center
+  text "seconds", 26, 243 217 46 16, tab 5
+  tab "Help", 37
+  text "Here is a list of identifiers you can use in your custom warnings:", 11, 14 36 262 26, tab 37
+  list 10, 12 80 114 150, tab 37 sort size vsbar
+  text "Description:", 17, 136 66 60 14, tab 37
+  text "No item selected.", 18, 136 80 148 148, tab 37
+  text "Identifiers:", 12, 14 66 56 14, tab 37
+  button "&Ok", 19, 133 244 80 24
+  button "&Cancel", 20, 217 244 80 24, cancel
+}
+on *:dialog:pp.actionadd:*:*:{
+  if ($devent == init) {
+    var %c = $cell(settings,110,1),%& = 0
+    if (%c == ban) { did -v $dname 80,82,83 }
+    elseif (%c == spam) { did -v $dname 81 }
+    while (%& < 10) {
+      did -a $dname 50 $+([,%&,]) $mask(nick!ident@some.host.com,%&)
+      inc %&
+    }
+    didtok $dname 33 44 2,5,10,30,60,120,300
+    didtok $dname 10 44 <action>,<type>,<flood>,<nick>,<times>,<secs>,<occasion>
+    did -c $dname 2,11,33 1
+    did -c $dname 50 %ignore.mask
+    var %i = 1,%t = $numtok(%pprot.editaction,43)
+    while (%i <= %t) {
+      tokenize 45 $gettok(%pprot.editaction,%i,43)
+      if ($1 == bl) { did -c $dname 16 }
+      elseif ($1 == k) {
+        did -c $dname 82
+        did -e $dname 83
+        if ($2 != d) { did -ra $dname 83 %pprot.action. [ $+ [ $2 ] ] }
+      }
+      elseif ($1 == bq) {
+        did -c $dname 21
+        did -era $dname 25 $2
+      }
+      elseif ($1 == bp) { did -c $dname 7 }
+      elseif ($1 == fl) { did -c $dname 6 }
+      elseif ($1 == cq) { did -c $dname 13 }
+      elseif ($1 == es) {
+        did -c $dname 24
+        did -e $dname 15
+        if ($2 != d) { did -ra $dname 15 %pprot.action. [ $+ [ $2 ] ] }
+      }
+      elseif ($1 == bn) {
+        did -c $dname 8
+        did -e $dname 9
+        if ($2 != d) { did -ra $dname 9 %pprot.action. [ $+ [ $2 ] ] }
+      }
+      elseif ($1 == wu) {
+        did -c $dname 22
+        did -e $dname 23,2,3,4
+        if (!$2) {
+          did -u $dname 2
+          did -c $dname 4
+        }
+        if ($3 != d) { did -ra $dname 23 %pprot.action. [ $+ [ $3 ] ] }
+      }
+      elseif ($1 == i) {
+        did -c $dname 38
+        did -e $dname 54,48,46,49,50
+        if ($2 == a) { did -c $dname 54 }
+        else {
+          did -e $dname 39,40,41,42,43,44,45
+          if (p isin $2) { did -c $dname 39 }
+          if (c isin $2) { did -c $dname 40 }
+          if (n isin $2) { did -c $dname 41 }
+          if (t isin $2) { did -c $dname 42 }
+          if (d isin $2) { did -c $dname 43 }
+          if (i isin $2) { did -c $dname 44 }
+          if (k isin $2) { did -c $dname 45 }
+        }
+        if ($3) {
+          did -c $dname 46
+          did -e $dname 33
+          if ($didwm(33,$calc($3 /60))) { did -c $dname 33 $v1 }
+          else { did -ac $dname 33 $calc($3 /60) }
+        }
+        did -c $dname 50 $calc($4 +1)
+      }
+      elseif ($1 == cc) {
+        did -c $dname 30
+        did -e $dname 31
+        if ($2 != d) { did -ra $dname 31 %pprot.action. [ $+ [ $2 ] ] }
+      }
+      elseif ($1 == s) {
+        did -c $dname 47
+        did -e $dname 52,53
+        if ($2 != d) { did -ra $dname 52 %pprot.action. [ $+ [ $2 ] ] }
+      }
+      elseif ($1 == us) { did -c $dname 80 }
+      elseif ($1 == is) { did -c $dname 81 }
+      inc %i
+    }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 10) {
+      var %s = $did($did).seltext
+      if (%s == <flood>) { did -ra $dname 18 <flood> is replaced with the action the user shouldn't have taken (e.g: "use too many control codes"). }
+      elseif (%s == <type>) { did -ra $dname 18 <type> is replaced with the type of protection that triggered. }
+      elseif (%s == <nick>) { did -ra $dname 18 <nick> is replaced with the nick of the person who triggered the protection. }
+      elseif (%s == <times>) { did -ra $dname 18 <times> is replaced with the amount of times the nickname needed to flood/repeat/etc. until the protection triggered. }
+      elseif (%s == <secs>) { did -ra $dname 18 <secs> is replaced with the amount of seconds the nickname needed to perform the flood to trigger the protection. }
+      elseif (%s == <occasion>) { did -ra $dname 18 <occasion> is replaced with the occasion number the nickname is flooding. }
+      elseif (%s == <action>) { did -ra $dname 18 <action> is replaced with the type of reaction the protection triggers. }
+      elseif (%s == <next>) { did -ra $dname 18 <next> is replaced with the type of reaction the protection triggers when the user is flooding again. }
+    }
+    elseif ($did == 21) { did $iif($did($did).state,-e,-b) $dname 25 }
+    elseif ($did == 82) { did $iif($did($did).state,-e,-b) $dname 83 }
+    elseif ($did == 19) {
+      var %r,%t = $cell(settings,110,1)
+      if ($did(7).state) { %r = bp }
+      if ($did(6).state) { %r = %r fl }
+      if ($did(13).state) { %r = %r cq }
+      if ($did(24).state) {
+        if ($did(15)) {
+          var %u = $trnum,%r = %r es- $+ %u
+          set %pprot.action. $+ %u $v1
+        }
+        else { %r = %r es-d }
+      }
+      if ($did(8).state) {
+        if ($did(9)) {
+          var %u = $trnum,%r = %r bn- $+ %u
+          set %pprot.action. $+ %u $v1
+        }
+        else { %r = %r bn-d }
+      }
+      if ($did(22).state) {
+        var %z = $iif($did(2).state,1,0)
+        if ($did(23)) {
+          var %u = $trnum,%r = %r $+(wu-,%z,-,%u)
+          set %pprot.action. $+ %u $v1
+        }
+        else { %r = %r $+(wu-,%z,-d) }
+      }
+      if ($did(21).state) { %r = %r bq- $+ $iif($int($did(25)) isnum 0-9999,$v1,60) }
+      if ($did(38).state) {
+        var %h
+        if ($did(54).state) { %h = a }
+        else {
+          if ($did(39).state) { %h = p }
+          if ($did(40).state) { %h = %h $+ c }
+          if ($did(41).state) { %h = %h $+ n }
+          if ($did(42).state) { %h = %h $+ t }
+          if ($did(43).state) { %h = %h $+ d }
+          if ($did(44).state) { %h = %h $+ i }
+          if ($did(45).state) { %h = %h $+ k }
+          if (!%h) { %h = a }
+        }
+        %r = %r $+(i-,%h,-,$iif($did(46).state,$iif($int($did(33)) isnum,$calc($v1 *60),0),0),-,$calc($did(50).sel -1))
+      }
+      if ($did(16).state) { %r = %r bl }
+      if ($did(30).state) {
+        if ($did(31)) {
+          var %u = $trnum,%r = %r cc- $+ %u
+          set %pprot.action. $+ %u $v1
+        }
+        else { %r = %r cc-d }
+      }
+      if ($did(47).state) {
+        if ($did(52)) {
+          var %u = $trnum,%r = %r s- $+ %u
+          set %pprot.action. $+ %u $v1
+        }
+        else { %r = %r s-d }
+      }
+      if ($did(82).state) {
+        if ($did(83)) {
+          var %u = $trnum,%r = %r k- $+ %u
+          set %pprot.action. $+ %u $v1
+        }
+        else { %r = %r k-d }
+      }
+      if ($did(80).state) { %r = %r us }
+      did -i pprot.edit 7 1 page select
+      did -i pprot.edit 7 1 cb root $wd($did(pprot.edit,7,1),4-5)
+      var %i = $numtok(%r,32),%wa,%d = $did(pprot.edit,7).lines
+      while ($did(pprot.edit,7).lines > 1) { did -d pprot.edit 7 2 }
+      if (%i > 5) { var %wa = 1,%r = $wd(%r,1-5),%i = 5 }
+      while (%i) {
+        did -a pprot.edit 7 + 1 1 0 0 0 $+($prot.traction(1: $+ $wd(%r,%i)),	,$wd(%r,%i))
+        dec %i
+      }
+      did -i pprot.edit 7 1 sort
+      dialog -c $dname
+      if (%wa) { errdialog you have chosen more than 5 actions so not all have been added! }
+    }
+    elseif ($did == 11) { did $iif($did($did).state,-e,-b) $dname 12 }
+    elseif ($did == 17) { did -e $dname 18 }
+    elseif ($did == 24) { did $iif($did($did).state,-e,-b) $dname 15 }
+    elseif ($did == 22) { did $iif($did($did).state,-e,-b) $dname 2,3,4,23 }
+    elseif ($did == 8) { did $iif($did($did).state,-e,-b) $dname 9 }
+    elseif ($did == 30) { did $iif($did($did).state,-e,-b) $dname 31 }
+    elseif ($did == 47) { did $iif($did($did).state,-e,-b) $dname 52,53 }
+    elseif ($did == 53) { did -ra $dname 52 $relpath($$sfile(*.wav;*.mid;*.mp3;*.ogg;*.wma,Please choose a sound file,Ok)) }
+    elseif ($did == 38) {
+      if ($did($did).state) {
+        did -e $dname 54,46,48,49,50
+        if (!$did(54).state) { did -e $dname 39,40,41,42,45,44,43 }
+        if ($did(46).state) { did -e $dname 33 }
+      }
+      else { did -b $dname 39,40,41,42,45,44,43,46,54,33,50,48,49 }
+    }
+    elseif ($did == 54) { did $iif($did($did).state,-b,-e) $dname 39,40,41,42,45,44,43 }
+    elseif ($did == 46) { did $iif($did($did).state,-e,-b) $dname 33 }
+  }
+}
+alias pprot.loaddef {
+  set %pprot.ban 0 | set %pprot.ban.action 1:es-d+us+k-d
+  set %pprot.ctcpflood 1 | set %pprot.ctcpflood.times 4 | set %pprot.ctcpflood.secs 8 | set %pprot.ctcpflood.action 1:es-d+i-t-600-3
+  set %pprot.highlightflood 0 | set %pprot.highlightflood.times 3 | set %pprot.highlightflood.secs 10 | set %pprot.highlightflood.action 1:es-d+i-cp-600-3
+  set %pprot.inviteflood 0 | set %pprot.inviteflood.times 3 | set %pprot.inviteflood.secs 8 | set %pprot.inviteflood.action 1:es-d+i-i-600-3
+  set %pprot.noticeflood 1 | set %pprot.noticeflood.times 5 | set %pprot.noticeflood.secs 8 | set %pprot.noticeflood.action 1:es-d+i-n-600-3
+  set %pprot.queryflood 1 | set %pprot.queryflood.times 5 | set %pprot.queryflood.secs 8 | set %pprot.queryflood.action 1:es-d+bq-300
+  set %pprot.spam 0 | set %pprot.spam.action 1:es-d+is
+  set %pprot.textflood 0 | set %pprot.textflood.times 8 | set %pprot.textflood.secs 6 | set %pprot.textflood.action 1:es-d+i-p-600-3
+  if ($dialog(settings)) { pprot.setload }
+  prot.cleanaction
+}
+alias pprot.setload {
+  did -ra settings 110 0 + 0 0 $iif(%pprot.ban,2,1) Ban	+ 0 0 0 n/a	+ 0 0 0 n/a	+ 0 0 0 $prot.traction(%pprot.ban.action)
+  did -a settings 110 0 + 0 0 $iif(%pprot.ctcpflood,2,1) CTCPflood	+ 0 0 0 %pprot.ctcpflood.times $+ 	+ 0 0 0 $iif(%pprot.ctcpflood.times == 1,n/a,%pprot.ctcpflood.secs) $+ 	+ 0 0 0 $prot.traction(%pprot.ctcpflood.action)
+  did -a settings 110 0 + 0 0 $iif(%pprot.highlightflood,2,1) Highlightflood	+ 0 0 0 %pprot.highlightflood.times $+ 	+ 0 0 0 $iif(%pprot.highlightflood.times == 1,n/a,%pprot.highlightflood.secs) $+ 	+ 0 0 0 $prot.traction(%pprot.highlightflood.action)
+  did -a settings 110 0 + 0 0 $iif(%pprot.inviteflood,2,1) Inviteflood	+ 0 0 0 %pprot.inviteflood.times $+ 	+ 0 0 0 $iif(%pprot.inviteflood.times == 1,n/a,%pprot.inviteflood.secs) $+ 	+ 0 0 0 $prot.traction(%pprot.inviteflood.action)
+  did -a settings 110 0 + 0 0 $iif(%pprot.noticeflood,2,1) Noticeflood	+ 0 0 0 %pprot.noticeflood.times $+ 	+ 0 0 0 $iif(%pprot.noticeflood.times == 1,n/a,%pprot.noticeflood.secs) $+ 	+ 0 0 0 $prot.traction(%pprot.noticeflood.action)
+  did -a settings 110 0 + 0 0 $iif(%pprot.queryflood,2,1) Queryflood	+ 0 0 0 %pprot.queryflood.times $+ 	+ 0 0 0 $iif(%pprot.queryflood.times == 1,n/a,%pprot.queryflood.secs) $+ 	+ 0 0 0 $prot.traction(%pprot.queryflood.action)
+  did -a settings 110 0 + 0 0 $iif(%pprot.spam,2,1) Spam	+ 0 0 0 n/a	+ 0 0 0 n/a	+ 0 0 0 $prot.traction(%pprot.spam.action)
+  did -a settings 110 0 + 0 0 $iif(%pprot.textflood,2,1) Textflood	+ 0 0 0 %pprot.textflood.times $+ 	+ 0 0 0 $iif(%pprot.textflood.times == 1,n/a,%pprot.textflood.secs) $+ 	+ 0 0 0 $prot.traction(%pprot.textflood.action)
+}
+alias prot.traction {
+  tokenize 32 $1
+  var %i = 1,%r,%c,%x,%t
+  while (%i <= $0) {
+    %c = $gettok($ [ $+ [ %i ] ],2-,58)
+    var %v = 1,%r = %r —›
+    while (%v <= $numtok(%c,43)) {
+      var %r = %r $iif(%v != 1,+) $prot.naction($gettok(%c,%v,43))
+      inc %v
+    }
+    inc %i
+  }
+  if (!%r) { return None }
+  else { return $mid(%r,4) }
+}
+alias prot.exclps {
+  if ($hfind(pexclude,$1,0,W)) || ((%excl.prot) && (($nick isprotect) || (($chan) && ($nick isprotect $chan)))) { return 0 }
+  return 1
+}
+alias checkpp {
+  if ($nick != $me) && ($prot.exclps($fulladdress)) {
+    if ($1 == queryflood) { var %ad = queryflood }
+    else { var %ad = $fulladdress }
+    hadd -mu $+ %pprot. [ $+ [ $1 ] $+ ] .secs pprot $+($1,.,$cid,.,%ad,.t-,$trnum) 1
+    if ($hfind(pprot,$+($1,.,$cid,.,%ad,.t-*),0,w) >= %pprot. [ $+ [ $1 ] $+ ] .times) { pprot.dotrig $1 }
+  }
+}
+alias pprot.dotrig {
+  if ($1 == queryflood) { var %ad = queryflood }
+  else { var %ad = $fulladdress }
+  if ($hget(pprot)) { hdel -w pprot $+($1,.,$cid,.,%ad,.t-*) }
+  hinc -mu3600 pprot $+($1,.,$cid,.,%ad,.p)
+  var %j,%o = $hget(pprot,$+($1,.,$cid,.,%ad,.p)),%r = %pprot. [ $+ [ $1 ] $+ ] .action
+  if (%o == $numtok(%r,32)) { hdel pprot $+($1,.,$cid,.,%ad,.p) }
+  var %x = 1,%c = $gettok($wd(%r,%o),2-,58)
+  set %pprot.msgrep <type>, $+ $1 $+ ,<flood>, $+ $pprot.repflood($1) $+ ,<nick>, $+ $nick $+ ,<times>, $+ [ %pprot. [ $+ [ $1 ] $+ ] .times ] $+ ,<secs>, $+ [ %pprot. [ $+ [ $1 ] $+ ] .secs ] $+ ,<occasion>, $+ %o $+ ,<action>, $+ $prot.traction(1: $+ %c) $+ ,<next>, $+ $iif($wd(%r,$calc(%o +1)),$prot.traction($v1),n/a)
+  while ($gettok(%c,%x,43)) {
+    var %t = $v1
+    if (%t == bp) { beep }
+    elseif (%t == fl) { flash }
+    elseif ($regex(ppt,%t,/^bq-(\d+)$/)) {
+      set -u $+ $iif($int($regml(ppt,1)) isnum 0-9999,$v1,60) % $+ pprot.blockallqueries 1
+      haltdef
+    }
+    elseif (%t == bl) { prot.blackadd $iif($address($nick,%ban.mask),$v1,$nick $+ !*@*) Don't $pprot.repflood($1) $+ ! }
+    elseif (%t == cq) { close -m $nick }
+    elseif ($regex(ppt,%t,/^kl-([0-9A-Z]+|d)$/)) { kill $nick $iif($regml(ppt,1) != d,$pprot.getmsg($v1),Don't $pprot.repflood($1) $+ !) }
+    elseif ($regex(ppt,%t,/^es-([0-9A-Z]+|d)$/)) {
+      if ($regml(ppt,1) != d) && ($pprot.getmsg($regml(cpt,1))) { thmecho -a $v1 }
+      else { thmecho -a $thmhl($nick) triggered your $thmhl($1) protection. }
+    }
+    elseif ($regex(ppt,%t,/^bn-([0-9A-Z]+|d)$/)) {
+      noop $nntip($1 protection,$iif($regml(ppt,1) != d && $pprot.getmsg($regml(cpt,1)),$v1,$nick triggered your $1 protection.))
+      %j = 1
+    }
+    elseif ($regex(ppt,%t,/^wu-(1|0)-([0-9A-Z]+|d)$/)) { $iif($regml(ppt,1),.notice,.msg) $nick $iif($regml(ppt,2) != d && $pprot.getmsg($regml(cpt,1)),$v1,Don't $pprot.repflood($1) $+ !) }
+    elseif ($regex(ppt,%t,/^i-([pcntdik]+|a)-(\d+)-([0-9])$/)) { .ignore $+(-,$iif($regml(ppt,1) != a,$v1),$iif($regml(ppt,2),u $+ $v1)) $nick $regml(ppt,3) }
+    elseif ($regex(ppt,%t,/^cc-([0-9A-Z]+|d)$/)) {
+      if ($regml(ppt,1) != d) && ($pprot.getmsg($regml(cpt,1))) { $v1 }
+      else { thmerror -a No command for the $thmhl($1) protection specified. }
+    }
+    elseif ($regex(ppt,%t,/^s-([0-9A-Z]+|d)$/)) {
+      var %s = $pprot.getmsg($regml(ppt,1))
+      if ($regml(ppt,1) != d) && ($isfile(%s)) { splay %s }
+      else { thmerror -a No sound for the $thmhl($1) protection specified. }
+    }
+    elseif ($regex(ppt,%t,/^k-([0-9A-Z]+|d)$/)) { if ($ccontrol($chan)) { kick $chan $nick $iif($regml(ppt,1) != d && $pprot.getmsg($regml(cpt,1)),$v1,Don't $pprot.repflood($1) $+ !) $kc } }
+    elseif (%t == us) { if ($ccontrol($chan)) { mode $chan -b $banmask } }
+    elseif (%t == is) { haltdef }
+    inc %x
+  }
+  if (%balloon.pprot) && (!%j) { noop $nntip(Personal protection $iif($scid(0) > 1,$nbr($curconserv)),$nick triggered your $1 protection. Taking countermeasures...) }
+  unset %pprot.msgrep
+}
+alias pprot.repflood { return $replacex($1-,ban,ban me,ctcpflood,CTCP flood me,inviteflood,invite flood me,noticeflood,notice flood me,queryflood,query flood me,textflood,text flood me) }
+alias pprot.getmsg { return $replacex( %pprot.action. [ $+ [ $1 ] ] , [ %pprot.msgrep ] ) }
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

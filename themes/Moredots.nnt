@@ -1,0 +1,160 @@
+Name More Dots!
+Version 1.03
+NNTVersion 1.03
+Author greeny
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com
+Description Inspired by ducky's "grey" theme.
+
+Font Lucida Console
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 15,13 HH:nn 
+
+NickColSelf 0
+NickColOp 11
+NickColVoice 15
+NickColRegular 14
+NickColProtect 9
+NickColIgnore 4
+
+Brackets 15[ $+ $replace(<text>,+,11+,-,11-,.,11.,!,11!,@,11@,~,11~) $+ 15]
+LineSep <pre>
+Prefix                  11•
+
+GenEcho <pre> <text>
+GenError <pre> 04Error: <text>
+GenHighlight 15<text>
+
+ChanText 11<cmode align="1"><nick align="15"> 14• <text>
+ChanTextOwn 11<cmode align="1"><me align="15"> 14• <text>
+ChanAction 11<cmode align="1"><nick align="15"> 14› <text>
+ChanActionOwn 11<cmode align="1"><me align="15"> 14› <text>
+
+QueryText  <nick align="15"> 14• <text>
+QueryTextOwn  <me align="15"> 14• <text>
+QueryAction  <nick align="15"> 14› <text>
+QueryActionOwn  <me align="15"> 14› <text>
+
+Msg 11from15 <nick align="11"> 14• <text>
+MsgOwn 11 to 15 <target align="11"> 14• <text>
+Action 11from15 <nick align="11"> 14› <text>
+ActionOwn 11 to 15 <target align="11"> 14› <text>
+
+ChanNotice 11from14 #15<nick align="10"> 14- <text>
+Notice 11from15 <nick align="11"> 14- <text>
+NoticeOwn 11 to 15 <target align="11"> 14- <text>
+ServerNotice 11from15 <server align="11"> 14- <text>
+
+CTCP 11from15 <nick align="11"> 14? <ctcp brackets="1"> <text>
+CTCPOwn 11 to 15 <target align="11"> 14? <ctcp brackets="1"> <text>
+ChanCTCP 11from14 #15<nick align="10"> 14? <ctcp brackets="1"> <text>
+CTCPReply 11from15 <nick align="11"> 14! <ctcp brackets="1"> <text>
+CTCPReplyOwn 11 to 15 <target align="11"> 14! <ctcp brackets="1"> <text>
+
+Join <pre> <nick> <address brackets="1"> has joined15 <chan>
+JoinOwn <pre> Joined15 <chan>!if <topic> <pre> Topic: <topic>!if <topic> <pre> Set by15 <topicnick> on15 <topicdate brackets="1">
+Part <pre> <nick> <address brackets="1"> has left15 <chan> <message brackets="1">
+Quit <pre> <nick> <address brackets="1"> has quit 15IRC
+Nick <pre> <nick> is now known as15 <newnick>
+NickOwn <pre> Your nick is now15 <newnick>
+Mode <pre> <nick> set mode <mode brackets="1">
+UserMode <pre> 15Your modes are now <mode brackets="1">
+Kick <pre> <nick> <address brackets="1"> has kicked15 <kickednick> <message brackets="1">
+KickOwn <pre> You were kicked from <chan brackets="1"> by15 <nick>
+WallOp  <nick align="15"> 14~ <text>
+
+DNS <pre> Resolving <address brackets="1">...
+DNSError <pre> Unable to resolve <address brackets="1">
+DNSResolve <pre> Resolved <address brackets="1"> to <raddress brackets="1">
+
+Notify <pre> User15 <nick> is now 09online
+UnNotify <pre> User15 <nick> is now 04offline
+
+LUsers1 <pre> There are15 <users> users and15 <invisible> invisible on15 <servers> servers
+LUsers2 <pre> There are15 <operators> operator(s) online
+LUsers3 <pre> There are15 <connections> unknown connection(s)
+LUsers4 <pre> 15<channels> channels formed
+LUsers5 <pre> There are15 <clients> clients and15 <servers> servers
+
+Welcome1 <pre> Welcome to the Internet Relay Network,15 <nick>
+Welcome2 <pre> Your host is15 <host>, running version15 <version>
+Welcome3 <pre> This server was created15 <created>
+Welcome4 <pre> Server:15 <server>, version:15 <version>, user modes:15 <usermodes>, channel modes:15 <chanmodes>
+SupportedInfo <pre> Protocols supported by this server are15 <protocols>
+
+ChannelModes <pre> Channel modes on15 <chan> are <modes brackets="1">
+ChannelCreation <pre> Channel15 <chan> was created on <created brackets="1">
+Bans <pre> <chan> ban <ban brackets="1"> set by15 <nick> <banned brackets="1">
+BansEnd <pre> End of15 <chan> ban list
+UnableToSend <pre> Unable to message15 <chan>
+NotOpped <pre> You're not opped in15 <chan>
+HiddenHost <pre> Your host is now hidden <host brackets="1">
+RegisterFirst <pre> You have to register first!
+
+WhoisStart <pre>
+WhoisAddress            Whois 11•15 <nick> <name brackets="1">         Address 11•15 <address>
+WhoisChans         Channels 11•15 $replace(<chans>,$chr(35),11#15,+,14+15,%,14%15,@,14@15)
+WhoisServer           Server 11•15 <server> <info brackets="1">
+WhoisStatus           Status 11•15 <status>
+WhoisAway             Away 11•15 <reason>
+WhoisAuth             Auth 11•15 <auth>
+WhoisRealIP     Real address 11•15 <address> <ip brackets="1">
+WhoisIdle             Idle 11•15 <idle>         Sign-on 11•15 <signontime> <signonago brackets="1">
+WhoisEnd <pre>
+
+WhowasStart <pre>
+WhowasAddress           Whowas 11•15 <nick> <name brackets="1">         Address 11•15 <address>
+WhowasServer           Server 11•15 <server> <info brackets="1">
+WhowasAway             Away 11•15 <reason>
+WhowasEnd <pre>
+
+Who <pre> User15 <nick> <address brackets="1"> is on15 <chan>. His real name is15 <name>, his status15 <status>
+WhoEnd <pre> End of /WHO list for15 <target>
+
+Invite <pre> You have received an invitation to join15 <chan> from15 <nick>
+InviteOwn <pre> You have sent15 <nick> an invitation to join15 <chan>
+InviteAlreadyOnChan <pre> User15 <nick> is already on15 <chan>
+
+NoTopic <pre> No topic in15 <chan> set
+Topic <pre> Topic: <topic>
+TopicBy <pre> Set by15 <nick> on15 <date brackets="1">
+TopicChange <pre> <nick> changed the 15topic to: <topic>
+
+Names <pre> Users on15 <chan>: <names>
+NamesEnd <pre> End of15 <chan> user list
+
+UnknownCmd <pre> 15<cmd> is an unknown command
+NickInUse <pre> The nickname15 <nick> is already in use.
+AwayStatus <pre> <nick> is away <reason brackets="1">
+ChanFull <pre> Can't join15 <chan>: channel is full
+ChanInviteOnly <pre> Can't join15 <chan>: invite only
+ChanBanned <pre> Can't join15 <chan>: banned
+ChanKeyRequired <pre> Can't join15 <chan>: incorrect key
+ChanRegOnly <pre> Can't join15 <chan>: registered only
+NoSuchNick <pre> The user15 <nick> doesn't exist
+NoSuchChan <pre> The channel15 <chan> doesn't exist
+
+RawDef <pre> <text>
+
+Scheme0 Default 16777215 2368548 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 4870581 9792616 2960685 6118749 12829635 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme1 Dark_yellow 16777215 2368548 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 4372157 9792616 2960685 6118749 12829635 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme2 Dark_teal 16777215 2368548 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 10198115 9792616 2960685 6118749 12829635 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme3 Dark_green 16777215 2368548 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 5418586 9792616 2960685 6118749 12829635 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme4 Dark_purple 16777215 2368548 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 10836389 9792616 2960685 6118749 12829635 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme5 Dark_orange 16777215 2368548 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 4356541 9792616 2960685 6118749 12829635 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme6 Dark_blue 16777215 2368548 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 11886922 9792616 2960685 6118749 12829635 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme7 Dark_grey 16777215 2368548 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 7237230 9792616 2960685 6118749 12829635 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme8 Bright_default 0 15263976 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 4870581 9792616 13158600 8618883 2434341 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme9 Bright_green 0 15263976 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 3240249 9792616 13158600 8618883 2434341 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme10 Bright_blue 0 15263976 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 11882826 9792616 13158600 8618883 2434341 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme11 Bright_orange 0 15263976 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 1599925 9792616 13158600 8618883 2434341 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme12 Bright_teal 0 15263976 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 9730328 9792616 13158600 8618883 2434341 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme13 Bright_purple 0 15263976 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 8652948 9792616 13158600 8618883 2434341 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme14 Green 0 14937316 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 3043627 9792616 12310202 6856043 1912349 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme15 Blue 0 15591650 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 7483177 9792616 14139833 10386791 3023645 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme16 Red 0 14803438 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 2697586 9792616 12105944 6645152 1842223 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme17 Yellow 0 14806765 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 2650993 9792616 11851990 6198935 1847086 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme18 Brown 0 14936556 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 3364968 9792616 12437966 7044233 2172457 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15
+Scheme19 ESNation 16777215 0 5059380 3954493 5460908 2960723 7024740 4817588 5808295 6397026 5920824 2921958 9792616 1644825 4737096 13487565 1 15 15 0 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 15 14 1 0 1 15 14 14 1 1 15

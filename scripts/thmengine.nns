@@ -1,0 +1,1752 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - theme engine - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+dialog themes {
+  title NNScript %version theme system %nntversion [/themes]
+  size -1 -1 484 481
+  option pixels
+  icon scripts\pics\nntray.ico, 0
+  tab "Select theme", 1, 4 2 475 380
+  box "Theme info", 6, 158 27 314 126, tab 1
+  button "", 7, 158 161 314 208, tab 1
+  list 90, 11 31 140 340, tab 1 size
+  text "Name:", 8, 166 45 32 14, tab 1
+  text "Author:", 9, 166 63 38 14, tab 1
+  text "", 11, 216 45 170 14, tab 1
+  link "", 14, 216 63 252 14, tab 1
+  link "", 15, 216 81 252 14, tab 1
+  text "", 13, 388 45 80 14, tab 1
+  button "&Preview", 76, 208 384 80 24, tab 1
+  button "4", 10, 288 384 20 24, tab 1
+  button "&Load", 19, 314 384 80 24, tab 1
+  edit "", 71, 212 97 254 50, tab 1 read multi return vsbar
+  text "Desc.:", 58, 166 98 38 14, tab 1
+  link "Get more themes!", 200, 5 388 100 18, tab 1
+  tab "Edit theme", 2
+  box "Theme to edit", 5, 12 27 460 44, tab 2
+  text "Editing:", 12, 22 45 40 16, tab 2
+  edit "", 16, 70 41 284 22, tab 2 read autohs
+  button "&...", 17, 360 41 40 22, tab 2
+  button "Browse", 21, 406 41 56 22, tab 2
+  list 91, 12 79 142 214, tab 2 size
+  edit "", 20, 168 91 296 112, tab 2 read multi return vsbar
+  box "Help", 23, 160 75 312 137, tab 2
+  edit "", 24, 158 217 316 76, hide tab 2 multi return hsbar vsbar limit 3000
+  button "", 25, 12 298 461 71, tab 2
+  edit "", 31, 158 217 316 22, hide tab 2 autohs limit 100
+  radio "&Enabled", 32, 162 221 62 18, hide tab 2
+  radio "&Disabled", 33, 162 239 64 18, hide tab 2
+  list 34, 158 217 94 76, hide tab 2 size vsbar
+  list 35, 158 217 162 76, hide tab 2 sort size vsbar
+  list 36, 158 217 162 76, hide tab 2 size vsbar
+  list 47, 158 217 108 76, hide tab 2 size vsbar
+  button "Get c&urrent", 48, 352 218 80 24, hide tab 2
+  list 50, 158 217 108 76, hide tab 2 size vsbar
+  list 51, 268 217 108 76, hide tab 2 size vsbar
+  button "Get &default", 46, 352 242 80 24, hide tab 2
+  button "Get c&urrent", 52, 380 218 74 24, hide tab 2
+  button "Get &default", 49, 380 242 74 24, hide tab 2
+  button "Change color", 84, 268 218 80 24, hide disable tab 2
+  list 56, 158 217 128 76, hide tab 2 sort size vsbar
+  button "&Add scheme", 53, 290 218 80 24, hide tab 2
+  button "&Rename", 57, 290 242 80 24, hide disable tab 2
+  button "&Remove", 54, 290 266 80 24, hide disable tab 2
+  list 156, 158 217 128 76, hide tab 2 sort size vsbar
+  button "&Add RAW", 153, 290 218 80 24, hide tab 2
+  button "&Remove", 154, 290 242 80 24, hide disable tab 2
+  button "&New theme", 192, 4 384 80 24, tab 2
+  button "&Delete", 196, 90 384 80 24, tab 2
+  button "S&ave", 37, 234 384 80 24, tab 2
+  button "Sa&ve as...", 137, 314 384 80 24, tab 2
+  tab "Settings", 27
+  check "Automatically &generate previews", 74, 22 43 182 18, tab 27
+  check "Clear &all windows when changing themes", 30, 22 61 220 18, tab 27
+  check "Close &dialog when loading themes", 38, 22 79 186 18, tab 27
+  check "&Hide /names list when joining a channel", 28, 22 97 212 18, tab 27
+  check "H&ide additional welcome messages when connecting to a server", 77, 22 115 330 18, tab 27
+  check "&Load random theme at startup", 39, 22 133 172 18, tab 27
+  check "Show &window names as background pictures (Note: slows display down a lot!)", 4, 22 151 400 18, tab 27
+  box "General settings", 29, 12 27 460 198, tab 27
+  text "", 79, 40 281 338 16, tab 27
+  box "Cache", 75, 12 229 460 95, tab 27
+  text "Font face", 18, 42 175 54 14, tab 27
+  combo 26, 102 171 140 156, tab 27 sort size drop
+  text "size", 40, 252 175 22 14, tab 27
+  combo 41, 282 171 64 156, tab 27 size drop
+  button "...", 82, 440 172 24 20, tab 27
+  check "Enable shad&ows", 42, 42 197 104 18, tab 27
+  text "size", 43, 252 199 22 14, tab 27
+  combo 44, 282 195 64 156, tab 27 size drop
+  text "color", 73, 356 199 28 14, tab 27
+  text "color", 55, 356 175 28 14, tab 27
+  edit "", 60, 390 171 48 22, disable tab 27
+  edit "", 66, 390 195 48 22, disable tab 27
+  button "...", 83, 440 196 24 20, tab 27
+  check "Cach&e previews (recommended)", 80, 22 245 180 18, tab 27
+  check "Cache &scripts", 86, 22 262 93 18, tab 27
+  button "Clea&r cache", 78, 384 244 80 24, tab 27
+  text "", 85, 40 298 338 16, tab 27
+  text "Loading...", 81, 190 433 87 22, center
+  button "&Close", 3, 400 384 80 24
+  icon 72, 8 413 468 60
+  box "", 87, 7 414 468 60
+  menu "&File", 59
+  item "&Load theme", 61, 59
+  item "Load &default theme", 161, 59
+  item "&Open theme folder", 70, 59
+  item break, 191, 59
+  item "&Update mIRC settings", 45, 59
+  item break, 68, 59
+  item "&Close", 69, 59
+  menu "&Edit", 190
+  item "&Create new theme", 22, 190
+  item break, 159, 190
+  item "&Save", 64, 190
+  item "S&ave as...", 65, 190
+  item break, 158, 190
+  item "&Reset theme", 67, 190
+  menu "&Help", 62
+  item "&Information", 164, 62
+  item break, 163, 62
+  item "&About", 63, 62
+}
+
+alias thmllist {
+  did -r themes 90
+  did -i themes 90 1 cb root
+  did -a themes 90 +eb 1 1 0 0 0 Themes
+  did -i themes 90 1 cb last
+  noop $findfile(themes\,*.nnt,0,0,thmllistdo $qt($1-))
+  did -i themes 90 1 sort
+  var %n = $calc($did(themes,90).lines -1)
+}
+alias thmllistdo {
+  if ($isfile($1-)) {
+    did -a themes 90 + 1 1 0 0 0 $+($thmdata($1-,name),	,$1-)
+    did -i themes 90 1 cb last
+    filter -kg $1- thmschmfilter ^Scheme\d+ \S+ (?:\d+ ){45}\d+$
+    did -i themes 90 1 sort
+    did -i themes 90 1 cb up
+  }
+}
+alias thmselfile {
+  did -i themes 90 1 page select
+  tokenize 32 $did(themes,90,1)
+  if ($5) {
+    did -i themes 90 1 cb root $4
+    return $gettok($did(themes,90,$5),2-,9)
+  }
+}
+alias thmselschm {
+  did -i themes 90 1 page select
+  tokenize 32 $did(themes,90,1)
+  if ($6) {
+    did -i themes 90 1 cb root $4-5
+    return $gettok($did(themes,90,$6),2-,9)
+  }
+}
+alias thmsellthm {
+  did -fi themes 90 1 cb root 2
+  var %t = $did(themes,90).lines
+  while (%t > 1) {
+    if ($mkfullfn(%thm.current) == $gettok($did(themes,90,%t),2-,9)) {
+      if (%thm.scheme) {
+        did -i themes 90 1 cb %t
+        did -i themes 90 1 branch expand
+        var %o = $did(themes,90).lines
+        while (%o > 1) {
+          if (%thm.scheme == $gettok($did(themes,90,%o),2-,9)) {
+            did -c themes 90 %o
+            return
+          }
+          dec %o
+        }
+      }
+      else {
+        did -c themes 90 %t
+        return
+      }
+    }
+    dec %t
+  }
+}
+alias cmdchar { if ($istokcs(/ %thm.cmdchar,$left($1,1),32)) { return 1 } }
+alias thmschmfilter {
+  tokenize 32 $1-
+  if ($mid($1,7)) { did -a themes 90 + 1 1 0 0 0 $+($schmprt($2-).name,	,$mid($1,7)) }
+}
+dialog bigprev {
+  title "Big theme preview"
+  size -1 -1 458 446
+  option pixels
+  icon scripts\pics\nntray.ico
+  box "", 1, -2 404 470 88
+  button "&Save as...", 4, 288 418 80 24
+  button "&Close", 2, 374 418 80 24, ok
+  button "", 3, 4 4 450 400
+}
+on *:dialog:bigprev:*:*:{
+  if ($devent == init) {
+    ppwin $dname 3
+    thmprev -b
+  }
+  elseif ($devent == sclick) && ($did == 4) {
+    var %f = $relpath($$sfile($mircdir $+ $mkfn($mid($dialog($dname).title,20,-1)) $+ .bmp,Save theme preview,Save))
+    if ("*.jpg" iswm %f) {
+      var %q = $int($eddialog(Enter a JPEG quality from 1-100!,95))
+      if (%q isnum 1-100) { drawsave -q $+ %q @sprev.bigprev.3 %f }
+      else { errdialog invalid number! }
+    }
+    else { drawsave @sprev.bigprev.3 %f }
+    idialog Theme preview saved to %f $+ !
+  }
+}
+alias schmprt {
+  if ($prop == name) { return $replace($gettok($1-,1,32),_,$chr(32)) }
+  elseif ($prop == rgb) { return $gettok($1-,2-17,32) }
+  elseif ($prop == colors) { return $wd($1-,18-) }
+}
+alias crawsel {
+  did -i themes 91 1 cb root 2 11 12
+  did -i themes 91 1 page select
+  return $wd($did(themes,91,$wd($did(themes,91,1),7)),7)
+}
+alias thm.hlcomchan {
+  var %i = 1,%o = $wd($1-,0),%r
+  while (%i <= %o) {
+    var %c = $wd($1-,%i),%t = ""
+    if ($left(%c,1) isin $prefix) || ($left(%c,1) == -) { var %c = $mid(%c,2),%t = $v1 }
+    %r = %r %t $+ $iif($me ison %c,$+(,%c,),%c)
+    inc %i
+  }
+  return %r
+}
+alias dcmchn {
+  var %n = $comchan($1,0),%nw
+  if ($prop == num) { return $iif(%n,%n,0) }
+  elseif (%n) {
+    var %t,%u = 1
+    while (%u <= %n) {
+      %nw = $comchan($1,%u)
+      if (%nw != $2) {
+        %t = %t $+ , %nw
+        if ($len(%t) >= 100) {
+          %t = %t $+ ...
+          break
+        }
+      }
+      inc %u
+    }
+    return $mid(%t,3)
+  }
+  else { return n/a }
+}
+alias dclns {
+  if ($chan($chan).ial) {
+    var %n = $ialchan(*!*@ $+ $site,$chan,0),%nw
+    if ($1 == num) { return $iif(%n,$calc(%n -1),0) }
+    elseif (%n) {
+      var %t,%u = 1
+      while (%u <= %n) {
+        %nw = $ialchan(*!*@ $+ $site,$chan,%u).nick
+        if ($nick != %nw) {
+          %t = %t $+ , %nw
+          if ($len(%t) >= 100) {
+            %t = %t $+ ...
+            break
+          }
+        }
+        inc %u
+      }
+      return $mid(%t,3)
+    }
+    else { return n/a }
+  }
+  else { return n/a }
+}
+alias thmed.selfile {
+  if ($thmvchk($1-)) {
+    did -ra themes 16 $1-
+    .copy -o $1- $thmtmp
+    thmleditn
+    thmednosel
+    unset %thmed.prvschm %thmedprev.last
+  }
+  else { errdialog $1- is not a valid theme file. }
+}
+on *:dialog:themes:*:*:{
+  if ($devent == init) {
+    set %thm.ndlgload 1
+    chkthemes
+    did -a $dname 16 %thm.current
+    .copy -o %thm.current $thmtmp
+    unset %thm.oldselfile %thm.svalid %thm.ndlgload
+    mdx SetFont $dname 10 20 300 Webdings
+    mdx SetControlMDX $dname 90,91 TreeView hasbuttons haslines showsel nohscroll notooltips > $mdxfile(views)
+    mdx SetBorderStyle $dname 20,71
+    did -i $dname 90,91 1 settxt bgcolor none
+    ppwin $dname 7
+    ppwin $dname 25
+    did -b $dname 22,51,64,65,67
+    thmllist
+    thmsellthm
+    thmsel
+    if (%thm.svalid) { thmprev $iif(!%thm.agenprev,-o) }
+    thmleditn
+    did -a $dname 34 none
+    didtok $dname 34,47,51 44 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+    didtok $dname 41,44 44 10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50
+    loadfonts themes 26,35
+    didtok $dname 36 44 6,7,8,9,10,11,12,13,14,15,16,17,18
+    didtok $dname 50 44 $thmcols
+    if (%thm.hnames) { did -c $dname 28 }
+    if (%thm.lclear) { did -c $dname 30 }
+    if (%thm.cdlg) { did -c $dname 38 }
+    if (%thm.lrand) { did -c $dname 39 }
+    if (%thm.agenprev) { did -c $dname 74 }
+    if (%thm.cprev) { did -c $dname 80 }
+    if (%thm.cscript) { did -c $dname 86 }
+    if (%thm.hwmsg) { did -c $dname 77 }
+    if (%thm.sactivebg) {
+      did -c $dname 4
+      chgedcol $dname 60 %thm.sbgfontcolor
+    }
+    else { did -b $dname 18,26,40,41,55,42,43,44,73,82,83 }
+    if (%thm.sbgshadow) {
+      did -c $dname 42
+      if (%thm.sactivebg) { chgedcol $dname 66 %thm.sbgshadowfontcolor }
+    }
+    else { did -b $dname 43,44,73,83 }
+    if ($didwm(26,%thm.sbgfont)) { did -c $dname 26 $v1 }
+    else { did -ac $dname 26 %thm.sbgfont }
+    did -c $dname 41 $calc(%thm.sbgfontsize -9)
+    did -c $dname 44 $calc(%thm.sbgshadowfontsize -9)
+    thmednosel
+    if (!%thm.warned) {
+      idialog Important warning! Do not install themes from sources you do not trust! Themes can, just like any other script files, contain malicious code that could reveal your passwords or files. Please be aware of this when downloading and installing new themes for NNScript. Thanks.
+      set %thm.warned 1
+    }
+    openad themes 81 72 87
+  }
+  elseif ($devent == menu) {
+    if ($did == 61) { thmload $iif($thmselschm,-s $+ $v1) $thmselfile }
+    elseif ($did == 161) { thm.ldef }
+    elseif ($did == 70) { run themes\ }
+    elseif ($did == 45) { thmupd -s }
+    elseif ($did == 69) { thmdlgcls }
+    elseif ($did == 64) { thmsave }
+    elseif ($did == 65) { thmsaveas }
+    elseif ($did == 67) { thmreset }
+    elseif ($did == 22) { thm.crnew }
+    elseif ($did == 63) { idialog NNT is a theme engine written by greeny and mute especially for NNScript for excellent performance and customizability. }
+    elseif ($did == 164) {
+      did -i $dname 90 1 cb root 2
+      var %b
+      noop $findfile(themes\,*.nnt,0,0,inc %b $file($1-).size)
+      idialog Themes available: $calc($did(90).lines -1) $+ Themes size: $bytes(%b).suf $+ Themes loaded: $bytes(%stat.thmload,b)
+    }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 76) { thmprev -f }
+    elseif ($did == 200) { url -an http://www.nnscript.com/forum/viewforum.php?f=8 }
+    elseif ($did == 72) { openad.clicked % [ $+ [ $dname $+ .oa ] ]  }
+    elseif ($did == 4) {
+      sdt thm.sactivebg
+      if ($did($did).state) {
+        did -e $dname 18,26,40,41,55,42,82
+        chgedcol $dname 60 %thm.sbgfontcolor
+        if ($did(42).state) {
+          did -e $dname 43,44,73,83
+          chgedcol $dname 66 %thm.sbgshadowfontcolor
+        }
+        crwinpic
+      }
+      else {
+        did -b $dname 18,26,40,41,55,42,43,44,73,82,83
+        chgedcol $dname 60,66 $rgb(face)
+        crwinpic -r
+      }
+    }
+    elseif ($did == 192) { thm.crnew }
+    elseif ($did == 137) { thmsaveas }
+    elseif ($did == 42) {
+      sdt thm.sbgshadow
+      did $iif($did($did).state,-e,-b) $dname 43,44,73,83
+      chgedcol $dname 66 $iif($did($did).state,%thm.sbgshadowfontcolor,$rgb(face))
+      crwinpic
+    }
+    elseif ($did == 26) {
+      set %thm.sbgfont $did($did).seltext
+      crwinpic
+    }
+    elseif ($did == 41) {
+      set %thm.sbgfontsize $did($did).seltext
+      crwinpic
+    }
+    elseif ($did == 44) {
+      set %thm.sbgshadowfontsize $did($did).seltext
+      crwinpic
+    }
+    elseif ($did == 82) {
+      set %thm.sbgfontcolor $rgb( [ $$nn.rgb(%thm.sbgfontcolor) ] )
+      chgedcol $dname 60 %thm.sbgfontcolor
+      crwinpic
+    }
+    elseif ($did == 83) {
+      set %thm.sbgshadowfontcolor $rgb( [ $$nn.rgb(%thm.sbgshadowfontcolor) ] )
+      chgedcol $dname 66 %thm.sbgshadowfontcolor
+      crwinpic
+    }
+    elseif ($did == 17) {
+      if ($thmchgd) { if (!$ydialog(If you continue $+ $chr(44) your changes in the theme editor will be gone! Continue?)) { return } }
+      var %n = $relpath($$sfile(themes\*.nnt,Choose a theme file,Open))
+      thmed.selfile %n
+    }
+    elseif ($did == 18) { thm.crnew }
+    elseif ($did == 21) { run themes\ }
+    elseif ($did == 156) { did $iif($did($did).sel,-e,-b) $dname 154 }
+    elseif ($did == 10) { noop $dialog(bigprev,bigprev,-4) }
+    elseif ($did == 1) {
+      dialog -t $dname NNScript %version theme system %nntversion [/themes]
+      did -e $dname 61
+      did -b $dname 22,64,65,67
+    }
+    elseif ($did == 2) {
+      dialog -t $dname NNScript %version theme system %nntversion - editor [/themes]
+      did -e $dname 22,64,65,67
+      did -b $dname 61
+    }
+    elseif ($did == 27) {
+      dialog -t $dname NNScript %version theme system %nntversion - settings [/themes]
+      did -b $dname 22,61,64,65,67
+      did -ra $dname 79 Space currently used by previews: $thmprevsize
+      did -ra $dname 85 Space currently used by scripts: $thmcscriptsize
+    }
+    elseif ($did == 78) { thmprevclear }
+    elseif ($did == 90) {
+      tokenize 32 $did(themes,90,1)
+      if (slclick * iswm $1-) {
+        if ($thmselfile != %thm.oldselfile) {
+          thmsel
+          set %thm.oldselfile $thmselfile
+        }
+        if ($0 == 4) { thmprev -s }
+        elseif (!%thm.skipprev) { thmprev $iif(!%thm.agenprev,-o) }
+      }
+    }
+    elseif ($did == 74) { sdt thm.agenprev }
+    elseif ($did == 80) { sdt thm.cprev }
+    elseif ($did == 86) { sdt thm.cscript }
+    elseif ($did == 4) { thmreset }
+    elseif ($did == 50) {
+      if ($did($did).sel) {
+        did -e $dname 51
+        did -c $dname 51 $calc($wd($schmprt($read($thmtmp,ns,Scheme $+ $thmseledschm)).colors,$findtok($thmcols,$did(50).seltext,1,44)) +1)
+        thmedprev 51
+      }
+      else { did -bu $dname 51 }
+    }
+    elseif ($did == 51) {
+      var %u = Scheme $+ $thmseledschm,%x = $read($thmtmp,ns,%u)
+      write -l $+ $readn $thmtmp %u $puttok(%x,$did($did).seltext,- $+ $calc(31- $did(50).sel),32)
+      thmedprev 51
+    }
+    elseif ($did == 53) {
+      var %i = 0,%r
+      while ($read($thmtmp,ns,Scheme $+ %i)) {
+        %r = $readn
+        inc %i
+      }
+      var %z = $replace($remove($$eddialog(Enter a name for the new scheme! The current color settings will be loaded into the scheme.), ),$chr(32),_)
+      write -il $+ $calc(%r +1) $thmtmp Scheme $+ %i %z $thmgetrgb $thmgetcol
+      did -ac $dname 56 $+($replace(%z,_,$chr(32)),$str( ,100),%i)
+      did -e $dname 54,57
+      did -i $dname 91 1 cb root 2 3
+      did -a $dname 91 + 1 1 0 0 0 $+($replace(%z,_,$chr(32)),	,%i)
+      did -i $dname 91 1 cb last
+      did -a $dname 91 + 1 1 0 0 0 Colors	o-normal-2-0
+      did -a $dname 91 + 1 1 0 0 0 RGB	r-normal-2-0
+      did -i $dname 91 1 cb up
+      did -i $dname 91 1 sort
+    }
+    elseif ($did == 56) { did $iif($did($did).sel,-e,-b) $dname 54,57 }
+    elseif ($did == 54) {
+      if ($ydialog(Do you really want to remove the $qt($gettok($did(56).seltext,1,160)) color scheme from the theme?)) {
+        did -i $dname 91 1 cb root 2 3
+        var %g = $gettok($did(56).seltext,2,160),%i = $did(91).lines,%ü = $did(56).sel
+        noop $read($thmtmp,ns,Scheme $+ %g)
+        write -dl $+ $readn $thmtmp
+        while (%i) {
+          if ($gettok($did(91,%i),2,9) == %g) {
+            did -d $dname 91 %i
+            break
+          }
+          dec %i
+        }
+        did -d $dname 56 %ü
+        did -c $dname 56 %ü
+        if (!$did(56).sel) { did -b $dname 54,57 }
+        thmedprev
+      }
+    }
+    elseif ($did == 196) { thmdel }
+    elseif ($did == 57) {
+      var %g = $gettok($did(56).seltext,2,160),%v = $read($thmtmp,ns,Scheme $+ %g),%n = $schmprt(%v).name,%z = $replace($remove($$eddialog(Enter a new name for the scheme $qt(%n) $+ .,%n), ),$chr(32),_),%i = $did(91).lines
+      write -l $+ $readn $thmtmp Scheme $+ %g %z $wd(%v,2-)
+      did -i $dname 91 1 cb root 2 3
+      var %i = $didwm(91,*	 $+ %g)
+      did -i $dname 91 1 replaceitem %i $wd($did(91,%i),1) 1 1 0 0 0 $+($replace(%z,_,$chr(32)),	,%g)
+      did -i $dname 91 1 sort
+      did -oc $dname 56 $did(56).sel $+($replace(%z,_,$chr(32)),$str( ,100),%g)
+    }
+    elseif ($istok(46 48,$did,32)) {
+      var %c = $iif($did == 46,16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530,$thmgetrgb),%z = $read($thmtmp,ns,Scheme $+ $thmseledschm),%r = $rgb($gettok(%c,$did(47).sel,32))
+      write -l $+ $readn $thmtmp Scheme $+ $thmseledschm $replace($schmprt(%z).name,$chr(32),_) %c $schmprt(%z).colors
+      tokenize 44 %r
+      thmedprev 47
+      idialog $iif($did == 46,mIRC default,Current) RGB settings loaded into scheme!
+    }
+    elseif ($istok(49 52,$did,32)) {
+      var %c = $iif($did == 49,0 6 4 5 2 3 3 3 3 3 3 1 5 7 6 1 3 2 3 5 1 0 1 0 1 15 6 0,$thmgetcol),%z = $thmdata($thmtmp,Scheme $+ $thmseledschm)
+      write -l $+ $readn $thmtmp Scheme $+ $thmseledschm $replace($schmprt(%z).name,$chr(32),_) $schmprt(%z).rgb %c
+      if ($did(51).sel) { did -c $dname 51 $calc($wd($schmprt(%z).colors,$did(50).sel) +1) }
+      thmedprev 51
+      idialog $iif($did == 49,mIRC default,Current) color settings loaded into theme!
+    }
+    elseif ($did == 47) {
+      if ($did($did).sel) {
+        did -e $dname 84
+        thmedprev 47
+      }
+    }
+    elseif ($did == 58) { run themes\ }
+    elseif ($did == 84) { thmrgb.edit }
+    elseif ($did == 14) {
+      var %e = $thmdata($thmselfile,email)
+      if (?*@??*.??* iswm %e) { run $+(mailto:,%e,?subject=,$thmdata($thmselfile,name),%,20theme%20for%20NNScript) }
+      else { errdialog %e is not a valid e-mail address! }
+    }
+    elseif ($did == 15) {
+      var %h = $thmdata($thmselfile,homepage)
+      if (?*.??* iswm %h) { url -an %h }
+      else { errdialog %h is not a valid URL! }
+    }
+    elseif ($did == 19) {
+      var %f = $thmselfile,%s = $thmselschm,%c = $thmchgd
+      if (%thm.cdlg) {
+        if (%c) { if (!$ydialog(If you continue $+ $chr(44) your changes in the theme editor will be gone! Continue?)) { return } }
+        dialog -c $dname
+      }
+      elseif (!%c) { thmed.selfile $relpath(%f) }
+      if ($mouse.key & 4) { set %thm.forcerefresh 1 }
+      thmload $iif(%s,-s $+ %s) %f
+    }
+    elseif ($did == 91) {
+      did -i $dname $did 1 page select
+      var %u = $thmlp(2),%p
+      if (%u != %thm.eoldsel) {
+        set %thm.eoldsel %u
+        did -h $dname 24,31,32,33,34,35,36,46,47,48,49,50,51,52,53,54,57,84,156,153,154,56
+      }
+      if (* * * 2 11 12* iswm $did($did,1)) {
+        tokenize 32 $did($did,1)
+        if ($7) {
+          did -h $dname 156,153,154
+          did -v $dname 24
+          did -ra $dname 20 ——› $+(Description:,$crlf,RAW) event $crawsel $+ .
+          thmeddisp CRaw $+ $crawsel
+          thmedprev 24
+        }
+        else {
+          did -h $dname 24
+          did -v $dname 156,153,154
+          did -ra $dname 20 ——› $+(Description:,$crlf,Here) you can add custom raw events to your theme.
+          thmedprev
+        }
+      }
+      else {
+        if ($thmlp(all)) {
+          tokenize 45 $v1
+          if (!$isfile(themes\data\thmhelp.txt)) {
+            errdialog could not find thmhelp.txt. Please re-install the script.
+            exit
+            halt
+          }
+          loadbuf $+(-rot,$2,-,$3,-,$4,-,$5,-,$1) $dname 20 themes\data\thmhelp.txt
+          if ($5) { loadbuf -otgeneral $dname 20 themes\data\thmhelp.txt }
+          %p = $2
+          did -e $dname 24
+          if (%p == e) {
+            did -ra $dname 31 $thmdata($thmtmp,$1)
+            did -vc $dname 31 1
+            thmedprev 31
+          }
+          elseif (%p == c) {
+            did -u $dname 32,33
+            if ($thmdata($thmtmp,$1)) { did -c $dname 32 }
+            else { did -c $dname 33 }
+            did -v $dname 32,33
+            thmedprev
+          }
+          elseif (%p == m) { thmeddisp $1 }
+          elseif (%p == d) {
+            var %x = $thmdata($thmtmp,$1)
+            if (%x == none) { did -vc $dname 34 1 }
+            else { did -vc $dname 34 $calc(%x +2) }
+            thmedprev 34
+          }
+          elseif (%p == f) {
+            did -v $dname 35
+            if ($didwm(35,$thmdata($thmtmp,$1))) { did -c $dname 35 $v1 }
+            else { did -ac $dname 35 $thmdata($thmtmp,$1) }
+            thmedprev 35
+          }
+          elseif (%p == s) {
+            did -vc $dname 36 $didwm(36,$thmdata($thmtmp,$1))
+            thmedprev 36
+          }
+          elseif (%p == o) {
+            did -v $dname 49,50,51,52
+            did -c $dname 51 $calc($wd($schmprt($read($thmtmp,ns,Scheme $+ $thmseledschm)).colors,$findtok($thmcols,$did(50).seltext,1,44)) +1)
+            thmedprev 51
+          }
+          elseif (%p == r) {
+            did -v $dname 46,47,48,84
+            thmedprev 47
+          }
+          return
+        }
+        if (* * * 2 3 iswm $did($did,1)) {
+          did -v $dname 56,53,54,57
+          did -ra $dname 20 ——› $+(Description:,$crlf,Here) you can add various color schemes to your theme.
+          thmedprev
+        }
+        else {
+          did -h $dname 56,53,54,57
+          thmednosel -n
+        }
+      }
+    }
+    elseif ($did == 12) {
+      if ($did($did).sel) {
+        did -e $dname 24,42
+        thmeddisp CRaw $+ $did($did).seltext
+      }
+      else {
+        did -b $dname 24,42
+        did -r $dname 24
+      }
+    }
+    elseif ($did == 28) { sdt thm.hnames }
+    elseif ($did == 30) { sdt thm.lclear }
+    elseif ($did == 38) { sdt thm.cdlg }
+    elseif ($did == 39) { sdt thm.lrand }
+    elseif ($did == 77) { sdt thm.hwmsg }
+    elseif ($istok(32 33,$did,32)) { thmtmpwrite $iif($did == 32,1,0) }
+    elseif ($did == 153) {
+      var %n = $int($$eddialog(Enter a new raw numeric!))
+      if (%n isnum 0-999) {
+        if (!$read($thmtmp,ns,CRaw $+ %n)) {
+          var %x = $read($thmtmp,ns,RawDef)
+          write -il $+ $calc($readn +1) $thmtmp CRaw $+ %n %x
+          did -i $dname 91 1 cb root 2 11 12
+          did -a $dname 91 + 1 1 0 0 0 %n
+          did -i $dname 91 1 sort
+          did -a $dname 156 %n
+        }
+        else { errdialog this RAW event has already been added! }
+      }
+      else { errdialog you have to enter a number between 0 and 999! }
+    }
+    elseif ($did == 154) {
+      if ($did(156).sel) && ($ydialog(Do you really want to remove theming for raw event $did(156).seltext from the theme?)) {
+        did -b $dname 154
+        noop $read($thmtmp,ns,CRaw $+ $did(156).seltext)
+        write -dl $+ $readn $thmtmp
+        did -i $dname 91 1 cb root 2 11 12
+        var %i = 1
+        while ($did(91,%i)) {
+          if ($wd($v1,7) == $did(156).seltext) {
+            did -d $dname 91 %i
+            break
+          }
+          inc %i
+        }
+        did -d $dname 156 $did(156).sel
+      }
+    }
+    elseif ($did isnum 34-36) {
+      thmtmpwrite $did($did).seltext
+      thmedprev $did
+    }
+    elseif ($did == 37) { thmsave }
+    elseif ($did == 3) { thmdlgcls }
+  }
+  elseif ($devent == dclick) {
+    if ($did == 47) { thmrgb.edit }
+  }
+  elseif ($devent == edit) {
+    if ($did == 24) {
+      var %r,%i = 1,%j = 1,%t = $did($did).lines
+      while (%i <= %t) {
+        var %tm = $did($did,%i)
+        if (%tm) {
+          if (%j != 1) { %r = $+(%r,,%tm) }
+          else { %r = %tm }
+          inc %j
+        }
+        inc %i
+      }
+      thmtmpwrite $iif($thmlp(1) == CustomRaws,-c) %r
+      thmedprev 24
+    }
+    elseif ($did == 31) {
+      thmtmpwrite $did($did)
+      thmedprev 31
+    }
+  }
+  elseif ($devent == close) {
+    tryremove $thmtmp
+    unset %thm.oldselfile %thmed.prvschm %thmedprev.last
+    unset % [ $+ [ $dname $+ .oa ] ] 
+  }
+}
+alias thmrgb.edit {
+  var %x = $read($thmtmp,ns,Scheme $+ $thmseledschm),%c = $rgb( [ $$nn.rgb($wd($schmprt(%x).rgb,$did(themes,47).sel)) ] )
+  write -l $+ $readn $thmtmp Scheme $+ $thmseledschm $replace($schmprt(%x).name,$chr(32),_) $puttok($schmprt(%x).rgb,%c,$did(themes,47).sel,32) $schmprt(%x).colors
+  thmedprev 47
+}
+alias thmtmpwrite {
+  var %c
+  if ($1 == -c) {
+    %c = CRaw $+ $crawsel
+    tokenize 32 $2-
+  }
+  else { %c = $thmlp(1) }
+  noop $read($thmtmp,ns,%c)
+  if ($1- == $null) { write -l $+ $readn $thmtmp %c Missing theme instructions. }
+  else { write -l $+ $readn $thmtmp %c $1- }
+}
+alias thmprevsize {
+  var %b = 0
+  return $bytes(%b).suf [ $nbr($findfile(themes\pcache\,*.cpr,0,0,inc %b $file($1-).size) file(s)) ]
+}
+alias thmcscriptsize {
+  var %b = 0
+  return $bytes(%b).suf [ $nbr($findfile(themes\scache\,*.csc,0,0,inc %b $file($1-).size) file(s)) ]
+}
+alias thmprevclear {
+  if (!$show) || ($ydialog(Do you really want to clear the preview and script cache?)) {
+    noop $findfile(themes\pcache\,*.cpr,0,0,tryremove $qt($1-))
+    noop $findfile(themes\scache\,*.csc,0,0,tryremove $qt($1-))
+    if ($show) {
+      if ($dialog(themes)) { did -ra $v1 79 Space currently used by previews: $thmprevsize }
+      if ($dialog(themes)) { did -ra $v1 85 Space currently used by scripts: $thmcscriptsize }
+      idialog Theme cache cleared!
+    }
+  }
+}
+alias thmeddisp {
+  did -r themes 24
+  var %s = $thmdata($thmtmp,$1),%i = 1,%t = $numtok(%s,1),%r = 1,%g = 1
+  while (%i <= %t) {
+    did -a themes 24 $gettok(%s,%i,1) $+ $crlf
+    inc %i
+  }
+  did -vc themes 24 1
+  thmedprev 24
+}
+alias adtheme {
+  var %x = is using $sbr($thmdata(%thm.current,name) $thmdata(%thm.current,version)) theme $iif(%thm.scheme,with $sbr($wd($thmdata(%thm.current,scheme $+ $v1),1)) scheme) by $sbr($thmdata(%thm.current,author))
+  me %x
+}
+alias thmgetrgb {
+  var %i = 0,%r
+  while (%i < 16) {
+    %r = %r $color(%i)
+    inc %i
+  }
+  return %r
+}
+alias thmchgd { if ($sha1($did(themes,16),2) != $sha1($thmtmp,2)) { return 1 } }
+alias thmcols { return Back,Action,CTCP,Highlight,Info,Info2,Invite,Join,Kick,Mode,Nick,Normal,Notice,Notify,Other,Own,Part,Quit,Topic,Wallops,Whois,Editbox,Editbox text,Listbox,Listbox text,Gray,Title,Inactive,Treebar,Treebar Text }
+alias thmgetcol {
+  var %r,%i = 1,%t = $numtok($thmcols,44)
+  while (%i <= %t) {
+    %r = %r $color($gettok($thmcols,%i,44))
+    inc %i
+  }
+  return %r
+}
+alias playmircsound {
+  var %x = %sound. [ $+ [ $1- ] ]
+  if (!%x) || (%x == No Sound) { return }
+  elseif (%x == Beep) { beep }
+  elseif ($isfile(%x)) { splay %x }
+  return
+  :error
+  reseterror
+}
+alias thmupd {
+  var %t = $nnticks,%z = $1,%skip
+  saveini
+  var %i = $ini($mircini,waves,0)
+  while (%i) {
+    set %sound. $+ $ini($mircini,waves,%i) $readini($mircini,waves,$ini($mircini,waves,%i))
+    dec %i
+  }
+  set %sound.channeltext $iif($gettok($readini($mircini,options,n0),3,44),Beep,No Sound)
+  set %sound.querytext $iif($gettok($readini($mircini,options,n4),2,44),Beep,No Sound)
+  set %sound.chattext $iif($gettok($readini($mircini,options,n8),16,44),Beep,No Sound)
+  set %thm.active.query $iif($gettok($readini($mircini,options,n4),5,44),-a,-s)
+  set %thm.active.ctcp $iif($gettok($readini($mircini,options,n4),19,44),-a,-s)
+  set %thm.active.invite $iif($gettok($readini($mircini,options,n3),26,44),-a,-s)
+  set %thm.active.away $iif($gettok($readini($mircini,options,n4),32,44),-a,-s)
+  set %thm.active.notice $iif($gettok($readini($mircini,options,n5),13,44),-a,-s)
+  set %thm.active.whois $iif($gettok($readini($mircini,options,n2),26,44),-a,-s)
+  set %thm.singlemsg $gettok($readini($mircini,options,n0),22,44)
+  set %thm.cmdchar $readini($mircini,text,commandchar)
+  unset %thmevnt.*.*
+  if ($ini($mircini,events,0)) {
+    window -h @events
+    loadbuf -tevents @events $qt($mircini)
+    var %i = 1,%u
+    while ($line(@events,%i)) {
+      tokenize 44 $gettok($v1,2,61)
+      var %u = 1,%g = $gettok($v1,1,61),%l
+      while (%u < 9) {
+        %l = $ [ $+ [ %u ] ]
+        if (%l) { set $+(%,thmevnt.,%g,.,$gettok(join part quit rawmode topic ctcp nick kick,%u,32)) $iif(%g == default,$calc(%l +1),%l) }
+        inc %u
+      }
+      inc %i
+    }
+    close -@ @events
+  }
+  if ($show) {
+    if (%z == -s) { idialog mirc.ini settings loaded in $round($calc($nnticks - %t),1) second(s)! }
+    else { thmecho -a mirc.ini settings loaded in $thmhl($round($calc($nnticks - %t),1)) second(s)! }
+  }
+}
+alias thmev {
+  if (%thmevnt. [ $+ [ $1 ] $+ ] . [ $+ [ $event ] ]) { return $v1 }
+  elseif (%thmevnt.default. [ $+ [ $event ] ]) { return $v1 }
+  else { return 0 }
+}
+alias thmtmp { return themes\data\thmedit.tmp }
+alias themes { nndlg -mh themes }
+alias thmdata { return $read($1,ns,$2) }
+alias thmdlgcls {
+  if ($thmchgd) { if ($ydialog(If you close the theme setup now $+ $chr(44) all the changes you made in the editor will be gone if you don't save them! Close anyway?)) { dialog -c themes } }
+  else { dialog -c themes }
+}
+alias thmreset {
+  if ($ydialog(Reset the theme to its previous settings?)) {
+    .copy -o $did(themes,16) $thmtmp
+    thmleditn
+    thmednosel
+    idialog Theme reset.
+  }
+}
+alias thm.crnew {
+  if ($isfile(themes\data\newthm.dat)) {
+    if ($thmchgd) { if (!$ydialog(If you continue $+ $chr(44) your changes in the theme editor will be gone! Continue?)) { return } }
+    var %f = $relpath($$sfile(themes\New theme.nnt,Choose a file name,Create)),%i = $hget(vthm,0).item,%z
+    if ($isfile(%f)) && (!$ydialog(The file %f already exists! Overwrite?)) { return }
+    .copy -o themes\data\newthm.dat %f
+    .copy -o %f $thmtmp
+    did -ra themes 16 %f
+    thmllist
+    thmsellthm
+    thmsel
+    thmprev $iif(!%thm.agenprev,-o)
+    thmleditn
+    thmednosel
+  }
+  else { errdialog could not find themes\data\newthm.dat. Please re-install the script if you want to create new themes. }
+}
+alias thmsaveas {
+  var %f = $relpath($$sfile(themes\Copy of $nopath($did(themes,16)),Save theme,&Save))
+  if ($isfile(%f)) && (!$ydialog(The file %f already exists! Overwrite?)) { return }
+  .copy -o $did(themes,16) %f
+  thmllist
+  thmsellthm
+  thmsel
+  thmprev $iif(!%thm.agenprev,-o)
+  thmed.selfile %f
+  idialog Theme saved.
+}
+alias thmdel {
+  if ($putqt($relpath($did(themes,16))) != $thm.def) {
+    if ($mkfullfn(%thm.current) != $mkfullfn($did(themes,16))) {
+      if ($ydialog(Do you really want to delete the theme $did(themes,16) $+ ?)) {
+        tryremove $did(themes,16)
+        thmed.selfile $relpath(%thm.current)
+        thmllist
+        thmsellthm
+        thmsel
+        thmprev $iif(!%thm.agenprev,-o)
+        idialog Theme successfully removed.
+      }
+    }
+    else { errdialog you cannot delete the theme that is currently loaded. }
+  }
+  else { errdialog you cannot delete $qt($thmdata($thm.def,name)) as it is the default theme. }
+  return
+  :error
+  reseterror
+  errdialog an unknown error occured while deleting $mkfullfn($did(themes,16)) $+ .
+}
+alias thmsave {
+  var %s
+  if ($relpath(%thm.current) == $relpath($did(themes,16))) { %s = 1 }
+  if (!$thmvchk($thmtmp)) && (%s) { errdialog you changed the theme into a non-valid theme file, and the theme you edited is the currently active theme. Your changes can not been saved until you change one of these facts. }
+  else {
+    .copy -o $thmtmp $did(themes,16)
+    if (%s) {
+      if (!$thmdata(%thm.current,Scheme $+ %thm.scheme)) { set %thm.scheme "" }
+      set %thm.forcerefresh 1
+      thmload $iif(%thm.scheme,-s $+ $v1) %thm.current
+    }
+    thmllist
+    thmsellthm
+    thmsel
+    thmprev $iif(!%thm.agenprev,-o)
+    idialog Theme saved.
+  }
+}
+alias thmsel {
+  unset %thm.skipprev
+  var %x = $thmselfile
+  if (%x) {
+    thmselcut 6 190 Theme info $nbr(themes\ $+ $nopath(%x))
+    if (!$thmvchk(%x)) {
+      did -bra themes 11,13,14,15,71 n/a
+      did -b themes 8,9,10,19,58,76
+      thmdrprvt Invalid theme file!
+      set %thm.skipprev 1
+    }
+    else {
+      set %thm.svalid 1
+      if (!$isfont($thmdata(%x,font))) {
+        did -b themes 10,19,76
+        did -e themes 8,9,11,13,14,15,58,71
+        thmdrprvt Font not installed:| $+ $thmdata(%x,font)
+        set %thm.skipprev 1
+      }
+      else { did -e themes 8,9,10,11,13,14,15,19,58,71,76 }
+      thmselcut 11 100 $strip($thmdata(%x,name))
+      thmselcut 13 35 v $+ $strip($thmdata(%x,version))
+      thmselcut 14 155 $strip($thmdata(%x,author))
+      thmselcut 15 155 $strip($thmdata(%x,homepage))
+      did -ra themes 71 $strip($thmdata(%x,description))
+      did -c themes 71 1
+    }
+  }
+  else {
+    did -r themes 13,15
+    did -ra themes 6 Theme info (none selected)
+    did -ra themes 11,14 n/a
+    did -b themes 19,61,10,76
+  }
+}
+alias thmselcut {
+  var %x = $3-
+  if ($width(%x,MS Shell Dlg,8) > $2) {
+    while ($width(%x,MS Shell Dlg,8) > $2) { %x = $left(%x,-1) }
+    did -ra themes $1 %x $+ ...
+  }
+  else { did -ra themes $1 %x }
+}
+alias thmvchk {
+  if ($hget(vthmchk)) { hfree $v1 }
+  if ($isfile($putqt($1-))) {
+    hmake vthmchk
+    var %t = $hget(vthm,0).item,%ds = 0
+    while (%t) {
+      hadd vthmchk $hget(vthm,%t).item 1
+      dec %t
+    }
+    .fopen vthm $putqt($1-)
+    while (!$feof) {
+      var %c = $fread(vthm)
+      if (%c != $null) {
+        tokenize 32 %c
+        if ($hget(vthm,$1)) && ($regex(vthm,$2-,$v1)) {
+          hdel vthmchk $1
+          continue
+        }
+        elseif ($regex(vthm,$1-,^Scheme0 Default (?:\d+ ){45}\d+$)) {
+          hdel vthmchk $1
+          %ds = 1
+          continue
+        }
+        elseif ($regex(vthm,$1-,^Scheme\d+ \S+ (?:\d+ ){45}\d+$)) || ($regex(vthm,$1-,^CRaw\d+ .+)) {
+          hdel vthmchk $1
+          continue
+        }
+        .fclose vthm
+        return 0
+      }
+    }
+    .fclose vthm
+    if ($hget(vthmchk,0).item) || (!%ds) { return 0 }
+    if ($hget(vthmchk)) { hfree $v1 }
+    return 1
+  }
+}
+alias thmdrprvt {
+  var %w = @sprev.themes.7,%z = 50,%t = 1,%r,%p = 93,%b,%uz = 1,%ui = $numtok($1-,124)
+  drawrect -rnf %w 14935011 1 0 0 314 211
+  while (%z) {
+    %b = $rgb($calc(227- %z),$calc(227- %z),$calc(227- %z)) 1
+    drawline -nr %w %b $calc(50- %z) 0 $calc(50- %z) 211
+    drawline -nr %w %b $calc(%z +261) 0 $calc(%z +261) 211
+    dec %z
+  }
+  drawrect -nrf %w 1118635 1 1 1 309 13
+  drawrect -nrf %w 1118635 1 1 192 309 13
+  drawrect -nrf %w 460691 1 1 5 309 7
+  drawrect -nrf %w 460691 1 1 194 309 8
+  while (%uz <= %ui) {
+    var %d = $int($calc($width($gettok($1-,%uz,124),Tahoma,20,1) /2))
+    drawtext -nro %w 11184810 Tahoma 20 $calc(158- %d) $calc((76- %ui *10)+ %uz *20) $gettok($1-,%uz,124)
+    drawtext -nro %w 4605510 Tahoma 20 $calc(157- %d) $calc((75- %ui *10)+ %uz *20) $gettok($1-,%uz,124)
+    inc %uz
+  }
+  drawdot %w
+}
+alias cmod {
+  if ($nick($1,$2).pnick != $2) { return $left($v1,1) }
+  else { return  }
+}
+alias colnick {
+  if ($prop == priv) {
+    if ($2 == 0) { return  $+ $base($cnick($1).color,10,10,2) }
+    else { return $+(,$base($cnick($1).color,10,10,2),$1,) }
+  }
+  else {
+    var %c = $base($nick($1,$2).color,10,10,2)
+    if ($prop == chan) {
+      if ($3 == 0) { return  $+ %c }
+      else { return $+(,%c,$2,:,$1) }
+    }
+    else {
+      if ($3 == 0) { return  $+ %c }
+      else { return $+(,%c,$2,) }
+    }
+  }
+}
+alias thmsub {
+  var %to = $count($1,<),%tc = $count($1,>)
+  if (%to > %tc) { return Invalid theme format. Tag not closed. }
+  elseif (%to < %tc) { return Invalid theme format. Tag not opened. }
+  if ($3 == $null) { var %p = %thmtmp.prefix,%l = %thmtmp.linesep,%r = $2 $+ $iif($2 != $null,$chr(44)) $+ <me>,$!me,<myident>,$!ident,<myhost>,$!host,<myaddress>,$!+($ident,@,$host),<myserver>,$!thmdisp(server),<myport>,$!thmdisp(port),<timestamp>,$!timestamp,<mynetwork>,$!thmdisp(network),<lt>,$cr,<gt>,$lf }
+  else { var %p = $hget(thmprev,prefix),%l = $hget(thmprev,linesep),%r = $2 $+ $iif($2 != $null,$chr(44)) $+ <me>,Yourself,<myident>,nnscript,<myhost>,some.host.org,<myaddress>,nnscript@some.host.org,<myserver>,some.server.com,<myport>,6667,<timestamp>,$asctime(%thmtmp.timestamp),<mynetwork>,SomeNet,<lt>,$cr,<gt>,$lf }
+  var %t = $replace($1,<pre>,%p,<linesep>,%l)
+  if ($prop == prev) && (!%thm.fprev) { noop $regsub(%t,/([> ])\$([^ ]+)/g,\1\$ $+ !\2,%t) }
+  noop $regsub(%t,/([^ ])(<[^>]+>)([^ ])/g,\1 \$+ \2 \$+ \3,%t) $regsub(%t,/([^ ])(<[^>]+>)/g,\1 \$+ \2,%t) $regsub(%t,/(<[^>]+>)([^ ])/g,\1 \$+ \2,%t)
+  while ($regsub(%t,/(^| )([\#\[\]\{\}])($| )/g,\1\$(\2 $+ $chr(44) $+ 0)\3,%t)) { }
+  while ($regsub(prop,%t,/(<[^ >]+) align="(-?\d\d?)">/i,\$\3align(\1> $+ $chr(44) $+ \2),%t)) { }
+  if ($prop == prev) {
+    while ($regsub(prop,%t,/(<[^ >]+) (?:brackets="1" align="(-?\d\d?)"|align="(-?\d\d?)" brackets="1")>/i,\$thmbr_prev(\$\3align(\1> $+ $chr(44) $+ \2)),%t)) { }
+    while ($regsub(prop,%t,/(<[^ >]+) brackets="1">/i,\$thmbr_prev(\1>),%t)) { }
+  }
+  else {
+    while ($regsub(prop,%t,/(<[^ >]+) (?:brackets="1" align="(-?\d\d?)"|align="(-?\d\d?)" brackets="1")>/i,\$thmbr(\$\3align(\1> $+ $chr(44) $+ \2)),%t)) { }
+    while ($regsub(prop,%t,/(<[^ >]+) brackets="1">/i,\$thmbr(\1>),%t)) { }
+  }
+  noop $regsub(prop,%t,/ \| /i,$chr(32) \$chr(124) $chr(32),%t)
+  %t = $replace(%t, [ %r ] )
+  if (< isin %t) || (> isin %t) { return Invalid theme format. Unknown tags and/or other errors. }
+  return $replace(%t,$cr,<,$lf,>)
+  :error
+  reseterror
+  return Theme error (line too long?).
+}
+alias thmbr_prev {
+  if ($1- != $null) {
+    return [ [ $replace($hget(thmprev,brackets),<text>,$1-,<me>,Yourself,<myident>,nnscript,<myhost>,some.host.org,<myaddress>,nnscript@some.host.org,<myserver>,some.server.com,<myport>,6667,<timestamp>,$asctime(%thmtmp.timestamp),<mynetwork>,SomeNet,<lt>,<,<gt>,>) ] ]
+  }
+}
+alias thmlp {
+  var %p = $1
+  did -i themes 91 1 page select
+  tokenize 32 $did(themes,91,1)
+  if ($6) {
+    if ($4-5 == 2 3) {
+      if ($7 == 2) { return $iif(%p == all,Colors-o-normal-2-0,$gettok(Colors-o-normal-2-0,%p,45)) }
+      elseif ($7 == 3) { return $iif(%p == all,RGB-r-normal-2-0,$gettok(RGB-r-normal-2-0,%p,45)) }
+    }
+    else {
+      did -i themes 91 1 cb root $4-5
+      var %t1 = $wd($gettok($did(themes,91,$6),1,9),7-),%t2 = $gettok($did(themes,91,$6),2-,9)
+      if (%p == 1) { return %t1 }
+      elseif (%p == all) { return $+(%t1,-,%t2) }
+      else { return $gettok(%t2,$calc(%p -1),45) }
+    }
+  }
+}
+alias thmseledschm {
+  did -i themes 91 1 page select
+  tokenize 32 $did(themes,91,1)
+  did -i themes 91 1 cb root $4-5
+  return $gettok($did(themes,91,$6),-1,9)
+}
+alias thmprv.schm {
+  if ($thmdata($thmtmp,Scheme $+ %thmed.prvschm)) { return Scheme $+ %thmed.prvschm }
+  return Scheme0
+}
+menu @sprev.themes.25 {
+  $style(2) Preview scheme:return
+  -
+  $submenu($thmprev.slschm($1))
+}
+alias thmprev.slschm {
+  if ($1 == begin) {
+    window -h @loadschemes
+    filter -gt 2 32 $thmtmp @loadschemes ^Scheme\d+ .+ (\d+ ){45}\d+$
+  }
+  elseif ($1 == end) { close -@ @loadschemes }
+  else {
+    var %z = $line(@loadschemes,$1)
+    if (%z) { return $iif($mid($wd(%z,1),7-) == %thmed.prvschm || (!%thmed.prvschm && $wd(%z,1) == Scheme0),$style(1)) $replace($wd(%z,2),&,&&,_,$chr(32)) $+ :thmprev.slschma $mid($wd(%z,1),7-) }
+  }
+}
+alias thmprev.slschma {
+  set %thmed.prvschm $1
+  thmedprev %thmedprev.last
+}
+alias thmedprev {
+  var %w = @sprev.themes.25,%z = $thmdata($thmtmp,$thmprv.schm)
+  if (!$isfont($thmdata($thmtmp,font))) {
+    drawrect -nrf %w 0 1 0 0 461 71
+    drawtext -nr %w 16777215 Tahoma 11 3 2 Font $qt($thmdata($thmtmp,font)) not installed! No preview available.
+  }
+  else {
+    set %thmedprev.last $1-
+    drawrect -nrf %w $wd($schmprt(%z).rgb,$calc($wd($schmprt(%z).colors,1) +1)) 1 0 0 461 71
+    if ($1 == 47) {
+      var %i = 0
+      drawrect -nrf %w 16777215 1 0 57 461 12
+      drawline -nr %w 0 1 0 56 461 56
+      while (%i < 16) {
+        drawrect -nrf %w $wd($schmprt($thmdata($thmtmp,Scheme $+ $thmseledschm)).rgb,$calc(%i +1)) 1 $calc(%i *29) 0 29 56
+        if ($did(themes,47).seltext == %i) {
+          drawrect -nr %w 16777215 1 $calc(%i *29) 0 $iif(%i == 15,24,29) 56
+          drawrect -nr %w 0 1 $calc(%i *29+1) 1 $iif(%i == 15,22,27) 54
+        }
+        drawtext -nr %w 0 Tahoma 11 $calc(%i *29+1) 56 $base(%i,10,10,2)
+        inc %i
+      }
+    }
+    elseif ($1 == 51) {
+      var %i = 1
+      drawrect -nrf %w 16777215 1 0 0 461 71
+      drawline -nr %w 0 1 0 56 461 56
+      while ($gettok($thmcols,%i,44)) {
+        var %t = $v1,%z = $int($calc((%i -1)*15.3)),%sc = $thmdata($thmtmp,Scheme $+ $thmseledschm)
+        drawrect -nrf %w $wd($schmprt(%sc).rgb,$calc($wd($schmprt(%sc).colors,$findtok($thmcols,%t,1,44)) +1)) 0 %z 0 16 56
+        if ($did(themes,50).sel == %i) {
+          drawrect -nrf %w 0 1 $calc(%z +4) 45 7 7
+          drawrect -nrf %w 16777215 1 $calc(%z +5) 46 5 5
+        }
+        drawtext -nr %w 0 Tahoma 10 $calc(%z +1) 56 $left(%t,2)
+        inc %i
+      }
+    }
+    else {
+      var %nt,%r,%t = $iif($thmlp(1) == timestamp,1,0),%c
+      if ($1 == 34) {
+        var %rgb = $schmprt(%z).rgb,%b = $wd(%rgb,$calc($wd($schmprt(%z).colors,1) +1))
+        if ($did(themes,34).sel == 1) { %c = $calc($wd($schmprt(%z).colors,25) +1) }
+        else { %c = $calc($did(themes,34).seltext +1) }
+        drawrect -nrf %w %b 1 0 0 461 71
+        drawtext -rbp %w $wd(%rgb,%c) %b $qt($thmdata($thmtmp,font)) $thmdata($thmtmp,fontsize) 2 0 someguy
+        drawdot %w
+        return
+      }
+      elseif ($istok(35 36,$1,32)) { %r = $thmdata($thmtmp,font) preview $nbr(size $thmdata($thmtmp,fontsize)) }
+      elseif ($1 == 31) && (!%t) { %r = $iif($remove($did(themes,31),$chr(32)) != $null,$did(themes,31)) }
+      if ($1 == 24) || (%t) || ($istok(brackets prefix linesep genhighlight,$thmlp(1),32)) {
+        _hmake thmprev
+        hadd thmprev y 0
+        hadd thmprev thmfile $thmtmp
+        hadd thmprev colors $schmprt(%z).colors
+        hadd thmprev font $thmdata($thmtmp,font)
+        hadd thmprev fontsize $thmdata($thmtmp,fontsize)
+        hadd thmprev height $calc($height(A,$hget(thmprev,font),$hget(thmprev,fontsize)) +1)
+        hadd thmprev time $ctime
+        if ($thmlp(1) != description) { hadd thmprev timestampenabled $thmdata($thmtmp,timestampenabled) }
+        if (%t) { hadd thmprev timestampenabled 1 }
+        hadd thmprev timestamp $left($thmdata($thmtmp,timestamp),50)
+        hadd thmprev brackets $thmdata($thmtmp,brackets)
+        hadd thmprev prefix $thmdata($thmtmp,prefix)
+        hadd thmprev linesep $thmdata($thmtmp,linesep)
+        hadd thmprev rgb $schmprt(%z).rgb
+        var %g = $findtok($thmcols,$matchtok($thmcols,$thmlp(3),1,44),1,44)
+        if ($thmlp(1) == CustomRaws) { .thmprevcmp %g $iif(%t,,$thmdata($thmtmp,CRaw $+ $crawsel)) $cr $hget(thmprep,craws) $+ ,<numeric>, $+ $crawsel }
+        elseif (%t) { .thmprevcmp %g }
+        else { .thmprevcmp %g $thmdata($thmtmp,$thmlp(1)) $cr $hget(thmprep,$thmlp(1)) }
+        unset %thm.sprevwrn
+      }
+      else {
+        var %rgb = $schmprt(%z).rgb,%col = $schmprt(%z).colors
+        drawtext -nrbp %w $wd(%rgb,$calc($wd(%col,12) +1)) $wd(%rgb,$calc($wd(%col,1) +1)) $qt($thmdata($thmtmp,font)) $thmdata($thmtmp,fontsize) 2 0 $iif(%r,%r,)
+      }
+      if (!$1) {
+        drawrect -nrf %w 0 1 0 0 461 71
+        drawtext -nr %w 16777215 Tahoma 11 3 2 No preview available.
+      }
+    }
+  }
+  drawdot %w
+  return
+  :error
+  reseterror
+  drawrect -nrf %w 0 1 0 0 461 71
+  drawtext -nr %w 16777215 Tahoma 11 3 2 An error occured while generating the preview (line too long?).
+  drawdot %w
+}
+alias thmprev {
+  var %w = $iif($1 == -b,@sprev.bigprev.3,@sprev.themes.7)
+  if ($1 == -s) { thmdrprvt No preview available }
+  else {
+    if (!$isdir(themes\pcache\)) { mkdir themes\pcache\ }
+    var %t = $thmselfile,%s = $thmselschm,%f = "themes\pcache\ $+ $base($crc($+($thmdata(%t,name),,$thmdata(%t,version),,$iif(%s,%s,0)),0),16,36),%cf = %f $+ .cpr",%uf = %f $+ .bmp",%z,%x = $r(1000,50000)
+    if (!$isfont($thmdata(%t,font))) {
+      thmdrprvt Font not installed:| $+ $thmdata(%t,font)
+      return
+    }
+    if ($isfile(%cf)) && ($1 != -b) {
+      if ($1 != -f) && (%thm.cprev) {
+        noop $decompress(%cf)
+        .rename %cf %uf
+        drawpic %w 0 0 %uf
+        .rename %uf %cf
+        noop $compress(%cf)
+        return
+      }
+    }
+    elseif ($1 == -o) {
+      _do thmprev -s
+      return
+    }
+    thmdrprvt Generating $iif($1 == -b,big) preview...
+    _hmake thmprev
+    hadd thmprev y 0
+    hadd thmprev thmfile %t
+    hadd thmprev font $thmdata(%t,font)
+    hadd thmprev fontsize $thmdata(%t,fontsize)
+    hadd thmprev height $calc($height(A,$hget(thmprev,font),$hget(thmprev,fontsize)) +1)
+    hadd thmprev time $r(0,86400)
+    hadd thmprev timestampenabled $thmdata(%t,timestampenabled)
+    hadd thmprev timestamp $left($thmdata(%t,timestamp),50)
+    hadd thmprev big $iif($1 == -b,1,0)
+    hadd thmprev brackets $thmdata(%t,brackets)
+    hadd thmprev prefix $thmdata(%t,prefix)
+    hadd thmprev linesep $thmdata(%t,linesep)
+    var %z = $thmdata(%t,Scheme $+ $iif(%s,%s,0))
+    hadd thmprev colors $schmprt(%z).colors
+    hadd thmprev rgb $schmprt(%z).rgb
+    drawrect -nrf %w $thmprevcol(1) 1 0 0 $iif($1 == -b,450 400,314 211)
+    set %thm.fprev 1
+    thmprevcmp 12 $thmdata(%t,chantextown) $cr <cme>,Yourself,<cmecolor>,,<text>,Hi Dude! What's up?,<cmode>,+,<address>,someone@host.org,<chan>,#nnscript
+    thmprevcmp 12 $thmdata(%t,chantext) $cr <nick>,Dude,<cnick>,Dude,<cnickcolor>,,<text>,Nothing much...,<cmode>,@,<address>,dude@host.org,<chan>,#nnscript
+    thmprevcmp 17 $thmdata(%t,part) $cr <nick>,Guy,<message>,This channel sucks.,<address>,guy@host.org,<chan>,#nnscript,<cmode>,,<users>,42
+    thmprevcmp 12 $thmdata(%t,chantext) $cr <nick>,Dude,<cnick>,Dude,<cnickcolor>,,<text>,Wrong. He sucks.,<cmode>,@,<address>,dude@host.org,<chan>,#nnscript
+    thmprevcmp 10 $thmdata(%t,mode) $cr <nick>,Dude,<mode>,+b *!*guy@host.org,<address>,dude@host.org,<chan>,#nnscript,<cmode>,@
+    thmprevcmp 13 $thmdata(%t,notice) $cr <nick>,Spambot,<cnick>,Spambot,<cnickcolor>,,<text>,Visit www.nnscript.com!,<address>,sp@m.customhost.org
+    thmprevcmp 2 $thmdata(%t,chanaction) $cr <nick>,Dude,<cnick>,Dude,<cnickcolor>,,<text>,shrugs.,<cmode>,@,<address>,dude@host.org,<chan>,#nnscript
+    thmprevcmp -w 21 $thmdata(%t,whoisstart) $cr <nick>,Guy
+    thmprevcmp -w 21 $thmdata(%t,whoisaddress) $cr <nick>,Guy,<ident>,Guy,<host>,host.org,<address>,guy@host.org,<name>,some troll
+    thmprevcmp -w 21 $thmdata(%t,whoischans) $cr <nick>,Guy,<chans>,@#flamewars +#Guy #randomchan,<opchans>,#flamewars,<hopchans>,,<vchans>,#Guy,<regchans>,#randomchan,<chans hlcommon="1">,@#flamewars +#Guy #randomchan,<opchans hlcommon="1">,#flamewars,<hopchans hlcommon="1">,,<vchans hlcommon="1">,#Guy,<regchans hlcommon="1">,#randomchan,<comchannum>,0,<channum>,3
+    thmprevcmp -w 21 $thmdata(%t,whoisidle) $cr <nick>,Guy,<idle>,$duration($r(5,100)),<signontime>, $+ $asctime($calc($hget(thmprev,time) - %x +($ctime -($ctime % 86400)))) $+ ,<signonago>, $+ $duration(%x)
+    thmprevcmp 21 $thmdata(%t,whoisend) $cr <nick>,Guy
+    thmprevcmp 12 $thmdata(%t,chantextown) $cr <cme>,Yourself,<cmecolor>,,<text>,Man Dude - don't be so strict :],<cmode>,+,<address>,someone@host.org,<chan>,#nnscript
+    thmprevcmp 12 $thmdata(%t,chantextown) $cr <cme>,Yourself,<cmecolor>,,<text>,See! Somebody's looking at the preview!,<cmode>,+,<address>,someone@host.org,<chan>,#nnscript
+    thmprevcmp 12 $thmdata(%t,chantext) $cr <nick>,greeny,<cnick>, $+ %:n $+ ,<cnickcolor>,,<text>,He's even using my script.,<cmode>,,<address>,greeny@nnscript.com,<chan>,#nnscript
+    thmprevcmp 11 $thmdata(%t,nick) $cr <nick>,greeny,<newnick>,greeny`off,<address>,greeny@nnscript.com,<chan>,#nnscript,<cmode>,
+    thmprevcmp 2 $thmdata(%t,chanaction) $cr <nick>,Dude,<cnick>,Dude,<cnickcolor>,,<text>,waves greeny goodbye.,<cmode>,@,<address>,dude@host.org,<chan>,#nnscript
+    thmprevcmp 18 $thmdata(%t,quit) $cr <nick>,greeny`off,<message>,Ping Timeout,<address>,greeny@nnscript.com,<chan>,#nnscript,<cmode>,,<users>,42
+    thmprevcmp 8 $thmdata(%t,join) $cr <nick>,Ownah,<address>,irule@AXBA712C.ipt.aol.com,<chan>,#nnscript,<clones>,n/a,<clonenum>,0,<comchans>,,<comchannum>,0,<users>,42
+    thmprevcmp 19 $thmdata(%t,topicchange) $cr <nick>,Dude,<address>,dude@host.org,<chan>,#nnscript,<topic>,Anyone CTCP versioning me will die.,<cmode>,@
+    thmprevcmp 3 $thmdata(%t,chanctcp) $cr <nick>,Ownah,<address>,irule@AXBA712C.ipt.aol.com,<ctcp>,VERSION,<text>,,<chan>,#nnscript,<cmode>,
+    thmprevcmp 12 $thmdata(%t,chantext) $cr <nick>,Dude,<cnick>,Dude,<cnickcolor>,,<text>,Ok - you asked for it.,<cmode>,@,<address>,dude@host.org,<chan>,#nnscript
+    thmprevcmp 9 $thmdata(%t,kick) $cr <nick>,Dude,<kickednick>,Ownah,<message>,that's what you get,<cmode>,@,<address>,dude@host.org,<chan>,#nnscript,<cmode>,@,<kickedcmode>,,<users>,42
+    thmprevcmp 12 $thmdata(%t,chantext) $cr <nick>,Dude,<cnick>,Dude,<cnickcolor>,,<text>,Don't mess with the best.,<cmode>,@,<address>,dude@host.org,<chan>,#nnscript
+    thmprevcmp 10 $thmdata(%t,mode) $cr <nick>,Dude,<mode>,+C,<address>,dude@host.org,<chan>,#nnscript,<cmode>,@
+    while ($hget(thmprev,y) < $iif($hget(thmprev,big),400,211)) { thmprevcmp -w 12 $thmdata(%t,chantext) $cr <nick>,floodbot,<cnick>,floodbot,<cnickcolor>,,<text>, $+ $createpass(-alnum,$rand(20,40)) $+ ,<cmode>,,<address>,spam@sucks.org,<chan>,#nnscript }
+    unset %thm.fprev %thm.sprevwrn
+    hfree thmprev
+    drawdot %w
+    if ($1 == -b) {
+      drawcopy @sprev.bigprev.3 0 0 314 261 @sprev.themes.7 0 0 314 261
+      dialog -t bigprev Big theme preview $nbr($thmdata(%t,name) $iif(%s,- $schmprt($thmdata(%t,scheme $+ %s)).name))
+    }
+    if (%thm.cprev) {
+      drawsave @sprev.themes.7 %uf
+      if ($isfile(%cf)) { tryremove %cf }
+      .rename %uf %cf
+      noop $compress(%cf)
+    }
+  }
+  return
+  :error
+  thmdrprvt Error generating preview!
+  errdialog Error generating preview: $error
+  reseterror
+}
+alias thmprevcncl {
+  if ($hget(thmprev,y) >= $iif($hget(thmprev,big),400,211)) { return 1 }
+  elseif (!$1) && ($hget(thmprev,y) > 71) { return 1 }
+}
+alias thmprevcol { return $wd($hget(thmprev,rgb),$calc($wd($hget(thmprev,colors),$1) +1)) }
+alias thmprevcolr { return $wd($hget(thmprev,rgb),$calc($1 +1)) }
+alias thmprevcmp {
+  if ($thmprevcncl($show)) { return }
+  var %nt,%ort = $1-
+  if ($1 != -w) { %nt = 1 }
+  else { tokenize 32 $2- }
+  var %s,%i = 1,%x = 2,%t,%r,%d = $thmprevcol($1),%rk = $base($wd($hget(thmprev,colors),$1),10,10,2)
+  tokenize 13 $2-
+  var %c = %d,%b,%u,%g,%z,%h = $thmprevcol(1),%v,%mm = $1,%md = 1,%mw = $numtok(%mm,1),%mg = 1,%mt = ""
+  if (!%mw) { %mw = 1 }
+  while (%md <= %mw) {
+    if ($thmprevcncl($show)) { return }
+    var %mt = $gettok(%mm,%md,1),%nts = 0,%b = "",%u = "",%r = "",%g = ""
+    if ($regex(thmps,%mt,/^!if (<[^>]+>) (.+)$/i)) {
+      if (!$strip($thmsub($regml(thmps,1),$2,$show).prev)) { goto skip3 }
+      else { %mt = $regml(thmps,2) }
+    }
+    elseif ($regex(thmps,%mt,/^!script (.+)$/i)) {
+      if (%thm.sprevwrn) { goto skip3 }
+      else { var %mt = [scripts that will not be executed for security reasons],%nts = 1 }
+      set %thm.sprevwrn 1
+    }
+    elseif (%mt == !empty) { goto skip3 }
+    var %cpr = $thmsub(%mt,$2,$show).prev
+    if ($len(%cpr) > 3000) { %mt = Theme error: string too long. }
+    else { %mt = [ [ %cpr ] ] }
+    if ($hget(thmprev,timestampenabled)) && (!%nts) && (($show) || (!$istok(brackets prefix linesep genhighlight,$thmlp(1),32))) { %s = $asctime($hget(thmprev,time),$hget(thmprev,timestamp)) %mt }
+    else { %s = %mt }
+    noop $regsub(%s,/(\d\d?)\x2C(?:1[6-9]|[2-9]\d)/g,\1,%s) $regsub(%s,/(?:1[6-9]|[2-9]\d)\x2C(\d\d?)/g, $+ %rk $+ $chr(44) $+ \1,%s) $regsub(%s,/(?:1[6-9]|[2-9]\d)/g,,%s)
+    while (%i <= $len(%s)) {
+      if ($regex(thmprev,$mid(%s,%i),/^([^ [:cntrl:]]+)/i)) {
+        if (!$regex(thmpspc,$regml(thmprev,1),/^\s+$/)) {
+          inc %i $calc($len($regml(thmprev,1)) -1)
+          %r = $regml(thmprev,1)
+          goto skip
+        }
+      }
+      %t = $mid(%s,%i,1)
+      if (%t == $chr(32)) { %r =   }
+      elseif (%t == ) {
+        %z = $mid(%s,$calc(%i +1),2)
+        if ($regex(%z,/^\d{2}$/)) {
+          var %r = "",%c = $thmprevcolr(%z)
+          inc %i 2
+          if ($mid(%s,$calc(%i +1),1) == $chr(44)) {
+            %z = $mid(%s,$calc(%i +2),2)
+            if ($regex(%z,/^\d{2}$/)) {
+              %g = $thmprevcolr(%z)
+              inc %i 3
+            }
+            else {
+              %z = $mid(%s,$calc(%i +2),1)
+              if ($regex(%z,/^\d$/)) {
+                %g = $thmprevcolr(%z)
+                inc %i 2
+              }
+            }
+          }
+        }
+        else {
+          %z = $mid(%s,$calc(%i +1),1)
+          if ($regex(%z,/^\d$/)) {
+            var %r = "",%c = $thmprevcolr(%z)
+            inc %i
+            if ($mid(%s,$calc(%i +1),1) == $chr(44)) {
+              %z = $mid(%s,$calc(%i +2),2)
+              if ($regex(%z,/^\d{2}$/)) {
+                %g = $thmprevcolr(%z)
+                inc %i 3
+              }
+              else {
+                %z = $mid(%s,$calc(%i +2),1)
+                if ($regex(%z,/^\d$/)) {
+                  %g = $thmprevcolr(%z)
+                  inc %i 2
+                }
+              }
+            }
+          }
+          else { var %r = "",%g = "",%c = %d }
+        }
+      }
+      elseif (%t == ) { var %r = "",%b = "",%u = "",%g = "",%v = "",%c = %d }
+      elseif (%t == ) { var %r = "",%b = $iif(%b,"",1) }
+      elseif (%t == ) { var %r = "",%u = $iif(%u,"",1) }
+      else { %r = %t }
+      :skip
+      if (%r != $null) {
+        var %:w = $iif($show,$iif($hget(thmprev,big),@sprev.bigprev.3,@sprev.themes.7),@sprev.themes.25),%:h = $height(%r,$hget(thmprev,font),$hget(thmprev,fontsize)),%:i = $width(%r,$hget(thmprev,font),$hget(thmprev,fontsize),$iif(%b,1,0),1)
+        drawtext $+(-rnbpc,$iif(%b,o)) %:w %c $iif(%g != $null,%g,%h) $qt($hget(thmprev,font)) $hget(thmprev,fontsize) %x $hget(thmprev,y) %:i %:h $iif(%u,) $+ %r
+        if (%g != $null) { drawrect -nr %:w %g 1 %x $calc($hget(thmprev,y) + %:h) %:i 1 }
+        inc %x %:i
+        if (!$show) { if (%x >= 461) { goto skip2 } }
+        elseif (%x >= $iif($hget(thmprev,big),450,314)) { goto skip2 }
+      }
+      inc %i
+    }
+    :skip2
+    hinc thmprev y $calc($hget(thmprev,height) -1)
+    :skip3
+    var %i = 1,%x = 2,%r = "",%b = "",%u = "",%g = "",%v = "",%c = %d
+    inc %md
+  }
+  if (%nt) { hinc thmprev time $r(5,120) }
+  return
+  :error
+  reseterror
+  _do thmprevcmp $wd(%ort,1) Theme error: unknown error. $chr(13)
+}
+alias thmschmwrt {
+  var %n = n $+ %thmschmwrt.cur
+  tokenize 32 $1-
+  writeini $qt($mircini) colors %n $schmprt($2-).name $+ , $+ $replace($schmprt($2-).colors,$chr(32),$chr(44))
+  writeini $qt($mircini) palettes %n $replace($schmprt($2-).rgb,$chr(32),$chr(44))
+  inc %thmschmwrt.cur
+}
+alias thmload.drawbar { drawrect -rf @Loading 0 1 57 106 $calc(2* $1) 17 }
+alias thmload.status {
+  drawrect -nrf @Loading 14935011 0 0 79 $window(-3).w 16
+  drawtext -nro @Loading 0 Tahoma 10 55 82 Status: $1- $+ ...
+  drawdot @Loading
+}
+alias thmload {
+  var %sl = $regex(schm,$1,/^\-s(\d+)$/),%f = $relpath($iif(%sl,$2-,$1-)),%s,%r,%ö
+  if ($isfile(themes\data\theme.dat)) {
+    if ($isfile(%f)) {
+      if (%sl) {
+        if ($thmdata(%f,Scheme $+ $regml(schm,1))) { var %ö = $v1,%s = $regml(schm,1) }
+        elseif ($show) { thmerror -a No such scheme, loading default... }
+      }
+      if ($thmvchk(%f)) {
+        var %e = $nnticks,%i = 0,%o = %thm.scheme,%ä = $schmprt(%ö).name
+        if (%s) { set %thm.scheme $v1 }
+        else { unset %thm.scheme }
+        if (%thm.current == %f) && (!%thm.forcerefresh) {
+          if (%o == %thm.scheme) { if ($show) { idialog This theme/scheme has already been loaded! } }
+          else {
+            color -s $iif(%ä,$v1,Default)
+            if ($toolbar(lagbar)) { tb.refcols }
+            crwinpic
+            if ($show) { thmecho -a Scheme changed to $thmhl($iif(%ä,%ä,default)) in $thmhl($round($calc($nnticks - %e),3)) second(s) }
+          }
+        }
+        else {
+          set %thm.current $relpath(%f)
+          var %ä = $schmprt(%ö).name
+          inc %stat.thmload
+          !window -hpBik0 +d @Loading 0 0 $window(-3).w $window(-3).h
+          drawrect -nrf @Loading 14935011 0 0 0 $window(-3).w $window(-3).h
+          drawpic -cntsg @Loading 16711935 10 10 32 32 scripts\pics\nn.ico
+          drawtext -nro @Loading 0 Tahoma 12 55 12 Please wait while loading theme...
+          drawtext -nrp @Loading 0 Tahoma 10 55 30 File: %f $nbr($bytes($file(%f).size,3).suf $+ $chr(44) $bytes($lines(%f),b) lines)
+          drawtext -nrp @Loading 0 Tahoma 10 55 42 Name: $thmdata(%f,name) $nbr(v $+ $thmdata(%f,version))
+          drawtext -nrp @Loading 0 Tahoma 10 55 54 Scheme: $iif(%ä != $null,%ä,Default)
+          drawtext -nrp @Loading 0 Tahoma 10 55 66 Author: $thmdata(%f,author)
+          thmload.status Applying color palettes/schemes
+          drawline -nr @Loading 6579300 1 55 104 258 104
+          drawline -nr @Loading 10526880 1 56 124 259 124
+          drawline -nr @Loading 6579300 1 55 105 55 125
+          drawline -nr @Loading 10526880 1 258 104 258 124
+          !window -a @Loading
+          remini $qt($mircini) colors
+          remini $qt($mircini) palettes
+          set %thmschmwrt.cur 0
+          filter -kg %f thmschmwrt ^Scheme\d+ .+ (?:\d+ ){45}\d+$
+          color -l
+          color -s $iif(%ä,$v1,Default)
+          if ($toolbar(lagbar)) { tb.refcols }
+          crwinpic
+          thmload.status Applying fonts
+          font -z $thmdata(%f,fontsize) $thmdata(%f,font)
+          xtreebar -f + default $convertfontsize($thmdata(%f,fontsize)).points $thmdata(%f,font)
+          thmload.status Applying nicklist colors and timestamps
+          .cnick -ri *
+          .cnick -r $!me
+          .cnick -r * * @
+          .cnick -r * * +
+          .cnick -rn *
+          .cnick -rp *
+          if ($thmdata(%f,NickColIgnore) isnum) { .cnick -i * $v1 }
+          if ($thmdata(%f,NickColSelf) isnum) { .cnick $!me $v1 }
+          if ($thmdata(%f,NickColOp) isnum) { .cnick * $v1 @ }
+          if ($thmdata(%f,NickColVoice) isnum) { .cnick * $v1 + }
+          if ($thmdata(%f,NickColRegular) isnum) { .cnick -n * $v1 }
+          if ($thmdata(%f,NickColProtect) isnum) { .cnick -p * $v1 }
+          if ($thmdata(%f,TimestampEnabled)) { .timestamp on }
+          else { .timestamp off }
+          .timestamp -g $thmdata(%f,Timestamp)
+          .timestamp -f $thmdata(%f,Timestamp)
+          thmload.drawbar 25
+          var %usesc,%tlt = $nnticks,%csc = themes\scache\ $+ $base($crc($+($thmdata(%f,name),,$thmdata(%f,version),,%version),0),16,36) $+ .csc
+          if ($isfile(%csc)) && (%thm.cscript) && (!%thm.forcerefresh) {
+            thmload.status Loading theme script from cache
+            noop $decompress(%csc)
+            .copy -o %csc scripts\theme.nns
+            noop $compress(%csc)
+            %usesc = 1
+          }
+          else {
+            thmload.status Compiling theme
+            .fopen -o thm.tgt scripts\theme.nns
+            set %thmtmp.prefix $thmdata(%f,prefix)
+            set %thmtmp.linesep $thmdata(%f,linesep)
+            filter -k themes\data\theme.dat thmload.filter
+            unset %thmcmp.curline %thmtmp.prefix %thmtmp.linesep %thmschmwrt.cur
+            .fclose thm.???
+            write -il4 scripts\theme.nns ; File dynamically generated by NNScript %version theme engine %nntversion at $asctime(%timeformat) in $round($calc($nnticks - %tlt),3) second(s).
+            if (%thm.cscript) {
+              if (!$isdir(themes\scache\)) { mkdir themes\scache\ }
+              .copy -o scripts\theme.nns %csc
+              noop $compress(%csc)
+            }
+          }
+          unset %thm.forcerefresh
+          thmload.status Applying mIRC settings
+          thmload.drawbar 50
+          .thmupd
+          thmload.drawbar 75
+          thmload.status Reloading theme script
+          .reload -rs scripts\theme.nns
+          thmload.status Cleaning up
+          if (%thm.lclear) { clr -c }
+          if ($show) { thmecho -a $thmhl($thmdata(%f,name)) theme $iif(%ä,with $thmhl(%ä) scheme) loaded $iif(%usesc,from cache) in $thmhl($round($calc($nnticks - %e),3)) second(s) }
+          thmload.drawbar 100
+        }
+        if ($dialog(themes)) && (!%thm.ndlgload) {
+          thmsellthm
+          thmsel
+          thmprev $iif(!%thm.agenprev,-o)
+        }
+        else { unset %thm.ndlgload }
+      }
+      elseif ($show) { thmerror -a Invalid theme file. }
+    }
+    elseif ($show) { thmerror -a No such file. }
+    if ($window(@Loading)) { close -@ @Loading }
+  }
+  else {
+    errdialog could not find themes\data\theme.dat. Please re-install the script.
+    exit
+    halt
+  }
+}
+alias thm.lrand {
+  var %f = $qt($findfile(themes\,*.nnt,$r(1,$findfile(themes\,*.nnt,0,0)),0)),%s
+  window -h @thm.lrand
+  filter -fwg %f @thm.lrand ^Scheme\d+ \S+ (?:\d+ ){45}\d+$
+  if ($line(@thm.lrand,0)) { %s = $mid($wd($line(@thm.lrand,$rand(1,$v1)),1),7) }
+  close -@ @thm.lrand
+  $iif(!$show,.) $+ thmload $iif(%s,-s $+ %s) %f
+}
+alias whois.echo {
+  if (%whois. [ $+ [ $cid ] ]) || (%whowas. [ $+ [ $cid ] ]) { return $thm.active(whois) }
+  else { return $actcid }
+}
+alias thm.active {
+  if ($aecho) { var %r = %thm.active. [ $+ [ $1 ] ] }
+  else { var %r = -s }
+  return %r $+ $2
+}
+alias thmload.filter {
+  if ($regex(thm,$1,/^\?([^ ]+)(?: (.+))?/)) {
+    var %u = $regml(thm,1),%u2 = %u $+ $regml(thm,2),%cr = $iif($1 == ?craws,1,0),%cl = 1
+    :craws
+    var %m = $iif(%cr,$read(%thm.current,nr,^CRaw\d+ .+,%cl),$thmdata(%thm.current,%u)),%d = 1,%w = $numtok(%m,1),%g = 1,%k = 1,%ü = 1
+    if (%cr) {
+      if (%m == $null) { return }
+      .fwrite -n thm.tgt raw $mid($wd(%m,1),5) $+ :*: $+ $chr(123)
+      .fwrite -n thm.tgt if ($halted) $chr(123) return $chr(125)
+      .fwrite -n thm.tgt haltdef
+      %m = $wd(%m,2-)
+      %cl = $calc($readn +1)
+    }
+    while (%d <= %w) {
+      set %thmcmp.curline $gettok(%m,%d,1)
+      inc %d
+      if (%thmcmp.curline == !empty) { continue }
+      elseif (!script * iswm %thmcmp.curline) {
+        .fwrite -n thm.tgt $wd(%thmcmp.curline,2-)
+        continue
+      }
+      elseif (!if * * iswm %thmcmp.curline) {
+        set %thmcmp.ifcmp $wd(%thmcmp.curline,2)
+        set %thmcmp.curline $wd(%thmcmp.curline,3-)
+      }
+      else { unset %thmcmp.ifcmp }
+      thmcmpwrite $hget(thmcmp,%u2)
+    }
+    if (%cr) {
+      .fwrite -n thm.tgt $chr(125)
+      goto craws
+    }
+  }
+  else { .fwrite -n thm.tgt $1 }
+}
+alias thmcmpwrite {
+  if ($cr isin $1-) {
+    tokenize 13 $1-
+    if (%thmcmp.ifcmp) { .fwrite -n thm.tgt if $nbr($!thmif( $+ $thmsub($v1,$2) $+ )) $chr(123) $1 $thmsub(%thmcmp.curline,$2) $chr(125) }
+    else { .fwrite -n thm.tgt $1 $thmsub(%thmcmp.curline,$2) }
+  }
+  else { .fwrite -n thm.tgt $1- $thmsub(%thmcmp.curline) }
+}
+alias thmif { if ($1-) { return 1 } }
+alias thmwchans {
+  var %i = 1,%t = $wd($1,0),%r,%c
+  while (%i <= %t) {
+    var %c = $wd($1,%i),%d = 0
+    if ($left(%c,1) == -) { var %c = $mid(%c,2),%d = 1 }
+    if ($2) { if ($2 $+ * iswm %c) { %r = $addtok(%r,$iif(%d,-) $+ $mid(%c,2),32) } }
+    elseif (!$istok(@ % +,$left(%c,1),32)) { %r = $addtok(%r,$iif(%d,-) $+ %c,32) }
+    inc %i
+  }
+  return %r 
+}
+alias thmleditn {
+  if (!$isfile(themes\data\thmhelp.txt)) {
+    errdialog could not find thmhelp.txt. Please re-install the script.
+    exit
+    halt
+  }
+  did -r themes 56,91
+  did -r themes 156 
+  did -i themes 91 1 cb root
+  did -a themes 91 +eb 1 1 0 0 0 Sections
+  did -i themes 91 1 cb last
+  tokenize 44 General info,Color schemes,Font,Timestamp,Nickname coloring,Main events,Text events,Whois/Whowas,Notices/CTCPs,RAWs,Script echos,Miscellaneous
+  did -a themes 91 + 1 1 0 0 0 $*
+  filter -k themes\data\thmhelp.txt thmledit.filter [?-?*-?*-?-?*]
+  did -i themes 91 1 cb root 2 3
+  filter -kg $thmtmp thm.lschmlst ^Scheme\d+ \S+ (?:\d+ ){45}\d+$
+  did -i themes 91 1 sort
+  did -i themes 91 1 cb root 2 11 12
+  did -i themes 91 1 cb last
+  filter -kg $thmtmp thm.lrawlst ^CRaw\d+ .+
+  did -i themes 91 1 sort
+}
+alias thm.lrawlst {
+  tokenize 32 $1
+  did -a themes 91 + 1 1 0 0 0 $mid($1,5)
+  did -a themes 156 $mid($1,5)
+}
+alias thm.lschmlst {
+  tokenize 32 $1
+  var %z = $mid($1,7)
+  did -a themes 91 $iif(!%z,+b,+) 1 1 0 0 0 $+($schmprt($2-).name,	,%z)
+  if (%z) { did -a themes 56 $+($schmprt($2-).name,$str( ,100),%z) }
+  did -i themes 91 1 cb last
+  did -a themes 91 + 1 1 0 0 0 Colors	o-normal-2-0
+  did -a themes 91 + 1 1 0 0 0 RGB	r-normal-2-0
+  did -i themes 91 1 cb up
+}
+alias thmledit.filter {
+  tokenize 45 $mid($1-,2,-1)
+  if (!$istok(Colors RGB,$5,32)) {
+    did -i themes 91 1 cb root 2 $calc($3 +1)
+    did -a themes 91 + 1 1 0 0 0 $+($5,	,$1,-,$2,-,$3,-,$4)
+  }
+}
+alias thmednosel {
+  did -h themes 24,31,32,33,34,35,36,46,47,48,49,50,51,52,53,54,57,84,156,153,154,56
+  if ($1 != -n) { did -u themes 91 }
+  unset %thm.eoldsel
+  did -ra themes 20 Please select a $+(section!,$crlf,$crlf,Note:) the preview always displays the default color scheme.
+  thmedprev
+}
+alias align {
+  if ($2 >= 0) { return $strip($1,b) $+ $str( ,$calc($2 - $len($strip($1)))) }
+  else { return $str( ,$calc($abs($2) - $len($strip($1)))) $+ $strip($1,b) }
+}
+alias actcid {
+  if ($cid == $activecid) && (@* !iswm $active) { var %r = -a }
+  else { var %r = -s }
+  return %r $+ $1-
+}
+alias aecho { if ($cid == $activecid) && (@* !iswm $active) { return 1 } }
+alias say {
+  notstatus
+  msg $active $1-
+}
+alias me {
+  notstatus
+  describe $iif($active == @MinIRC,$wd(%minirc,1),$v1) $1-
+}
+alias winpic {
+  if ($1 == -r) { background $iif($2- == Status Window,-xs,-x $2-) }
+  elseif (%thm.sactivebg) && ($window($1-)) && (!$vwin($1-)) && ($1- != @MinIRC) {
+    var %t,%p = $1-
+    if (%p == Status Window) { %t = $iif($network,$v1 Status,$iif($server,$v1 Status,Status Window)) }
+    elseif (@* iswm %p) && ($window(%p).type != custom) { return }
+    elseif (@NT[?*] iswm %p) { %t = $replace($mid(%p,5,-1),_,$chr(32)) newsticker }
+    elseif ($regex(wsawin,%p,/@(MOTD|Info|Highlights|Notices|BNCPrivLog|Netsplits|Wallops)\[(?:\d+)\]/i)) { %t = $iif($network,$network,$server) $regml(wsawin,1) }
+    elseif (=* iswm %p) { %t = $mid(%p,2) DCC chat }
+    else { %t = %p }
+    var %l = 0,%w = $calc($width(%t,%thm.sbgfont,%thm.sbgfontsize,1,1) +16),%h = $calc($height(%t,%thm.sbgfont,%thm.sbgfontsize) +9),%f = $qt($scriptdir $+ pics\winpic.bmp)
+    if (%w < 100) { var %l = $calc(102- %w),%w = 100 }
+    window -hpf @winpic -1 -1 %w %h
+    tokenize 44 $rgb($color($color(info)))
+    if (%thm.sbgshadow) { drawtext -rno @winpic %thm.sbgshadowfontcolor $qt(%thm.sbgfont) %thm.sbgshadowfontsize $calc(%l +3) 4 %t }
+    drawtext -rno @winpic %thm.sbgfontcolor $qt(%thm.sbgfont) %thm.sbgfontsize %l 7 %t
+    drawsave @winpic %f
+    close -@ @winpic
+    background $iif(%p == Status Window,-ps,-p %p) %f
+    remini $qt($mircini) background $iif(%p != Status Window,$v1,status)
+    tryremove %f
+  }
+}
+alias crwinpic {
+  if (%thm.sactivebg) || ($1 == -r) {
+    var %s = $scon(0)
+    while (%s) {
+      scid $scon(%s)
+      var %c = $window(*,0)
+      while (%c) {
+        var %z = $window(*,%c)
+        if (!$vwin(%z)) && ($istok(channel query chat custom status,$window(*,%c).type,32)) { winpic $1 %z }
+        dec %c
+      }
+      dec %s
+    }
+  }
+}
+alias chkthemes {
+  if (!$thmvchk(%thm.current)) {
+    if (!$isdir(themes\)) {
+      errdialog no themes directory found. Please re-install the script.
+      if ($dialog(themes)) { dialog -x $v1 }
+      exit
+      halt
+    }
+    elseif (!$thmvchk($thm.def)) {
+      errdialog could not find default theme $nbr($nopath($thm.def)) $+ , or it is not a valid theme file. Please re-install the script.
+      if ($dialog(themes)) { dialog -x $v1 }
+      exit
+      halt
+    }
+    else {
+      .thm.ldef
+      .timer 1 0 idialog Since the theme you had previously loaded doesn't exist anymore, the default theme has been loaded.
+    }
+  }
+}
+alias thm.ldef { $iif(!$show,.) $+ thmload $thm.def }
+alias thm.def { return "themes\Moredots.nnt" }
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

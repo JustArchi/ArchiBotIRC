@@ -1,0 +1,142 @@
+Name irssi
+Version 0.8.9
+NNTVersion 1.03
+Author greeny
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font Courier New
+FontSize 13
+
+TimestampEnabled 1
+Timestamp HH:nn
+
+NickColSelf 8
+NickColOp 0
+NickColVoice 15
+NickColRegular 14
+NickColProtect 9
+NickColIgnore 4
+
+Brackets 14[15<text>14]
+LineSep !empty
+Prefix 12-!12-
+
+GenEcho <pre> 00Irssi: <text>
+GenError <pre> 00Irssi: <text>
+GenHighlight 14[15<text>14]
+
+ChanText 14<lt>15<cmode align="1"><nick>14<gt> <text>
+ChanTextOwn 14<lt>15<cmode align="1">0<me>14<gt> <text>
+ChanAction 0 * <nick> 15<text>
+ChanActionOwn 0 * <me> 15<text>
+
+QueryText 14<lt>04<nick>14<gt> <text>
+QueryTextOwn 14<lt>00<me>14<gt> <text>
+QueryAction 0 * <nick> 15<text>
+QueryActionOwn 0 * <me> 15<text>
+
+Msg 14<lt>12<nick>14(02<address>14)<gt>15 <text>
+MsgOwn 14[5message14(04<target>14)]15 <text>
+Action 14* 12<nick>14(02<address>14)15 <text>
+ActionOwn 14[5action14(04<target>14)]15 <text>
+
+ChanNotice 14-13<nick>14:06<chan>14-15 <text>
+Notice 14-13<nick>14(06<address>14)-15 <text>
+NoticeOwn 14[5notice14(04<target>14)]15 <text>
+ServerNotice 03!<server>15 <text>
+
+CTCP 09<nick> 14[03<address>14]03 requested CTCP09 <ctcp>03 from09 <me>15: <text>
+CTCPOwn 14[5ctcp14(04<target>14)]15 <ctcp> <text>
+ChanCTCP 09<nick> 14[03<address>14]03 requested CTCP09 <ctcp>03 from09 <chan>15: <text>
+CTCPReply CTCP0 <ctcp>15 reply from0 <nick>15: <text>
+CTCPReplyOwn 14[5notice14(04<target>14)]15 <ctcp> <text>
+
+Join <pre>11 <nick> 14[10<address>14] has joined0 <chan>
+JoinOwn <pre>11 <me> 14[10<myaddress>14] has joined0 <chan>!if <topic> <pre> Topic for10 <chan>15: <topic>!if <topic> <pre> Topic set by0 <topicnick> 14[15<topicdate>14]
+Part <pre>10 <nick> 14[15<address>14]15 has left0 <chan> 14[15<message>14]
+Quit <pre>10 <nick> 14[15<address>14]15 has quit 14[15<message>14]
+Nick <pre>10 <nick> 15is now known as11 <newnick>
+NickOwn <pre> You're now known as0 <newnick>
+Mode <pre> mode/10<chan> 14[15<mode>14]15 by0 <nick>
+UserMode <pre> Mode change 14[15<mode>14]15 for user0 <me>
+Kick <pre>10 <kickednick> 15was kicked from0 <chan> 15by0 <nick> 14[15<message>14]
+KickOwn <pre>10 <me> 15was kicked from0 <chan> 15by0 <nick> 14[15<message>14]
+WallOp !<nick>! <text>
+
+DNS <pre> Resolving10 <address>15...
+DNSError <pre> Unable to resolve10 <address>
+DNSResolve <pre> Resolved10 <address> 15to10 <raddress>
+
+Notify <pre>00 <nick> is now online
+UnNotify <pre>00 <nick> is now offline
+
+LUsers1 <pre> There are <users> users and <invisible> invisible on <servers> servers
+LUsers2 <pre> <operators> operator(s) online
+LUsers3 <pre> <connections> unknown connection(s)
+LUsers4 <pre> <channels> channels formed
+LUsers5 <pre> I have <clients> clients and <servers> servers
+
+Welcome1 <pre> Welcome to the Internet Relay Network, <nick>
+Welcome2 <pre> Your host is <host>, running version <version>
+Welcome3 <pre> This server was created <created>
+Welcome4 <pre> <server> <version> <usermodes> <chanmodes>
+SupportedInfo <pre> <protocols> are supported by this server
+
+ChannelModes <pre> mode/10<chan> 14[15<modes>14]
+ChannelCreation <pre> Channel10 <chan> 15created <created>
+Bans <pre>0 <chan>15: ban10 <ban> 14[15by0 <nick>15, <bannedago> ago14]
+BansEnd <pre> End of Channel Ban List
+UnableToSend <pre> Unable to message <chan>
+NotOpped <pre> <chan> You're not channel operator
+HiddenHost <pre> <host> is now your hidden host
+RegisterFirst <pre> Register first!
+
+WhoisStart !empty
+WhoisAddress <pre>0 <nick> 14[15<address>14]<pre>  15ircname  : <name>
+WhoisChans <pre>  channels : <chans>
+WhoisServer <pre>  server   : <server> 14[15<info>14]
+WhoisStatus <pre>           :0 <status>
+WhoisAway <pre>  away     : <reason>
+WhoisAuth <pre>  auth     : <auth>
+WhoisRealIP <pre>  realip   : <ip> 14[15<address>14]
+WhoisIdle <pre>  idle     : <idle> 14[15signon: <signontime>14]
+WhoisEnd <pre> End of WHOIS
+
+WhowasStart !empty
+WhowasAddress <pre>0 <nick> 14[15<address>14]<pre>  15was      : <name>
+WhowasServer <pre>  server   : <server> 14[15<info>14]
+WhowasAway <pre>  away     : <reason>
+WhowasEnd <pre> End of WHOWAS
+
+Who <pre> 10 <chan>0 <nick align="10">15 <status align="3"> <address> 14[00<name>14]
+WhoEnd <pre> End of /WHO list
+
+Invite <pre>0 <nick> 15invites you to join0 <chan>
+InviteOwn 14[5invite14(04<nick>14)]15 <chan>
+InviteAlreadyOnChan <pre>0 <nick> 15is already on0 <chan>
+
+NoTopic <pre>0 <chan>15: No topic set
+Topic <pre> Topic for10 <chan>15: <topic>
+TopicBy <pre> Topic set by0 <nick> 14[15<date>14]
+TopicChange <pre>0 <nick> 15changes topic of0 <chan> 15to: <topic>
+
+Names <pre> Names on0 <chan>15: <names>
+NamesEnd <pre> End of /NAMES list
+
+UnknownCmd <pre> <cmd> Unknown command
+NickInUse <pre> Nick0 <nick> 15is already in use.
+AwayStatus <pre>0 <nick> 15is away: <reason>
+ChanFull <pre> Cannot join to channel0 <chan> 15(Channel is full)
+ChanInviteOnly <pre> Cannot join to channel0 <chan> 15(You must be invited)
+ChanBanned <pre> Cannot join to channel0 <chan> 15(You are banned)
+ChanKeyRequired <pre> Cannot join to channel0 <chan> 15(You need a key)
+ChanRegOnly <pre> Cannot join to channel0 <chan> 15(Registered only)
+NoSuchNick <pre> There is no such nick <nick>
+NoSuchChan <pre>0 <chan>15: No such channel
+
+RawDef <pre> <text>
+
+Scheme0 Default 16777215 0 16718915 47872 6447871 166 11731123 32764 8978431 7733109 12039936 16776960 16735080 16735231 6776679 12698049 1 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 1 15 1 15 15 15 1 1 15
+Scheme1 Light 0 16777215 16718915 26112 221 102 7405681 33994 43257 49408 7434496 12566272 16735080 15466732 3618615 6381921 1 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 1 15 1 15 15 15 1 1 15

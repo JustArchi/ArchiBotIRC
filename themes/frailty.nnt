@@ -1,0 +1,148 @@
+Name Frailty
+Version 1.0
+NNTVersion 1.03
+Author rob "panzer"
+Email unknown
+Homepage unknown
+Description None.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 15-[13 HH:nn.ss 15]-
+
+NickColSelf 10
+NickColOp 11
+NickColVoice 12
+NickColRegular 13
+NickColProtect 4
+NickColIgnore 5
+
+Brackets (<text>)
+LineSep 
+Prefix *
+
+GenEcho 15-[13 ¤ 15]- -[ <text> 15]-
+GenError 15-[13 ! 15]- -[ <text> 15]-
+GenHighlight (<text>)
+
+ChanText 15-14( 13<cmode>12<nick> 14): <text>
+ChanTextOwn 15-14( 13<cmode>11<me> 14): 11<text>
+ChanAction 15-14 13<cmode>12<nick> <text>
+ChanActionOwn 15- 13<cmode>11<me> 11<text>
+
+QueryText 15-14( 12<nick> 14): <text>
+QueryTextOwn 15-14( 11<me> 14): 11<text>
+QueryAction 15- 12<nick> <text>
+QueryActionOwn 15- 11<me> 11<text>
+
+Msg 15-[13 Msg 15]-14( 12<nick> 14): <text>
+MsgOwn 15-[13 Msg 15]-14( 14sent to: <target> 14) 11<text>
+Action 15-[13 Act 15]- 12<nick> <text>
+ActionOwn 15-[13 Act 15]- 15( 14sent to: <target> 15) <me> 11<text>
+
+ChanNotice 15-[13 Notice 15]-14( 14by 12<nick> 14to 12<chan> 14): <text>
+Notice 15-[13 Notice 15]-14( 12<nick> 14): <text>
+NoticeOwn 15-[13 Notice 15]- 14( 14sent to: <target> 14) 11<text>
+ServerNotice 15-[13 Notice 15]-14( 12<server> 14): <text>
+
+CTCP 15-[13 CTCP 15]-14( <ctcp> 14by 12<nick> 14): <text>
+CTCPOwn 15-[13 CTCP 15]- 14( <ctcp> 14sent to: <target> 14): 11<text>
+ChanCTCP 15-[13 CTCP 15]-14( <ctcp> 14by 12<nick> 14to <chan> 14): <text>
+CTCPReply 15-[13 CTCP 15]-14( <ctcp> 14reply by 12<nick> 14): <text>
+CTCPReplyOwn 15-[13 CTCP 15]- 14( <ctcp> 14reply sent to: <target> 14): 11<text>
+
+Join 15- - - - - -[13 Join 15]- 15-[12 <nick> 14(13<address>14) 14entered 12<chan> 15]- -[ 12Clones13: 12<clonenum>13 <clones brackets="1"> 15]-
+JoinOwn 15- - - - - -[13 Join 15]- 15-[12 You 14are now in 12<chan> 15]-!if <topic> 15- - - - - -[13 Topic 15]- <topic>!if <topic> 15- - - - - -[13 Topic 15]- -[ 14Set by <topicnick> 14on <topicdate> 15]-
+Part 15- - - - - -[13 Part 15]- 15-[12 <nick> 14(13<address>14) 14left 12<chan> 15]-
+Quit 15- - - - - -[13 Quit 15]- 15-[12 <nick> 14(13<address>14) 14has left12: 14(13<message>14) 15]-
+Nick 15- - - - - -[13 Nick 15]- 15-[12 13<cmode>12<nick> is now 13<cmode>12<newnick> 15]-
+NickOwn 15- - - - - -[13 Nick 15]- 15-[12 12You changed your nick to 12<newnick> 15]-
+Mode 15- - - - - -[13 Mode 15]- 15-[13 <cmode>12<nick> 13sets12: 13<mode> 15]-
+UserMode 15- - - - - -[13 UserMode 15]- 15-[ 12<me> 13sets12: 13<mode> 15]-
+Kick 15- - - - - -[13 Kick 15]- 15-[12 <kickednick> was kicked from 12<chan> by 13<cmode>12<nick> 14(13<address>14) Reason13: 12<message> 15]-
+KickOwn 15- - - - - -[13 Kick 15]- 15-[12 You have been kicked from 12<chan> by 13<cmode>12<nick> 14(13<address>14) Reason13: 12<message> 15]-
+WallOp 15-[13 WallOp 15]-14( 12<nick> 14): <text>
+
+DNS 15-[13 DNS 15]- -[ 14Resolving <address> 14... 15]-
+DNSError 15-[13 DNS 15]- -[ 14Unable to resolve <address> 15]-
+DNSResolve 15-[13 DNS 15]- -[ 14Resolved <address> 14to <raddress> 15]-
+
+Notify 15-[13 Notify 15]- -[ <nick> 14is now online. 15]-
+UnNotify 15-[13 Notify 15]- -[ <nick> 14is now offline. 15]-
+
+LUsers1 15-[13 Info 15]- -[ There are <users> users and <invisible> invisible on <servers> servers 15]-
+LUsers2 15-[13 Info 15]- -[ <operators> operator(s) online 15]-
+LUsers3 15-[13 Info 15]- -[ <connections> unknown connection(s) 15]-
+LUsers4 15-[13 Info 15]- -[ <channels> channels formed 15]-
+LUsers5 15-[13 Info 15]- -[ I have <clients> clients and <servers> servers 15]-
+
+Welcome1 15-[13 Info 15]- Welcome to the Internet Relay Network, <nick>
+Welcome2 15-[13 Info 15]- Your host is <host>, running version <version>
+Welcome3 15-[13 Info 15]- This server was created <created>
+Welcome4 15-[13 Info 15]- <server> <version> <usermodes> <chanmodes>
+SupportedInfo 15-[13 Info 15]- -[ <protocols> are supported by this server 15]-
+
+ChannelModes 15-[13 ChanInfo 15]- -[ <chan> 14modes: <modes> 15]-
+ChannelCreation 15-[13 ChanInfo 15]- -[ <chan> 14created on <created> 15]-
+Bans 15-[13 Bans 15]- -[ <chan> <ban> set by <nick> (<banned>) 15]-
+BansEnd 15-[13 Bans 15]- -[ <chan> End of Channel Ban List 15]-
+UnableToSend 15-[13 Error 15]- -[ 14Unable to send a message to <chan>14. 15]-
+NotOpped 15-[13 Error 15]- -[ 14You are not an operator in <chan>14. 15]-
+HiddenHost 15-[13 Info 15]- -[ 14Your vhost is: <host> 15]-
+RegisterFirst 15-[13 Error 15]- -[ Register first! 15]-
+
+WhoisStart 15- - - - - - - -15- - - - - -[13 Whois 15]- 15-[13 12<nick> 15]- - - - - - - - - -
+WhoisAddress 15- - - - - - - - - -[ 13Address: 12<address> 15]- -[ 13Name: 12<name> 15]-
+WhoisChans 15- - - - - - - - - -[ 13Chans: 12<chans> (<channum>) 15]- -[ 13Common: 12<comchannum> 15]-
+WhoisServer 15- - - - - - - - - -[ 13Server: 12<server> (<info>) 15]-
+WhoisStatus 15- - - - - - - - - -[ 13Status: 12<status> 15]-
+WhoisAway 15- - - - - - - - - -[ 13Away: 12<reason> 15]-
+WhoisAuth 15- - - - - - - - - -[ 13Auth: 12<auth> 15]-
+WhoisRealIP 15- - - - - - - - - -[ 13Host: 12<address> 15]- -[ 13IP: 12<ip> 15]-
+WhoisIdle 15- - - - - - - - - -[ 13Idle: 12<idle> 15]- -[ 13Connected: 12<signontime> 15]-
+WhoisEnd 15- - - - - -[13 /Whois 15]- 15- - - - - - - - - - - - - - - - - - - -15- - - - - - - -
+
+WhowasStart 15- - - - - - - -15- - - - - -[13 Whowas 15]- 15-[13 12<nick> 15]- - - - - - - - - -
+WhowasAddress 15- - - - - - - - - -[ 13Address: 12<address> 15]- -[ 13Name: 12<name> 15]-
+WhowasServer 15- - - - - - - - - -[ 13Server: 12<server> (<info>) 15]-
+WhowasAway 15- - - - - - - - - -[ 13Away: 12<reason> 15]-
+WhowasEnd 15- - - - - -[13 /Whowas 15]- 15- - - - - - - - - - - - - - - - - - - -15- - - - - - - -
+
+Who 15-[13 Who 15]- -[ <chan> 15]- <nick> <status> <address> <name>
+WhoEnd 15-[13 Who 15]- -[ <target> 15]- End of /WHO list.
+
+Invite 15-[13 Invite 15]- 12<nick> 14asks you to join 12<chan>
+InviteOwn 15-[13 Invite 15]- 12You 14asked 12<nick> 14to join 12<chan>
+InviteAlreadyOnChan 15-[13 Invite 15]- 12<nick> 14already is in 12<chan>
+
+NoTopic 15-[13 Topic 15]- -[ There is no topic set. 15]-
+Topic 15- - - - - -[13 Topic 15]- <topic>
+TopicBy 15- - - - - -[13 Topic 15]- -[ 14Set by <nick> 14on <date> 15]-
+TopicChange 15- - - - - -[13 Topic 15]- 15-[13 <cmode>12<nick> 13sets topic12: <topic> 15]-
+
+Names 15-[13 Names 15]- -[ 12<chan> 15]- 12<names>
+NamesEnd 15-[13 Names 15]- -[ 12<chan> 15]- 12End of /NAMES list.
+
+UnknownCmd 15-[13 Error 15]- -[ 14Unknown command <cmd>14. 15]-
+NickInUse 15-[13 Error 15]- -[ 14Nickname <nick> 14is already in use. 15]-
+AwayStatus 15-[13 Status 15]- -[ <nick> 14is marked as being away: <reason> 15]-
+ChanFull 15-[13 Error 15]- -[ Unable to join <chan> - The channel is full! 15]-
+ChanInviteOnly 15-[13 Error 15]- -[ Unable to join <chan> - The channel is invite only! 15]-
+ChanBanned 15-[13 Error 15]- -[ Unable to join <chan> - You are banned! 15]-
+ChanKeyRequired 15-[13 Error 15]- -[ Unable to join <chan> - Correct key required! 15]-
+ChanRegOnly 15-[13 Error 15]- -[ Unable to join <chan> - Registered nicknames only! 15]-
+NoSuchNick 15-[13 Error 15]- -[ 14No such nick name <nick>14. 15]-
+NoSuchChan 15-[13 Error 15]- -[ 14No such channel <chan>14. 15]-
+
+RawDef 15-[13 Raw 15]- -[ <text> 15]-
+
+Scheme0 Default 0 13224138 8323072 37632 255 127 10223772 32764 65535 64512 16708593 15850968 13744821 11177351 8152416 4799031 0 12 12 4 12 12 12 12 12 12 12 12 12 11 12 11 12 12 12 10 1 0 1 0 1 14 12 0 0 13
+Scheme1 DarkBlue'ish 0 16707552 8323072 37632 255 127 10223772 32764 65535 64512 16771537 13873030 11701088 9791039 8409137 5515304 0 11 11 4 11 11 11 14 14 14 14 11 11 1 11 1 14 14 14 11 11 0 11 0 11 14 11 14 0 13
+Scheme2 Red'ish 0 16707552 8323072 37632 255 127 10223772 32764 65535 64512 15331318 12307945 2713547 174 2819971 3276894 0 11 11 4 11 11 11 14 14 14 14 11 11 1 11 1 14 14 14 11 11 0 11 0 11 14 11 14 0 13
+Scheme3 Grey'ish 0 16707552 8323072 37632 255 127 10223772 32764 65535 64512 14540253 12303291 10066329 7829367 5592405 3355443 0 11 11 4 11 11 11 14 14 14 14 11 11 1 11 1 14 14 14 11 11 0 11 0 11 14 11 14 0 13
+Scheme4 Bright'ish 13421772 0 8323072 37632 255 127 10223772 32764 65535 64512 3355443 5592405 7829367 10066329 11184810 8947848 0 11 11 4 11 11 11 14 14 14 14 11 11 1 11 1 14 14 14 11 11 0 11 0 11 14 11 14 0 13
+Scheme5 Sky'ish 14734541 4069397 8323072 37632 255 127 10223772 32764 65535 64512 6489600 7685172 9330257 11176048 13345398 14073264 0 11 11 4 11 11 11 14 14 14 14 11 11 1 11 1 14 14 14 11 11 0 11 0 11 14 11 14 0 13
+Scheme6 Blue'ish 16777215 0 8323072 37632 255 127 10223772 32764 12288814 11239493 14667163 14134677 10645511 12232570 13278079 8940098 1 13 11 4 9 13 10 9 12 11 12 13 11 12 12 11 10 9 9 9 9 1 0 1 0 14 12 15 0 13
+Scheme7 Deviant'ish 10989479 4868667 8323072 37632 255 127 10223772 32764 12288814 11239493 4872266 4737864 0 4343103 5858132 9278344 0 13 13 4 13 13 10 13 12 11 12 13 13 12 12 11 13 13 13 13 13 1 0 1 0 14 13 15 0 13

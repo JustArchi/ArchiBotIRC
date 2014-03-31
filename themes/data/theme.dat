@@ -1,0 +1,772 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NoNameScript v4.22 - dynamic theme file - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias msg {
+if (!$isid) && ($remove($2-,$chr(32)) != $null) {
+!.msg $$1-
+if ($show) {
+if ($1 ischan) || ($query($1)) || (=* iswm $1) {
+if ($1 ischan) {
+?chantextown
+}
+else {
+?querytextown
+}
+}
+else {
+?msgown
+}
+}
+}
+}
+alias amsg {
+var %t = $$1-
+if (!$isid) && ($remove(%t,$chr(32)) != $null) {
+!.amsg %t
+if ($show) {
+if ($chan(0)) {
+var %c = $v1
+while (%c) {
+tokenize 32 $chan(%c) %t
+?chantextown
+dec %c
+}
+}
+}
+}
+}
+alias describe {
+if (!$isid) {
+!.describe $1-
+if (!$show) { return }
+if ($1 ischan) || ($query($1)) || (=* iswm $1) {
+if ($1 ischan) {
+?chanactionown
+}
+else {
+?queryactionown
+}
+}
+else {
+?actionown
+}
+}
+}
+alias ame {
+var %t = $$1-
+if (!$isid) && ($remove(%t,$chr(32)) != $null) {
+!.ame %t
+if ($show) {
+if ($chan(0)) {
+var %c = $v1
+while (%c) {
+tokenize 32 $chan(%c) %t
+?chanactionown
+dec %c
+}
+}
+}
+}
+}
+alias notice {
+if (!$isid) {
+.!notice $1-
+if (!$show) { return }
+?noticeown
+}
+}
+alias dns {
+if (!$isid) {
+if ($1) {
+!.dns $1-
+if ($show) {
+var %h = $1,%f
+if ($istok(-h -c,$1,32)) { var %f = $1,%h = $2 }
+if (%f != -h) && (. !isin %h) && ($address(%h,5)) { %h = $gettok($v1,2,64) }
+?dns
+}
+}
+}
+}
+alias ctcp {
+if (!$isid) {
+!.ctcp $1-
+if ($2 == PING) { set -u100 $+(%,pingticks.,$cid,.,$1) $nnticks }
+if ($show) && ($2 != DCC) {
+?ctcpown
+}
+}
+}
+alias ctcpreply {
+if (!$isid) {
+!.ctcpreply $1-
+if ($show) {
+?ctcpreplyown
+}
+}
+}
+on ^&*:notify:{
+haltdef
+?notify
+}
+on ^&*:unotify:{
+haltdef
+?unnotify
+}
+alias thmecho {
+if ($1 == -s) { var %e = -sti12c info }
+elseif ($1 == -a) { var %e = $actcid(ti12c info) }
+else { var %e = -ti12c info $1 }
+?genecho
+}
+alias thmerror {
+if ($1 == -s) { var %e = -sti12c info }
+elseif ($1 == -a) { var %e = $actcid(ti12c info) }
+else { var %e = -ti12c info $1 }
+?generror
+}
+alias thmls {
+if ($1 == -s) { var %e = -sti12c info }
+elseif ($1 == -a) {
+if (@* iswm $active) || ($cid != $activecid) { var %e = -sti12c info }
+else { var %e = -ati12c info }
+}
+else { var %e = -ti12c info $1 }
+?linesep
+}
+alias thmhl {
+if ($1- != $null) {
+?genhighlight
+}
+}
+alias thmbr {
+if ($1- != $null) {
+?brackets
+}
+}
+on &^*:join:#:{
+haltdef
+playmircsound join
+if ($chan !ischan) { return }
+if ($nick != $me) {
+var %e = $thmev($chan)
+if (%e isnum 0-1) { %e = -ti12c join $chan }
+elseif (%e == 2) { %e = -sti12c join }
+elseif (%e == 3) { goto skip }
+?join
+:skip
+if (%qryevent) && ($query($nick)) && (j isin %qrytypes) {
+?join qry
+}
+}
+else { set -u100 %joinprog. [ $+ [ $chan ] $+ ] . [ $+ [ $cid ] ] $nnticks }
+}
+on &!^*:part:#:{
+haltdef
+playmircsound part
+if ($chan !ischan) { return }
+var %e = $thmev($chan)
+if (%e isnum 0-1) { %e = -ti12c part $chan }
+elseif (%e == 2) { %e = -sti12c part }
+elseif (%e == 3) { goto skip }
+?part
+:skip
+if (%qryevent) && ($query($nick)) && (p isin %qrytypes) {
+?part qry
+}
+}
+on &^*:kick:#:{
+haltdef
+playmircsound kick
+if ($chan !ischan) { return }
+if ($knick == $me) {
+?kickown
+}
+var %e = $thmev($chan)
+if (%e isnum 0-1) { %e = -ti12c kick $chan }
+elseif (%e == 2) { %e = -sti12c kick }
+elseif (%e == 3) { goto skip }
+?kick
+if ($away.chklog($null).event) && ($ccontrol($chan)) {
+?kick awaylog
+}
+:skip
+if (%qryevent) && (k isin %qrytypes) {
+if ($query($knick)) {
+?kick qry
+}
+if ($query($nick)) {
+?kick qry2
+}
+}
+}
+on &^*:quit:{
+haltdef
+var %c = $comchan($nick,0)
+while (%c) {
+var %e = $thmev($comchan($nick,%c))
+if (%e isnum 0-1) { %e = -ti12c quit $comchan($nick,%c) }
+elseif (%e == 2) { %e = -sti12c quit }
+elseif (%e == 3) {
+%e = -sti12c quit
+?quit
+%e = -ti12c quit $comchan($nick,%c)
+}
+elseif (%e == 4) { goto skip }
+?quit
+:skip
+dec %c
+}
+if (%qryevent) && ($query($nick)) && (q isin %qrytypes) {
+?quit qry
+}
+}
+on &^*:nick:{
+haltdef
+if ($nick === $newnick) { return }
+var %c = $comchan($newnick,0),%q = $query(0)
+while (%c) {
+var %e = $thmev($comchan($newnick,%c))
+if (%e isnum 0-1) { %e = -ti12c nick $comchan($newnick,%c) }
+elseif (%e == 2) { goto skip }
+?nick
+:skip
+dec %c
+}
+if ($nick == $me) {
+?nickown
+}
+if (%qryevent) {
+if ($query($newnick)) && (n isin %qrytypes) {
+?nick qry2
+}
+elseif ($nick == $me) && (o isin %qrytypes) {
+while (%q) {
+?nick qry
+dec %q
+}
+}
+}
+}
+on &^*:topic:#:{
+haltdef
+if ($chan !ischan) { return }
+var %e = $thmev($chan)
+if (%e isnum 0-1) { %e = -ti12c topic $chan }
+elseif (%e == 2) { %e = -sti12c topic }
+elseif (%e == 3) { goto skip }
+?topicchange
+if ($away.chklog($null).event) && ($ccontrol($chan)) {
+?topicchange awaylog
+}
+:skip
+}
+ctcp &*:*:*:{
+if (!$istok(dcc version,$1,32)) {
+haltdef
+if ($1 == ping) { .ctcpreply $nick PING $ctime }
+if ($chan) {
+if ($chan !ischan) { return }
+var %e = $thmev($chan)
+if (%e isnum 0-1) { %e = -ti12c ctcp $chan }
+elseif (%e == 2) { %e = -sti12c ctcp }
+?chanctcp
+}
+else {
+var %e = $thm.active(ctcp,ti12c ctcp)
+?ctcp
+}
+}
+}
+on &^*:rawmode:#:{
+haltdef
+if ($chan !ischan) { return }
+var %e = $thmev($chan)
+if (%e isnum 0-1) { %e = -ti12c mode $chan }
+elseif (%e == 2) { %e = -sti12c mode }
+elseif (%e == 3) { goto skip }
+?mode
+:skip
+}
+on &^*:invite:#:{
+haltdef
+playmircsound invite
+var %e = $thm.active(invite,ti12c invite)
+?invite
+}
+on &^*:usermode:{
+haltdef
+?usermode
+}
+on &^*:text:*:#:{
+haltdef
+playmircsound channeltext
+if ($chan !ischan) { return }
+?chantext
+if (%hlown) && ($isachl($1-)) {
+chkhlwin
+?chantext hlwin
+}
+if ($away.chklog($strip($1-))) {
+?chantext awaylog
+}
+}
+on &^*:text:*:?:{
+haltdef
+playmircsound querytext
+if ($query($nick)) {
+?querytext
+}
+elseif (%thm.singlemsg) {
+?msg single
+}
+else {
+?msg
+}
+if (%hlown) && ($isachl($1-)) {
+chkhlwin
+?querytext hlwin
+}
+}
+on &^*:chat:*:{
+haltdef
+playmircsound chattext
+if (ACTION ?* iswm $1-) {
+?queryaction chat
+if (%hlown) && ($isachl($1-)) {
+chkhlwin
+?queryaction chathlwin
+}
+}
+else {
+?querytext chat
+if (%hlown) && ($isachl($1-)) {
+chkhlwin
+?querytext chathlwin
+}
+}
+}
+on &^*:action:*:#:{
+haltdef
+if ($chan !ischan) { return }
+?chanaction
+if (%hlown) && ($isachl($1-)) {
+chkhlwin
+?chanaction hlwin
+}
+if ($away.chklog($strip($1-))) {
+?chanaction awaylog
+}
+}
+on &^*:action:*:?:{
+haltdef
+if (%thm.singlemsg) {
+?action single
+}
+elseif ($query($nick)) {
+?queryaction
+}
+else {
+?action
+}
+if (%hlown) && ($isachl($1-)) {
+chkhlwin
+?queryaction hlwin
+}
+}
+on &^*:notice:*:#:{
+haltdef
+playmircsound notice
+if ($chan !ischan) { return }
+if (%notice.sepwin) {
+notice.chkwin
+var %e = -mti12c notice $specialcidwin(Notices)
+}
+else { var %e = -mti12c notice $chan }
+?channotice
+}
+on &^*:notice:*:?:{
+haltdef
+playmircsound notice
+if (%notice.sepwin) {
+notice.chkwin
+var %e = -mti12c notice $specialcidwin(Notices)
+}
+else {
+if ($qnetchkwlc($fulladdress,$1-)) { var %e = -mti12c notice $v1 }
+else { var %e = $thm.active(notice,mti12c notice) }
+}
+?notice
+}
+on &^*:snotice:*:{
+haltdef
+playmircsound notice
+if (%notice.sepwin) {
+notice.chkwin
+var %e = -mti12c notice $specialcidwin(Notices)
+}
+else { var %e = -msti12c notice }
+?servernotice
+}
+on &*:dns:{
+haltdef
+if ($dns(0)) {
+var %i = 1,%t = $dns(0)
+while (%i <= %t) {
+?dnsresolve
+inc %i
+}
+}
+else {
+?dnserror
+}
+}
+on &*:ctcpreply:*:{
+haltdef
+if ($1 == PING) {
+if ($($+(%,pingticks.,$cid,.,$nick),2)) {
+var %tmp = $v1,%rpl = $round($calc($nnticks - %tmp),3)
+if (%rpl < 1) { %rpl = $calc(%rpl *1000) ms }
+else { %rpl = %rpl second(s) }
+unset $+(%,pingticks.,$cid,.,$nick)
+}
+else { %rpl = $duration($calc($ctime - $2)) }
+tokenize 32 PING %rpl
+}
+var %e = $thm.active(ctcp,ti12c ctcp)
+?ctcpreply
+}
+on ^&*:wallops:*:{
+haltdef
+if ($1 == *) { var %w = $specialcidwin(Wallusers),%t = $2- }
+elseif ($1 == $) { var %w = $specialcidwin(Wallops),%t = $2- }
+else { var %w = $specialcidwin(Wallops),%t = $1- }
+if (!$window(%w)) {
+window -nk0g1e %w
+thmecho %w Wall message window for $thmhl($curconserv) opened on $thmhl($longtime) $+ .
+echo %w 
+}
+?wallop
+}
+raw 324:*:{
+if ($halted) { return }
+haltdef
+?channelmodes
+}
+raw 329:*:{
+if ($halted) { return }
+haltdef
+?channelcreation
+}
+raw 367:*:{
+if ($halted) { return }
+haltdef
+?bans
+}
+raw 368:*:{
+if ($halted) { return }
+haltdef
+?bansend
+}
+raw 404:*:{
+if ($halted) { return }
+haltdef
+?unabletosend
+}
+raw 482:*:{
+if ($halted) { return }
+haltdef
+?notopped
+}
+raw 396:*:{
+if ($halted) { return }
+haltdef
+?hiddenhost
+}
+raw 451:*:{
+if ($halted) { return }
+haltdef
+?registerfirst
+}
+raw 311:*:{
+if ($halted) { return }
+haltdef
+if (%whois. [ $+ [ $cid ] ]) {
+?whoisend
+}
+else {
+set %whois. $+ $cid 1
+}
+?whoisstart
+?whoisaddress
+}
+raw 319:*:{
+if ($halted) { return }
+haltdef
+?whoischans
+}
+raw 312:*:{
+if ($halted) { return }
+haltdef
+if (%whois. [ $+ [ $cid ] ]) {
+?whoisserver
+}
+else {
+?whowasserver
+}
+}
+raw 313:*:{
+if ($halted) { return }
+haltdef
+?whoisstatus
+}
+raw 314:*:{
+if ($halted) { return }
+haltdef
+set %whowas. $+ $cid 1
+?whowasstart
+?whowasaddress
+}
+raw 301:*:{
+if ($halted) { return }
+haltdef
+if (%whois. [ $+ [ $cid ] ]) {
+?whoisaway
+}
+elseif (%whowas. [ $+ [ $cid ] ]) {
+?whowasaway
+}
+elseif ($2 != $me) && (!%away.seen. [ $+ [ $2 ] $+ ] . [ $+ [ $cid ] ]) {
+set -u300 %away.seen. [ $+ [ $2 ] $+ ] . [ $+ [ $cid ] ] 1
+?awaystatus
+}
+}
+raw 369:*:{
+if ($halted) { return }
+haltdef
+if (%whowas. [ $+ [ $cid ] ]) {
+?whowasend
+unset %whowas. $+ $cid
+}
+}
+raw 330:*:{
+if ($halted) { return }
+haltdef
+?whoisauth
+}
+raw 338:*:{
+if ($halted) { return }
+haltdef
+?whoisrealip
+}
+raw 317:*:{
+if ($halted) { return }
+haltdef
+?whoisidle
+}
+raw 318:*:{
+if ($halted) { return }
+haltdef
+if (%whois. [ $+ [ $cid ] ]) {
+?whoisend
+unset %whois. $+ $cid
+}
+}
+raw 331:*:{
+if ($halted) { return }
+haltdef
+if ($me ison $2) { var %e = -ti12c topic $2 }
+else { var %e = $actcid(ti12c) topic }
+?notopic
+}
+raw 332:*:{
+if ($halted) { return }
+haltdef
+if (%joinprog. [ $+ [ $2 ] $+ ] . [ $+ [ $cid ] ]) { return }
+if ($me ison $2) { var %e = -ti12c topic $2 }
+else { var %e = $actcid(ti12c) topic }
+?topic
+}
+raw 333:*:{
+if ($halted) { return }
+haltdef
+if (%joinprog. [ $+ [ $2 ] $+ ] . [ $+ [ $cid ] ]) {
+set -u100 $+(%,topicset.,$2,.,$cid) $3-
+return
+}
+if ($me ison $2) { var %e = -ti12c topic $2 }
+else { var %e = $actcid(ti12c) topic }
+?topicby
+}
+raw 341:*:{
+if ($halted) { return }
+haltdef
+?inviteown
+}
+raw 443:*:{
+if ($halted) { return }
+haltdef
+?invitealreadyonchan
+}
+raw 353:*:{
+if ($halted) { return }
+haltdef
+if (!%thm.hnames) || (%names.show. [ $+ [ $cid ] ]) {
+?names
+}
+}
+raw 355:*:{
+if ($halted) { return }
+haltdef
+if (!%thm.hnames) || (%names.show. [ $+ [ $cid ] ]) {
+?names
+}
+}
+raw 366:*:{
+if ($halted) { return }
+haltdef
+if (!%thm.hnames) || (%names.show. [ $+ [ $cid ] ]) {
+?namesend
+}
+if (%joinprog. [ $+ [ $2 ] $+ ] . [ $+ [ $cid ] ]) {
+var %nt = $v1,%s = $iif($round($calc($nnticks - %nt),2) isnum 0-1000,$v1,<unknown>),%g = %topicset. [ $+ [ $2 ] $+ ] . [ $+ [ $cid ] ],%n = $iif($wd(%g,1,32),$v1,<unknown>),%d = $iif($wd(%g,2,32),$longtime($v1),<unknown>),%a = $iif($wd(%g,2,32),$duration($calc($ctime - $v1)),<unknown>)
+if ($me ison $2) {
+haltdef
+?joinown
+}
+}
+unset %names.show. $+ $cid %joinprog. $+ $2 $+ . $+ $cid %topicset. $+ $2 $+ . $+ $cid
+}
+raw 421:*:{
+if ($halted) { return }
+haltdef
+?unknowncmd
+}
+raw 352:*:{
+if ($halted) { return }
+haltdef
+?who
+}
+raw 315:*:{
+if ($halted) { return }
+haltdef
+?whoend
+}
+raw 433:*:{
+if ($halted) { return }
+haltdef
+?nickinuse
+}
+raw 471:*:{
+if ($halted) { return }
+haltdef
+?chanfull
+}
+raw 473:*:{
+if ($halted) { return }
+haltdef
+?chaninviteonly
+}
+raw 474:*:{
+if ($halted) { return }
+haltdef
+?chanbanned
+}
+raw 475:*:{
+if ($halted) { return }
+haltdef
+?chankeyrequired
+}
+raw 477:*:{
+if ($halted) { return }
+if ($left($2,1) isin $chantypes) {
+haltdef
+?chanregonly
+}
+}
+raw 401:*:{
+if ($halted) { return }
+haltdef
+?nosuchnick
+unset $+(%,whois.,$2,.,$cid)
+}
+raw 406:*:{
+if ($halted) { return }
+haltdef
+?nosuchnick
+}
+raw 403:*:{
+if ($halted) { return }
+haltdef
+?nosuchchan
+}
+raw 251:*:{
+if ($halted) { return }
+haltdef
+?lusers1
+}
+raw 252:*:{
+if ($halted) { return }
+haltdef
+?lusers2
+}
+raw 253:*:{
+if ($halted) { return }
+haltdef
+?lusers3
+}
+raw 254:*:{
+if ($halted) { return }
+haltdef
+?lusers4
+}
+raw 255:*:{
+if ($halted) { return }
+haltdef
+?lusers5
+}
+raw 001:*:{
+if ($halted) { return }
+haltdef
+?welcome1
+}
+raw 002:*:{
+if ($halted) { return }
+haltdef
+if (!%thm.hwmsg) {
+?welcome2
+}
+}
+raw 003:*:{
+if ($halted) { return }
+haltdef
+if (!%thm.hwmsg) {
+?welcome3
+}
+}
+raw 004:*:{
+if ($halted) { return }
+haltdef
+if (!%thm.hwmsg) {
+?welcome4
+}
+}
+raw 005:*:{
+if ($halted) { return }
+haltdef
+if (!%thm.hwmsg) {
+?supportedinfo
+}
+}
+?craws
+raw *:*:{
+if ($halted) { return }
+if (!$istok(321 322 323,$numeric,32)) {
+haltdef
+?rawdef
+}
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

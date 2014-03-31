@@ -1,0 +1,182 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - status bar - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+dialog sbaredit {
+  title "Add statusbar item"
+  size -1 -1 286 220
+  option pixels
+  icon scripts\pics\nntray.ico, 0
+  tab "Edit item", 1, 5 5 276 186
+  text "Icon", 7, 12 37 26 14, tab 1
+  edit "", 8, 70 33 174 22, tab 1 autohs limit 300
+  button "...", 9, 246 34 28 20, tab 1
+  edit "", 11, 70 57 204 22, tab 1 autohs limit 100
+  combo 13, 71 81 202 160, tab 1 sort size edit limit 100 drop
+  text "Text", 10, 12 61 26 14, tab 1
+  text "Command", 12, 12 85 52 14, tab 1
+  text "Style", 14, 12 133 28 14, tab 1
+  edit "", 19, 70 105 170 22, tab 1 limit 3
+  text "Width", 18, 12 109 32 14, tab 1
+  radio "&Default border", 15, 70 131 94 18, tab 1
+  radio "&Pop-out border", 16, 70 147 98 18, tab 1
+  radio "&No border", 17, 70 163 72 18, tab 1
+  text "pixels", 20, 244 109 30 16, tab 1
+  tab "Help", 2
+  list 5, 11 49 264 132, tab 2 size
+  text "Here is a list of available identifiers:", 6, 13 33 176 14, tab 2
+  button "&Ok", 4, 118 192 80 24, ok
+  button "&Cancel", 3, 202 192 80 24, cancel
+}
+on *:dialog:sbaredit:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 5 ListView report showsel single sortascending rowselect > $mdxfile(views)
+    did -i $dname 5 1 headerdims 80:1 250:2
+    did -i $dname 5 1 headertext +r 0 Identifier	+ 0 Description
+    loadidents $dname 5
+    if (%sbar.edit) {
+      tokenize 1 %sbar.cell. [ $+ [ $v1 ] ]
+      if ($1 != &null) { did -a $dname 8 $1 }
+      if ($2 != &null) { did -a $dname 11 $2 }
+      if ($3 != &null) { did -o $dname 13 0 $3 }
+      did -a $dname 19 $4
+      did -c $dname $iif($5 == normal,15,$iif($5 == popout,16,17))
+      dialog -t $dname Edit statusbar item $chr(35) $+ %sbar.edit
+    }
+    else { did -c $dname 15 }
+    loaddefcmds $dname 13
+  }
+  elseif ($devent == sclick) {
+    if ($did == 13) { if ($regex(sel,$did($did).seltext,/^.+ \((.+)\)$/)) { .timer 1 0 did -o $dname $did 0 $regml(sel,1) } }
+    elseif ($did == 4) {
+      set %sbar.cell. $+ $iif(%sbar.edit,$v1,$did(settings,257).lines) $+($iif($no1($did(8)),$v1,&null),,$iif($no1($did(11)),$v1,&null),,$iif($no1($did(13)),$v1,&null),,$iif($did(19) isnum,$v1,100),,$iif($did(15).state,normal,$iif($did(16).state,popout,noborder)),,$iif($no1($did(11)),$replaceidents($v1),&null))
+      sbar.reflist %sbar.edit
+      sbar.compref
+    }
+    elseif ($did == 9) { did -ra $dname 8 $relpath($$sfile($iif($did(8),$did(8),iconsets\*.ico),Choose an icon)) }
+  }
+  elseif ($devent == edit) && ($did == 19) { numonlyedit $dname $did }
+}
+alias sbar.reflist {
+  did -i settings 257 1 clearicons normal
+  window -h @sbar.ref
+  var %pr = $1,%j = 1,%i = $var(%sbar.cell.*,0),%g = %i,%c = 1
+  while (%j <= %i) {
+    tokenize 1 %sbar.cell. [ $+ [ %j ] ]
+    var %t = $iif($2 != &null,$2,n/a),%n = $iif($3 != &null,$3,n/a)
+    if ($1 == &null) { aline @sbar.ref 0 + 0 0 0 %t $+ 	+ 0 0 0 %n }
+    else {
+      did -i settings 257 1 seticon normal 0 $mkfullfn($1).noqt
+      aline @sbar.ref 0 $iif(%pr == %c,+fs,+) %c 0 0 %t $+ 	+ 0 0 0 %n
+      inc %c
+    }
+    inc %j
+  }
+  filter -woc @sbar.ref settings 257
+  if ($did(settings,257).lines > 1) && ($did(settings,183).state) { did -e settings 299 }
+  else { did -b settings 299 }
+  close -@ @sbar.ref
+}
+alias sbar.compref {
+  unset %sbar.oldct.*
+  var %j = 1,%i = $var(%sbar.cell.*,0),%r,%t = 0
+  if (%i) {
+    xstatusbar -y
+    while (%j <= %i) {
+      tokenize 1 %sbar.cell. [ $+ [ %j ] ]
+      if ($isfile($1)) { xstatusbar -w + 0 $mkfullfn($1).noqt }
+      var %r = %r $4
+      inc %j
+    }
+    xstatusbar -l $puttok(%r,-1,-1,32)
+    sbar.cellref -f
+  }
+  else { xstatusbar -l -1 }
+}
+alias sbar.ldef {
+  if ($ydialog(Do you really want to load the $1 statusbar preset?)) {
+    unset %sbar.cell.*
+    window -h @sbarload
+    loadbuf -t $+ $1 @sbarload scripts\txt\sbar-defs.txt
+    var %i = $line(@sbarload,0)
+    while (%i) {
+      tokenize 32 $line(@sbarload,%i)
+      set $+(%,sbar.cell.,%i) $1-
+      dec %i
+    }
+    close -@ @sbarload
+    sbar.reflist
+    sbar.compref
+  }
+}
+alias sbar.cellref {
+  var %f = $1,%j = 1,%i = $var(%sbar.cell.*,0),%c = 1,%du = 0
+  if (%i) {
+    while (%j <= %i) {
+      var %t,%x
+      tokenize 1 %sbar.cell. [ $+ [ %j ] ]
+      if ($5 == popout) { %x = +p }
+      elseif ($5 == noborder) { %x = +n }
+      else { %x = + }
+      if ($6 != &null) { %t = $6 }
+      var %ct = [ [ %t ] ]
+      if (%sbar.oldct. [ $+ [ %j ] ] != %ct) || (%f) { %du = 1 }
+      if ($1 != &null) {
+        if (%du) {
+          xstatusbar -t %j %x %c $strip(%ct)
+          set %sbar.oldct. $+ %j %ct
+        }
+        inc %c
+      }
+      elseif (%du) { xstatusbar -t %j %x 0 %ct }
+      inc %j
+    }
+  }
+  else {
+    xstatusbar -l -1
+    xstatusbar -t 1 + 0
+  }
+  return
+  :error
+  reseterror
+  xstatusbar -l -1
+  xstatusbar -t 1 + 0 [error in formatting string: $error $+ ]]
+}
+alias sbar {
+  if ($1 == -u) {
+    xstatusbar -A 0
+    .timerstatusbar off
+    unset %sbar.oldct.*
+  }
+  else {
+    xstatusbar -A 1
+    sbar.compref
+    sbar.timer
+  }
+}
+alias sbar.exec { if ($eval($gettok(%sbar.cell. [ $+ [ $1 ] ],3,1),2) !=== &null) { $v1 } }
+on *:signal:DCX:{
+  if ($1 == DCXStatusbar) {
+    if ($2 == dclick) { sbar.exec $4 }
+    elseif ($2 == rclick) {
+      popdll.new
+      popdll.add 1	+ 1 0 &Execute commandsbar.exec $4
+      popdll.add 2	+ 2 0 -
+      popdll.add 3	+ 3 0 &Setup status bar...setup -c Status bar
+      popdll.disp
+    }
+  }
+}
+alias sbar.timer {
+  if (%sbar.timer) && ($xstatusbar().visible) { .timerstatusbar -io 0 %sbar.refdelay sbar.cellref }
+  else { .timerstatusbar off }
+}
+alias sbar.edit {
+  set %sbar.edit $calc($did(settings,257).sel -1)
+  .echo -q $dialog(sbaredit,sbaredit,-4)
+  unset %sbar.edit
+}
+on *:active:*:{ if (%sbar.enabled) { sbar.cellref } }
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

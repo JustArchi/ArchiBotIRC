@@ -1,0 +1,142 @@
+Name Regroup Esports
+Version 1.0
+NNTVersion 1.03
+Author swarfega
+Email sw4rfega@googlemail.com
+Homepage http://www.regroup-esports.com
+Description Regroup Esports Official Theme
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 07[10HH07:10nn07:10ss07]
+
+NickColSelf none
+NickColOp 10
+NickColVoice 7
+NickColRegular 3
+NickColProtect none
+NickColIgnore none
+
+Brackets 07[10<text>07]
+LineSep 07———————————————————
+Prefix 07[10!07]
+
+GenEcho [10#] <text>
+GenError [10#] Error: <text>
+GenHighlight <text>
+
+ChanText 01 01 01 01  07[07<cmode><cnick>07] <text>
+ChanTextOwn 01 01 01 01  07[07<cmode><cme>07] <text>
+ChanAction 07[10*07] 07[07<cmode><cnick>07] <text>
+ChanActionOwn 07[10*07] 07[07<cmode><cme>07] <text>
+
+QueryText <nick brackets="1"> <text>
+QueryTextOwn <me brackets="1"> <text>
+QueryAction 07[10-07] <nick> <text>
+QueryActionOwn 07[10-07] <me> <text>
+
+Msg 07[10-07] <nick> <text>
+MsgOwn 07[10-07] <target> <text>
+Action 07[10*07] <nick> <text>
+ActionOwn 07[10-07] <target> <text>
+
+ChanNotice -<nick brackets="1">@<chan brackets="1">- <text>
+Notice -<nick brackets="1">- <text>
+NoticeOwn -<gt> -<target brackets="1">- <text>
+ServerNotice -<server brackets="1">- <text>
+
+CTCP 07[<nick> <ctcp brackets="1">07] <text>
+CTCPOwn -<gt> [<target>] <ctcp brackets="1"> <text>
+ChanCTCP [<nick>:<chan> <ctcp brackets="1">] <text>
+CTCPReply [<nick> <ctcp brackets="1"> reply] <text>
+CTCPReplyOwn -<gt> [<target>] <ctcp brackets="1"> <text>
+
+Join <pre> <nick brackets="1"> $replace(<address brackets="1">,@,07@10,.,07.10,~,07~10,-,07-10) enters $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10,.,07.10)
+JoinOwn <pre> 07Now talking in $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10)!if <topic> <pre><linesep>!if <topic> <pre>07 Topic is <topic brackets="1">!if <topic> <pre> 07Set by <topicnick brackets="1"> 07on <topicdate brackets="1">!if <topic> <pre><linesep><pre> 07Users: <users brackets="1">07 users, <oppedusers brackets="1"> 07ops, <voicedusers brackets="1"> 07voiced, <regusers brackets="1"> 07regulars<pre> 07Join synced in: <synctime brackets="1"><pre> 07Channel modes: 07[10 $+ $chan(<chan>).mode $+ 07]
+Part !if <message> <pre> <nick brackets="1"> $replace(<address brackets="1">,@,07@10,.,07.10,~,07~10,-,07-10) <message brackets="1"> leaves $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10)
+Quit !if <message> <pre> <nick brackets="1"> $replace(<address brackets="1">,@,07@10,.,07.10,~,07~10,-,07-10) quits IRC with $replace(<message brackets="1">,regroup,10regroup03,esports,07esports03,::,07::03,$chr(40),07 $+ $chr(40) $+ 03,$chr(41),07 $+ $chr(41) $+ 03,Read error,10Read error03,NoNameScript 4.1,15NoNameScript 4.103,NoNameScript 4.11,15NoNameScript 4.1103)
+Nick <pre> <nick brackets="1"> is now known as <newnick brackets="1">
+NickOwn <pre> Your nick is now <newnick brackets="1">
+Mode <pre> $replace(<nick brackets="1">,.,07.10,-,07-10) sets mode $replace(<mode brackets="1">,+o,07+o10,++,07++10,+v,07+v10,-o,07-o10,-+,07-+10,-v,07-v10)
+UserMode <pre> <me brackets="1"> sets mode <mode brackets="1">
+Kick !if <message> <pre> <kickednick brackets="1"> was kicked by 07[07<cmode>10<nick>07] <message brackets="1">
+KickOwn !if <message> <pre> You were kicked by 07[10<cmode><nick>07] from 07<chan> <message brackets="1">
+WallOp 07[10¤07] <nick brackets="1"> <text>
+
+DNS [10?] DNS resolving $replace(<address brackets="1">,.,07.10,-,07-10)
+DNSError [10?] DNS unable to resolve $replace(<address brackets="1">,.,07.10,-,07-10)
+DNSResolve [10?] DNS resolved $replace(<address brackets="1">,.,07.10,-,07-) to $replace(<raddress brackets="1">,.,07.10)
+
+Notify [10~] <nick brackets="1"> is now online
+UnNotify [10~] <nick brackets="1"> is now offline
+
+LUsers1 [10~] There are <users brackets="1"> users and <invisible brackets="1"> invisible on <servers brackets="1"> servers
+LUsers2 [10~] <operators brackets="1"> operator07(s07) online
+LUsers3 [10~] <connections brackets="1"> unknown connection07(s07)
+LUsers4 [10~] <channels brackets="1"> channels formed
+LUsers5 [10~] I have <clients brackets="1"> clients and <servers brackets="1"> servers
+
+Welcome1 [10~] Welcome to the 07Internet 07Relay 07Network, <nick brackets="1">
+Welcome2 [10~] Your host is <host brackets="1">, running version <version brackets="1">
+Welcome3 [10~] This server was created <created brackets="1">
+Welcome4 [10~] <server brackets="1"> <version brackets="1"> <usermodes brackets="1"> <chanmodes brackets="1">
+SupportedInfo [10~] <protocols brackets="1"> are supported by this server
+
+ChannelModes [10~] $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10) <modes brackets="1">
+ChannelCreation [10~] $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10) created on <created brackets="1">
+Bans [10~] $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10) <ban> set by <nick> <banned brackets="1">
+BansEnd [10~] $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10) End of Channel Ban List
+UnableToSend [10~] Unable to message <chan brackets="1">
+NotOpped [10~] $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10): you're not channel operator
+HiddenHost [10~] $replace(<host brackets="1">,.,07.) is now your hidden host
+RegisterFirst [10~] Register first!
+
+WhoisStart !empty
+WhoisAddress [10?]————[ 10whois: <nick>07 ]———————————————[10?] 07Address: $replace(<address brackets="1">,@,07@10,.,07.10,~,07~10,-,07-10) @ <name brackets="1">
+WhoisChans [10?] Channels: $replace(<chans hlcommon="1">,$chr(35),07 $+ $chr(35) $+ 10,.,07.10,?,07?10,~,07~10,*,~,&,07&10,!,&,@,07@10,%,07%10,+,07+10,$chr(31), $+ $chr(2) $+ ) 
+WhoisServer [10?] Server: $replace(<server brackets="1">,.,07.10) <info brackets="1">
+WhoisStatus [10?] Status: <status brackets="1">
+WhoisAway [10?] Away: <reason brackets="1">
+WhoisAuth [10?] Auth: <auth brackets="1">
+WhoisRealIP [10?] RealIP: <pre> Address: $replace(<address brackets="1">,@,07@10,.,07.10,~,07~10,-,07-10) <ip brackets="1">
+WhoisIdle [10?] Idle: <idle brackets="1">[10?] Signed on: $replace(<signontime brackets="1">,:,07:10) <signonago brackets="1">
+WhoisEnd [10?]—————————————————————————————
+
+WhowasStart !empty
+WhowasAddress [10?]————[ 10whowas: <nick>07 ]———————————————[10?] 07Address: $replace(<address brackets="1">,@,07@10,.,07.10,~,07~10,-,07-) @ <name brackets="1">
+WhowasServer [10?] Server: $replace(<server brackets="1">,.,07.10) <info brackets="1">
+WhowasAway [10?] Away: <reason brackets="1">
+WhowasEnd [10?]—————————————————————————————
+
+Who [10?] $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10) <nick> • <status> • <address brackets="1"> <name brackets="1">
+WhoEnd [10?] $replace(10<target brackets="1">,$chr(35),07 $+ $chr(35) $+ 10) End of /WHO list.
+
+Invite <pre> <nick brackets="1"> invites you to join $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10)
+InviteOwn <pre> <nick brackets="1"> has been invited to $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10)
+InviteAlreadyOnChan <pre> <nick brackets="1"> is already on $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10)
+
+NoTopic [10~] $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10) No topic is set.
+Topic [10~] Topic is <topic brackets="1">
+TopicBy [10~] Set by <nick brackets="1"> on <date brackets="1">
+TopicChange <pre> <nick brackets="1"> changes topic to <topic brackets="1">
+
+Names [10?] $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10) $replace(<names>,@,10@,+,10+,&,10&,~,10~,!,10!,%,10%)
+NamesEnd [10?] $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10) End of /NAMES list.
+
+UnknownCmd [10~] <cmd brackets="1"> Unknown command
+NickInUse [10~] <nick brackets="1"> Nickname is already in use.
+AwayStatus [10~] <nick brackets="1"> is marked as being away: <reason brackets="1">
+ChanFull [10~] $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10) unable to join channel 07(full07)
+ChanInviteOnly [10~] $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10) unable to join channel 07(invite only07)
+ChanBanned [10~] $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10) unable to join channel 07(banned07)
+ChanKeyRequired [10~] $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10) unable to join channel 07(need correct key07)
+ChanRegOnly [10~] $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10) unable to join channel 07(registered only07)
+NoSuchNick [10~] <nick brackets="1"> No such nick
+NoSuchChan [10~] $replace(10<chan brackets="1">,$chr(35),07 $+ $chr(35) $+ 10) No such channel
+
+RawDef [10~] <text>
+
+Scheme0 Default 16777215 2829868 5123350 5025292 2565271 1908836 7427162 4148971 2397947 5351325 14985772 10256234 8478779 9735376 8355711 13421772 1 0 7 5 7 7 7 3 3 3 3 0 7 7 0 0 3 3 7 3 7 1 0 1 0 14 6 0 1 0
+Scheme1 Light 16777215 2829868 5123350 5025292 2565271 1908836 7427162 4148971 2397947 5351325 14985772 10256234 8478779 9735376 8355711 13421772 0 1 7 5 7 7 7 3 3 3 3 1 7 7 1 1 3 3 7 3 7 0 1 0 1 14 6 0 0 1

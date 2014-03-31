@@ -1,0 +1,436 @@
+NNScript version 4.22 change log
+================================
+
+Legend:
+* = New feature
++ = Improved feature
+! = Fixed bug
+? = Other stuff
+
+
+08-09-17: Version 4.22
+----------------------
+01. ! The  Q  central now works when your Q usermode is -n (privmsgs instead of
+      notices).
+02. + Added a picture validity check when loading banners so the script doesn't
+      just stop.
+03. ? The "Modern" icon set is now actually included in the installer.
+04. ! Fixed the Halberd slap again.
+05. + You can now change the default language for the Wikipedia search by using
+      /wiki -setlanguage [de/en/fr/...].
+06. + Date/time format is now uniform across the script.
+07. + Changed default behavior of double-clicking in the notify list to query.
+08. + Added an option to add/remove users on the notify list in the right-click
+      popup menus.
+09. ? Updated to mIRC 6.34. Better support for future mIRC versions.
+10. + Thanks to the new mIRC, much longer strings are now allowed in many parts
+      of  the  script. For example, you can now use much more text in the theme
+      editor.
+11. + "Day changes" are now displayed in every chat window.
+12. ! Lines containing zeros only are now pasted correctly.
+13. ! Fixed a Q central bug with weird channel names.
+14. + Updated voleska theme.
+15. + Updated NSIS to 2.39.
+16. + The  script will now continue to work when a future mIRC version is used.
+      The script will display a one-time warning though.
+17. * Added an auto-updater.
+18. ! Fixed a bug regarding <cmode> in the theme engine.
+19. ! CTCP replies bugfix.
+20. + Various other small improvements/bugfixes.
+
+
+08-05-14: Version 4.21
+----------------------
+01. ! Fixed the halberd slap.
+02. ! Fixed a bug in the "Peregrine" theme.
+03. ! Fixed CTCP PING reply display.
+04. ! Added some error checking to the toolbar icon selector.
+05. * Added a "Modern" toolbar icon set with the new mIRC default icons.
+06. ! Fixed  help  files  being  displayed twice when NoNameScript is installed
+      in the mIRC folder.
+07. * Added an option to the newsticker windows to reload all news.
+08. * Added the possibility to block all incoming queries for a specific amount
+      of time to the personal protections. Useful when combined with the query-
+      flood protection.
+09. + Improved queryflood protection to work with botnets and the like.
+10. * Added "ColorfulWorld", "Zeppelin", "Waste" and "Moredots" themes.
+11. ! Fixed  a  small  bug  which  caused  wrong  colors to appear in the theme
+      preview.
+13. * Added  a  check  on  startup  for writing permissions on the NoNameScript
+      folder.
+14. ! Fixed  a  bug  in  the  "Simple"  theme.  Also made the theme engine more
+      resistant to this kind of bug ;-)
+15. + Rearranged some items in the setup for better usability.
+16. ! Fixed "* /set: line too long" error when echoing large amounts of text.
+17. ! Fixed a small cosmetic error in the theme editor.
+18. + You  now  have  to  confirm  removing a color scheme or custom raw from a
+      theme.
+19. ? Removed the L control because there is no L bot anymore.
+20. + Rewritten the Q control because of the massive amount of changes to the Q
+      bot on QuakeNet.
+21. ! The status bar is clickable again.
+22. ! Editing blacklist entries works again.
+23. * Added an option to MinIRC for automatically minimizing the mIRC window.
+24. ? Reverted  back to the default style mIRC popup menus due to problems some
+      users had.
+25. ! Fixed  the  "Clear all windows when loading a new theme"-feature clearing
+      some windows that it was not supposed to clear :P
+26. ! Fixed some bugs regarding delayed copy/paste.
+27. + Major changes to the installer:
+      - There is now only one installer which has an update capability.
+      - Uninstalling  no  longer  deletes the whole script folder, but only the
+        NoNameScript files.
+      - Updated NSIS to 2.37.
+      - You can now choose where to install the script in the installer.
+28. ! Fixed the away system cutting of the first word of the away reason.
+29. ! Fixed  a  major  bug  in  the  theme editor where the edited theme became
+      invalid.
+30. ! Fixed installation issue on Chinese systems.
+31. + Improved NickServ identification.
+32. ! Various other small bug fixes.
+
+
+07-11-17: Version 4.2
+---------------------
+01. * Compatibility with mIRC 6.31.
+02. + Full  compatibility  with limited user accounts and Windows Vista, thanks
+      to the new mIRC 6.3x.
+03. + Improved the installer and updater to work with mIRC 6.3x's new settings.
+04. ! Removed Winevent.dll, since it caused mIRC 6.3x to crash when quit.
+05. + Changed  balloon tips to make use of mIRC 6.3x's new integrated tips. The
+      tips options can now be changed in ALT+O - Display - Options - Tips....
+06. + Integrated /aw dialog into main /setup.
+07. ! Fixed version check bug when you're offline.
+08. + Rewrote nnrepair.exe in NSIS - easier to maintain.
+09. + You can now put the lag bar and info box (toolbar) in whichever place you
+      want.
+10. ! Fixed some color-code dependant bugs in the MiKeL theme.
+11. + Improved toolbar help button right-click menu.
+12. ! Fixed   mIRC   default  toolbar  being  messed  up  after  disabling  the
+      NoNameScript toolbar.
+13. ! Fixed away preset button in the NoNameScript toolbar.
+14. + Moved some options in the setup to more logical places.
+15. + Improved lag bar performance.
+16. + Changed some lag bar types to be more accurate.
+17. + Changed "text" type lag bar to display your lag in milliseconds, not only
+      "low", "medium", etc..
+18. + Replaced  MD5  with  SHA1 hashing in the script. Also added -s to /finfo,
+      displays SHA1 hash.
+19. * The status bar is back!
+20. ! Fixed a few typos here and there.
+21. + Replaced popups.dll with DCX popups.
+22. ! Fixed font name display bug in the theme editor.
+23. * You can now customize the lag bar border. Four options to choose from.
+24. ! Fixed away popup in toolbar defaults.
+25. ? You're  now  allowed  to  use  control  codes  in away messages. Use them
+      wisely.
+26. ! Fixed a few smaller bugs within the away preset system.
+27. * You  can  now  cache theme script files in the theme engine, which allows
+      for much faster loading times.
+28. ! Fixed  a  few smaller bugs within the theme engine, for example when your
+      nickname is not set.
+29. ! Fixed  splash screen windows flickering in the bottom left corner of your
+      screen.
+30. ! Fixed default tray icon.
+31. + Theme fonts now affect the treebar again.
+32. ! Some theme previews were previously misaligned. Fixed.
+33. ! Fixed sBNC away reason display.
+34. ? Updated command list.
+35. ! Fixed MinIRC switchbar color not resetting.
+36. * Added   a   really   pointless  and  inaccurate  mIRC  benchmarking  tool
+      (/mircbench).
+37. + Updated installer to NSIS 2.31.
+38. * Added  "Tribe",  "BitchX Classic",  "Pastel",  "Peregrine",  "thescript",
+      "Regroup  Esports", "swarfega's NNS theme", "Ecliptica::", "FraGma [e3]",
+      "HotPants",  "Black  and White", "Neptune", "Seeper", "GlaDOS", "Run" and
+      "deviantART"  themes  for  a  total  of 54 themes. Thanks to everyone who
+      posted these on the nnscript.com forums.
+39. ! Fixed a bug regarding Scheme names in the theme engine.
+40. ! Event sounds were not working all of the time.
+41. ! Fixed RSS newstickers sometimes not displaying all of the information.
+42. * You  can  now  use  a  "flipped" version of the Hybrid window arrangement
+      mode. It displays the status window on the top.
+43. + Replaced paction.ini with variables. Faster & less error prone.
+44. + Recoded nnscript.dll in C++.
+45. + New accurate timing method available in Misc. options.
+46. ! Removed the old way of accurate timing, since it caused problems for some
+      users.
+47. ! Fixed an icon display bug in the toolbar setup.
+48. ! Slaps are now sorted alphabetically if you rename them.
+49. ! Fixed Highlight window not always appearing.
+50. ! Fixed  newsticker  window  incorrectly  clearing if "Clear when shown" is
+      enabled.
+
+
+07-08-16: Version 4.1
+---------------------
+01. ! Lots of big and small bugfixes. Too many to list here, sorry.
+02. * Compatibility with mIRC 6.21.
+03. + Many compatibility fixes for Windows Vista (both 32- and 64-bit).
+04. + Recoded toolbar completely to make use of the new mIRC built-in commands.
+      You can now also drag it around etc..
+05. ? Removed custom switchbar in favor of mIRC's own switchbar.
+06. + Recoded and improved many aspects of the theme engine.
+07. + Many  improvements  to  memory/CPU  usage.  The script should now be much
+      lighter on your resources.
+08. * Added support for shroudBNC.
+09. ! The games popup should now properly set you away.
+10. + Added some commands to /cmdlist.
+11. + Re-added the possibility to search the channel log directly via popup.
+12. + Updated the RSS feed list.
+13. + RSS feed news now appear in the correct order.
+14. + Q/L  welcome  messages  on  QuakeNet  are  now shown in the corresponsive
+      channel.
+15. + Added some features to MinIRC.
+16. ! CTCP PING now sends the correct reply.
+17. ! Auto-away  on  idle  should  now correctly work when you are connected to
+      multiple networks.
+18. ? Updated Installer to NSIS 2.29.
+19. ! Fixed  some  bugs  related to non-executables in the custom programs tool
+      and renamed it to "application quicklaunch"
+20. ! Fixed the read error when you click the disconnect button in the toolbar.
+21. + You can now specify parameters in the application quicklaunch tool.
+22. + Auto-ghosting should now be more reliable.
+23. * Added "show input" option to password pop-up dialogs.
+24. + Added  a  workaround  to  prevent mIRC from showing wrong log colors when
+      "Reload logs" is enabled.
+25. ! Fixed a memory leak in nnscript.dll.
+26. ! Fixed a few issues with joining passworded channels.
+27. * You can now enter commands in the wallops window.
+28. * Added a different search method for log files.
+29. * Added a feature for BNC private logs to be displayed in queries.
+30. + Reconnecting to BNCs should now work better (authing etc.).
+31. ! Fixed incorrect mode display after joining.
+32. + Improved behavior of the connect/disconnect button in the toolbar.
+33. + Improved IP2Nick to search for both IP and hostname.
+34. + Channel passwords should now properly be saved and used.
+35. + Updated all themes to make use of the new theme engine features.
+
+
+06-05-14: Version 4.03
+----------------------
+01. ! Fixed the $replace error again :>
+02. ! Fixed some brackets appearing in places they shouldn't.
+03. ! Fixed some treeview switchbar problems.
+04. ! Fixed "set back on keyboard input" bug.
+05. ! Recompiled winevent.dll to remove dependancies.
+06. ! "Take all auto-modes" popup entry has been fixed.
+07. ! Fixed the "Unable to run the file" error message.
+08. ! Fixed "%" being appended to your real name.
+09. ! Some other minor bugfixes.
+
+
+06-03-19: Version 4.02
+----------------------
+01. ? DCCs are no longer auto-accepted by default.
+02. ! /who now correctly works if you aren't /who'ing a channel.
+03. + Improved mass-modes alias a bit.
+04. + Private partial ignore no longer asks you for an ignore time.
+05. + NickServ identify now works if there are bold codes in the string.
+06. + Dialogs now look better when using a custom DPI windows setting.
+07. ! The blacklist completely works again ;=)
+08. ! The full away reason is shown again in your whois.
+09. + "Could  not  connect  to update server" no longer pops up at script start
+      when you're not connected to the internet.
+10. + Added  some more error checking to the theme engine, for example when you
+      deleted/renamed  the  current  theme file (which you really shouldn't) or
+      when other files are missing.
+11. ! MinIRC now changes target when a targetted user changes his nick.
+12. + Added <users> identifier to some events in the theme editor.
+13. ! Away system should now use the correct nickname after reconnecting.
+14. + The amount of balloon tips in the queue is now shown.
+15. ! The script no longer tries to message invalid channels when setting away/
+      returning from away.
+16. ! Fixed the "line too long" errors on netsplits. Really.
+17. + mIRC is now minimized when launching a game.
+18. ! Actions are now correctly displayed in DCC chats.
+19. + Made a few small improvements to the theme preview.
+20. * Added  commands  for  silent  away  and silent back (/saw, /sback). Check
+      /cmdlist for more information.
+21. ! Fixed toolbar rarely showing wrong information about the network.
+22. ! /closemsg now works with the treeview switchbar.
+23. ! Fixed "$replace: invalid parameters" error while using the theme engine.
+24. ! Fixed  certain  windows  disappearing  from the treeview switchbar for no
+      apparent reason.
+25. + Added clones to the nicklist quickinfo.
+26. + Parsing of RSS files is now a bit faster.
+27. ? NoNameScript now requires mIRC 6.17 to operate.
+28. + Many small changes to make the script work better with mIRC 6.17.
+29. ! Right-clicking  on  empty  space  in  the nicklist no longer displays any
+      popup.
+30. * Re-added the ability to write in the wallops window.
+31. ! Fixed  windows not being able to be activated when window arrangement was
+      set to maximized.
+32. + Improved handling of excepts and invites lists in the channel central.
+33. * Re-added /ffxp command for displaying FlashFXP statistics.
+34. * Added  SSL  support  for  the  e-mail  checker  (you  can now check GMail
+      accounts  for  example!),  though mIRC 6.17 seems to be really buggy with
+      this and may crash if you use this feature.
+35. ! Fixed away state/nick/reasons not being saved when changing game names.
+36. ! The  theme engine now correctly displays colored backgrounds from line to
+      line in the preview.
+37. ? Removed emergency CTCP flood protection.
+38. ? Removed  the  status  bar since the DLL that was used to create it is not
+      compatible  with mIRC 6.17. I will re-implement the status bar when a DLL
+      that is compatible with mIRC 6.17 (or later) is released.
+39. + Starting/closing  mIRC  should  now be much faster, especially when anti-
+      virus software is enabled.
+40. + The  treeview  switchbar  should  no  longer freak out if you change mIRC
+      options.
+41. + Some  of the treeview settings are now set through the mIRC options, such
+      as position and width/height. The switchbar can now even be placed on top
+      or at the bottom, though this is kind of pointless :-)
+42. ! Fixed  "/background: invalid parameters" error when using window names as
+      backgrounds.
+43. + Added  -t  switch  to  /cc  (channel central), goes directly to the topic
+      central.
+44. ? Removed  custom  window  icons as they caused a major memory leak in mIRC
+      6.17.
+45. + Added  NoNameScript  3.81-style join stats to the theme engine and themes
+      (topic,  sync time, user stats etc.). This is of course customizable too,
+      so  don't worry if you prefer the old style. I updated all bundled themes
+      to reflect this change. You will need to update your own theme too if you
+      still want to see topics on-join.
+46. + Added possibility to list away presets in a toolbar button dropdown menu.
+47. + The RSS newsticker now fully supports UTF-8 encoded newsfeeds.
+48. + Moved RSS feeds are now automatically redirected.
+49. + Increased indentation of wrapped lines for better readability.
+50. + Updated NSIS (the installer) to version 2.15.
+51. + You  can now do multiple searches in the log viewer without reloading the
+      log again.
+52. + Added popup menu to the channel statistics in the channel central.
+53. * Added a few new themes.
+54. + The  channel  key  is now shown in the channel central when "Hide channel
+      key" is disabled in the mIRC options.
+
+
+06-01-30: Version 4.01
+----------------------
+01. * The  treeview  switchbar  now uses the "Sort buttons" mIRC setting to see
+      if it should be sorted or not.
+02. * You can now change connections in the MinIRC window directly.
+03. * Added a /tview.reload command.
+04. * Added  11:14,  Blue,  Digital,  fiRe,  Frailty, Grey, LookSharp, MidNight
+      Luna, MiKeL, mute, Outpost and Pulsar themes.
+05. * Added a /logviewer alias.
+06. * Added "close query" to personal protection options.
+07. * Added 2 new lagbar graph types.
+08. + Made adding the local time to the away reason optional.
+09. + Improved NickServ identification. Should now always work.
+10. + You  can  now  add  game  favorites in the form of hostnames, not only IP
+      addresses.
+11. + Improved  the  popup  menus  a  lot  (added  blacklist  commands,  /uwho,
+      auto-modes, bot control, etc.)
+12. + Improved the blacklist performance.
+13. + Improved psyBNC detection and handling.
+14. + Log  viewer  does  now  no longer ask if subdirectories should be deleted
+      when there are none.
+15. + Your  nick  coloring settings in ALT+B no longer get overwritten when you
+      load a theme.
+16. ! Games  with  weird characters in their names now correctly show up in the
+      popups.
+17. ! Fixed a bug where you couldn't always click the toolbar buttons.
+18. ! The channel protection now correctly punishes users with voice if "punish
+      voiced" option is enabled.
+19. ! Fixed the * /nick: insufficient parameters error in the away system.
+20. ! Fixed some smaller theme bugs.
+21. ! The  strip  settings  in  the mIRC options no longer strip codes from the
+      theme, only from messages.
+22. ! Fixed  a  bug where channels with unknown modes were not displayed in the
+      whois on some themes.
+23. ! Added the missing alert.wav file.
+24. ! Fixed bug where <type> was not replaced in the personal protections.
+25. ! You  no  longer  get  an  error if you clicked the lagbar and try to type
+      something in a chat window.
+26. ! Caps protection now uses the correct percentage value set in the options.
+27. ! Fixed the * /timer: timer 1 not active error when double-clicking.
+28. ! MinIRC  now works with the treeview disabled and if you joined 2 channels
+      with the same name on different networks.
+29. ! The  "clear  when  shown"  newsticker  option  now  works  when  a single
+      newsticker window is used.
+30. ! Some  raw  messages  that were incorrectly shown in the status window now
+      show up in the correct places, including topics.
+31. ! Channel  modes  like +b and +e are now no longer incorrectly displayed in
+      the channel central.
+32. ! Hopefully   fixed   the   *   /drawrect:   invalid   window  (line  1335,
+      thmengine.nns) error.
+33. ! Fixed a bug in the theme engine where $+'s were not correctly placed.
+34. ! Fixed  a  bug  where  some users could not load most of the themes in the
+      theme engine.
+35. ! Channels  now  get removed from the treeview switchbar when you have been
+      kicked but the channel is still open and you try to close it.
+36. ! Removed  "Close  DCC window" button from treeview popup when there was no
+      DCC selected.
+37. ! AIDLE  messages  now  no  longer  show  up  after you opened a query with
+      yourself.
+38. ? Changed some default settings to reflect most users' personal preferences.
+39. ? Some other minor things you probably won't even notice :)
+40. * Added the option to create HTML log files.
+41. ! Fixed * Invalid parameters: $replacex error in the personal protections.
+42. ! The notify list window now correctly shows up in the treeview switchbar.
+43. ? Channel name backgrounds are now no longer shown in the @MinIRC window.
+44. * Added some more features to the MinIRC popup.
+45. * Added /psys all, posts system information overview.
+46. * Added  <cmecolor>  and <cnickcolor> to themes, allowing you to color more
+      than just the nick after the nick coloring settings.
+47. ? A  double-click  is  now  required for executing commands from the status
+      bar.
+48. ! Statistics  that  are  posted  in  the active window now show the correct
+      numbers.
+49. ! The DCC monitor now posts all sends/gets instead of just the first.
+50. ! <comchannum> should now work correctly in the theme engine.
+51. ! /query now has better error checking.
+52. ? Removed  descriptions for the channel modes in the channel central, since
+      they can be different depending on the network.
+53. * Shift-click now closes items in the treeview switchbar.
+54. ! Spam protection now correctly checks the exclude list before triggering.
+55. ! Hopefully fixed the "line too long" errors on netsplits.
+56. ! You  should  no  longer have non-existing status windows in your treeview
+      switchbar after a connection has been closed.
+57. ! Fixed  nicklist  color  preview in theme editor when edited theme was not
+      loaded.
+58. * Added an option to display a notification when a query is opened.
+59. + The alarm timer now pops up a modal dialog again.
+60. ! E-mail checker now works when the custom toolbar is disabled.
+61. ! Fixed  "No such identifier: $tview.getactive (line 160, tview.nns)" error
+      when the treeview switchbar was disabled.
+62. ? Reduced nnscript.dll size dramatically.
+63. ? Now using a better method to get the font list.
+64. ! A channel called "#" now correctly works in the treeview switchbar.
+65. + Improved  handling  of  multiple  BNC connections, though it is still not
+      officially supported.
+66. + Improved HTML handling of newstickers.
+67. ! Fixed bug in away system where presets were corrupted.
+68. ! Fixed a bug where the setup wouldn't load correctly on Window 98/Me.
+69. ! Fixed /server not always using the correct password.
+70. ! Fixed <comchans> and <comchannum> in whois.
+71. + Increased channel central size for better usability.
+72. * Included a nice-looking tray icon.
+73. ! Balloon tips for new mails now work.
+74. + Personal protections and balloons no longer get triggered by yourself.
+75. + /alarm now accepts parameters again. Type /cmdlist for more information.
+76. + You can now specify non-integer values for the alarm timer.
+77. ! Fixed "TVIEW.APPLYCOLORS" unknown command error.
+78. ! The L channel central no longer tries to add a user to Q.
+79. ! Fixed duplicated game entries.
+80. + Channel names are now shown in the away log on kick and topic events.
+81. + You can now add custom RAWs higher than 600.
+82. ! Channels  are  now  correctly  selected  in  the treeview switchbar after
+      rejoining a channel.
+83. * Added invites (+I) and excepts (+e) to the channel central.
+84. ! Pasting of very long lines now works.
+85. + Made some of the default treeview switchbar icons better recognizable.
+86. * /who  and /names lists should no longer be shown unexpectedly when you're
+      using one of those buggy psyBNCs. :)
+87. * Added custom text triggers back to the balloon tips.
+88. ! Fixed a small bug where balloon tip settings were not correctly applied.
+89. ! You  can now correctly add favorites to your games via double-clicking on
+      an IP address.
+
+
+06-01-22: Version 4.0
+---------------------
+Way too many to list here. Just check out the script and find out for yourself.
+
+
+End of file.

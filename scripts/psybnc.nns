@@ -1,0 +1,437 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - psyBNC control - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias psybnc {
+  if (%psybnc.info. [ $+ [ $cid ] ]) { noop $dialog(psybnc,psybnc,-4) }
+  else { errdialog you can only open the psyBNC control when the active connection is connected to a supported psyBNC! }
+}
+dialog psybnc {
+  title "psyBNC control [/psybnc]"
+  size -1 -1 397 328
+  option pixels
+  icon scripts\pics\nntray.ico
+  tab "General", 1, 4 6 388 292
+  box "General options", 32, 12 32 374 162, tab 1
+  text "Set virtual host to", 15, 40 52 90 16, tab 1
+  edit "", 16, 146 48 170 22, tab 1 autohs limit 100
+  button "&Set!", 3, 318 48 60 22, disable tab 1
+  text "Change auto-rejoin channels when going online:", 5, 40 76 238 14, tab 1
+  button "&Set...", 41, 318 72 60 22, tab 1
+  text "Change anti-idle:", 8, 40 100 86 14, tab 1
+  button "&Set...", 42, 318 96 60 22, tab 1
+  text "Change DCCs direct connections:", 11, 40 124 168 14, tab 1
+  button "Set...", 43, 318 120 60 22, tab 1
+  text "Change password", 52, 40 148 92 16, tab 1
+  button "Set...", 53, 318 144 60 22, tab 1
+  check "&Auto-play private logs when available", 7, 22 168 198 18, tab 1
+  check "&Open queries for log", 71, 228 168 155 18, tab 1
+  text "Set leave text to", 9, 40 218 86 16, tab 1
+  edit "", 21, 146 214 170 22, tab 1 autohs limit 100
+  button "&Set!", 20, 318 214 60 22, tab 1
+  text "Set away text to", 13, 40 240 86 16, tab 1
+  edit "", 23, 146 236 170 22, tab 1 autohs limit 100
+  button "&Set!", 22, 318 236 60 22, tab 1
+  text "Set offline nick to", 17, 40 262 86 16, tab 1
+  edit "", 25, 146 258 170 22, tab 1 autohs limit 30
+  button "&Set!", 24, 318 258 60 22, tab 1
+  box "Offline options", 31, 12 198 374 88, tab 1
+  tab "Connection", 2
+  box "Connection options", 40, 12 232 374 54, tab 2
+  box "Servers", 46, 12 32 374 196, tab 2
+  list 47, 20 48 280 172, disable tab 2 size vsbar
+  button "&Add", 44, 304 50 74 24, tab 2
+  button "&Remove", 48, 304 78 74 24, disable tab 2
+  button "Co&nnect to server", 50, 24 250 114 24, tab 2
+  button "&Quit connection", 49, 142 250 114 24, tab 2
+  button "R&econnect", 51, 260 250 114 24, tab 2
+  tab "Admin control", 12
+  box "Users on your bouncer (right-click for options)", 35, 12 32 374 254, tab 12
+  list 28, 20 47 358 230, disable tab 12 size
+  tab "Info", 39
+  box "psyBNC connection status", 33, 12 32 374 92, tab 39
+  text "Connection status", 29, 22 52 94 14, tab 39
+  edit "", 30, 176 48 202 22, tab 39 read autohs
+  edit "", 26, 176 70 202 22, tab 39 read autohs
+  edit "", 27, 176 92 202 22, tab 39 read autohs
+  text "Version", 18, 22 96 42 14, tab 39
+  text "Server", 14, 22 74 38 14, tab 39
+  box "Misc. info", 38, 12 130 374 70, tab 39
+  text "Users on the BNC", 34, 22 150 90 14, tab 39
+  text "Time connected", 37, 22 172 82 14, tab 39
+  edit "", 10, 176 146 202 22, tab 39 read autohs
+  edit "", 36, 176 168 202 22, tab 39 read autohs
+  link "Official psyBNC homepage", 45, 14 220 132 16, tab 39
+  button "C&ommand list", 6, 4 300 80 24
+  button "&Close", 4, 313 300 80 24, ok
+}
+dialog psybnc.addserver {
+  title "Add psyBNC server"
+  size -1 -1 256 148
+  option pixels
+  icon scripts\pics\nntray.ico
+  box "Add server to psyBNC", 1, 4 2 248 112
+  button "&Ok", 2, 88 120 80 24
+  button "&Cancel", 3, 172 120 80 24, cancel
+  edit "", 4, 84 18 160 22, autohs limit 80
+  edit "6667", 5, 84 40 160 22, autohs limit 5
+  edit "", 6, 84 62 160 22, pass autohs limit 50
+  text "Server", 7, 14 22 38 14
+  text "Port", 8, 14 44 26 14
+  text "Password", 9, 14 66 52 14
+  check "SSL connection", 10, 14 88 100 18
+}
+on *:dialog:psybnc.addserver:*:*:{
+  if ($devent == sclick) {
+    if ($did == 2) {
+      if (?*.??* !iswm $did(4)) { errdialog you did not enter a valid server address. }
+      else {
+        dialog -x $dname
+        .raw addserver $iif($did(10).state,S=) $+ $did(4) : $+ $iif($did(5) isnum 1-65535,$v1,6667) $did(6)
+        psybnc.getservers
+      }
+    }
+  }
+  elseif ($devent == edit) && ($did == 5) { numonlyedit $dname $did }
+}
+dialog psybnc.adduser {
+  title "Add psyBNC user"
+  size -1 -1 256 106
+  option pixels
+  icon scripts\pics\nntray.ico
+  box "Add user to psyBNC", 1, 4 2 248 70
+  button "&Ok", 2, 88 78 80 24
+  button "&Cancel", 3, 172 78 80 24, cancel
+  edit "", 4, 84 18 160 22, autohs limit 8
+  edit "", 5, 84 40 160 22, autohs limit 30
+  text "Login", 7, 14 22 32 14
+  text "Username", 8, 14 44 54 14
+}
+on *:dialog:psybnc.adduser:*:*:{
+  if ($devent == sclick) {
+    if ($did == 2) {
+      var %l = $remove($did(4),$chr(32)),%u = $remove($did(5),$chr(32))
+      if (!%l) || (!%u) { errdialog you did not enter a login and username. }
+      else {
+        dialog -x $dname
+        .raw adduser %l : $+ %u
+        psybnc.getusers
+      }
+    }
+  }
+}
+alias psybnc.adduser { noop $dialog(psybnc.adduser,psybnc.adduser,-4) }
+alias psybnc.getservers {
+  did -rb psybnc 47
+  set -u60 %psybnc.getservers 1
+  .raw LISTSERVERS
+}
+alias psybnc.getusers {
+  did -rb psybnc 28
+  did -ra psybnc 10 unknown
+  set -u60 %psybnc.bwhoprog 1
+  .raw BWHO
+}
+alias psybnc.refcontime {
+  if ($dialog(psybnc)) { did -ra $v1 36 $uptime(server,1) }
+  else { .timerpsybnc.refcontime off }
+}
+alias psybnc.refinfo {
+  tokenize 32 %psybnc.info. [ $+ [ $cid ] ]
+  did -ra psybnc 30 connected
+  did -ra psybnc 26 $1
+  did -ra psybnc 27 $2
+}
+on *:dialog:psybnc:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 28 ListView report showsel single infotip rowselect > $mdxfile(views)
+    did -i $dname 28 1 headerdims 20:1 70:2 70:3 90:4 90:5 90:6
+    did -i $dname 28 1 headertext + 0 Status	+ 0 User	+ 0 Nickname	+ 0 Server	+ 0 Real name	+ 0 Last connect
+    did -i $dname 28 1 settxt bgcolor none
+    did -a $dname 26 $1
+    did -a $dname 27 $2
+    did -a $dname 30 Connected!
+    set %psybnc.cid $cid
+    if (%psybnc.autoplayprivlog) { did -c $dname 7 }
+    if (%psybnc.logqueries) { did -c $dname 71 }
+    psybnc.getusers
+    psybnc.getservers
+    psybnc.refcontime
+    psybnc.refinfo
+    .timerpsybnc.refcontime -io 0 1 psybnc.refcontime
+  }
+  elseif ($devent == sclick) {
+    if ($did == 47) { did $iif($did($did).sel,-e,-b) $dname 48 }
+    elseif ($did == 44) { noop $dialog(psybnc.addserver,psybnc.addserver,-4) }
+    elseif ($did == 48) {
+      .raw delserver $gettok($did(47).seltext,2,160)
+      did -b $dname 48
+      psybnc.getservers
+    }
+    elseif ($did == 50) { if ($ydialog(Do you really want to connect to the server?)) { .raw bconnect } }
+    elseif ($did == 49) { if ($ydialog(Do you really want to quit the connection to the server?)) { .raw bquit } }
+    elseif ($did == 51) { if ($ydialog(Do you really want to reconnect?)) { .raw jump } }
+    elseif ($did == 6) { cmdlist -b }
+    elseif ($did == 53) {
+      .raw password $+($ident,:,$$epdialog(Please enter a new password.))
+      idialog Password change requested.
+    }
+    elseif ($did == 20) {
+      .raw setleavemsg $did(21)
+      idialog Leave message $iif($did(21),set to $v1,unset) $+ !
+    }
+    elseif ($did == 22) {
+      .raw setaway $did(23)
+      idialog Away text $iif($did(23),set to $v1,unset) $+ !
+    }
+    elseif ($did == 24) {
+      .raw setawaynick $did(25)
+      idialog Offline nick $iif($did(25),set to $v1,unset) $+ !
+    }
+    elseif ($did == 7) { sdt psybnc.autoplayprivlog }
+    elseif ($did == 71) { sdt psybnc.logqueries }
+    elseif ($did == 41) {
+      popdll.new
+      popdll.add 1	+ 1 0 &Enablepsybnc.setoption autorejoin 1
+      popdll.add 2	+ 2 0 &Disablepsybnc.setoption autorejoin 0
+      popdll.disp
+    }
+    elseif ($did == 42) {
+      popdll.new
+      popdll.add 1	+ 1 0 &Enablepsybnc.setoption aidle 1
+      popdll.add 2	+ 2 0 &Disablepsybnc.setoption aidle 0
+      popdll.disp
+    }
+    elseif ($did == 43) {
+      popdll.new
+      popdll.add 1	+ 1 0 &Enablepsybnc.setoption dccenable 1
+      popdll.add 2	+ 2 0 &Disablepsybnc.setoption dccenable 0
+      popdll.disp
+    }
+    elseif ($did == 3) {
+      .raw bvhost $did(16)
+      idialog Vhost set to $did(16) $+ !
+    }
+    elseif ($did == 28) {
+      if (rclick * iswm $did($did,1)) {
+        var %u = $cell($did,2),%n = $cell($did,3)
+        popdll.new
+        popdll.add 1	+g 1 0 $iif($did($did).sel,$shorten(15,%u),psyBNC users) $+ :
+        popdll.add 2	+ 2 0 -
+        popdll.add 3	 $+ $iif($did($did).sel,+s,+sg) 3 0 &Admin status
+        popdll.add 3 1	+ 4 0 &Give admin statuspsybnc.adminoption madmin %u
+        popdll.add 3 2	+ 5 0 &Take admin statuspsybnc.adminoption unadmin %u
+        popdll.add 4	 $+ $iif($did($did).sel,+,+g) 6 0 &Change password...psybnc.changepass %u
+        popdll.add 5	 $+ $iif($did($did).sel,+,+g) 7 0 &Whoiswe %n
+        popdll.add 6	+ 8 0 -
+        popdll.add 7	+s 9 0 &User
+        popdll.add 7 1	+ 10 0 &Add user...psybnc.adduser
+        popdll.add 7 2	 $+ $iif($did($did).sel,+,+g) 11 0 &Delete userpsybnc.adminoption deluser %u
+        popdll.add 7 3	+ 12 0 -
+        popdll.add 7 4	 $+ $iif($did($did).sel,+,+g) 13 0 &Kill userpsybnc.adminoption bkill %u
+        popdll.add 8	+ 14 0 -
+        popdll.add 9	+ 15 0 &Refresh listpsybnc.getusers
+        popdll.disp
+      }
+      else { sortmdx $dname $did }
+    }
+    elseif ($did == 45) { url -n http://www.psybnc.info/ }
+  }
+  elseif ($devent == edit) {
+    if ($did == 16) { did $iif($did($did) != $null,-e,-b) $dname 3 }
+  }
+  elseif ($devent == close) { unset %psybnc.cid }
+}
+alias psybnc.changepass { .raw password $1 : $+ $$epdialog(Please enter a new password for the user $1 $+ .) }
+alias psybnc.adminoption {
+  .raw $1-
+  psybnc.getusers
+}
+alias psybnc.setoption {
+  .raw $1-
+  idialog $replace($1,autorejoin,Auto-rejoin,aidle,Anti-idle,dccenable,Direct DCC sends) $iif($2,enabled!,disabled!)
+}
+on *:join:#:{
+  if (%psybnc.info. [ $+ [ $cid ] ]) && ((~ isin $chan) || (' isin $chan)) {
+    if (!%psybnc.mconwarn) {
+      set %psybnc.mconwarn 1
+      .timer 1 0 idialog Warning: you appear to be using a psyBNC connection to multiple networks, which is not supported by NNScript. This may result in unwanted side-effects. This message is only shown once.
+    }
+  }
+}
+on ^*:text:*:?:{
+  if ($psybnc.nick($nick)  && (%psybnc.info. [ $+ [ $cid ] ])) {
+    psybnc.textevent $1-
+    if (??? ??? ?* ??:??:?? :Nutzer $ident *wurde getrennt* iswm $1-) || (??? ??? ?* ??:??:?? :User $ident *got disconnected* iswm $1-) {
+      .signal -n disconnect -b
+      echo -sti12c info * Bouncer disconnected from server
+    }
+    elseif (??? ??? ?* ??:??:?? :Nutzer $ident *verbunden zu * iswm $1-) || (??? ??? ?* ??:??:?? :User $ident *connected to * iswm $1-) { echo -sti12c info * Bouncer successfully connected you to the server! }
+    elseif (??? ??? ?* ??:??:?? :Nutzer $ident *versucht ?*.?* port ?*. iswm $1-) || (??? ??? ?* ??:??:?? :User $ident *trying ?*.?* port ?*. iswm $1-) { echo -sti12c info * Bouncer redirects you to $9 $+ / $+ $11 }
+  }
+}
+on ^*:open:?:{ if ($psybnc.nick($nick)  && (%psybnc.info. [ $+ [ $cid ] ]))  { psybnc.textevent $1- } }
+alias psybnc.textevent {
+  if ($dialog(psybnc)) {
+    psybnc.addbwho $1-
+    if ($1- == Only admins may use that command.) || ($1- == Nur Admins duerfen diesen Befehl nutzen.) {
+      .timer 1 0 errdialog only admins may use that command.
+      haltdef
+    }
+  }
+  if (%psybnc.getservers) {
+    if ($dialog(psybnc)) && ($regex(gserv,$1-,/^Server #(\d+): (.+) port (\d+)$/i)) {
+      did -a psybnc 47 $+($regml(gserv,2),:,$regml(gserv,3),$str($chr(160),200),$regml(gserv,1))
+      haltdef
+    }
+    if ($1- == End of Servers.) || ($1- == Ende der Server.) {
+      if ($dialog(psybnc)) { did -e $v1 47 }
+      unset %psybnc.getservers
+      haltdef
+    }
+  }
+  psybnc.pvloghandler $1-
+}
+on ^*:notice:*:?:{
+  if ($psybnc.nick($nick)  && (%psybnc.info. [ $+ [ $cid ] ])) {
+    if ($dialog(psybnc)) { psybnc.addbwho $1- }
+    psybnc.pvloghandler $1-
+  }
+  if ($istok(Welcome Wilkommen,$nick,32)) && (psyBNC* iswm $1) && (!%psybnc.info. [ $+ [ $cid ] ]) {
+    set -u60 %psybnc.modehide. $+ $cid 1
+    set %psybnc.info. $+ $cid $+($server,:,$port) $remove($mid($1,7),$chr(32))
+    mode $me
+    if (psyBNC2.3* !iswm $1) && (!%psybnc.warned) {
+      .timer 1 0 errdialog you are connected to $1 $+ , however, this script was intended for use with psyBNC2.3.* only. The psyBNC features are still usable, but may not all work as expected. This warning is only shown once.
+      set %psybnc.warned 1
+    }
+  }
+}
+raw 221:*:{
+  if (%psybnc.modehide. [ $+ [ $cid ] ]) {
+    unset %psybnc.modehide. $+ $cid
+    haltdef
+  }
+}
+alias psybnc.pvloghandler {
+  var %w = $specialcidwin(BNCPrivLog)
+  if (($1- == You have Messages. Type /QUOTE PLAYPRIVATELOG to read your messages.) || (Du hast Nachrichten. *PLAYPRIVATELOG* zu lesen. iswm $1-)) && (%psybnc.autoplayprivlog) {
+    psybnc.getprivlog
+    haltdef
+  }
+  elseif ($1- == Starting playing Log) || ($1- == Starte Wiedergabe des Logs) {
+    if (!$window(%w)) { window -k0 %w }
+    else { clear %w }
+    thmecho %w Getting psyBNC private log... please wait.
+    echo %w 
+    if (%psybnc.logqueries) { thmecho %w Outputting private logs to queries... }
+    set %psybnc.messages. $+ $cid 0
+    .timerpsybnc.privlog.timeout.countdown. $+ $cid off
+    .timerpsybnc.privlog.timeout. $+ $cid off
+    set %psybnc.getprivlog. $+ $cid 1
+    haltdef
+  }
+  elseif ($1- == Log geloescht) || ($1- == Log erased) {
+    thmecho -a psyBNC privatelog erased!
+    haltdef
+  }
+  elseif ($1- == You have no new Messages.) || ($1- == Du hast keine neuen Nachrichten.) {
+    thmecho -a no new messages in your private log!
+    haltdef
+  }
+  elseif (%psybnc.getprivlog. [ $+ [ $cid ] ]) && (%w) {
+    psybnc.addpvlog $1-
+    haltdef
+  }
+}
+alias psybnc.addpvlog {
+  var %w = $specialcidwin(BNCPrivLog)
+  if ($1- == Use ERASEPRIVATELOG to kill the log) || ($1- == Verwende ERASEPRIVATELOG, um das Log zu loeschen) {
+    aline %w 
+    var %x = %psybnc.messages. [ $+ [ $cid ] ]
+    thmecho %w Done retrieving $thmhl(%x) $iif(%x == 1,message.,messages.)
+    unset %psybnc.messages. $+ $cid
+    unset %psybnc.getprivlog. $+ $cid
+  }
+  ;VOKS SAGT ICH SOLL DAS CODEN OHNE ZU TESTEN
+  elseif ($regex(pvlog,$1-,/^(?:[^ ]+[\~\'])?[a-z]{3} ([a-z]{3} \d\d?) (\d\d?:\d\d:\d\d) :\(([^ ]+)!([^ ]+@[^ ]+)\) (.+)$/i)) { 
+    if (%psybnc.logqueries) {
+      if ($window($regml(pvlog,3),1).type != query) { query_log $regml(pvlog,3) psyBNC }
+      thmecho $regml(pvlog,3) $asctime($ctime($regml(pvlog,1) $asctime(yyyy) $regml(pvlog,2)),%timeformat) $+ :  $+ $regml(pvlog,3) $+  $nbr($regml(pvlog,4)) $+ : $regml(pvlog,5) 
+    }
+    else {
+      thmecho %w $asctime($ctime($regml(pvlog,1) $asctime(yyyy) $regml(pvlog,2)),%timeformat) $+ :  $+ $regml(pvlog,3) $+  $nbr($regml(pvlog,4)) $+ : $regml(pvlog,5) 
+    }
+    inc %psybnc.messages. $+ $cid
+  }
+}
+alias psybnc.addbwho {
+  if (%psybnc.bwhoprog) {
+    if ($regex(bwho,$1-,/^(.? )?(.+)\((.+)\)(.*) \[(.+)\] :(.+)$/i)) {
+      if ($regml(bwho,6)) { var %t = $regml(bwho,1),%i = $regml(bwho,2),%n = $regml(bwho,3),%h = $regml(bwho,4),%s = $regml(bwho,5),%r = $regml(bwho,6),%l }
+      else { var %t,%i = $regml(bwho,1),%n = $regml(bwho,2),%h = $regml(bwho,3),%s = $regml(bwho,4),%r = $regml(bwho,5),%l }
+      if ($regex(last,%r,^(.+) \[(?:zuletzt|last):(.*) \]$)) { var %r = $regml(last,1),%l = $regml(last,2) }
+      var %h = $mid(%h,2),%s = $gettok(t $+ %s,2-,58)
+      did -a psybnc 28 0 + 0 0 0 %t $+ 	+ 0 0 0 %i $+ 	+ 0 0 0 %n $+ 	+ 0 0 0 $iif(%s,%s,unknown) $+ 	+ 0 0 0 $strip(%r) $+ 	+ 0 0 0 $iif(%l,%l,unknown)
+      .timerusbwho -o 1 2 psybnc.unsetbwho
+      did -ra psybnc 10 $calc($did(psybnc,28).lines -1)
+      haltdef
+    }
+  }
+}
+alias psybnc.unsetbwho {
+  unset %psybnc.bwhoprog
+  if ($dialog(psybnc)) { did -e $v1 28 }
+}
+alias psybnc.getprivlog {
+  if (%psybnc.info. [ $+ [ $cid ] ]) {
+    if (!%psybnc.logqueries) {
+      var %w = $specialcidwin(BNCPrivLog)
+      if ($window(%w)) {
+        clear %w
+        window -a %w
+      }
+      else { window -k0 %w }
+      thmecho %w Getting psyBNC private log... please wait.
+      echo %w 
+    }
+    .timerpsybnc.privlog.timeout. $+ $cid 1 4 psybnc.privlog.timeout
+    .raw playprivatelog
+  }
+  else { thmerror -a You're not connected to psyBNC! }
+}
+alias psybnc.privlog.timeout {
+  var %w = $specialcidwin(BNCPrivLog)
+  unset %psybnc.getprivlog. $+ $cid
+  if ($window(%w)) && ($line(%w,0) == 2) { thmecho %w Timed out / no new messages. }
+}
+menu @bncprivlog[*] {
+  $style(2) $shorten(15,$active) $+ $chr(58):return
+  -
+  Refresh:psybnc.getprivlog
+  $iif($line($active,0) < 4 || !%psybnc.info. [ $+ [ $cid ] ],$style(2)) Erase log {
+    if ($ydialog(Really delete the psyBNC log?)) {
+      .raw eraseprivatelog
+      close -@ $specialcidwin(BNCPrivLog)
+    }
+  }
+  $iif($line($active,0) < 4,$style(2)) Save log... {
+    var %f = $mkfullfn($$sfile($+(C:\psyBNC_,$iif($me,$me $+ _),$asctime(yyyy-mm-dd),.log),Where do you want to save the log?,Save)),%x = 1,%i = $line($active,0)
+    if (!$isfile(%f)) || ($ydialog(The file %f already exists. Overwrite?)) {
+      .fopen -o log %f
+      while (%x <= %i) {
+        if ($strip($line($active,%x))) { .fwrite -n log $v1 }
+        else { .fwrite log $crlf }
+        inc %x
+      }
+      .fclose log
+      idialog Log saved to %f $+ .
+    }
+  }
+  -
+  Close:close -@ $active
+}
+alias psybnc.nick { if ($istok(-psyBNC -bouncer -bnc www.psybnc.info,$1-,32)) { return 1 } }
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

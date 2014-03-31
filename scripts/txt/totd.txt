@@ -1,0 +1,33 @@
+Are you bad at thinking of passwords? Type /createpass to let the script create a random password for you.
+Are you in doubt of taking this girl you know out on a date? Are you nervous because you don't know if you'll get a good grade at the next exam? The 8-ball will tell you: /8ball <question>
+Ever wondered how to do this or that with NoNameScript, the Q/X bots or your bouncer? /cmdlist has a list of all the available commands.
+greeny sucks at writing "tip of the day"'s.
+If you are using NTFS and are paranoid when it comes to your passwords, you can additionaly encrypt the \scripts\vars.nns file in Windows Explorer for even more security.
+If you changed something in the mIRC options and it doesn't work immediately, try typing /thmupd.
+If you got a problem with the script, try to search for an answer in the commonly frequented NoNameScript forums at http://www.nnscript.de/forum/! You can also make suggestions for future releases or tell us how you like the script there.
+If you got questions, there are always people in #nnscript on irc.quakenet.org to help you out.
+If you have a slow machine and the script takes up too much CPU load or RAM, try turning off some features. Here are a few suggestions: Turn off balloon tips. Turn off the channel protections if they aren't needed. Turn off auto-away on idle. Turn off automatic log-loading in new windows. Turn off all newstickers. Part big channels.
+If you notice a bug, tell us immediately! We constantly try to improve the script by fixing bugs and adding features. You can do so in the forums or #nnscript on QuakeNet.
+Never enter any command a person you do not fully trust wants you to enter! You might be at risk of your passwords, files and more!
+NoNameScript 1.0 was first released in 1999 and coded by mute only.
+NoNameScript 4 consists of over 20,000 lines of code (~800KB plain text).
+NoNameScript has a feature-rich clipboard editor! Type /cbedit to use it.
+NoNameScript is the most used script on the largest IRC network in the world (QuakeNet).
+The blacklist is used to kickban matching users out of all channels you're opped. This should keep your worst enemies away from you. Type /black to open it.
+The first version of mIRC was v2.1a and was released 28/02/1995.
+There is an easter-egg hidden in the script. It's not easy to find, you may have to take a deeper look ;)
+To add IRC networks to the auto-connect and favorite server lists, just add them through mIRC in ALT+O, Connect, Add. Be sure to fill out the "Group" editbox for it to work.
+Using the /alarm timer, you will never get a burnt pizza again.
+Visit http://www.bash.org for funny IRC quotes. You will laugh till your stomach aches. I promise.
+Want to connect to more than one network? The favorite nets section in the setup allows you to add as many networks as you like.
+You can always get the latest servers.ini for mIRC at www.mirc.co.uk/servers.ini to keep your server list up-to-date.
+You can easily create your own themes in the /themes dialog. If you created a nice theme, be sure to make it public on the NoNameScript forums (/forum)!
+You can let the script automatically arrange your windows. Type /winarr for a setup.
+You can load a different theme with each start of NoNameScript? Just go to the theme settings and select "Load random theme at startup".
+You can press shift while connecting to prevent the perform list from executing!
+You can type /acro <acronym> to look up an acronym's meaning.
+You can type /rundcc to run the last DCC get you received.
+You can type /wiki <text> or /google <text> to look something up on Wikipedia or Google.
+You can use pipes (|) in F-key bindings to perform multiple commands with the press of a button.
+Use /surl to paste the website you're currently browsing.
+If you want NoNameScript to generate a secure password for you, type /createpass [length].

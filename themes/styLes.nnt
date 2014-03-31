@@ -1,0 +1,146 @@
+Name styLes
+Version 1.2
+NNTVersion 1.03
+Author tifi & barny
+Email tifi@asia.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font Verdana
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 14HH07:14nn07:14ss
+
+NickColSelf 5
+NickColOp 7
+NickColVoice 15
+NickColRegular 14
+NickColProtect none
+NickColIgnore 4
+
+Brackets 07(<text>07)
+LineSep 07•››››››››››››››››››››››››››››››››››››››››››››››››››››››››››››› ››››› ››› ›› › › ›
+Prefix 07•››
+
+GenEcho <pre>14 <text>
+GenError <pre> 07E14rror07:15 <text>
+GenHighlight 07(<text>07)
+
+ChanText 07| 07<cmode>15<nick>07: <text>
+ChanTextOwn 07| 07<cmode>00<me>07: <text>
+ChanAction 07| <cmode><nick> <text>
+ChanActionOwn 07| <cmode>15<me> <text>
+
+QueryText 07| 15<nick>07: <text>
+QueryTextOwn 07| 00<me>07: <text>
+QueryAction 07| <nick> <text>
+QueryActionOwn 07|15 <me> <text>
+
+Msg 07» 15<nick>07!14 $+ $replace(<address>,@,07@14,.,07.14) $+ 07: <text>
+MsgOwn 07» 15<target> 07<gt> <text>
+Action 07» 15<nick>07!14 $+ $replace(<address>,@,07@14,.,07.14) <text>
+ActionOwn 07» 15<target> 07<gt>15 <me> <text>
+
+ChanNotice 07-<cmode>15<nick>07:15<chan>07- <text>
+Notice 07-15<nick>07- <text>
+NoticeOwn <pre> 07-15<target>07- <text>
+ServerNotice <pre> 07-14<server>07- <text>
+
+CTCP 07?15<nick>07? 15<ctcp> 14<text>
+CTCPOwn 07¿15<target>07¿ 15<ctcp> 14<text>
+ChanCTCP 07?15<nick>07:15<chan>07? 15<ctcp> 14<text>
+CTCPReply 07¡15<nick>07¡ 15<ctcp> 14<text>
+CTCPReplyOwn 07!15<target>07! 15<ctcp> 14<text>
+
+Join <pre> 07J14oin07: 15<nick> 07(14 $+ $replace(<address>,@,07@14,~,07~14,.,07.14,-,07-14) $+ 07)
+JoinOwn <pre> 07J14oined07: 15<chan>!if <topic> <pre> 07T14opic07:15 <topic>!if <topic> <pre> 07T14opic set by07:15 <topicnick> 14on15 <topicdate>
+Part <pre> 07P14art07: 15<nick> 07(14 $+ $replace(<address>,@,07@14,~,07~14,.,07.14,-,07-14) $+ 07) <message brackets="1">
+Quit <pre> 07Q14uit07: 15<nick> 07(14 $+ $replace(<address>,@,07@14,~,07~14,.,07.14,-,07-14) $+ 07) <message brackets="1">
+Nick <pre> 07N14ick07: 15<nick> 14renamed to 15<newnick>
+NickOwn <pre> 07N14ick07: 15<nick> 14renamed to 15<newnick>
+Mode <pre> 07M14ode07: 15<nick> 07› <mode>
+UserMode <pre> 07U14serMode07: <mode>
+Kick <pre> 07K14ick07: 14<nick> 07› 15<kickednick> <message brackets="1">
+KickOwn <pre> 07K14ick07: 15<nick> 07›00 <me> <message brackets="1">
+WallOp 07| W14allop07: (<nick>07)15 <text>
+
+DNS <pre> 07D14NS07:15 $replace(<address>,.,07.15,-,07-15) 14...
+DNSError <pre> 07D14NS-07E14rror07:15 $replace(<address>,.,07.15,-,07-15)
+DNSResolve <pre> 07D14NS-07R14esolve07:15 $replace(<address>,.,07.15,-,07-15) 14is15 $replace(<raddress>,.,07.15,-,07-15)
+
+Notify <pre> 07N14otify07: 15<nick> 14is now 15online 14...
+UnNotify <pre> 07N14otify07: 15<nick> 14is now 15offline 14...
+
+LUsers1 <pre> 07L14users07:14 There are <users brackets="1"> 14users and <invisible brackets="1"> 14invisible on <servers brackets="1"> 14servers
+LUsers2 <pre> 07L14users07:14 There are/is <operators brackets="1"> 14operator/s online
+LUsers3 <pre> 07L14users07:14 There are/is <connections brackets="1"> 14unknown connection/s
+LUsers4 <pre> 07L14users07:14 There are <channels brackets="1"> 14channels formed
+LUsers5 <pre> 07L14users07:14 I have <clients brackets="1"> 14clients and <servers brackets="1"> 14servers
+
+Welcome1 <pre> 07W14elcome to IRC,15 <nick>
+Welcome2 <pre> 07Y14our host is15 $replace(<host>,.,07.15,-,07-15) 14running version15 $replace(<version>,.,14.15,-,07-15,+,07+15,$chr(40),$+(07,$chr(40),15),$chr(41),$+(07,$chr(41),15))
+Welcome3 <pre> 07S14erver created on07:15 <created>
+Welcome4 <pre> 07S14erver07:15 $replace(<server>,.,07.15,-,07-15) 14running version15 $replace(<version>,.,14.15,-,07-15,+,07+15,$chr(40),$+(07,$chr(40),15),$chr(41),$+(07,$chr(41),15)) 14supporting usermodes:15 <usermodes> 14and channelmodes15 <chanmodes>
+SupportedInfo <pre> 07S14upported by this server07:15 $replace(<protocols>,=,07=15)
+
+ChannelModes <pre> 07M14odes <chan brackets="1">07:15 <modes>
+ChannelCreation <pre> 07C14hannel created <chan brackets="1">07:15 <created>
+Bans <pre> 07B14an07:15 $replace(<ban>,!,07!15,@,07@15,~,07~15,.,07.15,-,07-15) banned at15 <banned> by15 <nick>
+BansEnd <pre> 07B14ans <chan brackets="1">07:14 end of list
+UnableToSend <pre> 07U14nable to send message to15 <chan>14!
+NotOpped <pre> 07Y14ou're not opped on07:15 <chan>
+HiddenHost <pre> 07H14idden host07:15 $replace(<host>,.,07.15,-,07-15)
+RegisterFirst <pre> 07R14egister first!
+
+WhoisStart 07•›››››››››››››››››››››››››››› ( /whois 07) ››››››››››››››››››››››› ››››› ››› ›› › › ›
+WhoisAddress 07| <pre> 00<nick>15 is 07"15<name>07" $replace(<address brackets="1">,$chr(35),14 $+ $chr(35) $+ ,@,07@,~,07~,.,07.,-,07-)
+WhoisChans 07| <pre> 01<nick>15 is on $replace(<chans>,$chr(35),14 $+ $chr(35) $+ 15,@,07@,%,07%,+,07+,.,07.,-,07-)
+WhoisServer 07| <pre> 01<nick>15 is using $replace(<server> <info brackets="1">,$chr(35),14 $+ $chr(35) $+ ,@,07@,%,07%,+,07+,.,07.,-,07-)
+WhoisStatus 07| <pre> 01<nick>15 is <status>
+WhoisAway 07| <pre> 01<nick>15 is away07:15 <reason>
+WhoisAuth 07| <pre> 01<nick>15 is authed07:15 <auth>
+WhoisRealIP 07| <pre> 01<nick>15 really is07: $replace(<address> <ip brackets="1">,$chr(35),14 $+ $chr(35) $+ ,@,07@,~,07~,.,07.,-,07-)
+WhoisIdle 07| <pre> 01<nick>15 is idle07:15 <idle>07| <pre> 01<nick>15 is online since07:15 <signonago>
+WhoisEnd 07•›››››››››››››››››››››››››››› ( /whois end 07) ›››››››››››››››››› ››››› ››› ›› › › ›
+
+WhowasStart 07•›››››››››››››››››››››››››››› ( /whowas 07) ›››››››››››››››››››››› ››››› ››› ›› › › ›
+WhowasAddress 07| <pre> 00<nick>15 was 07"15<name>07" $replace(<address brackets="1">,$chr(35),14 $+ $chr(35) $+ ,@,07@,~,07~,.,07.,-,07-)
+WhowasServer 07| <pre> 01<nick>15 was using $replace(<server> <info brackets="1">,$chr(35),14 $+ $chr(35) $+ ,@,07@,%,07%,+,07+,.,07.,-,07-)
+WhowasAway 07| <pre> 01<nick>15 was away07:15 <reason>
+WhowasEnd 07•›››››››››››››››››››››››››››› ( /whowas end 07) ››››››››››››››››› ››››› ››› ›› › › ›
+
+Who <pre> 07/14who07: $replace(15<nick>07!15<address> 14on15 <chan> 14using15 <server>14 $+ $chr(44) realname is15 <name>,@,07@15,~,07~15,.,07.15,-,07-15)
+WhoEnd <pre> 07/14who end <target brackets="1">
+
+Invite <pre> 07I14nvite07: 15<nick> 07›15 <chan>
+InviteOwn <pre> 07I14nvited07: 15<nick> 07›15 <chan>
+InviteAlreadyOnChan <pre> 07I14nvite07: 15<nick>14 is alread on15 <chan>
+
+NoTopic 07N14o topic set07:15 <chan>
+Topic <pre> 07T14opic07:15 <topic>
+TopicBy <pre> 07T14opic set by07:15 <nick> 14on15 <date>
+TopicChange <pre> 07T14opic07: 15<nick> 07› <topic>
+
+Names <pre> 07/14names <chan brackets="1">07:15 $replace(<names>,@,07@15,%,07%15,+,07+15)
+NamesEnd <pre> 07/14names end <chan brackets="1">
+
+UnknownCmd <pre> 07E14rror07:14 unknown command 07›15 <cmd>
+NickInUse <pre> 07N14ick in use <nick brackets="1">07:15 Press Control+F1 to retry!
+AwayStatus <pre> 07A14way07: 15<nick> 07›00 <reason>
+ChanFull <pre> 07C14hannel full 07(+l07) <chan brackets="1">07:15 Press Control+F2 to retry!
+ChanInviteOnly <pre> 07C14hannel invite only 07(+i07) <chan brackets="1">07:15 Press Control+F2 to retry!
+ChanBanned <pre> 07C14hannel ban 07(+b07) <chan brackets="1">07:15 Press Control+F2 to retry!
+ChanKeyRequired <pre> 07C14hannel key 07(+k07) <chan brackets="1">07:15 Press Control+F2 to retry!
+ChanRegOnly <pre> 07C14hannel authed-only 07(+r07) <chan brackets="1">07:15 Press Control+F2 to retry!
+NoSuchNick <pre> 07N14o such nickname07:15 <nick>
+NoSuchChan <pre> 07N14o such channel07:15 <chan>
+
+RawDef <pre> 07R14aw <numeric brackets="1">07:15 <text>
+
+Scheme0 Default 16777215 0 14745600 50176 255 127 10223772 32764 65535 2883371 8676864 12689152 16606464 16711935 6908265 11053224 1 14 15 0 14 14 15 15 15 0 14 0 0 15 15 0 15 15 15 15 15 1 0 1 0 15 7 1 1 0
+Scheme1 Red 16777215 0 8323072 37632 255 127 10223772 255 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 14 15 0 14 14 15 15 15 0 14 0 0 15 15 0 15 15 15 15 15 1 0 1 0 15 7 1 1 0
+Scheme2 Blue 16777215 0 8323072 37632 255 127 10223772 16515072 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 14 15 0 14 14 15 15 15 0 14 0 0 15 15 0 15 15 15 15 15 1 0 1 0 15 7 1 1 0
+Scheme3 Yellow 16777215 0 8323072 37632 255 127 10223772 65535 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 14 15 0 14 14 15 15 15 0 14 0 0 15 15 0 15 15 15 15 15 1 0 1 0 15 7 1 1 0
+Scheme4 White 16777215 0 8323072 37632 255 127 10223772 16777215 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 14 15 0 14 14 15 15 15 0 14 0 0 15 15 0 15 15 15 15 15 1 0 1 0 15 7 1 1 0
+Scheme5 Clean 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 14 15 0 14 14 15 15 15 0 14 0 0 15 15 0 15 15 15 15 15 1 0 1 0 15 7 1 1 0

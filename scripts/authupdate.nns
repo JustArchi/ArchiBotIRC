@@ -1,0 +1,905 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; AUTH_UPDATE ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+;  by Vliedel -- #vliedel @ QuakeNet
+;  version 1.1  (written and tested on mIRC 6.2)
+;  made for networks supporting WHOX
+;
+;
+;What does this script do?
+;
+;  - updates the auths of nicks and stores them in a hash table
+;  - if a channel is too big, /who nick1,nick2,nick3 etc is done untill the auths for the channel is updated
+;  - users who have a site with the auth in it will be saved without a /who
+;    ie: "Vliedel" in "Vliedel.users.quakenet.org" will be treated as auth on the QuakeNet network
+;  - users who are not authed (auth 0) will be checked every x time to see if they are authed yet
+;  - script updates from largest to the smallest channel
+;
+;
+;How to use this script?
+;
+;  - config the options below
+;  - /load -rs auth_update.mrc to load the script
+;  - script starts on load or on connect
+;  - to get a nicks auth use: $auth(nick) or $auth(nick,cid)
+;  - /authupdate.next <nick> [nick] [nick] ... can be used to get auths of those nicks as soon as possible
+;    please note that this will use a bit less efficient way to get the auths.
+;    You can use the following script to see when such a requested nick is updated
+;      on *:SIGNAL:authupdate:{
+;        if ($2 == $null) { echo -a Requested: $1 is not on a common channel }
+;        elseif ($2 == 0) { echo -a Requested: $1 is not authed }
+;        else { echo -a Requested: $1 is authed as $2 }
+;      }
+;
+;    Note that this signal returns $2 == $null when someone isn't on a common channel.
+;    This may occur for example when someone parted a channel between the /who and the who reply.
+;
+;  - /authupdate can be used to make the script update the auths without waiting for the timer to trigger it
+;  - You can use the following script to see when a nick is updated
+;      on *:SIGNAL:authupdate.new:{
+;        if ($2 == 0) { echo -a $1 is not authed }
+;        else { echo -a $1 is authed as $2 }
+;      }
+;
+;
+;
+;Why is this script good?
+;
+;  - sending /who chan for every channel is not needed and goes slow (lag)
+;  - sending /who chan on join may cause Excess Flood or Max sendQ exceeded
+;  - sending /who chan1,chan2,chan3 can be much faster, but only if there are not too many results (Max sendQ exceeded)
+;  - unauthed users can auth without you knowing, so you need to check if they're authed every so many time.
+;
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; SETTINGS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+alias -l max.who {
+  ; maximum number of replies in a WHO, too high may cause 'Max sendQ exceeded' disconnection
+  ; too low may take the script a long time to update the auths, 1000 should be fine for most situations
+  return 1000
+}
+
+alias -l len.who {
+  ; maximum length of the /who <string>, too long may cause the server to ignore the command
+  ; too low may slow things down, 400 should be fine in most cases
+  return 400
+}
+
+alias -l delay.who {
+  ; N seconds after your first join, the script starts to update the auths
+  return 10
+}
+
+alias -l repeat.who {
+  ; wait N seconds after doing /who to do the next check and /who
+  return 20
+}
+
+alias -l minnicks.who {
+  ; minimum nr of nicks with unknown auth in a channel to do /who #channel rather then /who nick,nick,
+  return 3
+}
+
+alias -l minratio.who {
+  ; minimum ratio of (nicks with unknown auth) / (total nicks) in a channel to do /who #channel rather then /who nick,nick,
+  return 0.04
+}
+
+alias -l queue.repeat.who {
+  ; number of seconds to do the next /who to check if someone who wasn't authed is now authed
+  return 600
+}
+
+alias -l next.wait {
+  ; wait N seconds to do the next /who check triggered by authupdate.next after the last /who
+  return 10
+}
+
+alias -l used.network {
+  ; The networks the script is supposed to work on (case sensitive).
+  ; NOTE that the script ONLY works on networks supporting WHOX (ircu 2.10.* should work)
+  ; $1 is the network
+  return $istokcs(QuakeNet UnderNet GameSurge HanIRC NetGamers OGameNet,$1,32)
+}
+
+alias -l auth.site {
+  ; For every network a check to see if a user has a site where his authname is in
+  ; $1 is the network, $2 is the site
+  if ($1 === QuakeNet) { return $iif(*.users.quakenet.org iswm $2,$true) }
+  elseif ($1 === UnderNet) { return $iif(*.users.undernet.org iswm $2,$true) }
+  elseif ($1 === GameSurge) { return $iif(*.*.GameSurge iswm $2,$true) }
+  elseif ($1 === HanIRC) { return $iif(*.users.HanIRC.org iswm $2,$true) }
+  elseif ($1 === NetGamers) { return $iif(*.users.netgamers.org iswm $2,$true) }
+  elseif ($1 === OGameNet) { return $iif(*.user.OGameNet iswm $2,$true) }
+}
+
+alias -l auth.from.site {
+  ; For every network the method to return the auth from the site
+  ; $1 is the network, $2 is the site
+  if ($1 === QuakeNet) { return $gettok($2,1,46) }
+  elseif ($1 === UnderNet) { return $gettok($2,1,46) }
+  elseif ($1 === GameSurge) { return $gettok($2,1,46) }
+  elseif ($1 === HanIRC) { return $gettok($2,1,46) }
+  elseif ($1 === NetGamers) { return $gettok($2,1,46) }
+  elseif ($1 === OGameNet) { return $gettok($2,1,46) }
+}
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+alias auth {
+  if ($1 == $null) || (($2 !== $null) && (!$scid($2))) { return }
+  return $hget(auths. $+ $iif($2 !== $null,$2,$cid),$1)
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTHUPDATE ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+alias authupdate { echo -a Auth update: $auth_update.update }
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTHUPDATE.NEXT ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+alias authupdate.next {
+  var %i = $0
+  while (%i) {
+    var %n = $gettok($1-,%i,32)
+    if (!$comchan(%n,1)) { .signal authupdate %n }
+    else { auth.n.add %n }
+    dec %i
+  }
+  if (!$timer($cid $+ .auth_update.update)) { auth_update.update n }
+  else {
+    var %d = $timer($cid $+ .auth_update.update).delay , %l = $timer($cid $+ .auth_update.update).secs
+    .timer $+ $cid $+ .auth_update.update 1 $iif($calc(%d - %l) < $next.wait,$calc($v2 - $v1),0) auth_update.update n
+  }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; LOAD EVENT ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+on *:LOAD:{ scon -at1 auth_load }
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH_LOAD ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+alias -l auth_load {
+  .timer $+ $cid $+ .auth_update.update 1 $delay.who auth_update.update
+  if ($hget(auths. $+ $cid)) { hfree $v1 }
+  if ($hget(auths.l. $+ $cid)) { hfree $v1 }
+  if ($hget(auths.q. $+ $cid)) { hfree $v1 }
+  if ($hget(auths.n. $+ $cid)) { hfree $v1 }
+  if ($hget(auths.u. $+ $cid)) { hfree $v1 }
+  hmake auths. $+ $cid 200
+  hmake auths.l. $+ $cid 200
+  hmake auths.q. $+ $cid 200
+  hmake auths.n. $+ $cid 100
+  var %i = $comchan($me,0)
+  while (%i) {
+    var %chan = $comchan($me,%i)
+    var %j = $nick(%chan,0)
+    while (%j) {
+      auth.l.add.wid $chan(%chan).wid $nick(%chan,%j)
+      dec %j
+    }
+    dec %i
+  }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH_UPDATE.UPDATE ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+alias -l auth_update.update {
+  var %who
+  if (!$hget(auths.u. $+ $cid)) {
+    .timer $+ $cid $+ .auth_update.update off
+    hmake auths.u. $+ $cid 200
+    var %who = $auth_update.who
+    if (%who) {
+      hadd auths.u. $+ $cid -mask %who $+ ,,, $+ 273
+      .timer $+ $cid $+ .auth_update.timeout 1 $calc($repeat.who * 2) auth_update.timeout
+      .quote WHO $hget(auths.u. $+ $cid,-mask) % $+ nat,273
+    }
+    else {
+      hfree auths.u. $+ $cid
+      .timer $+ $cid $+ .auth_update.update 1 $$repeat.who auth_update.update
+    }
+  }
+  if (%who) { return updating }
+  elseif ($hget(auths.u. $+ $cid)) { return already in progress }
+  else { return nothing to update }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH_UPDATE.TIMEOUT ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+alias -l auth_update.timeout {
+  hfree auths.u. $+ $cid
+  auth_update.update
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH_UPDATE.SORT ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; sorts channels by number of nicks in channel
+; <number of nicks>.<channel number>
+; returns 127.1 23.2 <= means 127 nicks on comchan 1
+alias -l auth_update.sort {
+  var %i = $comchan($me,0) , %chans
+  while (%i) {
+    var %chans = %chans $nick($comchan($me,%i),0) $+ . $+ %i
+    dec %i
+  }
+  return $sorttok(%chans,32,n)
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH_UPDATE.WHO ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $auth_update.who(N,L)
+; returns #chan,#chan,nick,nick
+alias -l auth_update.who {
+  var %t = auths.u. $+ $cid , %t.l = auths.l. $+ $cid , %t.q = auths.q. $+ $cid , %t.n = auths.n. $+ $cid
+  var %n.max = $max.who , %l.max = $len.who , %n.min = $minnicks.who , %ratio = $minratio.who
+  var %len , %n.nr , %chans , %nicks , %chans.go
+  if $hget(auths.n.temp) { hfree auths.n.temp }
+  hmake auths.n.temp
+  var %n = $hget(%t.n,-firstnick)
+  while (%n) {
+    inc %len $calc($len(%n) + 1)
+    inc %n.nr
+    if (%n.nr > %n.max) || (%len > %l.max) { dec %n.nr | dec %len $calc($len(%n) + 1) | break }
+    hadd auths.n.temp %n 1
+    hadd %t %n 1
+    var %nicks = $addtok(%nicks,%n,44) , %n = $gettok($hget(%t.n,%n),2,32)
+  }
+
+  var %sorted = $auth_update.sort , %i = $numtok(%sorted,32) , %time = $calc($ctime - $queue.repeat.who)
+  while (%i) {
+    var %comchan = $gettok($gettok(%sorted,%i,32),2,46) , %chan = $comchan($me,%comchan) , %id = $chan(%chan).wid $+ .
+    var %n.c = $nick(%chan,0) , %left , %go
+    if (%n.c > %n.max) { break }
+    if $hget(auths.temp) { hfree auths.temp }
+    hmake auths.temp
+    var %n = $hget(%t.n,%id $+ -firstnick)
+    while (%n) {
+      if (!$hget(%t,%n)) || ($hget(auths.n.temp,%n)) { hadd auths.temp %n 1 | inc %left }
+      if (((%left >= %n.min) && ($calc(%left / %n.c) >= %ratio)) || (%left == %n.c)) { var %go = 1 | break }
+      var %n = $gettok($hget(%t.n,%id $+ %n),2,32)
+    }
+    var %n = $hget(%t.l,%id $+ -firstnick)
+    while (%n) {
+      if (!$hget(%t,%n)) && (!$hget(auths.temp,%n)) { inc %left }
+      if (((%left >= %n.min) && ($calc(%left / %n.c) >= %ratio)) || (%left == %n.c)) { var %go = 1 | break }
+      var %n = $gettok($hget(%t.l,%id $+ %n),2,32)
+    }
+    var %n = $hget(%t.q,%id $+ -firstnick)
+    while (%n) {
+      tokenize 32 $hget(%t.q,%id $+ %n)
+      if ($1 > %time) { break }
+      if (!$hget(%t,%n)) && (!$hget(auths.temp,%n)) { inc %left }
+      if (((%left >= %n.min) && ($calc(%left / %n.c) >= %ratio)) || (%left == %n.c)) { var %go = 1 | break }
+      var %n = $3
+    }
+    if (!%go) { dec %i | continue }
+    var %j = %n.c , %n.tmp = %n.nr , %l.tmp = %len , %chans.go = %chans.go %comchan
+    inc %l.tmp $calc($len(%chan) + 1)
+    while (%j) {
+      var %n = $nick(%chan,%j)
+      if (!$hget(%t,%n)) { inc %n.tmp }
+      if ($hget(auths.n.temp,%n)) { dec %l.tmp $calc($len(%n) + 1) }
+      dec %j
+    }
+    if (%l.tmp > %l.max) || (%n.tmp > %n.max) { dec %i | continue }
+    var %j = $nick(%chan,0)
+    while (%j) {
+      var %n = $nick(%chan,%j)
+      hadd %t %n 1
+      hdel auths.n.temp %n
+      var %nicks = $remtok(%nicks,%n,1,44)
+      dec %j
+    }
+    var %len = %l.tmp , %n.nr = %n.tmp , %chans = $addtok(%chans,%chan,44)
+    dec %i
+  }
+
+  var %i = $comchan($me,0)
+  while (%i) {
+    var %chan = $comchan($me,%i)
+    if (($nick(%chan,0) > %n.max) || (!$istok(%chans.go,%i,32))) {
+      var %id = $chan(%chan).wid $+ . , %n = $hget(%t.l,%id $+ -firstnick)
+      while (%n) {
+        if (!$hget(%t,%n)) {
+          inc %len $calc($len(%n) + 1)
+          inc %n.nr
+          if (%n.nr > %n.max) || (%len > %l.max) { break }
+          hadd %t %n 1
+          var %nicks = $addtok(%nicks,%n,44)
+        }
+        var %n = $gettok($hget(%t.l,%id $+ %n),2,32)
+      }
+      if (%n.nr > %n.max) || (%len > %l.max) { break }
+      var %n = $hget(%t.q,%id $+ -firstnick)
+      while (%n) {
+        tokenize 32 $hget(%t.q,%id $+ %n)
+        if ($1 > %time) { break }
+        if (!$hget(%t,%n)) {
+          inc %len $calc($len(%n) + 1)
+          inc %n.nr
+          if (%n.nr > %n.max) || (%len > %l.max) { break }
+          hadd %t %n 1
+          var %nicks = $addtok(%nicks,%n,44)
+        }
+        var %n = $3
+      }
+    }
+    if (%n.nr > %n.max) || (%len > %l.max) { break }
+    dec %i
+  }
+  if $hget(auths.temp) { hfree auths.temp }
+  if $hget(auths.n.temp) { hfree auths.n.temp }
+  return $addtok(%chans,%nicks,44)
+}
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; RAW 354 SPECIAL WHO REPLY ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 354 <you>   <nr>  <nick>  <auth>
+; 354 Vliedel 273   L       0
+RAW 354:& 273 & &:{
+  if ($comchan($3,1)) { auth_update.nick $3 $4 }
+  elseif ($hget(auths.n. $+ $cid,$3)) { auth.n.rem $3 | .signal authupdate $3 }
+  haltdef
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; RAW 315 WHO END ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 315 <you>    <requested>              :End of /who list.
+; 315 Vliedel  #vliedel,Rutix,fishbot   :End of /WHO list.
+RAW 315:& & end of /WHO list.: {
+  if ($hget(auths.u. $+ $cid,-mask) == $2) {
+    hfree auths.u. $+ $cid
+    .timer $+ $cid $+ .auth_update.timeout off
+    .timer $+ $cid $+ .auth_update.update 1 $iif($hget(auths.n. $+ $cid,1).item,$next.wait,$repeat.who) auth_update.update
+    haltdef
+  }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH_UPDATE.NICK ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick    $2 = auth
+alias -l auth_update.nick {
+  if ($hget(auths. $+ $cid,$1) != $2) {
+    .signal authupdate.new $1 $2
+    auth.add $1 $2       
+  }
+  auth.l.rem $1
+  if ($2 == 0) { auth.q.add $1 }
+  else { auth.q.rem $1 }
+  if ($hget(auths.n. $+ $cid,$1)) { auth.n.rem $1 | .signal authupdate $1 $2 }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; JOIN EVENT ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+on *:JOIN:#:{
+  if ($nick == $me) && ($used.network($network)) {
+    if (!$hget(auths. $+ $cid)) { hmake auths. $+ $cid 200 }
+    if (!$hget(auths.l. $+ $cid)) { hmake auths.l. $+ $cid 200 }
+    if (!$hget(auths.q. $+ $cid)) { hmake auths.q. $+ $cid 200 }
+    if (!$hget(auths.n. $+ $cid)) { hmake auths.n. $+ $cid 100 }
+    if (!$timer($cid $+ .auth_update.update)) { .timer $+ $cid $+ .auth_update.update 1 $delay.who auth_update.update }
+    return
+  }
+  if ($auth.site($network,$site)) { auth_update.nick $nick $auth.from.site($network,$site) | return }
+  if ($hget(auths. $+ $cid,$nick) == $null) { auth.l.add.wid $chan($chan).wid $nick }
+  elseif ($hget(auths. $+ $cid,$nick) == 0) {
+    auth.q.add.wid $chan($chan).wid $nick
+    if (!$comchan($nick,2)) { auth.q.add.main $nick }
+  }
+  if ($hget(auths.n. $+ $cid,$nick)) { auth.n.add.wid $chan($2).wid $nick }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; RAW 366 - END OF NAMES LIST ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 366 Vliedel #vliedel :End of /NAMES list.
+366 Vliedel #Help :End of /NAMES list
+RAW 366:& & end of /names list.:{
+  var %i = $nick($2,0) , %t = auths. $+ $cid
+  while (%i) {
+    var %n = $nick($2,%i)
+    if ($hget(%t,%n) == $null) { auth.l.add.wid $chan($2).wid %n }
+    elseif ($hget(%t,%n) == 0) {
+      auth.q.add.wid $chan($2).wid %n
+      if (!$comchan(%n,2)) { auth.q.add.main %n }
+    }
+    if ($hget(auths.n. $+ $cid,%n)) { auth.n.add.wid $chan($2).wid %n }
+    dec %i
+  }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; PART EVENT ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+on *:PART:#:{
+  if ($nick == $me) {
+    auth.rem.chan $chan
+    auth.l.rem.chan.all $chan
+    auth.q.rem.chan.all $chan
+    auth.n.rem.chan.all $chan
+  }
+  else {
+    auth.l.rem.wid $chan($chan).wid $nick
+    auth.q.rem.wid $chan($chan).wid $nick
+    auth.n.rem.wid $chan($chan).wid $nick
+    if (!$comchan($nick,2)) {
+      auth.rem $nick
+      auth.q.rem.main $nick
+      auth.n.rem.main $nick
+    }
+    elseif ($auth.site($network,$site)) { auth_update.nick $nick $auth.from.site($network,$site) }
+  }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; KICK EVENT ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+on *:KICK:#:{
+  if ($knick == $me) {
+    auth.rem.chan $chan
+    auth.l.rem.chan.all $chan
+    auth.q.rem.chan.all $chan
+    auth.n.rem.chan.all $chan
+  }
+  else {
+    auth.l.rem.wid $chan($chan).wid $knick
+    auth.q.rem.wid $chan($chan).wid $knick
+    auth.n.rem.wid $chan($chan).wid $knick
+    if (!$comchan($knick,2)) {
+      auth.rem $knick
+      auth.q.rem.main $knick
+      auth.n.rem.main $knick
+    }
+    if ($auth.site($network,$site)) && ($comchan($nick,1)) { auth_update.nick $nick $auth.from.site($network,$site) }
+  }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; QUIT EVENT ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+on *:QUIT:{
+  auth.rem $nick
+  auth.l.rem $nick
+  auth.q.rem $nick
+  auth.n.rem $nick
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; NICK EVENT ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+on *:NICK:{
+  auth.nick $nick $newnick
+  auth.l.nick $nick $newnick
+  auth.q.nick $nick $newnick
+  auth.n.nick $nick $newnick
+  if ($auth.site($network,$site)) { auth_update.nick $newnick $auth.from.site($network,$site) }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; IAL-UPDATING EVENTS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+on *:TEXT:*:*:{ if ($auth.site($network,$site)) && ($comchan($nick,1)) { auth_update.nick $nick $auth.from.site($network,$site) } }
+on *:ACTION:*:*:{ if ($auth.site($network,$site)) && ($comchan($nick,1)) { auth_update.nick $nick $auth.from.site($network,$site) } }
+on *:NOTICE:*:*:{ if ($auth.site($network,$site)) && ($comchan($nick,1)) { auth_update.nick $nick $auth.from.site($network,$site) } }
+on *:RAWMODE:#:{ if ($auth.site($network,$site)) && ($comchan($nick,1)) { auth_update.nick $nick $auth.from.site($network,$site) } }
+on *:TOPIC:#:{ if ($auth.site($network,$site)) && ($comchan($nick,1)) { auth_update.nick $nick $auth.from.site($network,$site) } }
+on *:INVITE:#:{ if ($auth.site($network,$site)) && ($comchan($nick,1)) { auth_update.nick $nick $auth.from.site($network,$site) } }
+CTCP *:*:*:{ if ($auth.site($network,$site)) && ($comchan($nick,1)) { auth_update.nick $nick $auth.from.site($network,$site) } }
+RAW 352:& & & & & & & & *: { if ($auth.site($network,$4)) && ($comchan($6,1)) { auth_update.nick $6 $auth.from.site($network,$4) } }
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; DISCONNECT EVENT ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+on *:DISCONNECT:{
+  if ($hget(auths.u $+ $cid)) { hfree $v1 }
+  if ($hget(auths. $+ $cid)) { hfree $v1 }
+  if ($hget(auths.q. $+ $cid)) { hfree $v1 }
+  if ($hget(auths.l. $+ $cid)) { hfree $v1 }
+  if ($hget(auths.n. $+ $cid)) { hfree $v1 }
+}
+
+
+; 200
+; auths.cid  nick --> auth
+
+; 200
+; auths.l.cid  chanwid.nick --> lnick rnick
+; auths.l.cid  chanwid.-firstnick --> first_nick_in_list
+; auths.l.cid  chanwid.-lastnick --> last_nick_in_list
+
+; 200
+; auths.q.cid  chanwid.nick --> ctime lnick rnick
+; auths.q.cid  chanwid.-firstnick --> first_nick_in_queue
+; auths.q.cid  chanwid.-lastnick --> last_nick_in_queue
+; auths.q.cid  nick --> ctime
+
+; 100
+; auths.n.cid  chanwid.nick --> lnick rnick
+; auths.n.cid  chanwid.-firstnick --> first_nick_in_list
+; auths.n.cid  chanwid.-lastnick --> last_nick_in_list
+; auths.n.cid  nick --> lnick rnick
+; auths.n.cid  -firstnick --> first_nick_in_list
+; auths.n.cid  -lastnick --> last_nick_in_list
+
+
+
+; ---------------------------------------------------------------------------------------------
+; --------------------------------------- AUTHS - TABLE ---------------------------------------
+; ---------------------------------------------------------------------------------------------
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.ADD ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick   $2 = auth
+alias -l auth.add {
+  if (!$hget(auths. $+ $cid)) { return }
+  hadd auths. $+ $cid $1 $2
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.REM ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick
+alias -l auth.rem {
+  if (!$hget(auths. $+ $cid)) { return }
+  hdel auths. $+ $cid $1
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.REM.CHAN ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = chan
+alias -l auth.rem.chan {
+  if (!$hget(auths. $+ $cid)) { return }
+  var %i = $nick($1,0)
+  while (%i) {
+    if (!$comchan($nick($1,%i),2)) { hdel auths. $+ $cid $nick($1,%i) }
+    dec %i
+  }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.NICK ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick   $2 = newnick
+alias -l auth.nick {
+  if ($hget(auths. $+ $cid,$1) !== $null) { hdel auths. $+ $cid $1 | hadd auths. $+ $cid $2 $v1 }
+}
+
+
+
+; ----------------------------------------------------------------------------------------------------
+; --------------------------------------- AUTHS - LEFT - TABLE ---------------------------------------
+; ----------------------------------------------------------------------------------------------------
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.L.ADD.WID ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = wid   $2 = nick
+alias -l auth.l.add.wid {
+  var %table = auths.l. $+ $cid
+  if (!$hget(%table)) { return }
+  var %id = $1 $+ . ,  %lastnick = $hget(%table,%id $+ -lastnick)
+  if ($hget(%table,%id $+ $2)) { return }
+  if (%lastnick) {
+    hadd %table %id $+ $2 %lastnick 0
+    hadd %table %id $+ %lastnick $gettok($hget(%table,%id $+ %lastnick),1,32) $2
+  }
+  else {
+    hadd %table %id $+ $2 0 0
+    hadd %table %id $+ -firstnick $2
+  }
+  hadd %table %id $+ -lastnick $2
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.L.REM ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick
+alias -l auth.l.rem {
+  if (!$hget(auths.l. $+ $cid)) { return }
+  var %i = $comchan($1,0)
+  while (%i) {
+    auth.l.rem.wid $chan($comchan($1,%i)).wid $1
+    dec %i
+  }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.L.REM.WID ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = wid   $2 = nick
+alias -l auth.l.rem.wid {
+  var %table = auths.l. $+ $cid
+  if (!$hget(%table)) { return }
+  var %id = $1 $+ . , %val = $hget(%table,%id $+ $2)
+  if (!%val) { return }
+  var %nick.l = $gettok(%val,1,32) , %nick.r = $gettok(%val,2,32)
+  hdel %table %id $+ $2
+  if (%nick.l == 0) && (%nick.r == 0) { hdel %table %id $+ -lastnick | hdel %table %id $+ -firstnick | return }
+  if (%nick.l !== 0) { hadd %table %id $+ %nick.l $gettok($hget(%table,%id $+ %nick.l),1,32) %nick.r }
+  else { hadd %table %id $+ -firstnick %nick.r }
+  if (%nick.r !== 0) { hadd %table %id $+ %nick.r %nick.l $gettok($hget(%table,%id $+ %nick.r),2,32) }
+  else { hadd %table %id $+ -lastnick %nick.l }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.L.REM.CHAN.ALL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = chan
+alias -l auth.l.rem.chan.all {
+  if (!$hget(auths.l. $+ $cid)) { return }
+  hdel -w auths.l. $+ $cid $chan($1).wid $+ .*
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.L.NICK ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick   $2 = newnick
+alias -l auth.l.nick {
+  if ($1 == $2) { return }
+  var %table = auths.l. $+ $cid
+  if (!$hget(%table)) { return }
+  var %i = $comchan($2,0)
+  while (%i) {
+    var %id = $chan($comchan($2,%i)).wid $+ . , %val = $hget(%table,%id $+ $1)
+    if (%val) {
+      hdel %table %id $+ $1
+      hadd %table %id $+ $2 %val
+      var %nick.l = $gettok(%val,1,32) , %nick.r = $gettok(%val,2,32)
+      if (%nick.l !== 0) { hadd %table %id $+ %nick.l $gettok($hget(%table,%id $+ %nick.l),1,32) $2 }
+      else { hadd %table %id $+ -firstnick $2 }
+      if (%nick.r !== 0) { hadd %table %id $+ %nick.r $2 $gettok($hget(%table,%id $+ %nick.r),2,32) }
+      else { hadd %table %id $+ -lastnick $2 }
+    }
+    dec %i
+  }
+}
+
+
+
+; -----------------------------------------------------------------------------------------------------
+; --------------------------------------- AUTHS - QUEUE - TABLE ---------------------------------------
+; -----------------------------------------------------------------------------------------------------
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.Q.ADD ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick
+alias -l auth.q.add {
+  if (!$hget(auths.q. $+ $cid)) { return }
+  auth.q.add.main $1
+  var %i = $comchan($1,0)
+  while (%i) {
+    auth.q.add.wid $chan($comchan($1,%i)).wid $1
+    dec %i
+  }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.Q.ADD.WID ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = wid   $2 = nick
+alias -l auth.q.add.wid {
+  var %table = auths.q. $+ $cid
+  if (!$hget(%table)) { return }
+  var %id = $1 $+ . , %ctime = $iif($hget(%table,$2) == $null,$ctime,$v1)
+  auth.q.rem.wid $1 $2
+  var %lastnick = $hget(%table,%id $+ -lastnick)
+  if (!%lastnick) {
+    hadd %table %id $+ $2 %ctime 0 0
+    hadd %table %id $+ -firstnick $2
+    hadd %table %id $+ -lastnick $2
+    return
+  }
+  if (%ctime >= $hget(%table,%lastnick)) {
+    hadd %table %id $+ $2 %ctime %lastnick 0
+    hadd %table %id $+ %lastnick $gettok($hget(%table,%id $+ %lastnick),1-2,32) $2
+    hadd %table %id $+ -lastnick $2
+    return
+  }
+  var %n = $hget(%table,%id $+ -firstnick) , %nick = $2
+  while (%n) {
+    tokenize 32 $hget(%table,%id $+ %n)
+    if (%ctime <= $1) {
+      hadd %table %id $+ %n $1 %nick $3
+      if ($2 == 0) {
+        hadd %table %id $+ %nick %ctime 0 %n
+        hadd %table %id $+ -firstnick %nick
+      }
+      else {
+        hadd %table %id $+ %nick %ctime $2 %n
+        hadd %table %id $+ $2 $gettok($hget(%table,%id $+ $2),1-2,32) %nick
+      }
+      break
+    }
+    var %n = $3
+  }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.Q.ADD.MAIN ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick
+alias -l auth.q.add.main {
+  if (!$hget(auths.q. $+ $cid)) { return }
+  hadd auths.q. $+ $cid $1 $ctime
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.Q.REM ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick
+alias -l auth.q.rem {
+  if (!$hget(auths.q. $+ $cid)) { return }
+  var %i = $comchan($1,0)
+  while (%i) {
+    auth.q.rem.wid $chan($comchan($1,%i)).wid $1
+    dec %i
+  }
+  auth.q.rem.main $1
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.Q.REM.WID ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = wid   $2 = nick
+alias -l auth.q.rem.wid {
+  var %table = auths.q. $+ $cid
+  if (!$hget(%table)) { return }
+  var %id = $1 $+ . , %val = $hget(%table,%id $+ $2)
+  if (!%val) { return }
+  var %nick.l = $gettok(%val,2,32) , %nick.r = $gettok(%val,3,32)
+  hdel %table %id $+ $2
+  if (%nick.l == 0) && (%nick.r == 0) { hdel %table %id $+ -lastnick | hdel %table %id $+ -firstnick | return }
+  if (%nick.l !== 0) { hadd %table %id $+ %nick.l $gettok($hget(%table,%id $+ %nick.l),1-2,32) %nick.r }
+  else { hadd %table %id $+ -firstnick %nick.r }
+  if (%nick.r !== 0) { hadd %table %id $+ %nick.r $gettok($hget(%table,%id $+ %nick.r),1,32) %nick.l $gettok($hget(%table,%id $+ %nick.r),3,32) }
+  else { hadd %table %id $+ -lastnick %nick.l }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.Q.REM.MAIN ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick
+alias -l auth.q.rem.main {
+  if (!$hget(auths.q. $+ $cid)) { return }
+  hdel auths.q. $+ $cid $1
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.Q.REM.CHAN.ALL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = chan
+alias -l auth.q.rem.chan.all {
+  var %table = auths.q. $+ $cid
+  if (!$hget(%table)) { return }
+  hdel -w %table $chan($1).wid $+ .*
+  var %i = $nick($1,0)
+  while (%i) {
+    if (!$comchan($nick($1,%i),2)) { hdel %table $nick($1,%i) }
+    dec %i
+  }
+}
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.Q.NICK ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick   $2 = newnick
+alias -l auth.q.nick {
+  if ($1 == $2) { return }
+  var %table = auths.q. $+ $cid
+  if (!$hget(%table)) { return }
+  var %i = $comchan($2,0)
+  while (%i) {
+    var %id = $chan($comchan($2,%i)).wid $+ . , %val = $hget(%table,%id $+ $1)
+    if (%val) {
+      hdel %table %id $+ $1
+      hadd %table %id $+ $2 %val
+      var %nick.l = $gettok(%val,2,32) , %nick.r = $gettok(%val,3,32)
+      if (%nick.l !== 0) { hadd %table %id $+ %nick.l $gettok($hget(%table,%id $+ %nick.l),1-2,32) $2 }
+      else { hadd %table %id $+ -firstnick $2 }
+      if (%nick.r !== 0) { hadd %table %id $+ %nick.r $gettok($hget(%table,%id $+ %nick.r),1,32) $2 $gettok($hget(%table,%id $+ %nick.r),3,32) }
+      else { hadd %table %id $+ -lastnick $2 }
+    }
+    dec %i
+  }
+  if ($hget(%table,$1) !== $null) { hdel %table $1 | hadd %table $2 $v1 }
+}
+
+
+
+; ----------------------------------------------------------------------------------------------------
+; --------------------------------------- AUTHS - NEXT - TABLE ---------------------------------------
+; ----------------------------------------------------------------------------------------------------
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.N.ADD ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick
+alias -l auth.n.add {
+  if (!$hget(auths.n. $+ $cid)) { return }
+  auth.n.add.main $1
+  var %i = $comchan($1,0)
+  while (%i) {
+    auth.n.add.wid $chan($comchan($1,%i)).wid $1
+    dec %i
+  }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.N.ADD.WID ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = wid   $2 = nick
+alias -l auth.n.add.wid {
+  var %table = auths.n. $+ $cid
+  if (!$hget(%table)) { return }
+  var %id = $1 $+ . ,  %lastnick = $hget(%table,%id $+ -lastnick)
+  if ($hget(%table,%id $+ $2)) { return }
+  if (%lastnick) {
+    hadd %table %id $+ $2 %lastnick 0
+    hadd %table %id $+ %lastnick $gettok($hget(%table,%id $+ %lastnick),1,32) $2
+  }
+  else {
+    hadd %table %id $+ $2 0 0
+    hadd %table %id $+ -firstnick $2
+  }
+  hadd %table %id $+ -lastnick $2
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.N.ADD.MAIN ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick
+alias -l auth.n.add.main {
+  var %table = auths.n. $+ $cid
+  if (!$hget(%table)) { return }
+  var %lastnick = $hget(%table,-lastnick)
+  if ($hget(%table,$1)) { return }
+  if (%lastnick) {
+    hadd %table $1 %lastnick 0
+    hadd %table %lastnick $gettok($hget(%table,%lastnick),1,32) $1
+  }
+  else {
+    hadd %table $1 0 0
+    hadd %table -firstnick $1
+  }
+  hadd %table -lastnick $1
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.N.REM ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick
+alias -l auth.n.rem {
+  if (!$hget(auths.n. $+ $cid)) { return }
+  var %i = $comchan($1,0)
+  while (%i) {
+    auth.n.rem.wid $chan($comchan($1,%i)).wid $1
+    dec %i
+  }
+  auth.n.rem.main $1
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.N.REM.WID ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = wid   $2 = nick
+alias -l auth.n.rem.wid {
+  var %table = auths.n. $+ $cid
+  if (!$hget(%table)) { return }
+  var %id = $1 $+ . , %val = $hget(%table,%id $+ $2)
+  if (!%val) { return }
+  var %nick.l = $gettok(%val,1,32) , %nick.r = $gettok(%val,2,32)
+  hdel %table %id $+ $2
+  if (%nick.l == 0) && (%nick.r == 0) { hdel %table %id $+ -lastnick | hdel %table %id $+ -firstnick | return }
+  if (%nick.l !== 0) { hadd %table %id $+ %nick.l $gettok($hget(%table,%id $+ %nick.l),1,32) %nick.r }
+  else { hadd %table %id $+ -firstnick %nick.r }
+  if (%nick.r !== 0) { hadd %table %id $+ %nick.r %nick.l $gettok($hget(%table,%id $+ %nick.r),2,32) }
+  else { hadd %table %id $+ -lastnick %nick.l }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.N.REM.MAIN ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick
+alias -l auth.n.rem.main {
+  var %table = auths.n. $+ $cid
+  if (!$hget(%table)) { return }
+  var %val = $hget(%table,$1)
+  if (!%val) { return }
+  var %nick.l = $gettok(%val,1,32) , %nick.r = $gettok(%val,2,32)
+  hdel %table $1
+  if (%nick.l == 0) && (%nick.r == 0) { hdel %table -lastnick | hdel %table -firstnick | return }
+  if (%nick.l !== 0) { hadd %table %nick.l $gettok($hget(%table,%nick.l),1,32) %nick.r }
+  else { hadd %table -firstnick %nick.r }
+  if (%nick.r !== 0) { hadd %table %nick.r %nick.l $gettok($hget(%table,%nick.r),2,32) }
+  else { hadd %table -lastnick %nick.l }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.N.REM.CHAN.ALL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = chan
+alias -l auth.n.rem.chan.all {
+  var %table = auths.n. $+ $cid
+  if (!$hget(%table)) { return }
+  hdel -w %table $chan($1).wid $+ .*
+  var %i = $nick($1,0)
+  while (%i) {
+    if (!$comchan($nick($1,%i),2)) { auth.n.rem.main $nick($1,%i) }
+    dec %i
+  }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ALIAS AUTH.N.NICK ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; $1 = nick   $2 = newnick
+alias -l auth.n.nick {
+  if ($1 == $2) { return }
+  var %table = auths.n. $+ $cid
+  if (!$hget(%table)) { return }
+  var %i = $comchan($2,0)
+  while (%i) {
+    var %id = $chan($comchan($2,%i)).wid $+ . , %val = $hget(%table,%id $+ $1)
+    if (%val) {
+      hdel %table %id $+ $1
+      hadd %table %id $+ $2 %val
+      var %nick.l = $gettok(%val,1,32) , %nick.r = $gettok(%val,2,32)
+      if (%nick.l !== 0) { hadd %table %id $+ %nick.l $gettok($hget(%table,%id $+ %nick.l),1,32) $2 }
+      else { hadd %table %id $+ -firstnick $2 }
+      if (%nick.r !== 0) { hadd %table %id $+ %nick.r $2 $gettok($hget(%table,%id $+ %nick.r),2,32) }
+      else { hadd %table %id $+ -lastnick $2 }
+    }
+    dec %i
+  }
+  var %val = $hget(%table,$1)
+  if (%val) {
+    hdel %table $1
+    hadd %table $2 %val
+    var %nick.l = $gettok(%val,1,32) , %nick.r = $gettok(%val,2,32)
+    if (%nick.l !== 0) { hadd %table %nick.l $gettok($hget(%table,%nick.l),1,32) $2 }
+    else { hadd %table -firstnick $2 }
+    if (%nick.r !== 0) { hadd %table %nick.r $2 $gettok($hget(%table,%nick.r),2,32) }
+    else { hadd %table -lastnick $2 }
+  }
+}
+
+alias nauth {
+  var %i = $hfind(auths. $+ $cid, $1, 1).data
+  return %i
+}

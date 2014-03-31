@@ -1,0 +1,267 @@
+﻿%F1 help
+%F10 viewlog $active
+%F11 themes
+%F12 setup
+%F2 showmirc -m
+%F3 rundcc
+%F4 run $getdir
+%F5 a gone
+%F6 re
+%F7 chanfolder
+%F8 cbedit
+%F9 sysinfo
+%aidle.max 20
+%alarm.mins 30
+%alarm.mode 1
+%alarm.sound sounds\alert.mp3
+%alarm.time 14:00
+%alarmstb 1
+%auto.awaytime 60
+%autoghost 1
+%away.auto.warn 1
+%away.hllog 1
+%away.log 1
+%away.log.events 1
+%away.nomsg 1
+%away.pager 1
+%away.pubmsg 1
+%away.useold 1
+%ban.mask 3
+%black.kicked 0
+%bndsp 1
+%chankey.prompt 1
+%chanpasses.save 1
+%checkver.startup 1
+%cprot.Preset.Advertising 0
+%cprot.Preset.Badword 0
+%cprot.Preset.CTCPflood 0
+%cprot.Preset.Caps 0
+%cprot.Preset.Codes 0
+%cprot.Preset.Join-/Partflood 0
+%cprot.Preset.Mass-deop 0
+%cprot.Preset.Noticeflood 0
+%cprot.Preset.Repeating 0
+%cprot.Preset.Textflood 0
+%cprot.Preset.advertising.action 1:wu-1-d 2:b-1800-3+k-d
+%cprot.Preset.advertising.secs 30
+%cprot.Preset.advertising.strict 2
+%cprot.Preset.advertising.times 1
+%cprot.Preset.badword.action 1:wu-1-d 2:b-1800-3+k-d
+%cprot.Preset.badword.secs 30
+%cprot.Preset.badword.times 1
+%cprot.Preset.caps.action 1:wu-1-d 2:b-1800-3+k-d
+%cprot.Preset.caps.percent 0.1
+%cprot.Preset.caps.secs 30
+%cprot.Preset.caps.times 2
+%cprot.Preset.codes.action 1:wu-1-d 2:b-1800-3+k-d
+%cprot.Preset.codes.mincodes 3
+%cprot.Preset.codes.secs 30
+%cprot.Preset.codes.times 2
+%cprot.Preset.codes.trig /[]/g
+%cprot.Preset.ctcpflood.action 1:wu-1-d 2:b-1800-3+k-d
+%cprot.Preset.ctcpflood.secs 10
+%cprot.Preset.ctcpflood.times 2
+%cprot.Preset.join-/partflood.action 1:wu-1-d 2:b-1800-3+k-d
+%cprot.Preset.join-/partflood.secs 10
+%cprot.Preset.join-/partflood.times 5
+%cprot.Preset.mass-deop.action 1:wu-1-d 2:b-1800-3+k-d
+%cprot.Preset.mass-deop.secs 10
+%cprot.Preset.mass-deop.times 4
+%cprot.Preset.noticeflood.action 1:wu-1-d 2:b-1800-3+k-d
+%cprot.Preset.noticeflood.secs 20
+%cprot.Preset.noticeflood.times 2
+%cprot.Preset.repeating.action 1:wu-1-d 2:b-1800-3+k-d
+%cprot.Preset.repeating.secs 10
+%cprot.Preset.repeating.times 3
+%cprot.Preset.textflood.action 1:wu-1-d 2:b-1800-3+k-d
+%cprot.Preset.textflood.secs 6
+%cprot.Preset.textflood.times 8
+%cprot.presetonly 0
+%curdcc.delay 2
+%curdcc.ontop 0
+%dateformat yyyy-mm-dd
+%dateformat.long dddd, mmmm ddoo yyyy
+%dbc.C.ctrl channel
+%dbc.C.def channel
+%dbc.C.shift channel
+%dbc.N.ctrl we $1
+%dbc.N.def query $1
+%dbc.N.shift kb $1
+%dbc.Q.ctrl dcc chat $1
+%dbc.Q.def we $1
+%dbc.Q.shift close -m $1
+%dbc.S.ctrl lusers
+%dbc.S.def umoded
+%dbc.S.shift umoded
+%dcc.sinfo 1
+%dccinfodisp 1
+%email.bar 1
+%excl.prot 1
+%getexternalip 1
+%gs.autoghost 1
+%gs.autorecmode 1
+%gs.hosthide 1
+%gs.hosthide.nbnc 1
+%ialupdate 1
+%ignore.mask 3
+%lag.chk.delay 15
+%lag.chk.len 1000
+%lagbar.style 8
+%lb.enabled 1
+%lview.dir.bold 1
+%lview.dir.col 12
+%lview.dir.colen 0
+%lview.file.col 2
+%lview.file.colen 0
+%lview.lprefix 1
+%mail.delay 300
+%mail.dsize 1
+%maxwhousers 400
+%news.awin 1
+%nick.comp 1
+%nick.comp.chr :
+%nickcomp.format <nick>:
+%nntversion 1.03
+%nsauth.msg 1
+%nwsclear 0
+%nwstick.mins 10
+%nwstick.serror 1
+%paste.breaklines 1
+%paste.breaklines.bytes 400
+%paste.singleeditbox 1
+%paste.stripcodes 1
+%paste.stripcodes.mode 1
+%pastedelay 1
+%pastedelay.ms 2000
+%pasteminlinedelay 1
+%pasteminlinedelay.bytes 400
+%pasteminlinedelay.num 4
+%pastenotify 1
+%pprot.ban 0
+%pprot.ban.action 1:es-d+us+k-d
+%pprot.ctcpflood 1
+%pprot.ctcpflood.action 1:es-d+i-t-600-3
+%pprot.ctcpflood.secs 8
+%pprot.ctcpflood.times 4
+%pprot.highlightflood 0
+%pprot.highlightflood.action 1:es-d+i-cp-600-3
+%pprot.highlightflood.secs 10
+%pprot.highlightflood.times 3
+%pprot.inviteflood 0
+%pprot.inviteflood.action 1:es-d+i-i-600-3
+%pprot.inviteflood.secs 8
+%pprot.inviteflood.times 3
+%pprot.noticeflood 1
+%pprot.noticeflood.action 1:es-d+i-n-600-3
+%pprot.noticeflood.secs 8
+%pprot.noticeflood.times 5
+%pprot.queryflood 0
+%pprot.queryflood.action 1:es-d+i-p-600-3
+%pprot.queryflood.secs 10
+%pprot.queryflood.times 10
+%pprot.spam 0
+%pprot.spam.action 1:es-d+is
+%pprot.textflood 0
+%pprot.textflood.action 1:es-d+i-p-600-3
+%pprot.textflood.secs 6
+%pprot.textflood.times 8
+%q.hosthide 1
+%q.hosthide.nbnc 1
+%qcls.secs 900
+%qinfo.action 4
+%qryevent 1
+%qrytypes jqpkno
+%querystats 1
+%sF1 run notepad
+%sF2 url -an http://nnscript.esnation.com
+%sbar.cell.1 "iconsets\default\away.ico"Time: <date>, <time>/alarm196normalTime: $date $+ , $time
+%sbar.cell.2 "iconsets\default\dccs.ico"DCC: <down> down, <up> up/dccs200normalDCC: $dccbw(get) down, $dccbw(send) up
+%sbar.cell.3 "iconsets\default\logview.ico"Clipboard: <cb> - <cbcontent>/cbedit250normalClipboard: $cbc - $cbcontent
+%sbar.cell.4 "iconsets\default\channels_folder.ico"Topic: <topic>/cc500normalTopic: $actopic
+%sbar.enabled 1
+%sbar.refdelay 1
+%sbar.timer 1
+%sbr.format 02(<text>02)
+%sendversion 1
+%showialupd 1
+%splitwin 1
+%ssplash 1
+%stat.away 0
+%stat.bancount 0
+%stat.connects 109
+%stat.dccgot 0
+%stat.dccgotfiles 0
+%stat.dccsent 0
+%stat.dccsentfiles 0
+%stat.deopped 0
+%stat.devoiced 82
+%stat.joins 116
+%stat.kickcount 15
+%stat.nicks 3
+%stat.opped 0
+%stat.queries 228
+%stat.queriestoday 4
+%stat.sbancount 0
+%stat.scriptcrashes 1
+%stat.scriptstarts 86
+%stat.skickcount 0
+%stat.topicchanges 1639
+%stat.voiced 86
+%stat.writtenchars 0
+%stat.writtenlines 0
+%stat.writtenqu 0
+%stat.writtenwords 0
+%tb.lagcol 0
+%tb.lagcol.bg 0
+%tb.lagcol.bg.sel 13948116
+%tb.lagcol.gr.sel 5921370
+%tb.lagcol.grh.sel 1250240
+%thm.agenprev 1
+%thm.cprev 1
+%thm.current "themes\Moredots.nnt"
+%thm.hnames 1
+%thm.hwmsg 1
+%thm.sbgfont Tahoma
+%thm.sbgfontcolor 0
+%thm.sbgfontsize 43
+%thm.sbgshadow 1
+%thm.sbgshadowfontcolor 1250240
+%thm.sbgshadowfontsize 42
+%timeformat yyyy-mm-dd, HH:nn:ss
+%timeformat.long dddd, mmmm ddoo yyyy, HH:nn:ss
+%timeformat.short HH:nn:ss
+%titlebar $version with NNScript by ESNation %version
+%titlebar.cint 1
+%titlebar.cref 1
+%titlebar.edit <mircver> with NNScript by ESNation <nnver>
+%totd 1
+%trnum 2M
+%uptime.record 0
+%version 4.22
+%winarr.hybnum 4
+%x.hosthide 1
+%x.hosthide.nbnc 1
+%lastcid 1
+%stat.thmload 1
+%sound.channeltext No Sound
+%sound.querytext No Sound
+%sound.chattext No Sound
+%thm.active.query -s
+%thm.active.ctcp -s
+%thm.active.invite -s
+%thm.active.away -s
+%thm.active.notice -s
+%thm.active.whois -s
+%thm.singlemsg 0
+%thm.cmdchar /
+%install.time 1329087683
+%stat.lastreset 1329087683
+%sysinfo.uptimerecord 2389761
+%sound.connect No Sound
+%serv.hist port80b.se.quakenet.org	(QuakeNet)|port80c.se.quakenet.org	(QuakeNet)|wineasy1.se.quakenet.org	(QuakeNet)|clanserver4u2.de.quakenet.org	(QuakeNet)|dreamhack.se.quakenet.org	(QuakeNet)|underworld2.no.quakenet.org	(QuakeNet)
+
+
+%ts 8,12 TS.JustArchi.net // Port:9987
+%gamenum 0
+%challnum 0
+%ch #epdl

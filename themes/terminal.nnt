@@ -1,0 +1,147 @@
+Name Terminal
+Version 1.1
+NNTVersion 1.03
+Author greeny
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font Tahoma
+FontSize 10
+
+TimestampEnabled 1
+Timestamp  0,10 0,12 11,2 HH10:11nn 0,12 0,10 
+
+NickColSelf none
+NickColOp 1
+NickColVoice 2
+NickColRegular 12
+NickColProtect 3
+NickColIgnore 4
+
+Brackets 12[<text>12]
+LineSep 
+Prefix  0,10 0,12 11,2 • 0,12 0,10  
+
+GenEcho <pre> <text>
+GenError <pre> error: <text>
+GenHighlight 12[<text>12]
+
+ChanText 12[10<cmode><nick>12] <text>
+ChanTextOwn 12[10<cmode><me>12] <text>
+ChanAction 02»10 <cmode><nick> <text>
+ChanActionOwn 02»10 <cmode><me> <text>
+
+QueryText 12[<nick>12] <text>
+QueryTextOwn 12[<me>12] <text>
+QueryAction 02» <nick> <text>
+QueryActionOwn 02» <me> <text>
+
+Msg 12?[<nick>12] <text>
+MsgOwn —› 12?[<target>12] <text>
+Action 02?» <nick> <text>
+ActionOwn —› ?» <target> <text>
+
+ChanNotice 02—<nick>02@<chan>02— <text>
+Notice 02—<nick>02— <text>
+NoticeOwn 02—› ?—<me>02— <text>
+ServerNotice 02—<server>02— <text>
+
+CTCP 02•<nick>02• <ctcp> <text>
+CTCPOwn 02—› ?02•<target>02• <ctcp> <text>
+ChanCTCP 02•<nick>02@<chan>02• <ctcp> <text>
+CTCPReply 02•<nick>02• REPLY <ctcp> <text>
+CTCPReplyOwn 02—› ?02•<target>02• REPLY <ctcp> <text>
+
+Join <pre> <nick> <address brackets="1"> has joined <chan>
+JoinOwn  0,10 0,12 11,2  join    0,12 0,10   0,10 0,12 11,2  chan   0,12 0,10   <chan>!if <topic>  0,10 0,12 11,2  topic   0,12 0,10   <topic>!if <topic>  0,10 0,12 11,2  set by2,2ii0,12 0,10   <topicnick> on <topicdate>, <topicdateago> ago 0,10 0,12 11,2  users 2,2i 0,12 0,10   <users> users, <oppedusers> opped, <voicedusers> voiced, <regusers> regulars 0,10 0,12 11,2  sync 2,2ii 0,12 0,10   <synctime brackets="1"> seconds 0,10 0,12 11,2  join    0,12 0,10  
+Part <pre> <nick> <address brackets="1"> has left <chan>
+Quit <pre> <nick> <address brackets="1"> Quit <message brackets="1">
+Nick <pre> <nick> is now known as <newnick>
+NickOwn <pre> your nick is now <newnick>
+Mode <pre> <nick> sets mode <mode brackets="1">
+UserMode <pre> usermode set to <mode brackets="1">
+Kick <pre> <kickednick> was kicked by <nick> <message brackets="1">
+KickOwn <pre> you were kicked from <chan> by <nick> <message brackets="1">
+WallOp 12!<nick>12! <text>
+
+DNS <pre> resolving <address brackets="1">
+DNSError <pre> unable to resolve <address brackets="1">
+DNSResolve <pre> resolved <address brackets="1"> to <raddress brackets="1">
+
+Notify <pre> <nick brackets="1"> is now online
+UnNotify <pre> <nick brackets="1"> is now offline
+
+LUsers1 <pre> there are <users brackets="1"> users and <invisible brackets="1"> invisible on <servers brackets="1"> servers
+LUsers2 <pre> <operators brackets="1"> operator(s) online
+LUsers3 <pre> <connections brackets="1"> unknown connection(s)
+LUsers4 <pre> <channels brackets="1"> channels formed
+LUsers5 <pre> i have <clients brackets="1"> clients and <servers brackets="1"> servers
+
+Welcome1 <pre> welcome to the network, <nick brackets="1">
+Welcome2 <pre> your host is <host brackets="1">, running version <version brackets="1">
+Welcome3 <pre> this server was created <created brackets="1">
+Welcome4 <pre> server: <server brackets="1"> <version> <usermodes> <chanmodes>
+SupportedInfo <pre> supported by this server are <protocols brackets="1">
+
+ChannelModes <pre> <chan brackets="1"> modes are: <modes>
+ChannelCreation <pre> <chan brackets="1"> was created on <created brackets="1">
+Bans <pre> <ban brackets="1"> ban set by <nick> <banned brackets="1">
+BansEnd <pre> end of <chan brackets="1"> banlist
+UnableToSend <pre> unable to message <chan brackets="1">
+NotOpped <pre> you're not channel operator on <chan brackets="1">
+HiddenHost <pre> <host brackets="1"> is now your hidden host
+RegisterFirst <pre> you have to register first!
+
+WhoisStart  0,10 0,12 11,2  whois  0,12 0,10  
+WhoisAddress  0,10 0,12 11,2  addy    0,12 0,10   <address> <name brackets="1">
+WhoisChans  0,10 0,12 11,2  chans   0,12 0,10   <chans>
+WhoisServer  0,10 0,12 11,2  server02ii 0,12 0,10   <server> <info brackets="1">
+WhoisStatus  0,10 0,12 11,2  status 02ii 0,12 0,10   <status>
+WhoisAway  0,10 0,12 11,2  away 02.i 0,12 0,10   <reason>
+WhoisAuth  0,10 0,12 11,2  auth     0,12 0,10   <auth>
+WhoisRealIP  0,10 0,12 11,2  IP 02ii      0,12 0,10   <address> <ip brackets="1">
+WhoisIdle  0,10 0,12 11,2  idle 02i     0,12 0,10   <idle> <signontime brackets="1">
+WhoisEnd  0,10 0,12 11,2  whois  0,12 0,10  
+
+WhowasStart  0,10 0,12 11,2  whowas  0,12 0,10  
+WhowasAddress  0,10 0,12 11,2  addy        0,12 0,10   <address> <name brackets="1">
+WhowasServer  0,10 0,12 11,2  server02ii     0,12 0,10   <server> <info brackets="1">
+WhowasAway  0,10 0,12 11,2  away 02.i     0,12 0,10   <reason>
+WhowasEnd  0,10 0,12 11,2  whowas  0,12 0,10  
+
+Who <pre> <chan brackets="1"> who: <nick brackets="1"> <status> <address> <name>
+WhoEnd <pre> <target brackets="1"> end of /WHO.
+
+Invite <pre> <nick brackets="1"> invites you to join <chan brackets="1">
+InviteOwn <pre> <nick brackets="1"> has been invited to <chan brackets="1">
+InviteAlreadyOnChan <pre> <nick brackets="1"> is already on <chan brackets="1">
+
+NoTopic <pre> no topic in <chan brackets="1"> set
+Topic  0,10 0,12 11,2  topic  0,12 0,10   0,10 0,12 11,2  text 2i   0,12 0,10   <topic>
+TopicBy  0,10 0,12 11,2  set by 0,12 0,10   <nick> 0,10 0,12 11,2  on      0,12 0,10   <date>, <dateago> ago 0,10 0,12 11,2  topic  0,12 0,10  
+TopicChange <pre> <nick> changes topic to <topic brackets="1">
+
+Names <pre> <chan brackets="1"> names: <names>
+NamesEnd <pre> <chan brackets="1"> end of /NAMES.
+
+UnknownCmd <pre> <cmd brackets="1"> is an unknown command
+NickInUse <pre> nickname <nick brackets="1"> is already in use!
+AwayStatus <pre> <nick brackets="1"> is marked as being away: <reason>
+ChanFull <pre> unable to join <chan brackets="1">: full
+ChanInviteOnly <pre> unable to join <chan brackets="1">: invite only
+ChanBanned <pre> unable to join <chan brackets="1">: you're banned
+ChanKeyRequired <pre> unable to join <chan brackets="1">: key required
+ChanRegOnly <pre> unable to join <chan brackets="1">: registered only
+NoSuchNick <pre> no such nick: <nick brackets="1">
+NoSuchChan <pre> no such channel: <chan brackets="1">
+
+RawDef <pre> raw <numeric brackets="1">: <text>
+
+Scheme0 Default 16777215 0 4539838 37632 255 127 10223772 32764 65535 64512 6019839 12058620 36857 5321472 8355711 13816530 11 13 2 4 2 2 2 2 2 2 2 13 4 4 2 13 2 2 2 2 2 11 2 11 1 1 2 10 11 13
+Scheme1 Blue 16777215 0 11428864 37632 255 127 10223772 32764 65535 64512 16762459 16768695 16350208 5321472 8355711 13816530 11 13 2 4 2 2 2 2 2 2 2 13 4 4 2 13 2 2 2 2 2 11 2 11 1 1 2 10 11 13
+Scheme2 Matrix 0 16777215 64819 37632 255 127 10223772 32764 65535 64512 153856 18439 45065 13107142 8355711 13816530 0 13 2 4 2 2 2 2 2 2 2 13 4 4 2 13 2 2 2 2 2 0 2 0 2 2 2 0 0 13
+Scheme3 Pink 16777215 0 14232502 37632 255 127 10223772 32764 65535 64512 16224767 15126755 16318713 5321472 8355711 13816530 11 13 2 4 2 2 2 2 2 2 2 13 4 4 2 13 2 2 2 2 2 11 2 11 1 1 2 10  11 13
+Scheme4 Teal 16777215 0 11051036 37632 255 127 10223772 32764 65535 64512 14871461 15396552 12570664 5321472 8355711 13816530 11 13 2 4 2 2 2 2 2 2 2 13 4 4 2 13 2 2 2 2 2 11 2 11 1 1 2 10 11 13
+Scheme5 Orange 0 16777215 3977471 37632 255 127 10223772 32764 65535 64512 4745335 4868682 3709660 8573951 8355711 13816530 11 13 2 4 2 2 2 2 2 2 2 13 4 4 2 13 2 2 2 2 2 11 2 11 1 1 2 10 11 13
+Scheme6 Dark_blue 0 16777215 16622848 37632 255 127 10223772 32764 65535 64512 5847040 4730368 11560192 16773062 8355711 13816530 0 13 2 4 2 2 2 2 2 2 2 13 4 4 2 13 2 2 2 2 2 0 2 0 2 2 2 0 0 13

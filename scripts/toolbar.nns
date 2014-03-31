@@ -1,0 +1,631 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - toolbar - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias lagchktimer {
+  .timerlagchk -io 0 %lag.chk.delay lagchk.tmr
+  if ($1 == -e) { timerlagchk -e }
+}
+alias lagchk.tmr { scon -at1 lagchk }
+alias lagchk {
+  if ($uptime(server,3) < 60) {
+    if ($cid == $activecid) {
+      set -u60 %tb.lagchk.wait 1
+      toolbar.refinfo
+    }
+  }
+  else { !.notice $me LAGCHK $nnticks }
+}
+alias crmlagbar {
+  if (!$window(@tb.lagbar)) {
+    window -fhip +d @tb.lagbar -1 -1 100 23
+    if (%tb.lagcol == 1) { drawrect -rf @tb.lagbar $color($color(back)) 1 0 0 100 23 }
+    else { drawrect -rf @tb.lagbar %tb.lagcol.bg 1 0 0 100 23 }
+  }
+}
+alias crminfobox {
+  if (!$window(@tb.infobox)) {
+    window -fhip +d @tb.infobox -1 -1 80 23
+    drawrect -rf @tb.infobox $rgb(face) 1 0 0 80 23
+  }
+}
+alias toolbar.dlaghist {
+  if ($toolbar(lagbar)) {
+    crmlagbar
+    clear @tb.lagbar
+    if (%tb.lagcol == 1) { drawrect -nrf @tb.lagbar $color($color(back)) 1 1 1 98 23 }
+    else { drawrect -nrf @tb.lagbar %tb.lagcol.bg 1 1 1 98 23 }
+    if (%lagbar.border == 1) { drawrect -nr @tb.lagbar $rgb(shadow) 1 0 0 100 23 }
+    elseif (%lagbar.border == 2) {
+      drawline -nr @tb.lagbar $rgb(hilight) 1 0 0 100 0
+      drawline -nr @tb.lagbar $rgb(hilight) 1 0 0 0 23
+      drawline -nr @tb.lagbar $rgb(shadow) 1 0 22 100 22
+      drawline -nr @tb.lagbar $rgb(shadow) 1 99 1 99 23
+    }
+    else {
+      drawline -nr @tb.lagbar $rgb(shadow) 1 0 0 100 0
+      drawline -nr @tb.lagbar $rgb(shadow) 1 0 0 0 23
+      drawline -nr @tb.lagbar $rgb(hilight) 1 0 22 100 22
+      drawline -nr @tb.lagbar $rgb(hilight) 1 99 0 99 23
+    }
+    var %n = %laghistory. [ $+ [ $cid ] ]
+    if ($istok(2 8,%lagbar.style,32)) { %n = $wd(%n,1-26) }
+    elseif ($istok(1 4 6 9,%lagbar.style,32)) { %n = $wd(%n,1) }
+    elseif (%lagbar.style == 3) { %n = $wd(%n,1-10) }
+    var %t = $wd(%n,0)
+    while (%t) {
+      toolbar.dlag $wd(%n,%t) -n
+      dec %t
+    }
+    drawdot @tb.lagbar
+    toolbar -p lagbar @tb.lagbar 0 0 100 23
+    unset %dlaghist.tmp
+  }
+}
+alias curlag { return $wd(%laghistory. [ $+ [ $cid ] ],1) }
+alias displag {
+  if ($curlag isnum) { return $v1 }
+  else { return ? }
+}
+alias toolbar.dlag {
+  if ($toolbar(lagbar)) {
+    crmlagbar
+    if (%tb.lagcol) {
+      if ($1 > %lag.chk.len) { var %c = %tb.lagcol.grh }
+      else { var %c = %tb.lagcol.gr }
+    }
+    else {
+      var %x = $calc($1 / %lag.chk.len *510)
+      if (%x >= 510) { var %c = 255 }
+      elseif (%x <= 255) { var %c = $rgb(%x,255,0) }
+      else { var %c = $rgb(255,$calc(255- %x % 255),0) }
+    }
+    if (%lagbar.border == 3) { drawrect -nr @tb.lagbar %c 1 0 0 100 23 }
+    if (%lagbar.style == 1) {
+      drawrect -nrf @tb.lagbar %tb.lagcol.bg 1 1 1 98 21
+      var %d = $base($1,10,2,19),%i = 1,%x = 3
+      while ($mid(%d,%i,1) != $null) {
+        if ($v1) {
+          drawrect -nrf @tb.lagbar %c 1 %x 2 4 19
+          drawtext -nr @tb.lagbar %tb.lagcol.bg "Small Fonts" 7 %x 7 1
+        }
+        else { drawtext -nr @tb.lagbar %c "Small Fonts" 7 %x 7 0 }
+        inc %x 5
+        inc %i
+      }
+    }
+    elseif (%lagbar.style == 2) {
+      if ($2 == -n) {
+        var %o = $int($calc(%dlaghist.tmp / %lag.chk.len *21)),%d = $int($calc($1 / %lag.chk.len *21))
+        set %dlaghist.tmp $1
+      }
+      else { var %o = $int($calc($curlag / %lag.chk.len *21)),%d = $int($calc($1 / %lag.chk.len *21)) }
+      drawscroll -n @tb.lagbar -4 0 1 1 98 21
+      drawrect -nrf @tb.lagbar %tb.lagcol.bg 1 95 1 4 21
+      drawline -nr @tb.lagbar %c 1 94 $calc(21- %o) 98 $calc(21- %d)
+      drawdot -nr @tb.lagbar %c 1 98 $calc(21- %d)
+      if ($1 > %lag.chk.len) { drawdot -nr @tb.lagbar %c 2 97 21 }
+    }
+    elseif (%lagbar.style == 3) {
+      drawscroll -n @tb.lagbar 0 -2 1 1 98 21
+      drawline -nr @tb.lagbar %tb.lagcol.bg 1 2 20 98 20
+      drawline -nr @tb.lagbar %c 1 2 20 $iif($int($calc($1 / %lag.chk.len *98)) < 98,$v1,98) 20
+    }
+    elseif (%lagbar.style == 4) {
+      drawrect -nrf @tb.lagbar %tb.lagcol.bg 1 1 1 98 21
+      var %y = 1,%x,%g
+      while (%y <= 19) {
+        %x = 1
+        while (%x <= 96) {
+          if ($1 > $rand(1,%lag.chk.len)) { drawrect -nrf @tb.lagbar %c 1 %x %y 3 3 }
+          else { drawrect -nrf @tb.lagbar %tb.lagcol.bg 1 %x %y 3 3 }
+          inc %x 3
+        }
+        inc %y 3
+      }
+    }
+    elseif (%lagbar.style == 5) {
+      var %d = $int($calc($1 / %lag.chk.len *21))
+      drawscroll -n @tb.lagbar -1 0 1 1 98 21
+      drawrect -nrf @tb.lagbar %tb.lagcol.bg 1 98 1 1 21
+      if (%d > 20) { drawdot -nrf @tb.lagbar %c 1 98 1 }
+      else { drawdot -nrf @tb.lagbar %c 1 98 $calc(21- %d) }
+    }
+    elseif (%lagbar.style == 6) {
+      drawrect -nrf @tb.lagbar %tb.lagcol.bg 1 1 1 98 21
+      if ($int($calc($1 / %lag.chk.len *96)) <= 96) { drawrect -nrf @tb.lagbar %c 1 2 2 $v1 19 }
+      else { drawrect -nrf @tb.lagbar %c 1 2 2 96 19 }
+    }
+    elseif (%lagbar.style == 7) {
+      var %d = $int($calc($1 / %lag.chk.len *21))
+      drawscroll -n @tb.lagbar -1 0 1 1 98 21
+      drawrect -nrf @tb.lagbar %tb.lagcol.bg 1 98 1 1 21
+      if ($calc(21- %d) > 0) { drawline -nrf @tb.lagbar %c 1 98 21 98 $v1 }
+      else { drawline -nrf @tb.lagbar %c 1 98 21 98 0 }
+    }
+    elseif (%lagbar.style == 8) {
+      var %d = $int($calc($1 / %lag.chk.len *19))
+      drawscroll -n @tb.lagbar -4 0 1 1 98 21
+      drawrect -nrf @tb.lagbar %tb.lagcol.bg 1 95 1 4 21
+      if ($calc(21- %d) > 1) { drawrect -nrf @tb.lagbar %c 1 95 $v1 3 %d }
+      else { drawrect -nrf @tb.lagbar %c 1 95 2 3 19 }
+    }
+    elseif (%lagbar.style == 9) {
+      drawrect -nrf @tb.lagbar %tb.lagcol.bg 1 1 1 98 21
+      var %p = $int($calc($1 / %lag.chk.len *100)),%t,%lg = $bytes($1,b) ms
+      if (%p <= 10) { %t = Very low }
+      elseif (%p isnum 11-30) { %t = Low }
+      elseif (%p isnum 31-70) { %t = Medium }
+      elseif (%p isnum 71-90) { %t = High }
+      else { %t = Very high }
+      drawtext -nro @tb.lagbar %c Tahoma 10 $calc(49- $width(%lg,Tahoma,10,1) /2) 0 %lg
+      drawtext -nro @tb.lagbar %c Tahoma 10 $calc(49- $width(%t,Tahoma,10,1) /2) 9 %t
+    }
+    elseif (%lagbar.style == 10) {
+      var %d = $int($calc($1 / %lag.chk.len *21))
+      drawscroll -n @tb.lagbar -1 0 1 1 98 21
+      drawrect -nrf @tb.lagbar %tb.lagcol.bg 1 98 1 1 21
+      if ($calc(21- %d) > 0) { drawline -nrf @tb.lagbar %c 1 98 11 98 $v1 }
+      else { drawline -nrf @tb.lagbar %c 1 98 11 98 0 }
+    }
+    else {
+      var %d = $int($calc($1 / %lag.chk.len *10))
+      drawscroll -n @tb.lagbar -1 0 1 1 98 21
+      drawrect -nrf @tb.lagbar %tb.lagcol.bg 1 98 1 1 21
+      drawline -nrf @tb.lagbar %c 1 98 $iif($calc(11- %d) < 1,1,$v1) 98 $iif($calc(12+ %d) > 22,22,$v1)
+    }
+    if ($2 != -n) {
+      drawdot @tb.lagbar
+      if ($toolbar(lagbar)) { toolbar -p lagbar @tb.lagbar 0 0 100 23 }
+    }
+  }
+}
+on *:active:*:{
+  if (%lastcid != $cid) {
+    titlebar.ref
+    toolbar.conbtn
+    toolbar.dlaghist
+    toolbar.refinfo
+  }
+  set %lastcid $cid
+}
+on *:connectfail:{ if ($toolbar(infobox)) { toolbar.conbtn } }
+alias toolbar.conbtn {
+  var %a = 1,%i = $toolbar(0)
+  while (%a <= %i) {
+    if ($toolbar(%a).alias == /connectbtn) {
+      if ($status != disconnected) { toolbar -k1 $toolbar(%a).name }
+      else { toolbar -k0 $toolbar(%a).name }
+    }
+    inc %a
+  }
+}
+alias tb.ldef {
+  if ($ydialog(Do you really want to reset the toolbar to its defaults using the $1 icon set?)) {
+    did -b settings 282,281,275,274
+    window -h @tbdef
+    loadbuf -t $+ $1 @tbdef scripts\txt\toolbar-defs.txt
+    savebuf @tbdef scripts\txt\toolbar.txt
+    close -@ @tbdef
+    noop $findfile(scripts\txt\popups\,*.pop,0,0,tryremove $qt($1-))
+    .copy -o scripts\txt\popups\1.tmp scripts\txt\popups\1.pop
+    tbedit.reflist
+    nntoolbar
+  }
+}
+alias tb.edit {
+  set %toolbar.edit $calc($did(266).sel -1)
+  noop $dialog(tb.add,tb.add,-4)
+  unset %toolbar.edit
+}
+alias tbedit.reflist {
+  window -h @reflist
+  var %i = 1
+  .fopen tb scripts\txt\toolbar.txt
+  did -r settings 266
+  did -i settings 266 1 clearicons normal
+  while (!$feof) {
+    tokenize 1 $fread(tb)
+    if ($1- != $null) {
+      if ($1- == -) { echo @reflist 0 + 0 0 0 <Separator> }
+      elseif ($2 == <infobox>) {
+        did -i settings 266 1 seticon normal 0 $mircdir $+ iconsets\megapack\info.ico
+        echo @reflist 0 + %i 0 0 $1 $+ 	+ 0 0 0 $3
+        inc %i
+      }
+      elseif ($2 == <lagbar>) {
+        did -i settings 266 1 seticon normal 0 $mircdir $+ iconsets\megapack\calc.ico
+        echo @reflist 0 + %i 0 0 $1 $+ 	+ 0 0 0 $3
+        inc %i
+      }
+      else {
+        did -i settings 266 1 seticon normal 0 $mkfullfn($3).noqt
+        echo @reflist 0 + %i 0 0 $1 $+ 	+ 0 0 0 $2
+        inc %i
+      }
+    }
+  }
+  .fclose tb
+  filter -cwo @reflist settings 266 *
+  close -@ @reflist
+}
+alias toolbar.refinfo {
+  if ($toolbar(infobox)) {
+    crminfobox
+    drawrect -nrf @tb.infobox $rgb(face) 1 0 0 80 23
+    drawtext -nr @tb.infobox $rgb(text) Tahoma 10 0 -1 Lag:
+    if ($1 == -c) { var %z = refreshing... }
+    elseif (%tb.lagchk.wait) {
+      var %z = waiting...
+      unset %tb.lagchk.wait
+    }
+    else { var %z = $iif($curlag != $null,$v1 ms,n/a) }
+    drawtext -nr @tb.infobox $rgb(text) Tahoma 10 $tb.maxwidth(21,%z) -1 %z
+    if ($timer(alarm)) && (%alarmstb) {
+      drawtext -nr @tb.infobox $rgb(text) Tahoma 10 0 11 Alarm:
+      var %t = $sdur($alarm.rsecs)
+      drawtext -nr @tb.infobox $rgb(text) Tahoma 10 $tb.maxwidth(31,%t) 11 %t
+    }
+    else {
+      if (%email.checker) && (%email.bar) {
+        drawtext -nr @tb.infobox $rgb(text) Tahoma 10 0 11 Mail:
+        drawtext -nr @tb.infobox $rgb(text) Tahoma 10 $tb.maxwidth(22,%mail.curin in) 11 %mail.curin in
+      }
+      else {
+        drawtext -nr @tb.infobox $rgb(text) Tahoma 10 0 11 Net:
+        var %n = $curconserv
+        drawtext -nr @tb.infobox $rgb(text) Tahoma 10 $tb.maxwidth(20,%n) 11 %n
+      }
+    }
+    drawdot @tb.infobox
+    toolbar -p infobox @tb.infobox 0 0 80 23
+  }
+}
+alias tb.maxwidth {
+  var %w = $calc(80- $width($2-,Tahoma,10))
+  if (%w < $1) { %w = $1 }
+  return %w
+}
+alias connectpopup {
+  if ($1 isnum) && ($wd(%autoconservs,$1) != $null) {
+    var %s = $v1
+    return $iif($iscon(%s),$style(1)) & $+ %s $+ :server $2 %s
+  }
+}
+alias cprogpopup {
+  if ($isfile(scripts\txt\cprog.txt)) {
+    if ($1 == begin) { .fopen cprog scripts\txt\cprog.txt }
+    elseif ($1 == end) { .fclose cprog }
+    else {
+      if (!$fopen(cprog).feof) {
+        tokenize 160 $fread(cprog)
+        if ($1- != $null) { return & $+ $1 $+ : $+ $iif($2,cprogrun $3-,$3-) }
+      }
+    }
+  }
+}
+alias awaypopup {
+  if ($1 == begin) {
+    var %i = $hget(awaypreset,0).item
+    window -hs @awpresetload
+    while (%i) {
+      aline @awpresetload $replace($hget(awaypreset,%i).item,_,$chr(32))
+      dec %i
+    }
+  }
+  elseif ($1 == end) { close -@ @awpresetload }
+  else {
+    var %u = $line(@awpresetload,$1)
+    if (%u != $null) { return & $+ %u $+ :a %u }
+  }
+}
+alias helppopup {
+  if ($1 == begin) {
+    window -hs @helppopup
+    noop $findfile($mircdir,*.hlp;*.chm;*.txt,0,0,aline @helppopup & $+ $helppopup.desc($nopath($1-)) $+ :open $1-)
+    if ($mircdir != $nofile($mircexe)) { noop $findfile($nofile($mircexe),*.hlp;*.chm;*.txt,0,0,aline @helppopup & $+ $helppopup.desc($nopath($1-)) $+ :open $1-) }
+    if (!$line(@helppopup,0)) { return $style(2) No help files found:return }
+  }
+  elseif ($1 == end) { close -@ @helppopup }
+  elseif ($1 isnum 1- $+ $line(@helppopup,0)) { return $line(@helppopup,$1) }
+}
+alias helppopup.desc { return $+($replace($1-,ircintro.chm,IRC Intro,mirc.chm,mIRC help,nnchanges.txt,NNScript changelog,nnreadme.txt,NNScript readme,readme.txt,mIRC readme,versions.txt,mIRC changelog),	,$nbr($1-)) }
+alias tbinfo.click {
+  if ($status == connected) {
+    timerlagchk -e
+    toolbar.refinfo -c
+  }
+  else { errdialog You are not connected to the server. }
+}
+alias nntoolbar {
+  if ($1 == -u) { deftoolbar }
+  else {
+    toolbar -c
+    var %i = 1
+    .fopen tb scripts\txt\toolbar.txt
+    while (!$feof(tb)) {
+      tokenize 1 $fread(tb)
+      if ($1- != $null) {
+        if ($1- == -) { toolbar -as sep $+ %i }
+        else {
+          var %icon = $mkfullfn($iif($isfile($3),$3,scripts\pics\error.ico))
+          if ($2 == <connect>) { toolbar -az1k0 btn $+ %i $qt($1 (Right-click for options)) %icon /connectbtn @tbpopup.connect }
+          elseif ($2 == <away>) { toolbar -az1 btn $+ %i $qt($1 (Right-click for options)) %icon /aw @tbpopup.away }
+          elseif ($2 == <help>) { toolbar -az1 btn $+ %i $qt($1 (Right-click for options)) %icon /help @tbpopup.help }
+          elseif ($2 == <cprog>) { toolbar -az1 btn $+ %i $qt($1 (Right-click for options)) %icon /cprog @tbpopup.cprog }
+          elseif ($2 == <infobox>) {
+            crminfobox
+            drawrect -rf @tb.infobox $rgb(face) 1 0 0 80 23
+            toolbar -a infobox $qt($1) @tb.infobox 0 0 80 23 $qt(/ $+ $3) @tbpopup.infobox
+          }
+          elseif ($2 == <lagbar>) {
+            crmlagbar
+            toolbar -a lagbar $qt($1) @tb.lagbar 0 0 100 23 $qt(/ $+ $3) @tbpopup.lagbar
+          }
+          else { toolbar -az1 $+ $iif($4,k0) btn $+ %i $qt($1 $iif($6,(Right-click for options))) %icon $qt(/ $+ $replace($2,",')) $iif($6,"scripts\txt\popups\ $+ $6 $+ .pop") }
+        }
+        inc %i
+      }
+    }
+    .fclose tb
+    toolbar.refinfo
+    toolbar.dlaghist
+    toolbar.conbtn
+  }
+  .timerwinarr -imo 1 50 winarr.ref
+}
+menu @tbpopup.lagbar {
+  &Clear lagbar:lagbar.clear
+  -
+  &Setup...:setup -c Toolbar|Lag bar
+}
+menu @tbpopup.infobox {
+  &Setup...:setup -c Toolbar|Customize
+}
+menu @tbpopup.help {
+  $submenu($helppopup($1))
+  -
+  &Command list...:cmdlist
+}
+menu @tbpopup.cprog {
+  $submenu($cprogpopup($1))
+  -
+  &Edit programs...:cprog
+}
+menu @tbpopup.connect {
+  &Same connection
+  .$submenu($connectpopup($1))
+  &New connection
+  .$submenu($connectpopup($1,-m))
+  .-
+  .&Create empty connection:server -n
+  -
+  &Connect all favorites:tb.conall
+  $iif(!$scon(0),$style(2)) &Disconnect all:tb.discall
+  -
+  S&etup favorites...:setup -c Favorite Networks
+}
+alias tb.discall {
+  if ($$ydialog(Do you really want to disconnect from all servers?)) { scon -at1 quit }
+}
+alias tb.conall {
+  var %z = $iif($status == connected,1,0),%i = 1,%t = $wd(%autoconservs,0)
+  while (%i <= %t) {
+    var %s = $wd(%autoconservs,%i)
+    server $iif(%z,-m) %s
+    %z = 1
+    inc %i
+  }
+}
+menu @tbpopup.away {
+  $submenu($awaypopup($1))
+  -
+  &Away system...:aw
+}
+alias deftoolbar {
+  if ($isfile(toolbar.ini)) { tryremove toolbar.ini }
+  .copy scripts\txt\toolbar-def.ini toolbar.ini
+  toolbar -fl
+  toolbar -fs
+}
+alias lagbar.stats {
+  if ($status != connected) { errdialog You are not connected to the server. }
+  else {
+    var %h = $wd(%laghistory. [ $+ [ $cid ] ],1-100),%n = $wd(%h,0)
+    idialog Lag statisticsTime $+(connected:	,$sduration($uptime(server,3)),Current lag:	,$iif($curlag,$v1 ms,unknown),Average lag:	,$iif(%h,$round($calc(($replace(%h,$chr(32),+))/ %n),0) ms (from last %n checks/ $+ $duration($calc(%lag.chk.delay * %n)) $+ ),unknown))
+  }
+}
+dialog tb.add {
+  title "Edit toolbar button"
+  size -1 -1 298 336
+  option pixels
+  icon scripts\pics\nntray.ico, 0
+  box "General", 5, 4 4 290 118
+  text "Preset", 11, 14 24 36 16
+  combo 12, 112 20 172 160, size drop
+  text "Command", 3, 14 48 52 16
+  combo 4, 112 44 172 160, sort edit limit 200 drop
+  text "Name/description", 2, 14 72 88 16
+  edit "", 1, 111 68 174 22, autohs limit 50
+  text "Icon", 15, 14 96 28 16
+  edit "", 16, 111 92 141 22, autohs limit 200
+  button "&...", 17, 254 92 30 22
+  box "Advanced", 6, 4 128 290 175
+  check "&Push button", 18, 12 144 84 18
+  check "&Add a dropdown menu", 7, 12 161 132 18
+  button "?", 13, 254 159 30 22
+  edit "", 8, 28 182 258 112, disable multi return autohs autovs vsbar limit 200
+  button "&Ok", 9, 128 308 80 24
+  button "&Cancel", 10, 214 308 80 24, cancel
+}
+on *:dialog:tb.add:*:*:{
+  if ($devent == init) {
+    loaddefcmds $dname 4
+    didtok $dname 12 44 Custom button,Application quicklaunch,Away presets,Connect/disconnect,Help files,Info box,Lag bar
+    did -c $dname 12 1
+    if (%toolbar.edit) {
+      tokenize 1 $read(scripts\txt\toolbar.txt,n,$v1)
+      did -b $dname 4,7,18
+      if ($2 == <away>) { did -c $dname 12 3 }
+      elseif ($2 == <connect>) { did -c $dname 12 4 }
+      elseif ($2 == <cprog>) { did -c $dname 12 2 }
+      elseif ($2 == <help>) { did -c $dname 12 5 }
+      elseif ($2 == <infobox>) {
+        did -c $dname 12 6
+        did -b $dname 16,17
+        did -e $dname 1,4
+        did -a $dname 1 $1
+        did -o $dname 4 0 $3
+        return
+      }
+      elseif ($2 == <lagbar>) {
+        did -c $dname 12 7
+        did -b $dname 16,17
+        did -e $dname 1,4
+        did -a $dname 1 $1
+        did -o $dname 4 0 $3
+        return
+      }
+      else {
+        did -e $dname 1,4,7,18
+        if ($5) {
+          did -c $dname 7
+          did -e $dname 8
+        }
+        if ($4) { did -c $dname 18 }
+        var %f = $+(scripts\txt\popups\,$6,.pop)
+        if ($isfile(%f)) {
+          loadbuf -o $dname 8 %f
+          filter -iocxg $dname 8 $dname 8 ^[ ]*$
+        }
+      }
+      did -a $dname 1 $1
+      did -o $dname 4 0 $2
+      did -a $dname 16 $3
+    }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 4) { if ($regex(sel,$did($did).seltext,/^.+ \((.+)\)$/)) { .timer 1 0 did -o $dname $did 0 $regml(sel,1) } }
+    elseif ($did == 13) { idialog You can add menu items in the form of "Display name:command".Example:Theme setup:themesScript setup:setup }
+    elseif ($did == 9) {
+      if (($did(12).seltext == Lag bar) && ($read(scripts\txt\toolbar.txt,wn,*<lagbar>*))) || (($did(12).seltext == Info box) && ($read(scripts\txt\toolbar.txt,wn,*<infobox>*))) {
+        if (!%toolbar.edit) || (%toolbar.edit != $readn) {
+          errdialog you can only have one lag bar/info box in your toolbar!
+          return
+        }
+      }
+      if ($did(1)) && (($did(16)) || (($did(12).seltext == Lag bar) || ($did(12).seltext == Info box))) {
+        var %cmd = $iif($did(4),$v1,noop)
+        if (!$istok(<connect> <cprog> <help> <away>,%cmd,32)) || ($did(12).seltext != Custom button) {
+          var %z = 0,%o = $gettok($read(scripts\txt\toolbar.txt,n,%toolbar.edit),6-,1)
+          if ($did(7).state) {
+            if (%toolbar.edit) && (%o isnum) { %z = $v1 }
+            if (!%z) { %z = $trnum }
+            if (!$isdir(scripts\txt\popups\)) { mkdir scripts\txt\popups\ }
+            savebuf -o $dname 8 $+(scripts\txt\popups\,%z,.pop)
+          }
+          else {
+            var %k = $+(scripts\txt\popups\,%o,.pop)
+            if ($isfile(%k)) { tryremove %k }
+          }
+          if ($did(12).seltext == Custom button) { var %s = $+($remove($did(1),),,$remove(%cmd,),,$remove($did(16),),,$did(18).state,,$did(7).state,,%z) }
+          elseif ($did(12).seltext == Application quicklaunch) { var %s = $+($remove($did(1),),<cprog>,$remove($did(16),),010) }
+          elseif ($did(12).seltext == Away presets) { var %s = $+($remove($did(1),),<away>,$remove($did(16),),010) }
+          elseif ($did(12).seltext == Connect/disconnect) { var %s = $+($remove($did(1),),<connect>,$remove($did(16),),010) }
+          elseif ($did(12).seltext == Help files) { var %s = $+($remove($did(1),),<help>,$remove($did(16),),010) }
+          elseif ($did(12).seltext == Info box) { var %s = $+($remove($did(1),),<infobox>,$remove(%cmd,)) }
+          elseif ($did(12).seltext == Lag bar) { var %s = $+($remove($did(1),),<lagbar>,$remove(%cmd,)) }
+          if (%toolbar.edit) { write -l $+ %toolbar.edit scripts\txt\toolbar.txt %s }
+          else {
+            var %x
+            if ($did(settings,266).sel) {
+              var %x = $calc($v1 -1)
+              write -il $+ %x scripts\txt\toolbar.txt %s
+            }
+            else { write scripts\txt\toolbar.txt %s }
+          }
+          tbedit.reflist
+          nntoolbar
+          if (%toolbar.edit) { did -c settings 266 $calc($v1 +1) }
+          else { did -c settings 266 $iif(%x,$calc(%x +1),$did(settings,266).lines) }
+          did -e settings 274,275,276
+          if ($did(settings,266).sel != 2) { did -e settings 281 }
+          if ($did(settings,266).sel != $did(settings,266).lines) { did -e settings 282 }
+          dialog -c $dname
+        }
+        else { errdialog this command name is reserved for the presets! Please choose another one. }
+      }
+      else { errdialog you have to fill out all editboxes! }
+    }
+    elseif ($did == 12) {
+      if ($did($did).seltext == Custom button) {
+        did -e $dname 4,7,18,16,17
+        did -r $dname 1
+        did -o $dname 4 0
+      }
+      elseif ($did($did).seltext == Lag bar) || ($did($did).seltext == Info box) {
+        did -b $dname 7,18,8,16,17
+        did -e $dname 4
+        did -r $dname 8,16
+        did -o $dname 4 0
+        did -u $dname 7,18
+        did -ra $dname 1 $did($did).seltext
+      }
+      else {
+        did -b $dname 4,7,18,8
+        did -e $dname 16,17
+        did -r $dname 8
+        did -u $dname 7,18
+        did -o $dname 4 0 $replace($did($did).seltext,Connect/disconnect,<connect>,Away presets,<away>,Application quicklaunch,<cprog>,Help files,<help>)
+        did -ra $dname 1 $did($did).seltext
+      }
+    }
+    elseif ($did == 17) { did -ra $dname 16 $relpath($$sfile($iif($isfile($did(16)),$did(16),$mircdir $+ iconsets\*.ico),Select an icon!)) }
+    elseif ($did == 7) { did $iif($did($did).state,-e,-b) $dname 8 }
+  }
+}
+alias connectbtn {
+  if ($gettok($readini($mircini,options,n0),35,44)) {
+    if ($status != disconnected) {
+      inc -u2 %tb.ddclick
+      if (%tb.ddclick == 2) || ($status != connected) {
+        unset %tb.ddclick
+        disconnect
+      }
+    }
+    else { server }
+  }
+  else {
+    if ($status != disconnected) { disconnect }
+    else { server }
+  }
+  toolbar.conbtn
+}
+alias tb.refcols {
+  if (%tb.lagcol == 1) {
+    crmlagbar
+    set %tb.lagcol.bg $color($color(back))
+    set %tb.lagcol.gr $color($color(info))
+    set %tb.lagcol.grh $color($color(info2))
+    drawrect -rf @tb.lagbar %tb.lagcol.bg 1 0 0 100 22
+    toolbar.dlaghist
+  }
+}
+alias iscon {
+  var %i = $scon(0)
+  while (%i) {
+    scon %i
+    if ($network == $1) && ($status == connected) { return 1 }
+    dec %i
+  }
+  return 0
+}
+alias lagbar.clear {
+  unset %laghistory. $+ $cid
+  toolbar.refinfo
+  toolbar.dlaghist
+}
+on *:logon:*:{ if ($cid == $activecid) { toolbar.refinfo } }
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

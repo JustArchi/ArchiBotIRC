@@ -1,0 +1,141 @@
+Name Coder's Paradise
+Version 1.0
+NNTVersion 1.03
+Author Phreak
+Email phreak@nnscript.com
+Homepage http://www.nnscript.com
+Description Ever wanted to hide your chatting openly? Inspired by c0ders irssi theme by PCrazee - http://www.irssi.org/themes
+
+Font Lucida Console
+FontSize 10
+
+TimestampEnabled 1
+Timestamp 15HH:nn:ss
+
+NickColSelf none
+NickColOp none
+NickColVoice none
+NickColRegular none
+NickColProtect none
+NickColIgnore none
+
+Brackets (12"<text>")
+LineSep 03<pre> ----
+Prefix //
+
+GenEcho <pre> <text>
+GenError <pre> ERROR: <text>
+GenHighlight '<text>'
+
+ChanText <cmode><nick> <text>
+ChanTextOwn <cmode><me> <text>
+ChanAction /**  * <nick> <text>  */
+ChanActionOwn /**  * <me> <text>  */
+
+QueryText <nick> <text>
+QueryTextOwn <me> <text>
+QueryAction /**  * <nick> <text>  */
+QueryActionOwn /**  * <me> <text>  */
+
+Msg <nick> <text>
+MsgOwn <target> <text>
+Action /**  * <nick> <text>  */
+ActionOwn /**  * <me> <text>  */
+
+ChanNotice -<nick>@<chan>- <text>
+Notice -<nick>- <text>
+NoticeOwn Note n = 13new Notice(<target>, 12"<text>");
+ServerNotice -<server>- <text>
+
+CTCP [<nick> <ctcp>] <text>
+CTCPOwn CTCP c = 13new CTCP(<target>, CTCP.<ctcp>, 12"<text>");
+ChanCTCP [<nick>:<chan> <ctcp>] <text>
+CTCPReply [<nick> <ctcp> reply] <text>
+CTCPReplyOwn CTCPReply r = 13new CTCPReply(<target>, CTCP.<ctcp>, 12"<text>");
+
+Join 13this.join = 13new Join(<nick>, 12"<address>", 12"<chan>");
+JoinOwn 13this.join = 13new Join(12"<me>", <chan>);!if <topic> 03<pre> Topic is '<topic>'!if <topic> 03<pre> Set by <topicnick> on <topicdate>13this.chan = 13new Channel(12"<chan>");<chan>: Total of <users> nicks (12"<oppedusers> ops, <hoppedusers> halfops, <voicedusers> voices, <regusers> normal");
+Part 13this.part = 13new Part(<nick>, 12"<address>", <chan>, 12"<message>");
+Quit 13this.quit = 13new Quit(<nick>, 12"<address>", 12"<message>");
+Nick <pre> <nick> is now known as <newnick>
+NickOwn <pre> you are now wanted by the nick <newnick>
+Mode <pre> "<mode>" by <nick>
+UserMode <pre> "<mode>" by <me>
+Kick 13this.kick = 13new Kick(<kickednick>, <chan>, <nick>, 12"<message>");
+KickOwn 13this.kick = 13new Kick(<nick>, <chan>, <me>, 12"<message>");
+WallOp <pre> !<nick>! <text>
+
+DNS <pre> Dns resolving <address>
+DNSError <pre> Dns unable to resolve <address>
+DNSResolve <pre> Dns resolved <address> to <raddress>
+
+Notify <pre> <nick> is now online
+UnNotify <pre> <nick> is now offline
+
+LUsers1 <pre> There are <users> users and <invisible> invisible on <servers> servers
+LUsers2 <pre> <operators> operator(s) online
+LUsers3 <pre> <connections> unknown connection(s)
+LUsers4 <pre> <channels> channels formed
+LUsers5 <pre> I have <clients> clients and <servers> servers
+
+Welcome1 <pre> Welcome to the Internet Relay Network, <nick>
+Welcome2 <pre> Your host is <host>, running version <version>
+Welcome3 <pre> This server was created <created>
+Welcome4 <pre> <server> <version> <usermodes> <chanmodes>
+SupportedInfo <protocols> are supported by this server
+
+ChannelModes <pre> Mode <modes> in <chan>
+ChannelCreation <pre> <chan> was created on <created>
+Bans <pre> Ban <ban> in <chan> by <nick>, <bannedago> ago
+BansEnd <pre> End of ban list
+UnableToSend <pre> Unable to message <chan>
+NotOpped <pre> You need to be a channel operator on <chan> to do that
+HiddenHost <pre> <host> is now your hidden host
+RegisterFirst Register first!
+
+WhoisStart 13for (whois, <nick>) {
+WhoisAddress     address = <address>       name = <name>
+WhoisChans       chans = <chans>
+WhoisServer      server = <server> (12"<info>")
+WhoisStatus      status: <status>
+WhoisAway        away = <reason>
+WhoisAuth        auth = <auth>
+WhoisRealIP        real = <address> ('<ip>')
+WhoisIdle        idle = <idle>  signed on = <signontime>
+WhoisEnd }
+
+WhowasStart 13for (whowas, <nick>) {
+WhowasAddress     address = <address>       name = <name>
+WhowasServer      server = <server> (12"<info>")
+WhowasAway        away = <reason>
+WhowasEnd }
+
+Who <pre> <chan> <nick> <status> <address> <name>
+WhoEnd <pre> <target> End of /WHO list.
+
+Invite <pre> <nick> invites you to join <chan> ... let's see whats goin' on in there ;)
+InviteOwn <pre> OMG, what have you done? You invited <nick> to <chan>
+InviteAlreadyOnChan <pre> <nick> is already on channel <chan>
+
+NoTopic <pre> Looks like there is no topic in <chan>
+Topic 03<pre> Topic is '<topic>'
+TopicBy 03<pre> Set by <nick> on <date>
+TopicChange 13this.topic = 13new Topic(<nick>, <chan>, 12"<topic>");
+
+Names <pre> <chan> <names>
+NamesEnd <pre> <chan> End of /NAMES list.
+
+UnknownCmd <pre> Unknown command -<gt> <cmd>
+NickInUse <pre> Nick "<nick>" is already taken
+AwayStatus <pre> <nick> is marked as being away: <reason>
+ChanFull <pre> Cannot join to channel <chan> (Channel is full)
+ChanInviteOnly <pre> Cannot join to channel <chan> (You must be invited)
+ChanBanned <pre> Cannot join to channel <chan> (You are banned)
+ChanKeyRequired <pre> Cannot join to channel <chan> (Bad channel key)
+ChanRegOnly <pre> Cannot join to channel <chan> (You have to be registered)
+NoSuchNick <pre> Wooooops, no such nick -<gt> <nick>
+NoSuchChan <pre> Wooooops, no such chan -<gt> <chan>
+
+RawDef <pre> <text>
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 0 12 1 4 3 3 3 1 1 3 3 1 1 3 1 1 1 1 1 3 1 0 1 0 1 14 1 0 0 1

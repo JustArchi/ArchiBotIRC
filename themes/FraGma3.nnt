@@ -1,0 +1,146 @@
+Name FraGma [e3]
+Version 2 (standard v1.1)
+NNTVersion 1.03
+Author bore
+Email bore@bam-irc.net
+Homepage http://fragma.bam-irc.net
+Description A port by swarfega.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp [ HH:nn ]
+
+NickColSelf none
+NickColOp none
+NickColVoice none
+NickColRegular none
+NickColProtect none
+NickColIgnore none
+
+Brackets [<text>]
+LineSep 12————————————————————————————
+Prefix :
+
+GenEcho <pre> <text>
+GenError <pre> Error: <text>
+GenHighlight <pre> <text>
+
+ChanText [<cmode><nick>] <text>
+ChanTextOwn [<cmode><me>] <text>
+ChanAction * <cmode><nick> <text>
+ChanActionOwn * <cmode><me> <text>
+
+QueryText [<nick>] <text>
+QueryTextOwn [<me>] <text>
+QueryAction * <nick> <text>
+QueryActionOwn * <me> <text>
+
+Msg *<nick>* <text>
+MsgOwn *<target>* <text>
+Action * <cmode><nick> <text>
+ActionOwn * <cmode><me> <text>
+
+ChanNotice [<cmode><nick>] <text>
+Notice [<nick>] <text>
+NoticeOwn :<gt> 01[<target>] <text>
+ServerNotice -<server>- <text>
+
+CTCP <pre> [<nick>] . <ctcp> . <text>
+CTCPOwn <pre> [<target>] . <ctcp> . <text>
+ChanCTCP <pre> [<nick>|<chan>] <ctcp> . <text>
+CTCPReply <pre> [<nick>|$chan] <ctcp> reply from <text>
+CTCPReplyOwn <pre> [<target>] <ctcp> reply from <text>
+
+Join <pre> <nick><address brackets="1"> has joined <chan>
+JoinOwn —————————————————————————————————————————————<pre> Joined <chan>!if <topic> <pre> Topic: "<topic>"!if <topic> <pre> Topic written by <topicnick> on <topicdate>
+Part <pre> <nick><address brackets="1"> has left <chan> <message brackets="1">
+Quit <pre> <nick><address brackets="1"> has quit <message brackets="1">
+Nick <pre> <nick><address brackets="1"> is now known as <newnick>
+NickOwn <pre> <me><myaddress brackets="1"> is now known as <newnick>
+Mode <pre> <nick> sets <mode>
+UserMode <pre> You have set <mode>
+Kick <pre> <kickednick><address brackets="1"> was kicked by <nick>. <message brackets="1">
+KickOwn <pre> You were kicked by <nick><address brackets="1"> from <chan>. <message brackets="1">
+WallOp <pre> [Wallop] <text>
+
+DNS <pre> Looking up [<address>]...
+DNSError <pre> Unable to resolve <address>
+DNSResolve <pre> Resolved <address> to <raddress>
+
+Notify <pre>Notify: <nick> is now online
+UnNotify <pre>Notify: <nick> is now offline
+
+LUsers1 12—————————————————————————————————————————————<pre> Users online: <users> [invisible: <invisible>]
+LUsers2 <pre> Operators online: <operators>
+LUsers3 <pre> Unknown connections: <connections>
+LUsers4 <pre> Channels formed: <channels>
+LUsers5 <pre> Local clients: <clients> on <servers> server(s)
+
+Welcome1 <pre> to the Internet Relay Network, <nick>
+Welcome2 <pre> Host: <host> running version <version>
+Welcome3 <pre> Server created on: <created>
+Welcome4 <server> <version> <usermodes> <chanmodes>
+SupportedInfo <pre> Protocols supported by this server: <protocols> are supported by this server
+
+ChannelModes <chan> <modes>
+ChannelCreation <chan> created on <created>
+Bans <chan> <ban> set by <nick> (<banned>)
+BansEnd <chan> End of Channel Ban List
+UnableToSend <pre> Unable to send message to <chan>
+NotOpped <pre> You're not opped on <chan>
+HiddenHost <pre> <host> is now your hidden host
+RegisterFirst Register first!
+
+WhoisStart !empty
+WhoisAddress 12—————————————————————————————————————————————<pre> /Whois for <nick> <address brackets="1"><pre>  <pre> Realname: <name>
+WhoisChans <pre> Channels: $replace(<chans>,@,@,+,+,%,%,&,&,~,~) 
+WhoisServer <pre> Server: <server><info brackets="1">
+WhoisStatus <pre> IRCop: <status>
+WhoisAway <pre> Away: True [<reason>]
+WhoisAuth <pre> Authed: <auth>
+WhoisRealIP <pre> RealIP: <address> <ip brackets="1">
+WhoisIdle <pre> Signed on: <signontime>
+WhoisEnd <pre> End of /Whois12———————————————————————————————————————————————————————————
+
+WhowasStart !empty
+WhowasAddress 12—————————————————————————————————————————————<pre> /Whowas for <nick> <address brackets="1"><pre>  <nick> was <address> <pre> <name>
+WhowasServer <nick> used <server> <info>
+WhowasAway <nick> was away: <reason>
+WhowasEnd <nick> End of /WHOWAS list.-
+
+Who <pre>  $+ $right(<status>,-1) $+ <nick> <address brackets="1"> <name>
+WhoEnd <pre> End of /WHO list for <target>
+
+Invite <pre> <nick> is inviting you to join <chan>
+InviteOwn <pre> 01<nick> has been invited to <chan>
+InviteAlreadyOnChan <pre> <nick> <chan> is already on channel
+
+NoTopic <chan> No topic is set.
+Topic <pre> Topic is '<topic>'
+TopicBy <pre> Set by <nick> on <date>
+TopicChange <pre> <nick> changes topic to '<topic>'
+
+Names <pre> Listing <chan> <names>
+NamesEnd <pre> End of /NAMES list for <chan>
+
+UnknownCmd <pre> Unknown command [<cmd>]
+NickInUse <pre> <nick> is already in use.
+AwayStatus <pre> Away: True [<reason>]
+ChanFull <pre> Can't join <chan> [full | +l]
+ChanInviteOnly <pre> <chan> Can't join <chan> [invite only | +i]
+ChanBanned <pre> Can't join <chan> [banned | +b]
+ChanKeyRequired <pre> Can't join <chan> [key | +k]
+ChanRegOnly <chan> unable to join channel (registered only)
+NoSuchNick <pre> No such nickname [<nick>]
+NoSuchChan <pre> No such channel [<chan>]
+
+RawDef <text>
+CRaw372 <text>
+CRaw376 End of /MOTD.
+CRaw375 MOTD [Message Of The Day]:
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 16512752 8805184 14602693 8355711 13816530 11 12 12 5 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 13 1 13 1 1 6 0 13 1
+Scheme1 dark 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 16512752 8805184 14602693 8355711 13816530 1 12 12 5 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 1 0 1 11 1 6 0 1 11
+Scheme2 white 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 16512752 8805184 14602693 8355711 13816530 0 12 12 5 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 0 12 0 12 1 6 0 0 12

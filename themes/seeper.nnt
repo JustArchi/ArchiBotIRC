@@ -1,0 +1,147 @@
+Name Seeper
+Version 1.23
+NNTVersion 1.03
+Author greeny
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com
+Description Seeper MTS theme created for NoNameScript, works in any MTS engine. Inspired by [-maverick-]'s sIRC default theme. Ported to NNT by swarfega.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 11(HH:11)
+
+NickColSelf none
+NickColOp none
+NickColVoice none
+NickColRegular none
+NickColProtect 5
+NickColIgnore 4
+
+Brackets 11(00<text>)
+LineSep 0•11›››››››››››››0››››››11›››››››››››››0››››11›››››0› ›››11›› ››0› ››11 ›› ››
+Prefix 11››
+
+GenEcho <pre> <text>
+GenError <pre> Error00:11 <text>
+GenHighlight <text>
+
+ChanText 11<lt><cmode><nick>11<gt> <text>
+ChanTextOwn 11<lt><cmode><me>11<gt> <text>
+ChanAction 11› <cmode><nick> <text>
+ChanActionOwn 11› <cmode><me> <text>
+
+QueryText 11<lt><nick>11<gt> <text>
+QueryTextOwn 11<lt><me>11<gt> <text>
+QueryAction 11› <nick> <text>
+QueryActionOwn 11› <me> <text>
+
+Msg 11*<nick>11!<address>11* <text>
+MsgOwn —› 11*<target>11* <text>
+Action 11› <nick> <text>
+ActionOwn 11› <me> <text>
+
+ChanNotice 11-<nick>11@<chan>11- <text>
+Notice 11-<nick>11- <text>
+NoticeOwn Notice<gt> 11-<target>11- <text>
+ServerNotice -<server>- <text>
+
+CTCP 11?<nick>11? <ctcp> <text>
+CTCPOwn —› 11?<target>11? <ctcp> <text>
+ChanCTCP 11?<nick>11@<chan>11? <ctcp> <text>
+CTCPReply 11!<nick>11! <ctcp> <text>
+CTCPReplyOwn —› 11!<target>11! <ctcp> <text>
+
+Join <pre> Join00: <nick brackets="1"> <address brackets="1">
+JoinOwn <pre> Joined00: <chan brackets="1"><pre> Topic00: <topic brackets="1"><pre> Set by00: <topicnick brackets="1"> on <topicdate brackets="1"><pre> Modes in <chan>00:11 11( $+ $chan(<chan>).mode $+ 11)
+Part !if <message> <pre> Part00: <nick brackets="1"> <address brackets="1"> <message brackets="1">
+Quit !if <message> <pre> Quit00: <nick brackets="1"> <address brackets="1"> <message brackets="1">
+Nick <pre> Nick00: <nick brackets="1"> is now known as <newnick brackets="1">
+NickOwn <pre> Nick00: <me brackets="1"> is now known as <newnick brackets="1">
+Mode <pre> Mode00: <nick brackets="1"> sets <mode brackets="1">
+UserMode <pre> UserMode00: 1is now <mode brackets="1">
+Kick !if <message> <pre> Kick00: <kickednick brackets="1"> was kicked by <nick brackets="1"> <message brackets="1">
+KickOwn !if <message> <pre> Kick00: <me brackets="1"> was kicked by <nick brackets="1"> <message brackets="1">
+WallOp <pre> Wallop00: <nick brackets="1"> <text>
+
+DNS <pre> DNS00:11 resolving <address brackets="1">...
+DNSError <pre> DNS00:11 unable to resolve <address brackets="1">
+DNSResolve <pre> DNS00:11 resolved <address brackets="1"> to <raddress brackets="1">
+
+Notify <pre> Notify00:11 (00<nick>11) is now online!
+UnNotify <pre> UnNotify00:11 (00<nick>11) is now offline!
+
+LUsers1 <pre> Users00: <users brackets="1">, Invisible: <invisible brackets="1">, Servers: <servers brackets="1">
+LUsers2 <pre> Operators online00: <operators brackets="1">
+LUsers3 <pre> Unknown connections00: <connections brackets="1">
+LUsers4 <pre> Channels formed00: <channels brackets="1">
+LUsers5 <pre> Local clients00:11 <clients brackets="1"> on <servers brackets="1"> server(s)
+
+Welcome1 <pre> Welcome to the Internet Relay Network, <nick>
+Welcome2 <pre> Host00: <host brackets="1"> running version <version brackets="1">
+Welcome3 <pre> Server created on00: <created brackets="1">
+Welcome4 <Pre> <server> <version> <usermodes> <chanmodes>
+SupportedInfo <pre> Protocols supported00: <protocols brackets="1">
+
+ChannelModes <pre> Modes in <chan>00:11 <modes>
+ChannelCreation <pre> Channel created on00: <created brackets="1">
+Bans <pre> <chan brackets="1"> <ban brackets="1"> set by <nick brackets="1"> (<banned>)
+BansEnd <pre> <chan brackets="1"> End of Channel Ban List
+UnableToSend <pre> Unable to send message to <chan brackets="1">
+NotOpped <pre> You're not opped on <chan brackets="1">
+HiddenHost <pre> <host brackets="1"> is now your hidden host
+RegisterFirst <pre> Register first!
+
+WhoisStart <linesep><pre> Whois report for <nick>
+WhoisAddress <pre> Address: $replace(<address>,@,00@11,.,00.11,~,00~11,-,00-11)
+WhoisChans <pre> Chans: $replace(<chans>,@,00@11,+,00+11,%,00%11,$chr(35),$+(15,$chr(35),11))
+WhoisServer <pre> Server: <server>00, <info>
+WhoisStatus <pre> Status: <status>
+WhoisAway <pre> Away: <reason>
+WhoisAuth <pre> Auth: <auth>
+WhoisRealIP <pre> Real host: $replace(<address>,@,00@11,.,00.11,~,00~11,-,00-11) ( $+ $replace(<ip>,.,00.11) $+ )
+WhoisIdle <pre> Idle: <idle>00, <signonago>
+WhoisEnd <linesep>
+
+WhowasStart <linesep><pre> Whois report for <nick>
+WhowasAddress <pre> Address: $replace(<address>,.,00.,@,00@)
+WhowasServer <pre> Server: <server>00, <info>
+WhowasAway <pre> Away: <reason>
+WhowasEnd <linesep>
+
+Who <pre> /who00:11 <nick> <address brackets="1"> <name>
+WhoEnd <pre> End of (/who11) list for <target brackets="1">
+
+Invite Invite <pre> Invite00: <nick brackets="1"> invites you to join <chan brackets="1">
+InviteOwn <pre> Invite00: <nick brackets="1"> has been invited to join <chan brackets="1">
+InviteAlreadyOnChan <pre> User already on channel00: <nick brackets="1">
+
+NoTopic <pre> No topic is set <chan brackets="1">
+Topic <pre> Topic00: <topic brackets="1">
+TopicBy <pre> Set by00: <nick brackets="1"> on <date brackets="1">
+TopicChange <pre> Topic00: <nick brackets="1"> changes topic to <topic brackets="1">
+
+Names <pre> /names00:11 (00<chan>11) <names>
+NamesEnd <pre> End of (/names11) list for (00<chan>11)
+
+UnknownCmd <pre> Invalid command00: <cmd brackets="1">
+NickInUse <pre> Nickname in use00: <nick brackets="1">
+AwayStatus <pre> <nick brackets="1"> is marked as being away: <reason brackets="1">
+ChanFull <pre> Can't join <chan>00:11 (full (+l)11)
+ChanInviteOnly <pre> Can't join <chan>00:11 (invite only (+i)11)
+ChanBanned <pre> Can't join <chan>00:11 (you're banned (+b)11)
+ChanKeyRequired <pre> Can't join <chan>00:11 (requires key (+k)11)
+ChanRegOnly <pre> <chan brackets="1"> unable to join channel (registered only)
+NoSuchNick <pre> No such nickname00: <nick brackets="1">
+NoSuchChan <pre> No such channel00: <chan brackets="1">
+
+RawDef <pre> <text>
+CRaw461 <pre> <text>
+CRaw250 <pre> <text>
+CRaw266 <pre> <text>
+CRaw265 <pre> <text>
+
+Scheme0 Default 16777215 0 8323072 37632 8947967 127 10223772 32764 65535 64512 8675666 16760485 16515072 16711935 8355711 13816530 10 11 11 11 11 11 11 11 11 11 11 0 11 11 11 0 11 11 11 11 11 10 0 10 0 11 6 0 10 0
+Scheme1 Orange 16777215 0 8323072 37632 255 127 10223772 15744 5943039 64512 15744 5943039 16515072 16711935 8355711 13816530 10 11 11 11 11 11 11 11 11 11 11 0 11 11 11 0 11 11 11 11 11 10 0 10 0 11 6 0 10 0
+Scheme2 Digital 16777215 0 8323072 37632 8947967 127 10223772 32764 65535 64512 14085 10944424 16515072 16711935 8355711 13816530 10 11 11 11 11 11 11 11 11 11 11 0 11 11 11 0 11 11 11 11 11 10 0 10 0 11 6 0 10 0

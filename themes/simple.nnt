@@ -1,0 +1,159 @@
+Name Simple
+Version 1.14
+NNTVersion 1.03
+Author greeny
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com/
+Description None.
+
+Font Lucida Sans Unicode
+FontSize 11
+
+TimestampEnabled 1
+Timestamp HH:nn…
+
+NickColSelf none
+NickColOp 10
+NickColVoice 11
+NickColRegular 12
+NickColProtect none
+NickColIgnore 4
+
+Brackets 10(<text>10)
+LineSep · ·-———-· ·
+Prefix 
+
+GenEcho <text>
+GenError Error: <text>
+GenHighlight 11<text>
+
+ChanText   12 <cmode>10<nick>: <text>
+ChanTextOwn   12 <cmode>10<me>: <text>
+ChanAction   10 ×12 <cmode>10<nick> <text>
+ChanActionOwn   10 ×12 <cmode>10<me> <text>
+
+QueryText   10 <nick>: <text>
+QueryTextOwn   10 <me>: <text>
+QueryAction   10 ×10 <nick> <text>
+QueryActionOwn   10 ×10 <me> <text>
+
+Msg ·<nick>· <text>
+MsgOwn —<gt> ·<target>· <text>
+Action ·<nick> <text>
+ActionOwn —<gt> ·<target> <text>
+
+ChanNotice —10<nick>@10<chan>— <text>
+Notice —10<nick>— <text>
+NoticeOwn —<gt> —10<target>— <text>
+ServerNotice —10<server>— <text>
+
+CTCP CTCP from10 <nick>: <ctcp> <text>
+CTCPOwn CTCP sent to10 <target>: <ctcp> <text>
+ChanCTCP CTCP from10 <nick>@10<chan>: <ctcp> <text>
+CTCPReply CTCP reply from10 <nick>: <ctcp> <text>
+CTCPReplyOwn CTCP reply sent to10 <target>: <ctcp> <text>
+
+Join 11<nick> has joined11 <chan>
+JoinOwn    · ·-——11 <chan> join ——-· ·!if <topic>                   11 topic: <topic>!if <topic>                   11 set by: <topicnick> <topicdate brackets="1">                  11 users:11 <users> users,11 <oppedusers> opped,11 <voicedusers> voiced,11 <regusers> regulars                  11 sync:11 <synctime> seconds   · ·-—— join end ——-· ·
+Part 11<nick> has left11 <chan> <message brackets="1">
+Quit 11<nick> has quit IRC <message brackets="1">
+Nick 11<nick> is now known as11 <newnick>
+NickOwn Your nick is now11 <newnick>
+Mode 11<nick> sets mode:11 <mode>
+UserMode 11<me> sets mode:11 <mode>
+Kick 11<kickednick> was kicked by11 <nick> <message brackets="1">
+KickOwn You were kicked from11 <chan> by11 <nick> <message brackets="1">
+WallOp   12 Ø10<nick>: <text>
+
+DNS Resolving11 <address>
+DNSError Unable to resolve11 <address>
+DNSResolve Resolved11 <address> to11 <raddress>
+
+Notify 10<nick> is now online!
+UnNotify 10<nick> is now offline!
+
+LUsers1 There are11 <users> users and11 <invisible> invisible on11 <servers> servers
+LUsers2 There are11 <operators> operator(s) online
+LUsers3 There are11 <connections> unknown connection(s)
+LUsers4 There are11 <channels> channels formed
+LUsers5 I have11 <clients> clients and11 <servers> servers
+
+Welcome1 Welcome to the Internet Relay Network,11 <nick>
+Welcome2 Your host is11 <host>, running version11 <version>
+Welcome3 This server was created11 <created>
+Welcome4 Server11 <server>, version11 <version> <usermodes brackets="1"> <chanmodes brackets="1">
+SupportedInfo Supported by this server:11 <protocols>
+
+ChannelModes Modes on11 <chan> are <modes>
+ChannelCreation 11<chan> was created on <created>
+Bans 11<ban> set by11 <nick> on11 <chan> <banned brackets="1">
+BansEnd End of11 <chan> ban list
+UnableToSend Unable to message11 <chan>
+NotOpped You're not channel operator on11 <chan>
+HiddenHost 11<host> is now your hidden host
+RegisterFirst You have to register first!
+
+WhoisStart    · ·-——11 <nick> whois ——-· ·
+WhoisAddress                   11 address: <address> <name brackets="1">
+WhoisChans                   11 channels: $replace(<chans hlcommon="1">,$chr(35),11#)
+WhoisServer                   11 server: <server> <info brackets="1">
+WhoisStatus                   11 status: <status>
+WhoisAway                   11 away: <reason>
+WhoisAuth                   11 auth: <auth>
+WhoisRealIP                   11 real address: <address> <ip brackets="1">
+WhoisIdle                   11 idle: <idle>                  11 signon: <signonago> ago <signontime brackets="1">
+WhoisEnd    · ·-—— whois end ——-· ·
+
+WhowasStart    · ·-——11 <nick> whowas ——-· ·
+WhowasAddress                   11 address: <address> <name brackets="1">
+WhowasServer                   11 server: <server> <info brackets="1">
+WhowasAway                   11 away: <reason>
+WhowasEnd    · ·-—— whowas end ——-· ·
+
+Who Who list for11 <nick>: channel11 <chan>, status11 <status>, address11 <address>, real name11 <name>
+WhoEnd End of who list
+
+Invite 11<nick> invites you to join11 <chan>
+InviteOwn 11<nick> has been invited to11 <chan>
+InviteAlreadyOnChan 11<nick> is already on11 <chan>
+
+NoTopic No topic in11 <chan> set
+Topic    · ·-——11 <chan> topic ——-· ·                  11 topic: <topic>
+TopicBy                   11 set by: <nick> <date brackets="1">   · ·-—— topic end ——-· ·
+TopicChange 11<nick> changes topic to:11 <topic>
+
+Names Users on11 <chan>: <names>
+NamesEnd End of names list
+
+UnknownCmd Unknown command:11 <cmd>
+NickInUse The nickname11 <nick> is already in use
+AwayStatus 11<nick> is marked as being away: <reason>
+ChanFull Unable to join11 <chan> (full)
+ChanInviteOnly Unable to join11 <chan> (invite only)
+ChanBanned Unable to join11 <chan> (you're banned)
+ChanKeyRequired Unable to join11 <chan> (correct key required)
+ChanRegOnly Unable to join11 <chan> (registered only)
+NoSuchNick No such nickname:11 <nick>
+NoSuchChan No such channel:11 <chan>
+
+RawDef Raw11 <numeric>: <text>
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 15263976 11316396 13030 1973790 8355711 13816530 13 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 13 10 13 10 11 12 13 13 11
+Scheme1 Green 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 16902 423168 1554176 16711935 8355711 13816530 0 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 0 10 0 1 14 12 0 0 11
+Scheme2 Orange 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 17331 28134 37629 16711935 8355711 13816530 0 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 0 10 0 1 14 12 0 0 11
+Scheme3 Grey 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 4737096 7697781 10329501 16711935 8355711 13816530 0 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 0 10 0 1 14 12 0 0 11
+Scheme4 Pink 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9240721 12714194 16727295 16711935 8355711 13816530 0 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 0 10 0 1 14 12 0 0 11
+Scheme5 Moonlight 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 16768678 16758835 15369984 5392944 8355711 13816530 13 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 13 10 13 10 11 12 13 13 11
+Scheme6 Danger 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 10937599 3394815 33023 4210752 8355711 13816530 13 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 13 10 13 10 11 12 13 13 11
+Scheme7 Lime 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 13828081 9240552 65484 4210752 8355711 13816530 13 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 13 10 13 10 11 12 13 13 11
+Scheme8 Classic 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 4337197 8671055 11437444 13750737 8355711 13816530 13 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 13 10 13 1 14 12 13 13 11
+Scheme9 Wine 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 2894915 5197700 8618927 13750737 8355711 13816530 13 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 13 10 13 1 14 12 13 13 11
+Scheme10 Pineapple 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 14286844 10485745 3407846 16711935 8355711 13816530 1 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 1 10 1 10 11 12 1 1 11
+Scheme11 Jungle 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 14417382 10681796 3995508 16711935 8355711 13816530 1 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 1 10 1 10 11 12 1 1 11
+Scheme12 Ocean 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 16767453 16753311 16724798 16711935 8355711 13816530 1 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 1 10 1 10 11 12 1 1 11
+Scheme13 Platinum 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 85 147 198 14540253 8355711 13816530 13 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 13 10 13 10 11 12 13 13 11
+Scheme14 Curaçao 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 16773842 16769676 16759040 4210752 8355711 13816530 13 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 13 10 13 10 11 12 13 13 11
+Scheme15 Teal 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 15396579 13162166 9546325 4210752 8355711 13816530 13 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 13 10 13 10 11 12 13 13 11
+Scheme16 Brown 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 14871023 11783641 5803943 4210752 8355711 13816530 13 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 13 10 13 10 11 12 13 13 11
+Scheme17 Sky 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 4342272 7697664 12037376 16711935 8355711 13816530 0 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 0 10 0 1 14 12 0 0 11
+Scheme18 Dark_Orange 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 15263976 11316396 31980 3552822 8355711 13816530 13 11 11 10 12 12 12 12 12 12 12 11 11 11 12 10 12 12 12 12 12 13 10 13 10 11 12 13 13 11

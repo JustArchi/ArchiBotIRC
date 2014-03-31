@@ -1,0 +1,141 @@
+Name VNT
+Version 1.1
+NNTVersion 1.03
+Author voks
+Email voks@nnscript.com
+Homepage http://www.markushenn.de
+Description Voks' Nevada Theme
+
+Font ProFontWindows
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 14,14[00HH:nn:ss14]
+
+NickColSelf 7
+NickColOp 1
+NickColVoice 12
+NickColRegular 10
+NickColProtect 3
+NickColIgnore 4
+
+Brackets 02(<text>02)
+LineSep 
+Prefix •
+
+GenEcho <text>
+GenError [error]: <text>
+GenHighlight 12(<text>12)
+
+ChanText 15,15[10<cmode align="1">01<nick align="15">15] <text>
+ChanTextOwn 15,15[10<cmode align="1">01<me align="15">15] <text>
+ChanAction 15,15[10<cmode align="1">14<nick align="15">15] <text>
+ChanActionOwn 15,15[10<cmode align="1">14<me align="15">15] <text>
+
+QueryText 15,15[01 <nick align="15">15] <text>
+QueryTextOwn 15,15[01 <me align="15">15] <text>
+QueryAction 15,15[14 <nick align="15">15] <text>
+QueryActionOwn 15,15[14 <me align="15">15] <text>
+
+Msg <nick>: <text>
+MsgOwn <pre> <target>: <text>
+Action 14<nick>14 <text>
+ActionOwn 14<pre> <me> <text>
+
+ChanNotice -<nick>:<chan>- <text>
+Notice -<nick>- <text>
+NoticeOwn <pre> -<target>- <text>
+ServerNotice -<server>- <text>
+
+CTCP ?<nick>? <ctcp> <text>
+CTCPOwn <pre> ?<target>? <ctcp> <text>
+ChanCTCP ?<nick>:<chan>? <ctcp> <text>
+CTCPReply !<nick>! <ctcp> <text>
+CTCPReplyOwn <pre> !<target>! <ctcp> <text>
+
+Join 15,15[03 <nick align="15">15] 12[<address>12] has joined <chan>
+JoinOwn now talking in <chan>!if <topic> 10topic is: <topic>!if <topic>      10 set by <topicnick> on <topicdate> [<topicdateago> ago]
+Part 15,15[05 <nick align="15">15] 12[<address>12] has left <chan> <message brackets="1">
+Quit 15,15[05 <nick align="15">15] 12[<address>12] has quit IRC <message brackets="1">
+Nick 15,15[10 <nick align="15">15] is now known as <newnick>
+NickOwn You are now known as <newnick>
+Mode 15,15[10 <nick align="15">15] sets <chan> mode: <mode>
+UserMode 15,15[10 <me align="15">15] sets mode: <mode>
+Kick 15,15[04 <kickednick align="15">15] was kicked from <chan> by <nick> <message brackets="1">
+KickOwn 15,15[04 <nick align="15">15] was kicked from <chan> by <nick> <message brackets="1">
+WallOp [wallop]<nick>: <text>
+
+DNS dns: resolving <address>...
+DNSError dns: unable to resolve <address>
+DNSResolve dns: resolved <address> to <raddress>
+
+Notify notify: <nick> is now online!
+UnNotify unotify: <nick> is now offline!
+
+LUsers1 <mynetwork> [<myserver>] stats servers: <servers>   users: <users> visible          <invisible> invisible
+LUsers2           <operators> operators
+LUsers3           <connections> unknown
+LUsers4 channels: <channels>
+LUsers5  clients: <clients> on <servers> servers
+
+Welcome1 welcome to the internet relay network!
+Welcome2 your host is: <host> [v.<version>]
+Welcome3 this server was created: <created>
+Welcome4 running version: <version> on <server>usermodes: <usermodes>channelmodes: <chanmodes>
+SupportedInfo protocols supported: <protocols>
+
+ChannelModes <chan> modes: <modes>
+ChannelCreation <chan> created: <created> [<createdago> ago]
+Bans <chan> ban: <ban> set by <nick> on <banned>
+BansEnd end of <chan> ban list
+UnableToSend unable to message send message to: <chan>
+NotOpped you're not channel operator in: <chan>
+HiddenHost <host> is now your hidden host
+RegisterFirst register first!
+
+WhoisStart 
+WhoisAddress <nick align="-16"> is "12<name>" 01[<address>01]
+WhoisChans                  in 12<chans>
+WhoisServer                  on 12<server> 01[<info>01]
+WhoisStatus                  an 12<status>
+WhoisAway                  away: 12<reason>
+WhoisAuth                  authed as 12<auth>
+WhoisRealIP                  real IP: 12<address> 01[<ip>01]
+WhoisIdle                  has been idle for 12<idle>                 signed on 12<signontime> 01[<signonago> ago01]
+WhoisEnd 
+
+WhowasStart 
+WhowasAddress <nick align="-16"> was "12<name>" 01[<address>01]
+WhowasServer                  used 12<server> 01[<info>01]
+WhowasAway                  was away: 12<reason>
+WhowasEnd 
+
+Who who channel: 12<chan> nickname: 12<nick> status: 12<status> address: 12<address> name: 12<name>
+WhoEnd end of <target> who list
+
+Invite <nick> invites you to join: <chan>
+InviteOwn <nick> has been invited to: <chan>
+InviteAlreadyOnChan <nick> is already on <chan>!
+
+NoTopic no topic in <chan> set
+Topic topic is: <topic>
+TopicBy       set by <nick> on <date> [<dateago> ago]
+TopicChange 15,15[10 <nick align="15">15] changes topic to: <topic>
+
+Names names on <chan>: <names>
+NamesEnd end of <chan> names list
+
+UnknownCmd unknown command: <cmd>
+NickInUse nickname is already in use: <nick>
+AwayStatus <nick> is marked as being away: <reason>
+ChanFull unable to join <chan>: full [+l]
+ChanInviteOnly unable to join <chan>: invite only [+i]
+ChanBanned unable to join <chan>: you're banned [+b]
+ChanKeyRequired unable to join <chan>: need correct key [+k]
+ChanRegOnly unable to join <chan>: registered only [+r]
+NoSuchNick no such nickname: <nick>
+NoSuchChan no such channel: <chan>
+
+RawDef <text>
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 16776960 16734730 16711935 8355711 13816530 0 14 10 7 10 10 3 3 4 10 10 1 12 10 10 1 5 5 10 10 10 0 1 0 1 14 14 0 0 1

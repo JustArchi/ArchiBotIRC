@@ -1,0 +1,143 @@
+Name 11:14
+Version 1.01
+NNTVersion 1.03
+Author rob "panzer"
+Email unknown
+Homepage unknown
+Description None.
+
+Font Bitstream Vera Sans Mono
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 11(HH:nn.ss) •
+
+NickColSelf 1
+NickColOp 11
+NickColVoice 14
+NickColRegular 11
+NickColProtect 4
+NickColIgnore 12
+
+Brackets (<text>)
+LineSep -
+Prefix *
+
+GenEcho 11,12 ! INFO  <text>
+GenError 11,12 ! ERRO  <text>
+GenHighlight (<text>)
+
+ChanText          [ <cmode><nick> ]: <text>
+ChanTextOwn          [ <cmode><me> ]: <text>
+ChanAction          [] <cmode><nick> <text>
+ChanActionOwn          [] <cmode><me> <text>
+
+QueryText          [ <nick> ]: <text>
+QueryTextOwn          [ <me> ]: <text>
+QueryAction          [] <nick> <text>
+QueryActionOwn          [] <me> <text>
+
+Msg 11,12 • MESG  received by <nick>: <text>
+MsgOwn 11,12 • MESG  sent to <target>: <text>
+Action 11,12 ÷ ACTN  <nick> <text>
+ActionOwn 11,12 ÷ ACTN  on <target>: <text>
+
+ChanNotice 11,12 = NOTC  by <cmode><nick> for <chan>: <text>
+Notice 11,12 = NOTC  received by <nick> (<address>): <text>
+NoticeOwn 11,12 = NOTC  sent to <target>: <text>
+ServerNotice 11,12 = NOTC  received by <server>: <text>
+
+CTCP 11,12 ø CTCP  '<ctcp>' received by <nick> (<address>): <text>
+CTCPOwn 11,12 ø CTCP  '<ctcp>' sent to <target>: <text>
+ChanCTCP 11,12 ø CTCP  '<ctcp>' by <cmode><nick> for <chan>: <text>
+CTCPReply 11,12 ø CTCP  '<ctcp>' reply by <nick> (<address>): <text>
+CTCPReplyOwn 11,12 ø CTCP  '<ctcp>' replied to <target>: <text>
+
+Join 11,12 › JOIN  <nick> (<address>) entered <chan> Clones: <clonenum> <clones brackets="1">
+JoinOwn 11,12 › JOIN  You entered <chan>!if <topic> 11,12 o TOPC  '<topic>'!if <topic> 11,12 o TOPC  set by <topicnick> (<topicdate>)
+Part 11,12 ‹ PART  <nick> (<address>) left <chan>
+Quit 11,12 × QUIT  <nick> (<address>) <message brackets="1">
+Nick 11,12 ~ NICK  <cmode><nick> is now <cmode><newnick>
+NickOwn 11,12 ~ NICK  You changed your nick to <newnick>
+Mode 11,12 ± MODE  <cmode><nick> sets mode: <mode>
+UserMode 11,12 ± MODE  <me> sets: <mode> <me>
+Kick 11,12 « KICK  <kickedcmode><kickednick> was kicked by <cmode><nick> (<message>)
+KickOwn 11,12 « KICK  You were kicked off <chan> by <cmode><nick> <message brackets="1">
+WallOp 11,12 WALLOP  <nick>: <text>
+
+DNS 11,12 ‰ iDNS  Resolving: <address>
+DNSError 11,12 ‰ iDNS  Unable to resolve: <address>
+DNSResolve 11,12 ‰ iDNS  <address> resolved to: <raddress>
+
+Notify 11,12 § NOTF  <nick> is now online!
+UnNotify 11,12 § NOTF  <nick> is now offline!
+
+LUsers1 11,12 ® INFO  There are <users> users and <invisible> invisible on <servers> servers
+LUsers2 11,12 ® INFO  <operators> operator(s) online
+LUsers3 11,12 ® INFO  <connections> unknown connection(s)
+LUsers4 11,12 ® INFO  <channels> channels formed
+LUsers5 11,12 ® INFO  I have <clients> clients and <servers> servers
+
+Welcome1 11,12 ® INFO  Welcome to the Internet Relay Network, <nick>
+Welcome2 11,12 ® INFO  Your host is <host>, running version <version>
+Welcome3 11,12 ® INFO  This server was created <created>
+Welcome4 11,12 ® INFO  <server> <version> <usermodes> <chanmodes>
+SupportedInfo 11,12 ® INFO  <protocols> are supported by this server
+
+ChannelModes 11,12 ® INFO  <chan> modes: <modes>
+ChannelCreation 11,12 ® INFO  <chan>: created on <created>
+Bans 11,12 ® BANS  <chan>: <ban> set by <nick> (<banned>)
+BansEnd 11,12 ® BANS  <chan>: End of Channel Ban List
+UnableToSend 11,12 ® INFO  Unable to message <chan>!
+NotOpped 11,12 ® INFO  <chan>: You're not channel operator!
+HiddenHost 11,12 ® INFO  Your vhost is: <host>
+RegisterFirst 11,12 ® INFO  Register first!
+
+WhoisStart 11,12 <lt> WHOS          /whois <nick>
+WhoisAddress          · Name: <name>         · Address: <address>
+WhoisChans          · Chans: <chans> (Common: <comchannum>)
+WhoisServer          · Server: <server> (<info>)
+WhoisStatus          · Status: <status>
+WhoisAway          · Away: <reason>
+WhoisAuth          · Authed: <auth>
+WhoisRealIP          · Host: <address> (<ip>)
+WhoisIdle          · Idle: <idle>         · Connected: <signontime>
+WhoisEnd 11,12 WHOS <gt> 
+
+WhowasStart 11,12 <lt> WHOS          /whowas <nick>
+WhowasAddress          · Name: <name>         · Address: <address>
+WhowasServer          · Server: <server> (<info>)
+WhowasAway          · Away: <reason>
+WhowasEnd 11,12 WHOS <gt> 
+
+Who 11,12 ? WHOL  <chan>: <nick> <status> <address> <name>
+WhoEnd 11,12 ? WHOL  <target>: End of /WHO list.
+
+Invite 11,12 ¬ INVT  <nick> invites you to: <chan>
+InviteOwn 11,12 ¬ INVT  <nick> has been invited to: <chan>
+InviteAlreadyOnChan 11,12 ¬ INVT  <nick> is already on channel <chan>
+
+NoTopic 11,12 ® INFO  <chan>: No topic is set.
+Topic 11,12 o TOPC  <chan>: '<topic>'
+TopicBy 11,12 o TOPC  <chan>: set by <nick> (<date>)
+TopicChange 11,12 ¤ TOPC  <cmode><nick> sets topic for <chan>: '<topic>'
+
+Names 11,12 ? NLST  <chan>: <names>
+NamesEnd 11,12 ? NLST  <chan>: End of /NAMES list.
+
+UnknownCmd 11,12 ® INFO  <cmd>: Unknown command!
+NickInUse 11,12 ® INFO  Nickname <nick> is already in use.
+AwayStatus 11,12 ® AWAY  <nick> reason: <reason>
+ChanFull 11,12 ® INFO  <chan>: unable to join channel (Full!)
+ChanInviteOnly 11,12 ® INFO  <chan>: unable to join channel (Invite only!)
+ChanBanned 11,12 ® INFO  <chan>: unable to join channel (You are banned!)
+ChanKeyRequired 11,12 ® INFO  <chan>: unable to join channel (Correct key required!)
+ChanRegOnly 11,12 ® INFO  <chan>: unable to join channel (Registered only!)
+NoSuchNick 11,12 ® INFO  <nick>: No such nickname!
+NoSuchChan 11,12 ® INFO  <chan>: No such channel!
+
+RawDef 11,12 ® INFO  <text>
+
+Scheme0 Default 0 16707552 8323072 37632 255 127 10223772 32764 65535 64512 9671424 13285528 6571828 16711935 9203539 13816530 0 11 11 4 11 11 11 14 14 14 14 11 11 1 11 1 14 14 14 11 11 0 11 0 11 14 11 14 0 11
+Scheme1 MoreBlue 0 16707552 8323072 37632 255 127 10223772 32764 65535 64512 9671424 15580062 7817012 16711935 9330000 13816530 0 11 11 4 11 11 11 14 14 14 14 11 11 1 11 1 14 14 14 11 11 0 11 0 11 14 11 14 0 11
+Scheme2 DarkRed 0 288481 8323072 37632 255 127 10223772 32764 65535 64512 9671424 6381760 2828626 16711935 3289450 13816530 0 11 11 4 11 11 11 14 14 14 14 11 11 1 11 1 14 14 14 11 11 0 11 0 11 14 11 14 0 11

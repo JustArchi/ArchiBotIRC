@@ -1,0 +1,147 @@
+Name Outpost
+Version 2.3
+NNTVersion 1.03
+Author Zyberdog
+Email zyberdog@quakenet.org
+Homepage http://www.zyberdog.dk/
+Description None.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 02[01HH02:01nn02:01ss02]
+
+NickColSelf 7
+NickColOp 1
+NickColVoice 12
+NickColRegular 2
+NickColProtect 3
+NickColIgnore 4
+
+Brackets 02[12<text>02]12
+LineSep 02([
+Prefix     
+
+GenEcho <pre> 02× 12<text>
+GenError <pre> 04× 12error, <text>
+GenHighlight 02[12<text>02]12
+
+ChanText 02[<cmode><nick>02] <text>
+ChanTextOwn 02[<cmode><me>02] <text>
+ChanAction ° <cmode><nick> <text>
+ChanActionOwn ° <cmode><me> <text>
+
+QueryText 02[<nick>02] <text>
+QueryTextOwn 02[<me>02] <text>
+QueryAction ° <nick> <text>
+QueryActionOwn ° <me> <text>
+
+Msg 12‹- msg °<nick>!<address>12° <text>
+MsgOwn <pre> 12-› msg °<target>12° <text>
+Action ° 12°<nick>!<address>12° <text>
+ActionOwn <pre> ° 12°<target>12° <text>
+
+ChanNotice 02‹- notice -<nick>02@<chan>02- <text>
+Notice 02‹- notice -<nick>02- <text>
+NoticeOwn <pre> 02-› notice -<target>02- <text>
+ServerNotice 02‹- snotice -<server>02- <text>
+
+CTCP 12?<nick>12? <ctcp> <text>
+CTCPOwn <pre> 12-› ctcp ?<target>12? <ctcp> <text>
+ChanCTCP 02?<nick>02@<chan>02? <ctcp> <text>
+CTCPReply 02‹- ctcp !<nick>02! <ctcp> <text>
+CTCPReplyOwn <pre> 12‹- ctcp !<target>12! <ctcp> <text>
+
+Join <pre> 03› 12join, 02[12<nick>02] [12<address>02]
+JoinOwn <pre> 03› 12joined, 02[12<chan>02]!if <topic> <pre> 02× 12topic, 02[12<topic>02]!if <topic> <pre> 02× 12set by, 02[12<topicnick>02]12 at 02[12<topicdate>02]12
+Part <pre> 04‹ 12part, 02[12<nick>02] [12<address>02] <message brackets="1">
+Quit <pre> 04‹ 12quit, 02[12<nick>02] [12<address>02] <message brackets="1">
+Nick <pre> 02× 12nick, 02[12<nick>02]12 is now known as 02[12<newnick>02]
+NickOwn <pre> 02× 12nick, 02[12<me>02]12 is now known as 02[12<newnick>02]
+Mode <pre> 02× 12mode, 02[12<nick>02]12 sets 02[12<mode>02]
+UserMode <pre> 02× 12usermode, set to 02[12<mode>02]
+Kick <pre> 04‹ 12kick, 02[12<kickednick>02]12 was kicked by 02[12<nick>02] <message brackets="1">
+KickOwn <pre> 04‹ 12kick, 02[12<me>02]12 was kicked from 02[12<chan>02]12 by 02[12<nick>02] <message brackets="1">
+WallOp <pre> 02× 12wallop, 02[12<nick>02]12 <text>
+
+DNS <pre> 02× 12dns, resolving 02[12<address>02]12 ...
+DNSError <pre> 02× 12dns, unable to resolve 02[12<address>02]12
+DNSResolve <pre> 02× 12dns, resolved 02[12<address>02]12 to 02[12<raddress>02]12
+
+Notify <pre> 03› 12notify, 02[12<nick>02]12 is now online
+UnNotify <pre> 04‹ 12unnotify, 02[12<nick>02]12 is now offline
+
+LUsers1 <pre> 02× 12users, 02[12<users>02]12; invisible, 02[12<invisible>02]12; servers, 02[12<servers>02]12
+LUsers2 <pre> 02× 12operator(s) online, 02[12<operators>02]12
+LUsers3 <pre> 02× 12unknown connection(s), 02[12<connections>02]12
+LUsers4 <pre> 02× 12number of channels formed, 02[12<channels>02]12
+LUsers5 <pre> 02× 12local clients, 02[12<clients>02]12 on 02[12<servers>02]12 server(s)
+
+Welcome1 <pre> 02× 12Welcome to the Internet Relay Chat network, 02[12<nick>02]12
+Welcome2 <pre> 02× 12host, 02[12<host>02]12, running version 02[12<version>02]12
+Welcome3 <pre> 02× 12server was created on, 02[12<created>02]12
+Welcome4 <pre> 02× 12server, 02[12<server>02]12; version, 02[12<version>02]12; usermodes, 02[12<usermodes>02]12; chanmodes, 02[12<chanmodes>02]12<server> <version> <usermodes> <chanmodes>
+SupportedInfo <pre> 02× 12protocols supported by the server, 02[12<protocols>02]12
+
+ChannelModes <pre> 02× 02[12<chan>02]12 modes, 02[12<modes>02]12
+ChannelCreation <pre> 02× 12channel created, 02[12<created>02]
+Bans <pre> 02× 02[12ban02]12 <ban> 02[12<chan>02]12 <nick>
+BansEnd <pre> 02× 12end of 02[12ban02]12 list for 02[12<chan>02]12
+UnableToSend <pre> 02× 12unable to send message to 02[12<chan>02]12
+NotOpped <pre> 02× 12you're not opped on 02[12<chan>02]12
+HiddenHost <pre> 02× [12<host>02]12 is now your hidden host.
+RegisterFirst <pre> 02× 12Register first!
+
+WhoisStart 02([12 /whois initiated 02])
+WhoisAddress 02 × 1<nick align="-16"> 12is '<name>12' 02[12<address>02]
+WhoisChans !if <opchans> 02 × 11<nick align="-16"> 12is opped in: <opchans>!if <hopchans> 02 × 11<nick align="-16"> 12is halfopped in: <hopchans>!if <vchans> 02 × 11<nick align="-16"> 12is voiced in: <vchans>!if <regchans> 02 × 11<nick align="-16"> 12is reg in: <regchans>
+WhoisServer 02 × 11<nick align="-16"> 12is using <server> <info brackets="1">
+WhoisStatus 02 × 11<nick align="-16"> 12is an <status>
+WhoisAway 02 × 11<nick align="-16"> 12is away: <reason>
+WhoisAuth 02 × 11<nick align="-16"> 12is authed as: <auth>
+WhoisRealIP 02 × 11<nick align="-16"> 12actual host is: <address> <ip brackets="1">
+WhoisIdle 02 × 11<nick align="-16"> 12has been idle: <idle>02 × 11<nick align="-16"> 12signed on: <signonago> ago <signontime brackets="1">
+WhoisEnd 02([12 /whois terminated 02])
+
+WhowasStart 02([12 /whowas initiated 02])
+WhowasAddress 02 × 1<nick align="-16"> 12was '<name>12' 02[12<address>02]
+WhowasServer 02 × 11<nick align="-16"> 12was using: <server> <info brackets="1">
+WhowasAway 02 × 11<nick align="-16"> 12was away: <reason>
+WhowasEnd 02([12 /whowas terminated 02])
+
+Who <pre> 02× 02[12/who02]12 <nick> 02[12<address>02]12 <name>
+WhoEnd <pre> 02× 12end of 02[12/who02]12 list for 02[12<target>02]12
+
+Invite <pre> 02× 12invite, 02[12<nick>02]12 invites you to join 02[12<chan>02]
+InviteOwn <pre> 02× 02[12<nick>02]12 has been invited to join 02[12<chan>02]12
+InviteAlreadyOnChan <pre> 02× 02[12<nick>02]12 is already on 02[12<chan>02]12
+
+NoTopic <pre> 02× 12topic, 02[12<chan>02]12
+Topic <pre> 02× 12topic, 02[12<topic>02]
+TopicBy <pre> 02× 12set by, 02[12<nick>02]12 at 02[12<date>02]12
+TopicChange <pre> 02× 12topic, 02[12<nick>02]12 changes topic to 02[12<topic>02]
+
+Names <pre> 02× 02[12/names02]12 <names>
+NamesEnd <pre> 02× 12end of 02[12/names02]12 list for 02[12<chan>02]12
+
+UnknownCmd <pre> 02× 02[12<cmd>02]12 is an invalid command
+NickInUse <pre> 02× 12nickname 02[12<nick>02]12 is already in use
+AwayStatus <pre> 02× 12<nick> is away: <reason>
+ChanFull <pre> 02× 12can't join <chan> 02[12full (+l)02]12
+ChanInviteOnly <pre> 02× 12can't join <chan> 02[12invite only (+i)02]12
+ChanBanned <pre> 02× 12can't join <chan> 02[12you're banned (+b)02]12
+ChanKeyRequired <pre> 02× 12can't join <chan> 02[12requires key (+k)02]12
+ChanRegOnly <pre> 02× 12can't join <chan> 02[12registrered only (+r)02]12
+NoSuchNick <pre> 02× 12no such nickname, 02[12<nick>02]12
+NoSuchChan <pre> 02× 12no such channel, 02[12<chan>02]12
+
+RawDef <pre> 02× 12<text>
+CRaw376 <pre> 02× 12end of 02[12/motd02]12
+CRaw461 <pre> 02× 02[12<text>02]12 not enough parameters
+
+Scheme0 Default 0 15790320 10001544 1617944 2105599 4209840 12608704 6329599 4255992 60416 16753664 1579032 9995336 16711935 5261384 11578480 11 2 1 1 1 1 12 12 12 12 12 1 1 12 1 1 12 12 12 1 1 11 1 11 1 1 1 11 11 1
+Scheme1 Inverted 16777215 986895 6644599 15421675 16776960 12829520 4274241 10513408 12783882 16716799 24063 15198183 6913463 1751578 11777722 5001868 11 2 1 1 1 1 12 12 12 12 12 1 1 12 1 1 12 12 12 1 1 11 1 11 1 1 1 11 11 1
+Scheme2 Red 0 15790320 4803071 1355540 1974015 3947695 12477374 6263807 3993334 60416 16753152 1579032 9929288 15025637 4999493 11775347 11 2 1 1 1 1 12 12 12 12 12 1 1 12 1 1 12 12 12 1 1 11 1 11 1 1 1 11 11 1
+Scheme3 Blue 0 15790320 16742144 1355540 1974015 3947695 12477374 6263807 3993334 60416 16753152 1579032 9929288 15025637 4999493 11775347 11 2 1 1 1 1 12 12 12 12 12 1 1 12 1 1 12 12 12 1 1 11 1 11 1 1 1 11 11 1
+Scheme4 xemacs 0 15790320 14112256 1617944 2105599 4209840 12608704 6329599 4255992 60416 16753664 2036242 16606536 15221992 5261384 11578480 11 2 1 1 1 1 12 12 12 12 12 1 1 12 1 1 12 12 12 1 1 11 1 11 1 1 1 11 11 1

@@ -1,0 +1,294 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - RSS newsticker - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+dialog nt.add {
+  title "Edit RSS feed"
+  size -1 -1 234 90
+  option pixels
+  icon scripts\pics\nntray.ico
+  text "Name", 1, 6 8 60 16
+  text "URL", 2, 6 30 60 16
+  edit "", 3, 70 4 160 22, autohs limit 30
+  edit "", 4, 70 26 160 22, autohs limit 200
+  box "", 5, -10 48 250 8
+  button "&Ok", 6, 150 62 80 24
+  button "&Cancel", 7, 66 62 80 24, cancel
+}
+on *:dialog:nt.add:*:*:{
+  if ($devent == init) {
+    if (!%nt.edit) { dialog -t $dname Add RSS feed }
+    else {
+      tokenize 32 %nt.edit
+      did -a $dname 4 $1
+      did -a $dname 3 $2-
+    }
+  }
+  elseif ($devent == sclick) && ($did == 6) {
+    if ($did(3)) && ($did(4)) {
+      var %u = $replace($did(4),$chr(32),% $+ 20)
+      if (%nt.edit) {
+        var %n = $encode($did(3),m),%v = $cell(settings,224,1)),%e = %v $+ *
+        while ($hfind(rssdone,%e,1,w)) {
+          var %i = $v1
+          hadd rssdone $+(%n,,$gettok(%i,2,1)) 1
+          hdel rssdone %i
+        }
+        hadd rssdone SHA1: $+ %n $hget(rssdone,SHA1: $+ %v)
+        hdel rssdone SHA1: $+ %v
+        hadd rss %u $calc($wd($did(settings,224).seltext,5) -1) $did(3)
+        hdel rss %nt.edit
+        did -o settings 224 $did(settings,224).sel 1 +fs 0 0 $wd($did(settings,224).seltext,5) $did(3) $+ 	+ 0 0 0 %u
+      }
+      else {
+        hadd rss %u 0 $did(3)
+        mdxunsel settings 224
+        did -ac settings 224 1 + 0 0 1 $did(3) $+ 	+ 0 0 0 %u
+      }
+      hsave -ob rss scripts\tables\rss.tbl
+      dialog -c $dname
+    }
+    else { errdialog you have to enter both a name and URL! }
+  }
+}
+alias rss.latest {
+  if (%rss.latest) { return $v1 }
+  else { return n/a }
+}
+alias rss.latest.openurl { if (%rss.latest.url) { url -an $v1 } }
+alias rss.setsave {
+  var %z = 2,%v = $did(settings,224).lines
+  while (%z <= %v) {
+    var %t = $did(settings,224,%z)
+    hadd rss $gettok(%t,-1,32) $iif($wd(%t,5) == 2,1,0) $wd($gettok(%t,1,9),6-)
+    inc %z
+  }
+  hsave -ob rss scripts\tables\rss.tbl
+}
+on *:active:*:{ if ((@NT[?*] iswm $lactive) || (@NewsTickers == $lactive)) && ($active != $lactive) && (%nwsclear) { clear $lactive } }
+alias nt.edit {
+  set %nt.edit $wd($did(settings,224).seltext,-1) $cell(settings,224,1)
+  noop $dialog(nt.add,nt.add,-4)
+  unset %nt.edit
+}
+alias nt.reload {
+  var %i = $window(0)
+  while (%i) {
+    if (@NT[?*] iswm $window(%i)) || (@NewsTickers == $window(%i)) { clear $window(%i) }
+    dec %i
+  }
+  hdel -w rssdone *
+  newsticker
+}
+menu @NT[?*],@NewsTickers {
+  $style(2) $+([,$shorten(15,$active),]):return
+  -
+  Cl&ear:clear $active
+  $iif(%nwsclear,$style(1)) Clear when s&hown:set %nwsclear $iif(%nwsclear,0,1)
+  -
+  &Reload all:nt.reload
+  -
+  &Search...:.com.sendkeys ^F
+  Se&tup...:setup -c Newstickers
+  -
+  &Close:close -@ $active
+}
+alias fixhtml {
+  var %r = /(&#(\d{2,3});)/g,%x = $replacecs($1-,	,$chr(32),&apos;,',&ndash;,-,&uuml;,ü,&Uuml;,Ü,&auml;,ä,&Auml;,Ä,&ouml;,ö,&Ouml;,Ö,&szlig;,ß,&quot;,",&lt;,<,&gt;,>,&euro;,€,&amp;,&,&nbsp;,$chr(32))
+  if ($isutf(%x)) { %x = $utfdecode(%x) }
+  while ($regex(ftsub,%x,%r)) { %x = $replace(%x,$regml(ftsub,1),$chr($regml(ftsub,2))) }
+  while ($regex(ftsub,%x,/(&#x([0-9a-z]{2});)/gi)) { %x = $replace(%x,$regml(ftsub,1),$chr($base($regml(ftsub,2),16,10))) }
+  return %x
+}
+alias fixhtml.comp {
+  var %x = $fixhtml($1-)
+  if ($regex(%x,/(<[^>]*)$/)) { %x = $mid(%x,1,$calc($pos(%x,<,$pos(%x,<,0)) -1)) $+ ... }
+  noop $regsub($fixhtml(%x),/<a(?: href="?(?:http://)?([^"<]+)"?)?>([^<]+)</a>/gi,\2 (\1),%x) $regsub(%x,/<b>([^<]+)</b>/g,\1,%x) $regsub(%x,/<u>([^<]+)</u>/g,\1,%x) $regsub(%x,/<[^>]+>/g,$chr(32),%x)
+  return %x
+}
+alias newsticker {
+  if (!$fullscreen) {
+    var %n = $hget(rss,0).item
+    while (%n) {
+      if (1 * iswm $hget(rss,%n).data) { 
+        getfeed $hget(rss,%n).item $wd($hget(rss,%n).data,2-) 
+      }
+      dec %n
+    }
+  }
+}
+alias rss.error { if (%nwstick.serror) { thmecho -s An error occured while trying to get the $thmhl($iif($1 != -,$decode($1,m))) RSS feed: $2- } }
+alias getfeed {
+  if ($regex(rss,$1,/^(?:http\://)?([^/]+)(/.*)?$/i)) {
+    var %v = $regml(rss,1),%v = $iif(www.* iswm %v,$mid(%v,5),%v),%z = $encode($2-,m),%m = $sha1(%z),%f = $+(rss.,%z,.,%m)
+    unset %rss.queued.info. [ $+ [ %z ] ] $+ *
+    unset %rss.queued.desc. [ $+ [ %z ] ] $+ *
+    unset %rss.queued. [ $+ [ %z ] ] 
+    sco %f $regml(rss,1) 80
+    sockmark %f $regml(rss,1) $regml(rss,2)
+  }
+  else { rss.error $encode($2-,m) invalid URL! }
+}
+on *:sockopen:rss.*:{
+  tokenize 46 $sockname
+  var %v = $2
+  if ($sockerr) { rss.error %v $sock($sockname).wsmsg }
+  else {
+    tokenize 32 $sock($sockname).mark
+    sockmark $sockname 1
+    sockwrite -n $sockname GET $2- HTTP/1.0
+    sockwrite -n $sockname Host: $1
+    sockwrite -n $sockname User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8)
+    sockwrite -n $sockname Connection: close
+    sockwrite -n $sockname $crlf
+  }
+}
+on *:sockread:rss.*:{
+  tokenize 46 $sockname
+  if (!$isdir(scripts\tmp\)) { mkdir scripts\tmp\ }
+  var %v = $2,%f = $+(scripts\tmp\,%v,.xmltmp)
+  if ($sockerr) { rss.error %v $sock($sockname).wsmsg }
+  else {
+    if (%rss.dl. [ $+ [ %v ] ]) {
+      sockread 8192 &g
+      bwrite %f -1 &g
+    }
+    else {
+      var %g
+      sockread %g
+      if (%rss.rc. [ $+ [ %v ] ]) && ($regex(reloc,%g,/^Location: (?:http\://)?([^/]+)(/.*)?$/i)) {
+        unset %rss.rc. $+ %v
+        var %s = $sockname
+        sockclose %s
+        sco %s $regml(reloc,1) 80
+        sockmark %s $regml(reloc,1) $regml(reloc,2)
+        halt
+      }
+      if ($sock($sockname).mark) {
+        if (!$regex(%g,/^HTTP\/1\.(?:1|0) 200 OK$/i)) {
+          if ($regex(%g,/^HTTP\/1\.(?:1|0) 300 Multiple Choices$/i)) { set %rss.rc. $+ %v 1 }
+          elseif ($regex(%g,/^HTTP\/1\.(?:1|0) 301 Moved Permanently$/i)) { set %rss.rc. $+ %v 1 }
+          elseif ($regex(%g,/^HTTP\/1\.(?:1|0) 302 Found$/i)) { set %rss.rc. $+ %v 1 }
+          elseif ($regex(%g,/^HTTP\/1\.(?:1|0) 303 See Other$/i)) { set %rss.rc. $+ %v 1 }
+          elseif ($regex(%g,/^HTTP\/1\.(?:1|0) 307 Temporary Redirect$/i)) { set %rss.rc. $+ %v 1 }
+          else {
+            rss.error $2 $wd(%g,2-)
+            sockclose $sockname
+          }
+        }
+        sockmark $sockname 0
+      }
+      if (!%g) {
+        write -c %f
+        set %rss.dl. $+ %v 1
+      }
+    }
+  }
+}
+on *:sockclose:rss.*:{
+  var %err
+  tokenize 46 $sockname
+  unset %rss.dl. $+ $2 %rss.rc. $+ $2
+  parserss $2 $mkfullfn($+(scripts\tmp\,$2,.xmltmp)).noqt
+}
+alias dom { return $dll(scripts\dlls\domxml.dll,$1,$2-) }
+alias rss.error {
+  if (%nwstick.serror) { thmecho -s An error occured while trying to get the $thmhl($decode($1,m)) RSS feed: $2- }
+  set %rss.error 1
+}
+alias parserss {
+  unset %rss.error
+  var %e
+  if ($dom(parser,new rssparser) != S_OK) { %e = could not create XML parser! $nbr($v1),1) }
+  if ($dom(parser,select rssparser) != S_OK) { %e = $addtok(%e,could not select XML parser! $nbr($v1),1) }
+  if ($dom(parser,open_file $2-) != S_OK) { %e = $addtok(%e,could not open file! $nbr($v1),1) }
+  if ($dom(sax,set_handler_startelement rssparse.open) != S_OK) || ($dom(sax,set_handler_chardata rssparse.data) != S_OK) || ($dom(sax,set_handler_cdata rssparse.data) != S_OK) || ($dom(sax,set_handler_endelement rssparse.close $1) != S_OK) { %e = $addtok(%e,could not set XML handler! $nbr($v1),1) }
+  if (!%rss.error) { hdel -w rssdone $2 $+ * }
+  if ($dom(sax,start) != S_OK) { %e = $addtok(%e,could not start XML parsing! $nbr($v1),1) }
+  if ($dom(parser,free rssparser) != S_OK) { %e = $addtok(%e,could not free XML parser! $nbr($v1),1) }
+  if (!%rss.found) { %e = $addtok(%e,no news found.,1) }
+  if (%e) { rss.error $1 $replace(%e,,$+($chr(44),$chr(32))) }
+  tryremove $qt($2-)
+  unset %rss.error %rss.tag %rss.link %rss.title %rss.desc %rss.first %rss.found %rss.pubDate
+  rss.flush $1
+}
+alias rssparse.open {
+  set %rss.tag $2
+  if ($2 == item) { unset %rss.link %rss.title %rss.desc %rss.pubDate }
+}
+alias rssparse.data {
+  if (%rss.tag == link) { set %rss.link $shorten(3000,%rss.link $2-) }
+  elseif (%rss.tag == pubDate) { set %rss.pubDate $shorten(3000,%rss.pubDate $2-) }
+  elseif (%rss.tag == title) { set %rss.title $shorten(3000,%rss.title $2-) }
+  elseif (%rss.tag == description) { set %rss.desc $shorten(3000,%rss.desc $2-) }
+}
+alias rssparse.close {
+  if ($3 == item) {
+    set %rss.found 1
+    var %d = $decode($1,m),%l = $fixhtml(%rss.link)),%h = $+($1,,$sha1(%l))
+    if (!$hget(rssdone,%h)) {
+      var %t = $strip($fixhtml.comp(%rss.title)),%s = $strip($fixhtml.comp(%rss.desc)),%p
+      if ($regex(pubDate,$fixhtml.comp($gettok(%rss.pubDate,2,44)),(\d\d [a-zA-Z]{3} \d{4} \d\d:\d\d:\d\d))) {
+        var %p = $regml(pubDate,1)
+      }
+      if (%l) && (%t) {
+        if (%news.awin) {
+          var %w = $iif(%news.sepwinall,$+(@NT[,$replace(%d,$chr(32),_),]),@NewsTickers)
+          if (!$window(%w)) { window -znk0g1 %w }
+          else { window -g1 %w }
+          var %qm = $encode($+(%d,$iif(%p,$+($chr(32),[,%p,],:),:),$chr(32),%t,),m)
+          if (%s) { var %desc = Description: $shorten(3000,%s) }
+          %qm = $+(%qm,.,$encode(URL: %l,m))
+          rss.queue $1 info %w %qm 
+          rss.queue $1 desc %desc
+        }
+        else { rss.queue $1 info -a $encode($+(%d,: %t,) $nbr(%l),m) }
+        set %rss.latest %d $+ : %t
+        set %rss.latest.url %l
+        if (!%rss.first) {
+          set %rss.first 1
+          if (%balloon.newsticker) { noop $nntip(%d newsticker,%t) }
+          titlebar %w - %t
+        }
+      }
+      hadd -m rssdone %h 1
+    }
+  }
+}
+alias rss.queue {
+  if (!%rss.queued. [ $+ [ $1 ] ]) { set %rss.queued. [ $+ [ $1 ] ] 0 }
+  var %t = $calc(%rss.queued. [ $+ [ $1 ] ] + 1)
+  if ($2 == info) {
+    set %rss.queued.info. [ $+ [ $1 ] ] $+ . $+ %t $3 $4
+    if ($3 == -a) { inc %rss.queued. [ $+ [ $1 ] ] }
+  }
+  elseif ($2 == desc) { 
+    if ($3) { set %rss.queued.desc. [ $+ [ $1 ] ] $+ . $+ %t $3- }
+    inc %rss.queued. [ $+ [ $1 ] ]
+  }
+}
+alias rss.flush {
+  var %v = $1,%m = %rss.queued. [ $+ [ $1 ] ]
+  while (%m) {
+    var %d = %v $+ . $+ %m 
+    if (%rss.queued.info. [ $+ [ %d ] ]) {
+      tokenize 32 $v1
+      if ($1 != -a) {
+        echo $1 
+        thmecho $1 $decode($gettok($2,1,46),m)
+        thmecho $1 $decode($gettok($2,2,46),m)
+      }
+      else { thmecho $1 $decode($gettok($2,1,46),m) }
+      if (%rss.queued.desc. [ $+ [ %d ] ]) {
+        thmecho $1 %rss.queued.desc. [ $+ [ %d ] ]
+      }
+    }
+    dec %m
+  }
+  unset %rss.queued.info. [ $+ [ %v ] $+ ] .*
+  unset %rss.queued. [ $+ [ %v ] ]
+  unset %rss.queued.desc. [ $+ [ %v ] $+ ] .*
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

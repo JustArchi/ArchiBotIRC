@@ -1,0 +1,142 @@
+Name Pastel
+Version 1.21
+NNTVersion 1.03
+Author swarfega
+Email sw4rfega@googlemail.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font Arial
+FontSize 12
+
+TimestampEnabled 1
+Timestamp 09,09 01,08 HH01:01nn01.01ss 09,09  
+
+NickColSelf 4
+NickColOp 2
+NickColVoice 12
+NickColRegular 11
+NickColProtect none
+NickColIgnore 5
+
+Brackets (<text>)
+LineSep -
+Prefix #
+
+GenEcho <pre> <text>
+GenError $ Error: <text>
+GenHighlight <text>
+
+ChanText °             09(12<cmode><nick>09) 09 $qt(01<text>09)
+ChanTextOwn °             09(12<cmode><me>09) 03 $qt(01<text>03)
+ChanAction •             <cmode><nick> <text>
+ChanActionOwn •             <cmode><me> <text>
+
+QueryText <lt><nick><gt> <text>
+QueryTextOwn <lt><me><gt> <text>
+QueryAction • <nick> <text>
+QueryActionOwn • <me> <text>
+
+Msg <pre><nick><pre> <text>
+MsgOwn -› <pre><target><pre> <text>
+Action •             <nick> <text>
+ActionOwn •             (<target>) <text>
+
+ChanNotice -<nick>@<chan>- <text>
+Notice -<nick>- <text>
+NoticeOwn -<gt> -<target>- <text>
+ServerNotice -<server>- <text>
+
+CTCP [<nick> <ctcp>] <text>
+CTCPOwn -<gt> [<target>] <ctcp> <text>
+ChanCTCP [<nick>:<chan> <ctcp>] <text>
+CTCPReply [<nick> <ctcp> reply] <text>
+CTCPReplyOwn -<gt> [<target>] <ctcp> <text>
+
+Join 12›      join: <nick> (<address>)
+JoinOwn 09[02/Join <chan> (<users>)!if <topic>        · topic14: <topic>!if <topic>        · set by14: <topicnick>!if <topic>        · set on14: <topicdate> [10<topicdateago> ago14]       · users14: <users> total, <oppedusers> opped [10<oppeduserspercent>14], <voicedusers> voiced [10<voiceduserspercent>14],<regusers> normal [10<reguserspercent>14]       · sync time14: <synctime> seconds02/Join:end09]
+Part ‹      part: <nick> (<address>) <message brackets="1">
+Quit «     quit: <nick> (<address>) <message brackets="1">
+Nick 07~      <nick> nick: <newnick>
+NickOwn 07~      New nick: <newnick>
+Mode ±      <nick> mode: <mode>
+UserMode ±      <me> mode: <mode>
+Kick 04<lt>      <nick> 04kicks: <kickednick> <message brackets="1">
+KickOwn <pre> You were kicked from <chan> by <nick> (<message>)
+WallOp !<nick>! <text>
+
+DNS 09[/DNS       · Dns resolving address <address>
+DNSError        · $ Dns unable to resolve <address>/DNS:end09]
+DNSResolve        · Dns resolved <address> to <raddress>/DNS:end09]
+
+Notify <pre> <nick> is now online
+UnNotify <pre> <nick> is now offline
+
+LUsers1 There are <users> users and <invisible> invisible on <servers> servers
+LUsers2 <operators> operator(s) online
+LUsers3 <connections> unknown connection(s)
+LUsers4 <channels> channels formed
+LUsers5 I have <clients> clients and <servers> servers
+
+Welcome1 Welcome to the Internet Relay Network, <nick>
+Welcome2 Your host is <host>, running version <version>
+Welcome3 This server was created <created>
+Welcome4 <pre> <server> <version> <usermodes> <chanmodes>
+SupportedInfo <pre> <protocols> are supported by this server
+
+ChannelModes 14$ <chan> <modes>
+ChannelCreation 14$ <chan> created on <created>
+Bans 14$ <chan> <ban> set by <nick> (<banned>)
+BansEnd 14$ <chan> End of Channel Ban List
+UnableToSend 14$ Unable to message <chan>
+NotOpped 14$ <pre> <chan>: you're not channel operator
+HiddenHost 14$ <host> is now your hidden host
+RegisterFirst 14$ Register first!
+
+WhoisStart 09[02/Whois <nick>
+WhoisAddress        · 03address14: <address>       · 03name14: <name>
+WhoisChans        · 03channels14: $replace(<chans hlcommon="1">,$chr(35),$+(15,$chr(35),14),$chr(64),$+(03,$chr(64),14),$chr(43),$+(03,$chr(43),14),$chr(126),$+(03,$chr(126),14),$chr(37),$+(03,$chr(37),14),$chr(38),$+(03,$chr(38),14)) (03<channum>14)
+WhoisServer        · 03server14: <server> <info brackets="1">
+WhoisStatus        · 03status14: <status>
+WhoisAway        · 03away14: <reason>
+WhoisAuth        · 03auth14: <auth>
+WhoisRealIP        · 03real IP14: <address> <ip brackets="1">
+WhoisIdle        · 03idle14: <idle>       · 03signed on14: <signontime> <signonago brackets="1">
+WhoisEnd 02/Whois:end09]
+
+WhowasStart 09[02/Whowas <nick>
+WhowasAddress        · 03address14: <address>       · 03name14: <name>
+WhowasServer        · 03server14: <server> <info brackets="1">
+WhowasAway        · 03away14: <reason>
+WhowasEnd 02/Whowas:end09]
+
+Who 09[/Who       · <chan> <nick> <status> <address> <name>
+WhoEnd /Who:end09]
+
+Invite <pre> <nick> invites you to join <chan>
+InviteOwn <nick> has been invited to <chan>
+InviteAlreadyOnChan <nick> is already on channel
+
+NoTopic 14$ <chan> No topic is set.
+Topic 14<pre> Topic is '<topic>'
+TopicBy 14<pre> Set by <nick> on <date>
+TopicChange ¶      <nick> topic: '<topic>'
+
+Names 09[/Names       · <chan> <names>
+NamesEnd /Names:end09]
+
+UnknownCmd 14$ Unknown command, <cmd>
+NickInUse 14$ <nick> Nickname is already in use.
+AwayStatus <pre> <nick> is marked as being away: <reason>
+ChanFull 14$ <chan> unable to join channel (full)
+ChanInviteOnly 14$ <chan> unable to join channel (invite only)
+ChanBanned 14$ <chan> unable to join channel (banned)
+ChanKeyRequired 14$ <chan> unable to join channel (need correct key)
+ChanRegOnly 14$ <chan> unable to join channel (registered only)
+NoSuchNick 14$ <nick> No such nick
+NoSuchChan 14$ <chan> No such channel
+
+RawDef 14$ <text>
+
+Scheme0 Default 15267062 3750715 6439210 6917475 3881131 3224696 8743022 5739700 7979744 6667185 7630169 11572094 9794639 11051236 8421504 12106170 0 6 4 5 2 3 3 3 3 3 6 1 5 7 6 1 3 5 3 5 1 0 11 0 2 14 6 0 0 11
+Scheme1 Dark 3750715 14869214 10052929 6917475 3881131 6448024 8743022 5739700 4931892 11247501 7630169 11572094 12230522 11051236 8421504 12106170 0 6 4 5 2 3 3 3 3 3 6 1 5 7 6 1 3 5 3 5 1 0 11 0 2 14 6 0 0 11

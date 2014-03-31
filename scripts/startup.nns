@@ -1,0 +1,239 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - script startup - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias startup {
+  !window -hdfk0pw0 +fL @StartupLogo $int($calc($window(-1).w /2+ $window(-1).x -165)) $int($calc($window(-1).h /2+ $window(-1).y -203)) 330 246
+  if ($isfile(%c_splash)) { var %logo = %c_splash }
+  else { var %logo = scripts\pics\banner_splash.jpg }
+  if ($pic(%logo).width) { drawpic @StartupLogo 0 0 %logo }
+  else { drawtext -r @StartupLogo 255 Tahoma 10 2 2 Error loading startup picture. }
+  !window -hdfk0pw0 +fL @StartupEsnation $int($calc($window(-1).w /2+ $window(-1).x -165)) $int($calc($window(-1).h /2+ $window(-1).y +60)) 330 50
+  drawrect -rf @StartupEsnation 224 1 0 0 330 50
+  drawpic @StartupEsnation 0 10 scripts\pics\esnation.png
+  !window -hdfk0pw0 +fL @StartupInfo $int($calc($window(-1).w /2+ $window(-1).x -165)) $int($calc($window(-1).h /2+ $window(-1).y +127)) 330 50
+  startup.drawcube
+  drawtext @StartupInfo $color(normal) Tahoma 10 55 5 • Loading NNScript by ESNation %version for the $ord(%stat.scriptstarts) time.
+  window -ao @StartupLogo
+  window -ao @StartupEsnation
+  window -ao @StartupInfo
+  .timerstartup.close -io 1 5 startup.close
+}
+alias startup.drawcube {
+  if (!$window(@StartupInfo)) { .timerstartup.drawcube off }
+  else {
+    if (!%cube.y) {
+      set %cube.y $calc($1)
+      set %cube.p $calc($2)
+      set %cube.r $calc($3)
+    }
+    drawrect -nf @StartupInfo $color(back) 1 0 0 50 50
+    var %v = 0
+    while (%v < 8) {
+      set %cube. [ $+ [ %v ] ] $startup.calc3d(%v,10)
+      inc %v
+    }
+    drawline -n @StartupInfo $color(normal) 1 %cube.1 %cube.5 %cube.7 %cube.3 %cube.1
+    drawline -n @StartupInfo $color(normal) 1 %cube.5 %cube.4 %cube.6 %cube.7 %cube.5
+    drawline -n @StartupInfo $color(normal) 1 %cube.4 %cube.0 %cube.2 %cube.6 %cube.4
+    drawline -n @StartupInfo $color(normal) 1 %cube.0 %cube.1 %cube.3 %cube.2 %cube.0
+    drawdot @StartupInfo
+    inc %cube.y 4
+    inc %cube.p 2
+    inc %cube.r 1
+    .timerstartup.drawcube -h 1 0 startup.drawcube
+  }
+}
+alias startup.calc3dbs { return $+($iif($mid($base($1,10,2,3),$2,1),-),$3) }
+alias startup.calc3d {
+  var %cube.x1,%cube.x2,%cube.x3,%cube.y1,%cube.y2,%cube.y3,%cube.z1,%cube.z2,%cube.z3,%cube.1 = $startup.calc3dbs($1,1,10),%cube.2 = $startup.calc3dbs($1,2,10),%cube.3 = $startup.calc3dbs($1,3,10)
+  %cube.x1 = $calc((%cube.3 * $sin(%cube.y).deg)+(%cube.1 * $cos(%cube.y).deg))
+  %cube.y1 = %cube.2
+  %cube.z1 = $calc((%cube.3 * $cos(%cube.y).deg)-(%cube.1 * $sin(%cube.y).deg))
+  %cube.x2 = %cube.x1
+  %cube.y2 = $calc((%cube.y1 * $cos(%cube.p).deg)-(%cube.z1 * $sin(%cube.p).deg))
+  %cube.z2 = $calc((%cube.y1 * $sin(%cube.p).deg)+(%cube.z1 * $cos(%cube.p).deg))
+  %cube.x3 = $calc((%cube.y2 * $sin(%cube.r).deg)+(%cube.x2 * $cos(%cube.r).deg))
+  %cube.y3 = $calc((%cube.y2 * $cos(%cube.r).deg)-(%cube.x2 * $sin(%cube.r).deg))
+  inc %cube.x3 25
+  inc %cube.y3 25
+  return %cube.x3 %cube.y3
+}
+alias startup.close {
+  .timerstartup.* off
+  unset %cube.*
+  close -@ @StartupLogo @StartupEsnation @StartupInfo
+  loadbanner splash 0 0 0 0
+}
+alias firststart {
+  if ($window(@StartupLogo)) { close -@ $v1 }
+  if ($window(@StartupEsnation)) { close -@ $v1 }
+  if ($window(@StartupInfo)) { close -@ $v1 }
+  idialog You are running the script for the first time. Please take some time to set it up.
+  setup
+}
+menu @StartupLogo {
+  sclick:startup.close
+}
+menu @StartupEsnation {
+  sclick:startup.close
+}
+menu @StartupInfo {
+  sclick:startup.close
+}
+alias com.sendkeys {
+  var %o = sendkeys $+ $trnum
+  .comopen %o WScript.Shell
+  if ($com(%o)) { .comclose %o $com(%o,SendKeys,3,bstr,$1-) }
+}
+on *:start:{
+  if (!$writepermission) {
+    !echo -sti2c info * You don't have writing privileges in the NNScript directory $nbr($mircdir) $+ !
+    !echo -sti2c info * Script stopped.
+    halt
+  }
+  if (%updatefailed) {
+    !echo -sti2c info * An attempt to update the script has failed. You may have to reinstall the script if you encounter any problems.
+    unset %updatefailed
+  }
+  if (%version < 4.21) {
+    !echo -sti2c info * You cannot update to NNScript %version from a version earlier than 4.21!
+    halt
+  }
+  if ($version < 6.34) {
+    !echo -sti2c info * FATAL ERROR: You need at least mIRC v6.34 to use this script. However, you are using $+(v,$version,.) Please get the correct version at http://nnscript.esnation.com!
+    !echo -sti2c info * Script stopped.
+    url -an http://nnscript.esnation.com/index.php?section=download
+    halt
+  }
+  elseif ($version > 6.34) && (%newermirc != $version) {
+    idialog Warning: this script was designed for mIRC 6.34. However, you are using a later version (v $+ $version $+ ). If you encounter any problems, please downgrade to mIRC v6.34.
+    set %newermirc $version
+  }
+  if ($istok(95 98 Me,$os,32)) {
+    !echo -sti2c info * You are using Windows $os $+ , which is no longer supported by NNScript. Please upgrade your windows installation to use this script.
+    !echo -sti2c info * Script stopped.
+    halt
+  }
+  if (!$chkmdir) || (!$chkudir) {
+    !echo -sti2c info * Please don't launch NNScript from directories with two or more successive spaces in them. Also, your user directory has to follow the same rules. Rename them and restart the script.
+    !echo -sti2c info * Script stopped.
+    exit
+    halt
+  }
+  if ($lock(run)) || ($lock(dll)) || ($lock(com)) || ($lock(decode)) {
+    !echo -sti2c info * You have locked one or more of the /run, /dll, /com oder $!decode commands in the mIRC options. NNScript needs these commands to work. Please unlock these features and restart mIRC.
+    !echo -sti2c info * Script stopped.
+    if (!$lock(com)) { .com.sendkeys $+(%,O{HOME},$str({LEFT}{DOWN},6),{LEFT}{END}{RIGHT}{DOWN},{TAB 10}) }
+    halt
+  }
+  if ($disk($left($mircdir,1)).free < 20971520) { idialog Warning: there is only $bytes($v1,3).suf of free space available on drive $left($mircdir,2) $+ ! If you run out of free disk space, the script will not work as intended. Please free up some disk space and restart the script. }
+  var %st = $nnticks,%upd
+  if (!%nocrash) { inc %stat.scriptcrashes }
+  unset %nocrash
+  loadhash
+  inc %stat.scriptstarts
+  if (%away.status) { back }
+  if (%thm.lrand) { .thm.lrand }
+  if (%ssplash) { startup }
+  if (%winarr.auto) { .timer 1 0 winarr.apply %winarr }
+  dcx WindowProps $window(-2).hwnd +i 0 $scriptdir $+ pics\nn.ico
+  dcx xSignal 1
+  winpic Status Window
+  .ial on
+  xtreebar -f + default $convertfontsize($thmdata(%thm.current,fontsize)).points $thmdata(%thm.current,font)
+  .timestamp -f $thmdata(%thm.current,timestamp)
+  .timestamp -g $thmdata(%thm.current,timestamp)
+  tokenize 58 %alarm.time
+  if (%alarm.mode == 1) && (%alarm.eday) && ($1 isnum 0-23) && ($2 isnum 0-59) { .timeralarm -io $+($1,:,$2) 1 0 alarm.ring $chr(124) .timeralarmre 1 300 .timeralarm -io $+($1,:,$2) 1 0 alarm.ring }
+  .timerdc -io 0:00 1 0 chgday
+  if (%ban.mask == $null) { set %ban.mask 3 }
+  if (%ignore.mask == $null) { set %ignore.mask 3 }
+  if (%lb.enabled) { nntoolbar }
+  if (%sbar.enabled) { sbar }
+  lagchktimer
+  if (%email.checker) {
+    .timermailchk -io 0 $iif(%mail.delay,$v1,600) checkmail
+    checkmail
+  }
+  unsetvars
+  set %lastcid $cid
+  set %appactive $!true
+  titlebar.ctmr
+  .timerrecuptime -io 0 60 sysinfo.chkuptimerecord
+  if (%stat.scriptstarts == 1) {
+    set %thm.forcerefresh 1
+    thm.ldef
+    set %install.time $ctime
+    set %stat.lastreset $ctime
+    set %getexternalip 1
+    .copy -o scripts\txt\kickmsg.txt scripts\txt\kickmsg-def.txt
+    .copy -o scripts\txt\quitmsg.txt scripts\txt\quitmsg-def.txt
+    .copy -o scripts\txt\slaps.txt scripts\txt\slaps-def.txt
+    .timer 1 0 firststart
+  }
+  if (%version < 4.22) {
+    set %updatefailed 1
+    set %dateformat yyyy-mm-dd
+    set %dateformat.long dddd, mmmm ddoo yyyy
+    set %timeformat.short HH:nn:ss
+    set %timeformat yyyy-mm-dd, HH:nn:ss
+    set %timeformat.long dddd, mmmm ddoo yyyy, HH:nn:ss
+    set %version 4.22
+    noop $read(scripts\txt\quitmsg.txt,n,www.nnscript.com)
+    if ($readn) { write -l $+ $v1 scripts\txt\quitmsg.txt 12( www.nnscript.com 12:: NoNameScript 4.22 12:: www.esnation.com 12) }
+    set %thm.forcerefresh 1
+    .thmload $iif(%thm.scheme,-s $+ $v1) %thm.current
+    %upd = 1
+    unset %updatefailed
+  }
+  if (!$thmvchk(%thm.current)) {
+    if ($thmvchk($thm.def)) {
+      .thm.ldef
+      .timer 1 0 errdialog since the theme file you have previously loaded doesn't exist anymore or is corrupted, the default theme has been loaded.
+    }
+    else { .timer 1 0 errdialog your themes have been corrupted. Please re-install the default theme or NNScript. }
+  }
+  if (%qcls.auto) { .timerqcls -io 0 30 scon -a chkqcls }
+  if (%rssticker) { .timernwstick -io 0 $calc(%nwstick.mins *60) newsticker }
+  if (%anti.idle) { .timeraidle -io 0 %aidle.max scon -at1 aidle }
+  .thmupd
+  thmls -s
+  if (%upd) { thmecho -s NNScript has been successfully updated to version $thmhl(%version) $+ . You may need to re-load third party scripts. }
+  thmecho -s Finished loading NNScript $thmhl(%version) with mIRC $thmhl($version) in $thmhl($round($calc($nnticks - %st),2)) second(s).
+  if (!%ssplash) {
+    thmecho -s Running version $thmhl(%version) with mIRC $thmhl($version) for the $thmhl($ord(%stat.scriptstarts)) time.
+    thmecho -s Using $thmhl($thmdata(%thm.current,name) $thmdata(%thm.current,version)) theme $iif(%thm.scheme,with $thmhl($schmprt($thmdata(%thm.current,Scheme $+ %thm.scheme)).name scheme)) by $thmhl($thmdata(%thm.current,author)) $+ .
+  }
+  elseif ($window(@StartupInfo)) {
+    drawtext @StartupInfo $color(normal) Tahoma 10 55 18 • Finished loading in $round($calc($nnticks - %st),2) $+ s.
+    drawtext @StartupInfo $color(normal) Tahoma 10 55 31 • Using $thmdata(%thm.current,name) $thmdata(%thm.current,version) theme $+ $iif(%thm.scheme,$chr(32) $nbr($schmprt($thmdata(%thm.current,Scheme $+ %thm.scheme)).name scheme)) $+ .
+  }
+  if (%totd) {
+    var %totd = $read(scripts\txt\totd.txt,n)
+    thmecho -a Did you know? $thmhl($chr(35) $+ $readn) $+ : %totd
+  }
+  if (%checkver.startup) { .checkver }
+  var %z,%i = 1,%t = $wd(%autoconservs,0)
+  if ($specialday) { thmecho -s $v1 }
+  thmls -s
+  echo -s 
+  while (%i <= %t) {
+    var %s = $wd(%autoconservs,%i)
+    if ($wd(%autoconserv. [ $+ [ %s ] ],4)) {
+      if (!%z) { thmecho -s Connecting to set-up networks... hold shift to skip perform! }
+      thmecho -s Connecting to $thmhl(%s) $+ ...
+      server $iif(%z,-m) %s
+      %z = 1
+    }
+    inc %i
+  }
+  if (%z) { echo -s  }
+  return
+  :error
+  errdialog an error occured while loading the script: $error
+  reseterror
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

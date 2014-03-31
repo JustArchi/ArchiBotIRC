@@ -1,0 +1,141 @@
+Name DarkReign
+Version 1.0
+NNTVersion 1.03
+Author swarfega
+Email sw4rfega@googlemail.com
+Homepage http://www.nnscript.com
+Description A dark theme.
+
+Font Verdana
+FontSize 12
+
+TimestampEnabled 1
+Timestamp 11,11 01,10 HH01:01nn01.01ss 11,11  
+
+NickColSelf 0
+NickColOp 4
+NickColVoice 10
+NickColRegular 12
+NickColProtect 5
+NickColIgnore 6
+
+Brackets 11(<text>11)
+LineSep 02·12· 01········02········12········14········15···
+Prefix 02·12·
+
+GenEcho <pre> <text>
+GenError <pre> Error: <text>
+GenHighlight <text>
+
+ChanText 11(<cnickcolor><cmode>10<nick>11) <text>
+ChanTextOwn 11(<cmecolor><cmode>10<me>11) <text>
+ChanAction <pre> <cnickcolor><cmode>10<nick> <text>
+ChanActionOwn <pre> <cmecolor><cmode>10<me> <text>
+
+QueryText <nick brackets="1"> <text>
+QueryTextOwn <me brackets="1"> <text>
+QueryAction <pre> <nick> <text>
+QueryActionOwn <pre> <me> <text>
+
+Msg <pre><nick><pre> <text>
+MsgOwn -<gt> <pre><target><pre> <text>
+Action <pre><nick><pre> <text>
+ActionOwn -<gt> <pre><target><pre> <text>
+
+ChanNotice -00<nick>@<chan>- <text>
+Notice -00<nick>- <text>
+NoticeOwn -<gt> -00<target>- <text>
+ServerNotice -00<server>- <text>
+
+CTCP <pre> [00<nick> <ctcp>] <text>
+CTCPOwn -<gt> [00<target>] <ctcp> <text>
+ChanCTCP <pre> [00<nick>:00<chan> <ctcp>] <text>
+CTCPReply <pre> [00<nick> 00<ctcp> reply] <text>
+CTCPReplyOwn -<gt> [00<target>] 00<ctcp> <text>
+
+Join <pre> join: <nick> (<address>)
+JoinOwn <pre> Now talking in <chan>!if <topic> <pre> Topic is '<topic>'!if <topic> <pre> Set by <topicnick> on <topicdate>
+Part !if <message> <pre> part: <nick> (<address>) <message brackets="1">
+Quit !if <message> <pre> quit: <nick> (<address>) <message brackets="1">
+Nick <pre> <nick> nick: <newnick>
+NickOwn <pre> Your nick is now <newnick>
+Mode <pre> <nick> mode: <mode>
+UserMode <pre> <me> mode: <mode>
+Kick !if <message> <pre> <nick> kicked: <kickednick> <message brackets="1">
+KickOwn !if <message> <pre> You were kicked from <chan> by <nick> <message brackets="1">
+WallOp 04!<nick>04! <text>
+
+DNS <linesep><pre> Dns resolving <address>
+DNSError <pre> Dns unable to resolve <address><linesep>
+DNSResolve <pre> Dns resolved <address> to <raddress><linesep>
+
+Notify <pre> <nick> is now online
+UnNotify <pre> <nick> is now offline
+
+LUsers1 <pre> There are <users> users and <invisible> invisible on <servers> servers
+LUsers2 <pre> <operators> operator(s) online
+LUsers3 <pre> <connections> unknown connection(s)
+LUsers4 <pre> <channels> channels formed
+LUsers5 <pre> I have <clients> clients and <servers> servers
+
+Welcome1 <pre> Welcome to the Internet Relay Network, <nick>
+Welcome2 <pre> Your host is <host>, running version <version>
+Welcome3 <pre> This server was created <created>
+Welcome4 <pre> <server> <version> <usermodes> <chanmodes>
+SupportedInfo <pre> <protocols> are supported by this server
+
+ChannelModes <chan> <modes>
+ChannelCreation <chan> created on <created>
+Bans <linesep><chan> <ban> set by <nick> (<banned>)
+BansEnd <linesep>
+UnableToSend ~ Unable to message <chan>
+NotOpped ~ <pre> <chan>: you're not channel operator
+HiddenHost ~ <host> is now your hidden host
+RegisterFirst ~ Register first!
+
+WhoisStart <linesep>
+WhoisAddress <pre> 00<nick> is <address> <pre> <name>
+WhoisChans <pre> 00<nick> on <chans hlcommon="1">
+WhoisServer <pre> 00<nick> using <server> <info>
+WhoisStatus <pre> 00<nick> is an <status>
+WhoisAway <pre> 00<nick> is away: <reason>
+WhoisAuth <pre> 00<nick> is authed as <auth>
+WhoisRealIP <pre> 00<nick> is actually <address> [<ip>]
+WhoisIdle <pre> 00<nick> has been idle <idle>, signed on <signontime>
+WhoisEnd <linesep>
+
+WhowasStart <linesep>
+WhowasAddress <pre> 00<nick> was <address> <pre> <name>
+WhowasServer <pre> 00<nick> used <server> <info>
+WhowasAway <pre> 00<nick> was away: <reason>
+WhowasEnd <linesep>
+
+Who <linesep><chan> <nick> <status> <address> <name>
+WhoEnd <linesep>
+
+Invite <pre> <nick> invites you to join <chan>
+InviteOwn <nick> has been invited to <chan>
+InviteAlreadyOnChan <nick> is already on channel
+
+NoTopic ~ <chan> No topic is set.
+Topic <pre> Topic is '<topic>'
+TopicBy <pre> Set by <nick> on <date>
+TopicChange <pre> <nick> topic: '<topic>'
+
+Names <linesep><chan> <names>
+NamesEnd <linesep>
+
+UnknownCmd ~ <cmd> Unknown command
+NickInUse ~ <nick> Nickname is already in use.
+AwayStatus <pre> <nick> is marked as being away: <reason>
+ChanFull ~ <chan> unable to join channel (full)
+ChanInviteOnly ~ <chan> unable to join channel (invite only)
+ChanBanned ~ <chan> unable to join channel (banned)
+ChanKeyRequired ~ <chan> unable to join channel (need correct key)
+ChanRegOnly ~ <chan> unable to join channel (registered only)
+NoSuchNick ~ <nick> No such nick
+NoSuchChan ~ <chan> No such channel
+
+RawDef <text>
+
+Scheme0 Default 16777215 0 4205603 37632 133117 127 10223772 32764 65535 64512 16756620 15785687 8411206 16711935 8355711 13816530 1 12 12 4 12 12 12 4 4 10 10 14 12 12 6 14 10 10 12 12 12 1 12 1 12 12 6 0 1 12

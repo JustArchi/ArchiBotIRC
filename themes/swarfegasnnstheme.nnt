@@ -1,0 +1,225 @@
+Name swarfega's NNS theme
+Version 1.31
+NNTVersion 1.03
+Author swarfega
+Email sw4rfega@googlemail.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 05(15HH07:15nn07:15ss05)
+
+NickColSelf 15
+NickColOp 5
+NickColVoice 15
+NickColRegular 0
+NickColProtect none
+NickColIgnore none
+
+Brackets 05(14 <text> 05)
+LineSep 07— —— ——————————00•07•00•07—————————— —— — 
+Prefix 00•05•00•
+
+GenEcho <pre> <text>
+GenError <pre> Error: <text>
+GenHighlight <text>
+
+ChanText 05<cmode>06<nick>07: $regsubex(<text>,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,))
+ChanTextOwn 05<cmode> $+ 15<me>07: $regsubex(<text>,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,))
+ChanAction <pre> 05<cmode><nick> $regsubex(<text>,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,))
+ChanActionOwn <pre> 05<cmode><me> $regsubex(<text>,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,))
+
+QueryText <nick brackets="1"> $regsubex(<text>,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,))
+QueryTextOwn <me brackets="1"> $regsubex(<text>,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,))
+QueryAction <pre> <nick> $regsubex(<text>,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,))
+QueryActionOwn <pre> <me> $regsubex(<text>,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,))
+
+Msg <pre><nick><pre> $regsubex(<text>,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,))
+MsgOwn -<gt> <pre><target><pre> $regsubex(<text>,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,))
+Action <pre><nick><pre> $regsubex(<text>,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,))
+ActionOwn -<gt> <pre><target><pre> $regsubex(<text>,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,))
+
+ChanNotice -<nick brackets="1">07@<chan brackets="1">- <text>
+Notice -<nick brackets="1">- <text>
+NoticeOwn 07-<gt> -<target brackets="1">- <text>
+ServerNotice -<server brackets="1">-07 $replace(<text>,***,00•07•00•)
+
+CTCP 07[<nick> <ctcp brackets="1">07 <text>
+CTCPOwn 07-<gt> [<target>07] <ctcp brackets="1"> <text>
+ChanCTCP 07[<nick>:<chan> <ctcp brackets="1">07] <text>
+CTCPReply 07[<nick> <ctcp brackets="1"> reply07] <text>
+CTCPReplyOwn 07-<gt> [<target>07] <ctcp brackets="1"> <text>
+
+Join <pre> 07Join00: <nick brackets="1"> $replace(<address brackets="1">,.,07.14,-,07-14,~,07~14,@,07@14)
+JoinOwn 07(00+07)  07(00 channel05: 14<chan> 07)$str( ,11) $+ 07|$str( ,11) $+ 07| $+ $str($chr(151),10) —— — !if <topic> $str( ,11) $+ 07| 00Topic05: $regsubex(<topic brackets="1">,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,))!if <topic> $str( ,11) $+ 07| 00Set by05: <topicnick brackets="1"> 00on05: $replace(<topicdate brackets="1">,:,07:14)$str( ,11) $+ 07| 00Channel modes05: 07( $replace($chan(<chan>).mode,+,00+14,k,k 07*14) 07)$str( ,11) $+ •07 $+ $str($chr(151),10) —— —  
+Part <pre> 07Part00: <nick brackets="1"> $replace(<address brackets="1">,.,07.14,-,07-14,~,07~14,@,07@14) <message brackets="1">
+Quit <pre> 07Quit00: <nick brackets="1"> $replace(<address brackets="1">,.,07.14,-,07-14,~,07~14,@,07@14) 05( $regsubex(<message>,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,)) 05)
+Nick <pre> 07Nick00: <nick brackets="1"> is now known as <newnick brackets="1">
+NickOwn <pre> Your nick is now <newnick brackets="1">
+Mode <pre> 07Mode00: <nick brackets="1"> ± 07(14 $gettok($replacex(<mode>,+,00+14,-,00-14,v,07v14,o,07o14,v,07v14,b,07b14,h,07h14,a,07a14,q,07q14,!,07!14),1,32) $gettok(<mode>,2-,32) 07)
+UserMode <pre> 07Umode00: <me brackets="1"> sets mode: <mode brackets="1">
+Kick <pre> 07Kick00: <kickednick brackets="1"> was kicked by 05(05 <cmode><nick> 05) <message brackets="1">
+KickOwn <pre> 07You were kicked by 05<cmode>07<nick> from 07<chan> <message brackets="1">
+WallOp 00!<nick brackets="1">00! $regsubex(<text>,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(15,\1,))
+
+DNS 05(00 ? 05)  05(00 DNS07: 14<address> 05)$str( ,11) $+ 05|$str( ,11) $+ 05| $+ $str($chr(151),10) —— — $str( ,11) $+ 05| 00DNS resolving07: <address brackets="1">
+DNSError $str( ,11) $+ 05| 00DNS unable to resolve07: <address brackets="1">$str( ,11) $+ •05 $+ $str($chr(151),10) —— — 
+DNSResolve $str( ,11) $+ 05| 00DNS resolved07: <address brackets="1"> to <raddress brackets="1">$str( ,11) $+ •05 $+ $str($chr(151),10) —— — 
+
+Notify <pre> <nick brackets="1"> is now online
+UnNotify <pre> <nick brackets="1"> is now offline
+
+LUsers1    05(00 ! 05)  05(00 lusers07:15 $lower($network) 05)$str( ,11) $+ 07|$str( ,11) $+ 07| $+ $str($chr(151),10) —— — $str( ,11) $+ 07| 00Users07: <users brackets="1"> 15users, <invisible brackets="1"> 15invisible$str( ,11) $+ 07| 00Global servers07: <servers brackets="1"> 15servers
+LUsers2 $str( ,11) $+ 05| 00Operators07: <operators brackets="1"> 15operator05(15s05)15 online
+LUsers3 $str( ,11) $+ 05| 00Connections07: <connections brackets="1"> 15unknown connection05(15s05)
+LUsers4 $str( ,11) $+ 05| 00Channels07: <channels brackets="1"> 15channels formed
+LUsers5 $str( ,11) $+ 05| 00Clients07: <clients brackets="1"> 15clients$str( ,11) $+ 05| 00Local servers07: <servers brackets="1"> 15servers$str( ,11) $+ •05 $+ $str($chr(151),10) —— —  <linesep>
+
+Welcome1 <linesep> 05(00 ! 05)  05(00 theme07:15 loaded... 05)$str( ,11) $+ 05|$str( ,11) $+ 05| $+ $str($chr(151) ,10) —— — $str( ,11) $+ 05| 00Author07: 15swarfega$str( ,11) $+ 05| 00Name07: 15swarfega's NNS style theme$str( ,11) $+ 05| 00Version07: 151.3$str( ,11) $+ 05| 00Contact07: 15sw4rfega07@15googlemail07.15com$str( ,11) $+ •05 $+ $str($chr(151),10) —— —    <pre> 07Welcome to the 07 $left($network,1) $+ 00 $+ $right($network,-1) 07Internet 07Relay 07Network, <nick brackets="1">
+Welcome2 <pre> Your host is $replace(<host brackets="1">,.,07.15) $+ , running version <version brackets="1">
+Welcome3 <pre> This server was created $replace(<created brackets="1">,:,07:15)
+Welcome4 <pre> $replace(<server brackets="1">,.,07.15) <version brackets="1"> <usermodes brackets="1"> <chanmodes brackets="1">
+SupportedInfo <pre> <protocols brackets="1"> are supported by this server
+
+ChannelModes <pre> $replace(<chan>, $+ $chr(35) $+ ,00 $+ $chr(35) $+ 15) <modes brackets="1">
+ChannelCreation <pre> $replace(<chan>, $+ $chr(35) $+ ,00 $+ $chr(35) $+ 15) created on <created brackets="1">
+Bans $str( ,11) $+ 07 $+ $replace(<chan brackets="1">, $+ $chr(35) $+ ,00 $+ $chr(35) $+ 15) <ban> set by <nick> <banned brackets="1">
+BansEnd $str( ,11) $+ 07(00?07)  07(00 bans07: 15<chan> 07)07 $+ $str($chr(151),10) —— —  
+UnableToSend <pre> 07Unable to message00: $replace(<chan brackets="1">, $+ $chr(35) $+ ,00 $+ $chr(35) $+ 15)
+NotOpped <pre> $replace(<chan brackets="1">, $+ $chr(35) $+ ,00 $+ $chr(35) $+ 15) $+ 00: 07you're not channel operator
+HiddenHost <pre> $replace(<host brackets="1">,.,07.15) 07is now your hidden host
+RegisterFirst <pre> 07Register first!
+
+WhoisStart  05(00 ? 05)  05(00 whois07: 14<nick> 05)$str( ,11) $+ 05|$str( ,11) $+ 05| $+ $str($chr(151),10) —— — 
+WhoisAddress $str( ,11) $+ 05| 00Host07: 05(14 $replace(<address>,.,07.14,-,07-14,~,07~14,@,07@14) 05)$str( ,11) $+ 05| 00Realname07: 14<name brackets="1">$str( ,11) $+ 05| $+ $str($chr(151),10) —— — 
+WhoisChans $str( ,11) $+ 05| 00Channels 07:14 $replace(<chans hlcommon="1">,.,07.14,_,07_14,?,07?14,~,07~14,*,07*14,&,07&14,!,07!14,@,07@14,%,07%14,+,07+14, $+ $chr(35) $+ ,00 $+ $chr(35) $+ 14, $+ $chr(31) $+ , $+ $chr(2) $+ )$str( ,11) $+ 05| $str( ,20) $+ <channum brackets="1"> channels, of which <comchannum brackets="1"> are common
+WhoisServer $str( ,11) $+ 05| $+ $str($chr(151),10) —— — $str( ,11) $+ 05| 00Server07:14 $replace(<server brackets="1">,.,07.14) <info brackets="1">
+WhoisStatus $str( ,11) $+ 05| 00Status07: 14<status brackets="1">
+WhoisAway $str( ,11) $+ 05| 00Away07: 14<reason brackets="1">
+WhoisAuth $str( ,11) $+ 05| 00Auth07: 14<auth brackets="1">
+WhoisRealIP $str( ,11) $+ 05| 00Realhost07: 14<address brackets="1"> $replace(<ip brackets="1">,.,07.14)
+WhoisIdle $str( ,11) $+ 05| 00Idle07: 14<idle brackets="1"> 05(14signed on $replace(<signontime>,:,07:14) 05)$str( ,11) $+ 05| 00Signed on07: 14<signonago brackets="1">
+WhoisEnd $str( ,11) $+ •05 $+ $str($chr(151),10) —— —  
+
+WhowasStart  05(00 ? 05)  05(00 whowas07: 14<nick> 05)$str( ,11) $+ 05|$str( ,11) $+ 05| $+ $str($chr(151),10) —— — 
+WhowasAddress $str( ,11) $+ 05| 00Host07: (14 $replace(<address>,.,07.14,-,07-14,~,07~14,@,07@14) 05)$str( ,11) $+ 05| 00Realname07: 14<name brackets="1">
+WhowasServer $str( ,11) $+ 05| 00Server07:14 $replace(<server brackets="1">,.,07.14) <info brackets="1">
+WhowasAway $str( ,11) $+ 05| 00Away07: 14<reason brackets="1">
+WhowasEnd $str( ,11) $+ •05 $+ $str($chr(151),10) —— —  
+
+Who $str( ,11) $+ 05| 00<nick> <status brackets="1"> 00— $replace(<address brackets="1">,.,07.15,-,07-15,@,07@15,~,07~15) 00— 15<name>
+WhoEnd $str( ,11) $+ 07(00 ? 07)  07(00 who07: 15<target> 07)07 $+ $str($chr(151),10) —— —  
+
+Invite <pre> <nick brackets="1"> invites you to join <chan brackets="1">
+InviteOwn <pre> <nick brackets="1"> has been invited to <chan brackets="1">
+InviteAlreadyOnChan <pre> <nick brackets="1"> is already on <chan brackets="1">
+
+NoTopic <pre> $replace(<chan brackets="1">, $+ $chr(35) $+ ,00 $+ $chr(35) $+ 15) $+ 00:07 No topic is set.
+Topic <pre> Topic is 05(15 $regsubex(<topic brackets="1">,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,)) 05)
+TopicBy <pre> Set by <nick brackets="1"> on $replace(<date brackets="1">,:,07:15)
+TopicChange <pre> 07Topic00: <nick brackets="1"> changes topic to $regsubex(<topic brackets="1">,/\b(www\.\S+|http://\S+|https://\S+|ftp://\S+|\w+(?:[\.-]\w+)?@\w+(?:[\.-]\w+)?\.[a-z]{2,4})\b/gi,$+(07,\1,))
+
+Names $str( ,11) $+ 05|15 $replace(<names>,@,07@15,+,07+15,&,07&15,~,07~15,!,07!15,%,07%15,*,07*15)
+NamesEnd $str( ,11) $+ 7(00 ? 07)  07( 00names07: 15<chan> 07)07 $+ $str($chr(151),10) —— —  
+
+UnknownCmd <pre> 07Unknown command00: <cmd brackets="1">
+NickInUse <pre> <nick brackets="1">00:07 Nickname is already in use.
+AwayStatus <pre> <nick brackets="1"> is marked as being away: <reason brackets="1">
+ChanFull <pre> $replace(<chan brackets="1">, $+ $chr(35) $+ ,00 $+ $chr(35) $+ 15) $+ 00:07 unable to join channel 05(15 full 05)
+ChanInviteOnly <pre> $replace(<chan brackets="1">, $+ $chr(35) $+ ,00 $+ $chr(35) $+ 15) $+ 00:07 unable to join channel 05(15 invite only 05)
+ChanBanned <pre> $replace(<chan brackets="1">, $+ $chr(35) $+ ,00 $+ $chr(35) $+ 15) $+ 00:07 unable to join channel 05(15 banned 05)
+ChanKeyRequired <pre> $replace(<chan brackets="1">, $+ $chr(35) $+ ,00 $+ $chr(35) $+ 15) $+ 00:07 unable to join channel 05(15 need correct key 05)
+ChanRegOnly <pre> $replace(<chan brackets="1">, $+ $chr(35) $+ ,00 $+ $chr(35) $+ 15) $+ 00:07 unable to join channel 05(15 registered only 05)
+NoSuchNick <pre> <nick brackets="1">00:07 No such nick
+NoSuchChan <pre> $replace(<chan brackets="1">, $+ $chr(35) $+ ,00 $+ $chr(35) $+ 15) $+ 00:07 No such channel
+
+RawDef <pre> 07RAW: <numeric> <text brackets="1">
+CRaw320 $str( ,11) $+ 05| 00extra info07:05(15 $gettok(<text>,3-,32) 05)
+CRaw412 <pre> 07No text to send.
+CRaw364 $str( ,11) $+ 05|15 15 $+ $replace($gettok(<text>,2,32),.,07.15) 05—<gt>15 $replace($gettok(<text>,3,32),.,07.15) $gettok(<text>,4,32) 00—15 $qt( $+ $gettok(<text>,5-,32) $+ )
+CRaw366 $str( ,11) $+ 05(00 ! 05)  05(00 links07: 15 $+ $network 05)05—————————— —— —  
+CRaw365 $str( ,11) $+ 05(00 ! 05)  05(00 links07: 15 $+ $network 05)05—————————— —— —  
+CRaw382 <pre> 07Rehashing $gettok(<text>,2,32) file.
+CRaw462 <pre> 07You may not register.
+CRaw484 <pre> 07 $+ $gettok(<text>,2,32) $gettok(<text>,3,32) $+ : Cannot kill, kick or deop channel service
+CRaw482 <pre> 07 $+ $gettok(<text>,1,32) $+ 00:05 ( 15You're not a channel operator05 )
+CRaw481 <pre> 07Permission Denied - You're not an IRC operator
+CRaw437 <pre> 07Cannot change nickname while banned on channel
+CRaw422 <pre> 07MOTD file is missing.
+CRaw602 $str( ,11) $+ 07 $gettok(<text>,2,32) $+ 00: 15 stopped watching.
+CRaw221 <pre> 07My usermodes: 05(15 $+ $gettok(<text>,3,32) $+ 05)
+CRaw377 <pre> 07/MOTD last changed: 05(15 $gettok(<text>,1,58) 05)
+CRaw7 $str( ,11) $+ 05(00 ! 05)  05(00 map07: 15 $+ $network 05)05 $+ $str($chr(151),10) —— —  
+CRaw6 $str( ,11) $+ 05|15 $replace($gettok(<text>,2-,32),|,00|15,|-,00|-15,`-,00`-15,.,07.15,-,00-15)
+CRaw5 $str( ,11) $+ 05|15 $replace($gettok(<text>,2-,32),|,00|15,|-,00|-15,`-,00`-15,.,07.15,-,00-15)
+CRaw328 <pre> 07 $+ $gettok(<text>,2,32) $+ : $gettok(<text>,3,32)
+CRaw520 <pre> 07 $+ $gettok(<text>,5,32) $+ : Cannot join channel ( IRCops only )
+CRaw486 <pre> 07You must identify to a registered nick to private message.
+CRaw972 <pre> 07 $+ $gettok(<text>,2,32) is a channel admin00: 05(15 trying to kick admin, founder, or operator without sufficient authorisation 05)
+CRaw499 <pre> 07You're not a channel owner (trying to set mode a,q as operator)
+CRaw460 <pre> 07Halfops cannot set mode o 05(15 trying to mode o,a,q as halfop05 )
+CRaw607 $str( ,11) $+ 05(00 ? 05) 05(00 watch07:15 $network 05) $+ $str($chr(151),10) —— —  
+CRaw606 $str( ,11) $+ 07 Watchlist00:05 (15 $gettok(<text>,2,32) $gettok(<text>,3,32) 05)
+CRaw605 $str( ,11) $+ 07 $+ $gettok(<text>,2,32) $+ 00:15 is offline.
+CRaw604 $str( ,11) $+ 07 $+ $gettok(<text>,2,32) $+ 00:15 is online
+CRaw603 $str( ,11) $+ 07 Total on watch00: 05(15 $+ $gettok(<text>,4,32) $+ 05)$str( ,11) $+ 07 Total watching you00: 05(15 $+ $gettok(<text>,8,32) $+ 05)
+CRaw601 $str( ,11) $+ 07 $gettok(<text>,2,32) $+ 00: 15 logged offline.
+CRaw600 $str( ,11) $+ 07 $gettok(<text>,2,32) $+ 00:15 logged online.
+CRaw381 <pre> 07You are now an IRC Operator $nick $+ .
+CRaw8 <pre> 07 $+ $gettok(<text>,1,32) :: Server notice mask00: 05(15 $gettok(<text>,5-,32) 05)
+CRaw402 <pre> 07No such server00: 05(15got on extended whois 05(00/we05)15 if nick doesn't exsist05)
+CRaw378 $iif(connecting from isin <text>, $str( ,11) $+ 05 $+ $chr(124) 00Connecting from07:05 $chr(40) $+ 15 $gettok($replace(<text>,@,07@15,.,07.15,-,07-15),6,32) 05 $+ $chr(40) $+ 15 $+ $gettok($replace(<text>,@,07@15,.,07.15,-,07-15),7,32) $+ 05 $+ $chr(41) $chr(41) $+ ,<pre> 07Welcome to the 07 $left($network,1) $+ 00 $+ $right($network,-1) 07Internet 07Relay 07Network $+ $chr(44) $nick)
+CRaw310 $str( ,11) $+ 05| 00HelpOp07: 05(15 is available 05)
+CRaw416 <pre> 07Too many lines in output, refine your query.
+CRaw432 <pre> 07Erroneous nick00: 05(15 $gettok(<text>,1,32) $+ 05)
+CRaw442 <pre> $replace($chan, $+ $chr(35) $+ ,00 $+ $chr(35) $+ 15) $+ 00:07 You are not on this channel.
+CRaw475 <pre> $replace($chan, $+ $chr(35) $+ ,00 $+ $chr(35) $+ 15) $+ 00:07 unable to join channel 05(15 incorrect key 05)
+CRaw266 <pre> 05(15 $replace($server,.,07.15) 07)00: 0707(15 $gettok(<text>,5,32) 05)07 current global users. Max 05(15 $gettok(<text>,7,32) 05)
+CRaw265 <pre> 05(15 $replace($server,.,07.15) 05)00: 05(15 $gettok(<text>,5,32) 07)07 current local users. Max 05(15 $gettok(<text>,7,32) 05)
+CRaw250 <pre> 05(15 $replace($server,.,07.15) 05)00:07 Highest connection count: $gettok(<text>,5,32) $gettok(<text>,6,32) $+ ) $gettok(<text>,8,32) connections received)
+CRaw411 <pre> 07Not enough parameters00: 05( 15No recipient given 05)
+CRaw431 <pre> 07Not enough parameters00: 05( 15No nickname given 05)
+CRaw461 <pre> 07Not enough parameters00:15 $lower($gettok(<text brackets="1">,3,32))
+CRaw376 $str( ,11) $+ •05 $+ $str($chr(151),10) —— —  
+CRaw375  05(00 ? 05)  05(00 motd07:15 $gettok(<text>,1,77) 05)$str( ,11) $+ 05|$str( ,11) $+ 05| $+ $str($chr(151),10) —— — 
+CRaw436 <pre> 05(15 $gettok(<text>,1,32) 05)00: 07Nickname collision
+CRaw465 <pre> 07..you are banned from the server.
+CRaw478 <pre> 05(15 $replace( $+ $gettok(<text>,2,32) $+ , $+ $chr(35) $+ ,00 $+ $chr(35) $+ 15) 05)00:07 Channel ban-ignore list is full
+CRaw513 <pre> 07If you can't connect, type 00/QUOTE PONG07 code or 00/PONG07 code.
+CRaw502 <pre> 07Cant change mode for other users.
+CRaw501 <pre> 07Unknown MODE flag.
+CRaw306 <pre> 07You have been marked as being away
+CRaw305 <pre> 07You are no longer marked as being away
+CRaw491 <pre> 07No O-lines for your host, please consult an Oper.
+CRaw307 $str( ,11) $+ 05| 00NickServ07:05 (15 $gettok(<text>,2,32) is registered 05)
+CRaw379 $str( ,11) $+ 05| 00UserModes07:05 (15 $gettok(<text>,6,32) $gettok(<text>,7,32) 05)
+CRaw671 $str( ,11) $+ 07| 00SSL07: 05( 15encrypted 05)
+CRaw372 $str( ,11) $+ 05| 15 $+ $gettok(<text>,1-,32)
+
+Scheme0 Default 16777215 0 5123350 5601615 2565271 4148971 16777215 4148971 6663884 5351325 2829868 10256234 8478779 9735376 13421772 13421772 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme1 BlueandGold 16777215 0 5123350 5601615 6663884 6663884 10256234 6663884 6663884 5351325 2829868 10256234 8478779 9735376 10256234 10256234 10 0 15 5 0 0 15 14 14 14 14 0 15 15 0 0 14 14 14 15 15 10 0 10 0 14 6 0 10 0
+Scheme2 GreenandBlue 16777215 0 5123350 5601615 2565271 9065260 5351325 9065260 6663884 5351325 2829868 10256234 8478779 9735376 4233358 4233358 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme3 GreenandRed 16777215 0 5123350 5601615 2565271 2171803 16777215 2171803 6663884 5351325 2829868 10256234 8478779 9735376 4233358 4233358 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme4 Gold 16777215 0 5123350 5601615 2565271 377594 377594 377594 6663884 5351325 2171169 10256234 8478779 9735376 13421772 13421772 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme5 Imperial 16777215 0 5123350 5601615 2565271 10256234 16035004 11567219 6663884 5351325 2829868 10256234 8478779 9735376 16035004 16035004 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme6 AcidTrip 255 0 5123350 5601615 2565271 2565271 255 255 6663884 5351325 55 10256234 8478779 9735376 255 2109104 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme7 Oxygen 6042140 0 5123350 5601615 2565271 13271399 13271399 13271399 6663884 5351325 2430736 10256234 8478779 9735376 9980978 9980978 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme8 Weed 3771931 0 5123350 5601615 2565271 4252507 4252507 4252507 6663884 5351325 272384 10256234 8478779 9735376 36864 36864 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme9 Imperator 14219262 0 5123350 5601615 2565271 2109104 5527126 3881131 6663884 5351325 1907997 10256234 8478779 9735376 8355711 5527126 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme10 Cream 16777215 0 5123350 5601615 2565271 3224696 14219262 3224696 6663884 5351325 1907997 10256234 8478779 9735376 6663884 14219262 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme11 NNS 16777215 0 5123350 5601615 2565271 1973980 16777215 1973980 6663884 5351325 2171169 10256234 8478779 9735376 12895428 12895428 10 7 15 5 0 0 15 14 14 14 14 6 15 15 0 15 14 14 14 15 15 10 6 10 0 14 6 0 10 0
+Scheme12 NightSky 8478779 0 5123350 5601615 2565271 8935981 16568480 8935981 6663884 5351325 2826002 10256234 16568480 9735376 12683087 12683087 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme13 Forum 10053120 0 5123350 5601615 2565271 10053120 11625984 0 6663884 5351325 15724527 14473169 15197150 9735376 0 0 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 11 0 14 6 0 12 0
+Scheme14 Sky 0 0 5123350 5601615 2565271 16739081 0 16739081 6663884 5351325 15327699 10256234 8478779 9735376 10178048 10178048 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme15 Negativity 4996661 0 5123350 5601615 2565271 12824876 4996661 12824876 6663884 5351325 13947347 10256234 8478779 9735376 3355443 3355443 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme16 Oddball 7756086 0 5123350 5601615 2565271 5351325 6663884 5351325 6663884 5351325 2829611 10256234 8478779 9735376 9735376 9735376 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme17 Ice 16777215 0 5123350 5601615 2565271 16697998 16697998 10129283 6663884 5351325 3222048 10256234 8478779 9735376 15130326 15130326 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme18 Ocean 16777215 0 5123350 37632 255 16744192 16744192 16744192 65535 64512 0 10256234 16515072 16711935 9671424 9671424 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme19 DarkMatter 9795946 0 4205603 5601615 2565271 15785687 16756620 15785687 6663884 5351325 0 10256234 8478779 9735376 16756620 8355711 10 14 15 5 0 0 14 14 14 14 14 15 15 15 0 15 14 14 14 15 15 10 0 10 0 14 6 0 10 0
+Scheme20 Storm 16777215 0 8323072 37632 255 16606464 65535 16606464 65535 64512 9671424 16776960 16515072 16711935 11053224 11053224 1 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 1 0 1 0 14 6 0 1 0
+Scheme21 Blue 16777215 0 5123350 5601615 2565271 16742412 16777215 16742412 6663884 5351325 2171169 10256234 8478779 9735376 13421772 13421772 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme22 Green 16777215 0 5123350 5601615 2565271 4952363 16777215 4952363 6663884 5351325 2171169 10256234 8478779 9735376 13421772 13421772 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0
+Scheme23 Mint 16777215 0 5123350 5601615 2565271 9876630 5601615 11847860 6663884 5351325 2894892 10256234 8478779 9735376 13359825 13359825 10 0 15 5 0 0 15 15 15 15 15 0 15 15 0 0 15 15 15 15 15 10 0 10 0 14 6 0 10 0

@@ -1,0 +1,154 @@
+Name Digital
+Version 1.21
+NNTVersion 1.03
+Author greeny (ported by Zyberdog)
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 11-00HH11:00nn11:00ss11-
+
+NickColSelf 7
+NickColOp 11
+NickColVoice 15
+NickColRegular 14
+NickColProtect none
+NickColIgnore 4
+
+Brackets 11(00<text>11)15
+LineSep 10×-----------------11-------------10--------11---10-- -11---10- --11- -- -10- -11- 10- 11 -
+Prefix $+(09,$replace($+($rand(0,1),$rand(0,1),$rand(0,1),$rand(0,1)),0,º,1,¹),11)
+
+GenEcho <pre> <text>
+GenError <pre> 0E11rror0»15 <text>
+GenHighlight 11(00<text>11)15
+
+ChanText 11(<cmode><nick>11) <text>
+ChanTextOwn 11(<cmode><me>11) <text>
+ChanAction 11• <cmode><nick> <text>
+ChanActionOwn 11• <cmode><me> <text>
+
+QueryText 11(00<nick>11) <text>
+QueryTextOwn 11(00<me>11) <text>
+QueryAction 11• <nick> <text>
+QueryActionOwn 11• <me> <text>
+
+Msg 11*<nick>11!<address>11* <text>
+MsgOwn —› 11*<target>11* <text>
+Action 11* <nick>11!<address> <text>
+ActionOwn —› 11* <target> <text>
+
+ChanNotice 11-<nick>11@<chan>11- <text>
+Notice 11-<nick>11- <text>
+NoticeOwn —› 11-<target>11- <text>
+ServerNotice 11-<server>11- <text>
+
+CTCP 11?<nick>11? <ctcp> <text>
+CTCPOwn —› 11?<target>11? <ctcp> <text>
+ChanCTCP 11?<nick>11@<chan>11? <ctcp> <text>
+CTCPReply 11!<nick>11! <ctcp> <text>
+CTCPReplyOwn —› 11!<target>11! <ctcp> <text>
+
+Join <pre> 0J11oin0» <nick brackets="1"> <address brackets="1">
+JoinOwn <linesep><pre> 0J11oined0» <chan brackets="1"><linesep>!if <topic> <pre> 0T11opic0» <topic brackets="1">!if <topic> <pre> 0S11et by0» <topicnick brackets="1"> on <topicdate brackets="1"><pre> 0U11sers0» <users brackets="1"> users, <oppedusers> ops <oppeduserspercent brackets="1">, <voicedusers> voiced <voiceduserspercent brackets="1">, <regusers> regulars <reguserspercent brackets="1"><pre> 0S11ync time0» <synctime brackets="1"> second(s)<linesep>
+Part <pre> 0P11art0» <nick brackets="1"> <address brackets="1"> <message brackets="1">
+Quit <pre> 0Q11uit0» <nick brackets="1"> <address brackets="1"> <message brackets="1">
+Nick <pre> 0N11ick0» <nick brackets="1"> is now known as <newnick brackets="1">
+NickOwn <pre> 0N11ick0» <me brackets="1"> is now known as <newnick brackets="1">
+Mode <pre> 0M11ode0» <nick brackets="1"> sets <mode brackets="1">
+UserMode <pre> 0U11serMode0» set to <mode brackets="1">
+Kick <pre> 0K11ick0» <kickednick brackets="1"> was kicked by <nick brackets="1"> <message brackets="1">
+KickOwn <pre> 0K11ick0» <me brackets="1"> was kicked by <nick brackets="1"> <message brackets="1">
+WallOp <pre> 0W11allop0» 11(00<nick>11)15 <text>
+
+DNS <pre> 0D11NS0»15 resolving <address brackets="1">...
+DNSError <pre> 0D11NS0»15 unable to resolve <address brackets="1">
+DNSResolve <pre> 0D11NS0»15 resolved <address brackets="1"> to <raddress brackets="1">
+
+Notify <pre> 0N11otify0» <nick brackets="1"> is now online!
+UnNotify <pre> 0U11nNotify0» <nick brackets="1"> is now offline!
+
+LUsers1 <pre> 0U11sers0» <users brackets="1">, Invisible: <invisible brackets="1">, Servers: <servers brackets="1">
+LUsers2 <pre> 0O11perators online0» <operators brackets="1">
+LUsers3 <pre> 0O11perators online0» <connections brackets="1">
+LUsers4 <pre> 0C11hannels formed0» <channels brackets="1">
+LUsers5 <pre> 0L11ocal clients0» <clients brackets="1"> on <servers brackets="1"> server(s)
+
+Welcome1 <pre> 0W11elcome to the Internet Relay Network,00 <nick>
+Welcome2 <pre> 0H11ost0» <host brackets="1"> running version <version brackets="1">
+Welcome3 <pre> 0S11erver created on0» <created brackets="1">
+Welcome4 <pre> 0V11ersion0» <server brackets="1"> <version brackets="1"> <usermodes> <chanmodes>
+SupportedInfo <pre> 0P11rotocols supported0» <protocols brackets="1">
+
+ChannelModes <pre> 0M11odes in <chan brackets="1">:11 <modes>
+ChannelCreation <pre> 0C11hannel created on <created brackets="1">
+Bans <pre> <chan brackets="1"> 00<ban>11 set by 00<nick> <banned brackets="1">
+BansEnd <pre> <chan brackets="1"> End of Channel Ban List
+UnableToSend <pre> 0U11nable to send message to <chan brackets="1">
+NotOpped <pre> 0Y11ou're not opped on <chan brackets="1">
+HiddenHost <pre> <host brackets="1"> is now your hidden host
+RegisterFirst <pre> Register first!
+
+WhoisStart 10×-----------------11-------------10--------11---10-- -11---10- --11- -- -10- -11- 10- 11 -
+WhoisAddress 00<nick> 15is "11<name>15"01<nick> 15is11 <address>
+WhoisChans 01<nick> 15on11 $replace(<chans hlcommon="1">,$chr(35),00#11)
+WhoisServer 01<nick> 15using11 <server>15,11 <info>
+WhoisStatus 01<nick> 15is11 an <status>
+WhoisAway 01<nick> 15is11 away15:11 <reason>
+WhoisAuth 01<nick> 15is11 authed as 15"11<auth>15"
+WhoisRealIP 01<nick> 15real host is 11<address>, <ip>
+WhoisIdle 01<nick> 15has11 been idle for11 <idle>15, signed on11 <signonago> 15ago
+WhoisEnd 10×-----------------11-------------10--------11---10-- -11---10- --11- -- -10- -11- 10- 11 -
+
+WhowasStart 10×-----------------11-------------10--------11---10-- -11---10- --11- -- -10- -11- 10- 11 -
+WhowasAddress 00<nick> 15was "11<name>15"01<nick> 15was11 <address>
+WhowasServer 01<nick> 15using11 <server>!if <info> 01<nick> 15quit11 <info>
+WhowasAway 01<nick> 15was away:11 <reason>
+WhowasEnd 10×-----------------11-------------10--------11---10-- -11---10- --11- -- -10- -11- 10- 11 -
+
+Who <pre> 0/11who0» <nick> <address brackets="1"> <name>
+WhoEnd <pre> 0E11nd of 11(00/who11)15 list for <target brackets="1">
+
+Invite <pre> 0I11nvite0» <nick brackets="1"> invites you to join <chan brackets="1">
+InviteOwn <pre> 0I11nvite0» <nick brackets="1"> has been invited to join <chan brackets="1">
+InviteAlreadyOnChan <pre> 0U11ser <nick brackets="1"> already in channel0» <chan brackets="1">
+
+NoTopic <pre> 00N11o topic set <chan brackets="1">
+Topic <pre> 0T11opic0» <topic brackets="1">
+TopicBy <pre> 0S11et by0» <nick brackets="1"> on <date brackets="1">
+TopicChange <pre> 0T11opic0» <nick brackets="1"> changes topic to <topic brackets="1">
+
+Names <pre> 0/11names0» <chan brackets="1"> <names>
+NamesEnd <pre> 0E11nd of 11(00/names11)15 list for <chan brackets="1">
+
+UnknownCmd <pre> 0I11nvalid command0» <cmd brackets="1">
+NickInUse <pre> 0N11ickname in use0» <nick brackets="1">
+AwayStatus <pre> <nick> is marked as being away: <reason>
+ChanFull <pre> 0C11an't join <chan>0» 11(00full (+l)11)
+ChanInviteOnly <pre> 0C11an't join <chan>0» 11(00invite only (+i)11)
+ChanBanned <pre> 0C11an't join <chan>0» 11(00you're banned (+b)11)
+ChanKeyRequired <pre> 0C11an't join <chan>0» 11(00requires key (+k)11)
+ChanRegOnly <pre> 0C11an't join <chan>0» 11(00registered only (+r)11)
+NoSuchNick <pre> 0N11o such nickname0» <nick brackets="1">
+NoSuchChan <pre> 0N11o such channel0» <chan brackets="1">
+
+RawDef <pre> <text>
+CRaw461 <pre> 0N11ot enough parameters0» <text brackets="1">
+CRaw442 <pre> 0Y11ou're not on that channel0» <text brackets="1">
+CRaw391 <pre> 0D11ate0» <text brackets="1">
+CRaw376 <pre> 0E11nd of 11(00/motd11)15
+CRaw372   11 <text>
+CRaw250 <pre> 0T11otal connections0» <text brackets="1">
+
+Scheme0 Default 16777215 0 11141120 16715553 3504127 422143 16733534 3391999 5898215 5460991 202 240 125 16715775 5197647 9868950 1 9 10 9 9 11 9 9 10 11 11 0 9 9 0 15 10 10 11 10 10 1 0 1 9 11 10 1 1 0
+Scheme1 Green 16777215 0 11141120 16715553 3504127 422143 16733534 3391999 5898215 5504933 51813 61554 32063 16715775 5197647 9868950 1 9 10 9 9 11 9 9 10 11 11 0 9 9 0 15 10 10 11 10 10 1 0 1 9 11 10 1 1 0
+Scheme2 Blue 16777215 0 11141120 16715553 3504127 422143 16733534 3391999 5898215 16758355 13267968 15762432 8212224 16715775 5197647 9868950 1 9 10 9 9 11 9 9 10 11 11 0 9 9 0 15 10 10 11 10 10 1 0 1 9 11 10 1 1 0
+Scheme3 Yellow 16777215 0 11141120 16715553 3504127 422143 16733534 3391999 5898215 5494271 36298 47856 24445 16715775 5197647 9868950 1 9 10 9 9 11 9 9 10 11 11 0 9 9 0 15 10 10 11 10 10 1 0 1 9 11 10 1 1 0
+Scheme4 Camo 16777215 0 11141120 16715553 3504127 422143 16733534 3391999 5898215 8964775 4882533 6393721 3426620 16715775 5197647 9868950 1 9 10 9 9 11 9 9 10 11 11 0 9 9 0 15 10 10 11 10 10 1 0 1 9 11 10 1 1 0
+Scheme5 Grey 16777215 0 11141120 16715553 3504127 422143 16733534 3391999 5898215 10987431 6579300 7895160 4079166 16715775 5197647 9868950 1 9 10 9 9 11 9 9 10 11 11 0 9 9 0 15 10 10 11 10 10 1 0 1 9 11 10 1 1 0
+Scheme6 Bright 0 16777215 11141120 16715553 3504127 422143 16733534 3391999 5898215 25657 40800 34904 52346 16715775 3552822 5723991 1 9 10 9 9 11 9 9 10 11 11 0 9 9 0 15 10 10 11 10 10 1 0 1 9 11 10 1 1 0
+Scheme7 Bright_blue 0 16777215 11141120 16715553 3504127 422143 16733534 3391999 5898215 6568192 10445824 8933120 13399296 16715775 3552822 5723991 1 9 10 9 9 11 9 9 10 11 11 0 9 9 0 15 10 10 11 10 10 1 0 1 9 11 10 1 1 0

@@ -1,0 +1,20 @@
+Info box<infobox>tbinfo.click
+Lag bar<lagbar>lagbar.stats
+-
+Connect/disconnect<connect>"iconsets\default\connect.ico"010
+-
+mIRC optionsmircopt"iconsets\default\options.ico"000
+NoNameScript setupsetup"iconsets\default\nns_options.ico"000
+Theme setupthemes"iconsets\default\themes.ico"000
+Channels listchanlist"iconsets\default\channels_list.ico"000
+Channels folderchanfolder"iconsets\default\channels_folder.ico"000
+-
+Away presets<away>"iconsets\default\away.ico"010
+Blacklistblack"iconsets\default\blacklist.ico"000
+Log viewerviewlog $active"iconsets\default\logview.ico"000
+Application quicklaunch<cprog>"iconsets\default\programs.ico"010
+-
+Window arrangementwinarr"iconsets\default\windows.ico"011
+-
+Help files<help>"iconsets\default\help.ico"010
+Aboutnnabout"iconsets\default\about.ico"000

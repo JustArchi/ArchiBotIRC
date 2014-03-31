@@ -1,0 +1,110 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - netsplit display - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+on ^*:quit:{
+  if (%splitwin) && (((??*.??* ??*.??* iswm $1-) && ($regex($1-,/^[[:alnum:]\.\-]+ [[:alnum:]\.\-]+$/)) && (!$regex($1-,/netsplit|fake|script|www\./i))) || ($1- == *.net *.split)) {
+    var %w = $specialcidwin(Netsplits)
+    if (!$window(%w)) { window -nk0v %w }
+    if (!$timer(ntsplt. $+ $cid)) {
+      echo %w 
+      thmecho %w Netsplit on $thmhl($iif($network,$+($network,/,$server),$server)) on $thmhl($longtime) $+ ...
+    }
+    var %i = $comchan($nick,0),%r
+    while (%i) {
+      hadd -mu3600 netsplit. $+ $cid $fulladdress $addtok($hget(netsplit. $+ $cid,$fulladdress),$comchan($nick,%i),32)
+      dec %i
+    }
+    .timerntsplt. $+ $cid 1 20 netsplitchk
+    haltdef
+  }
+}
+on ^*:join:#:{
+  if (%splitwin) && ($nick != $me) && ($hget(netsplit. $+ $cid,$fulladdress)) {
+    var %h = $v1
+    if ($istok(%h,$chan,32)) {
+      .timerntsplt. $+ $cid -e
+      hadd -m netsplit.re. $+ $cid $fulladdress $addtok($hget(netsplit.re. $+ $cid,$fulladdress),$chan,32)
+      hadd -m netsplit. $+ $cid $fulladdress $remtok($hget(netsplit. $+ $cid,$fulladdress),$chan,32)
+      if (!$hget(netsplit. $+ $cid,$fulladdress)) { hdel netsplit. $+ $cid $fulladdress }
+      if (!$hget(netsplit. $+ $cid,0).item) { hfree netsplit. $+ $cid }
+      .timerntsplt.re. $+ $cid 1 20 netsplitchk.rejoin
+      haltdef
+    }
+  }
+}
+alias netsplitchk.rejoin {
+  var %h = netsplit.re. $+ $cid
+  if ($hget(%h)) {
+    unset %netsplit.tmp.*
+    var %g = $hget(%h,0).item,%z = %g,%w = $specialcidwin(Netsplits),%n = $iif($network,$+($network,/,$server),$server)
+    if (!$window(%w)) { window -nk0v %w }
+    echo %w 
+    thmecho %w Netsplit on $thmhl(%n) is (at least partly) over!
+    thmecho %w The following users have returned from the netsplit:
+    while (%g) {
+      tokenize 33 $hget(%h,%g).item
+      thmecho %w $base($calc(%z - %g +1),10,10,$len(%z)) $+ . $thmhl($1) $+ / $+ $thmhl($2) rejoined $replace($hget(%h,%g).data,$chr(32),$+($chr(44),$chr(32)))
+      var %tg = $hget(%h,%g).data,%tn = $wd(%tg,0)
+      while (%tn) {
+        var %ut = $wd(%tg,%tn)
+        if (!%netsplit.tmp.done. [ $+ [ %ut ] ]) {
+          if ($len( %netsplit.tmp. [ $+ [ %ut ] ] ) <= 3000) { set %netsplit.tmp. $+ %ut $addtok( %netsplit.tmp. [ $+ [ %ut ] ] ,$1,32) }
+          else {
+            set %netsplit.tmp. $+ %ut %netsplit.tmp. [ $+ [ %ut ] ] $+ ...
+            set %netsplit.tmp.done. $+ %ut 1
+          }
+        }
+        dec %tn
+      }
+      dec %g
+    }
+    thmecho %w End of list.
+    var %tv = $var(%netsplit.tmp.*,0)
+    while (%tv) {
+      var %tc = $mid($var(%netsplit.tmp.*,%tv),15)
+      if ($me ison %tc) { thmecho %tc These users have rejoined $thmhl(%tc) $+ : $replace( [ [ $var(%netsplit.tmp.*,%tv) ] ] ,$chr(32),$+($chr(44),$chr(32))) $iif(%splitwin,- check netsplits window for details!) }
+      dec %tv
+    }
+    unset %netsplit.tmp.*
+    hfree %h
+  }
+}
+alias netsplitchk {
+  var %h = netsplit. $+ $cid
+  if ($hget(%h)) {
+    unset %netsplit.tmp.*
+    var %g = $hget(%h,0).item,%z = %g,%w = $specialcidwin(Netsplits),%n = $iif($network,$+($network,/,$server),$server)
+    if (!$window(%w)) { window -nk0v %w }
+    thmecho %w The following users have been split:
+    while (%g) {
+      tokenize 33 $hget(%h,%g).item
+      if (%splitwin) { thmecho %w $base($calc(%z - %g +1),10,10,$len(%z)) $+ . $thmhl($1) $+ / $+ $thmhl($2) split from $replace($hget(%h,%g).data,$chr(32),$+($chr(44),$chr(32))) }
+      var %tg = $hget(%h,%g).data,%tn = $wd(%tg,0)
+      while (%tn) {
+        var %ut = $wd(%tg,%tn)
+        if (!%netsplit.tmp.done. [ $+ [ %ut ] ]) {
+          if ($len( %netsplit.tmp. [ $+ [ %ut ] ] ) <= 3000) { set %netsplit.tmp. $+ %ut $addtok( %netsplit.tmp. [ $+ [ %ut ] ] ,$1,32) }
+          else {
+            set %netsplit.tmp. $+ %ut %netsplit.tmp. [ $+ [ %ut ] ] $+ ...
+            set %netsplit.tmp.done. $+ %ut 1
+          }
+        }
+        dec %tn
+      }
+      dec %g
+    }
+    thmecho %w End of list.
+    var %tv = $var(%netsplit.tmp.*,0)
+    while (%tv) {
+      var %tc = $mid($var(%netsplit.tmp.*,%tv),15)
+      if ($me ison %tc) { thmecho %tc These users have been split from $thmhl(%tc) $+ : $replace( [ [ $var(%netsplit.tmp.*,%tv) ] ] ,$chr(32),$+($chr(44),$chr(32))) $iif(%splitwin,- check netsplits window for details!) }
+      dec %tv
+    }
+    unset %netsplit.tmp.*
+  }
+}
+alias specialcidwin { return $+(@,$1,[,$iif($network,$v1,$iif($server,$v1,?)),/,$cid,]) }
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

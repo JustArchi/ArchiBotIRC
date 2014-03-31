@@ -1,0 +1,154 @@
+Name Rusty
+Version 1.2
+NNTVersion 1.03
+Author greeny
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font ProFontWindows
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 10,11 HHnn 
+
+NickColSelf none
+NickColOp 1
+NickColVoice 14
+NickColRegular 10
+NickColProtect 3
+NickColIgnore 4
+
+Brackets (<text>)
+LineSep 
+Prefix <gt><gt>
+
+GenEcho                   10,11 info  <text>
+GenError                   10,11 err   <text>
+GenHighlight (<text>)
+
+ChanText 11,10 <nick align="-15">  <text>
+ChanTextOwn 11,10 <me align="-15">  <text>
+ChanAction 11,10<gt><gt><nick align="-14">  <text>
+ChanActionOwn 11,10<gt><gt><me align="-14">  <text>
+
+QueryText 11,10 <nick align="-15">  <text>
+QueryTextOwn 11,10 <me align="-15">  <text>
+QueryAction 11,10<gt><gt><nick align="-14">  <text>
+QueryActionOwn 11,10<gt><gt><me align="-14">  <text>
+
+Msg 11,10 <nick align="-15"> 10,11 mesg  <text>
+MsgOwn                   10,11 mesg  sent to <target>: <text>
+Action 11,10<gt><gt><nick align="-14"> 10,11 actn  <text>
+ActionOwn                   10,11 desc  sent to <target>: <text>
+
+ChanNotice 11,10 <nick align="-15"> 10,11 notc  to <chan>: <text>
+Notice 11,10 <nick align="-15"> 10,11 notc  <text>
+NoticeOwn                   10,11 notc  sent to <target>: <text>
+ServerNotice 11,10 <server align="-15"> 10,11 notc  <text>
+
+CTCP 11,10 <nick align="-15"> 10,11 ctcp  <ctcp> <text>
+CTCPOwn                   10,11 ctcp  sent to <target>: <ctcp> <text>
+ChanCTCP 11,10 <nick align="-15"> 10,11 ctcp  to <chan>: <ctcp> <text>
+CTCPReply 11,10 <nick align="-15"> 10,11 crpl  <ctcp> <text>
+CTCPReplyOwn                   10,11 crpl  sent to <target>: <ctcp> <text>
+
+Join                   10,11 join  <nick>!<address>
+JoinOwn                   10,11 jned  <chan>!if <topic>                   10,11 topc  <topic>!if <topic>                   10,11 tpcb  <topicnick> on <topicdate>                  10,11 usrs  <users> users, <oppedusers> opped<oppeduserspercent brackets="1">, <voicedusers> voiced<voiceduserspercent brackets="1">, <regusers> regular<reguserspercent brackets="1">                  10,11 sync  <synctime>secs<linesep>
+Part                   10,11 part  <nick>!<address> <message brackets="1">
+Quit                   10,11 quit  <nick>!<address> <message brackets="1">
+Nick                   10,11 nick  <nick>!<address>:<newnick>
+NickOwn                   10,11 info  your nick is now <newnick>
+Mode                   10,11 mode  <nick>!<address>:<mode>
+UserMode                   10,11 info  usermode <mode> set
+Kick                   10,11 kick  <nick>!<address>:<kickednick> <message brackets="1">
+KickOwn                   10,11 info  you were kicked from <chan> by <nick> <message brackets="1">
+WallOp 11,10 <nick align="-15"> 10,11 wlop  <text>
+
+DNS                   10,11 dns   resolving <address>...
+DNSError                   10,11 dns   unable to resolve <address>
+DNSResolve                   10,11 dns   resolved <address> to <raddress>
+
+Notify                   10,11 ntfy  <nick> is now online!
+UnNotify                   10,11 ntfy  <nick> is now offline!
+
+LUsers1                   10,11 stat  <myserver> user listing:                  10,11 stat  <users> users, <invisible> invisible on <servers> servers
+LUsers2                   10,11 stat  <operators> operators
+LUsers3                   10,11 stat  <connections> unknown connections
+LUsers4                   10,11 stat  <channels> channels formed
+LUsers5                   10,11 stat  <clients> on <servers> servers                  10,11 stat  end of listing
+
+Welcome1                   10,11 info  welcome to the internet relay network!
+Welcome2                   10,11 info  your host is <host>, version <version>
+Welcome3                   10,11 info  this server was created on <created>
+Welcome4                   10,11 info  this server is running version <version> on <server>                  10,11 info  available usermodes are <usermodes>                  10,11 info  available channelmodes are <chanmodes>
+SupportedInfo                   10,11 info  supported protocols: <protocols>
+
+ChannelModes                   10,11 info  <chan> modes are <modes>
+ChannelCreation                   10,11 info  <chan> was created on <created>, which is <createdago> ago
+Bans                   10,11 ban   <chan>: <ban> set by <nick> on <banned>
+BansEnd                   10,11 ban   end of list
+UnableToSend                   10,11 err   unable to message send message to <chan>
+NotOpped                   10,11 err   you're not channel operator on <chan>
+HiddenHost                   10,11 info  <host> is now your hidden host
+RegisterFirst                   10,11 err   you are not registered
+
+WhoisStart                   10,11 whos  start for <nick>
+WhoisAddress                   10,11 whos  is <name> / <address>
+WhoisChans                   10,11 whos  on <chans hlcommon="1">
+WhoisServer                   10,11 whos  using <server> <info brackets="1">
+WhoisStatus                   10,11 whos  is <status>
+WhoisAway                   10,11 whos  is away: <reason>
+WhoisAuth                   10,11 whos  authed as <auth>
+WhoisRealIP                   10,11 whos  is really <address> <ip brackets="1">
+WhoisIdle                   10,11 whos  idle <idle>                  10,11 whos  signed on <signontime> <signonago brackets="1">
+WhoisEnd                   10,11 whos  end for <nick>
+
+WhowasStart                   10,11 whow  <nick>
+WhowasAddress                   10,11 whow  was <name> / <address>
+WhowasServer                   10,11 whow  used <server> <info brackets="1">
+WhowasAway                   10,11 whow  was away: <reason>
+WhowasEnd                   10,11 whow  end
+
+Who                   10,11 who   channel: <chan>, nick: <nick>, status: <status>, address: <address>, name: <name>
+WhoEnd                   10,11 who   end of listing
+
+Invite                   10,11 invt  <nick> invites you to join <chan>
+InviteOwn                   10,11 invt  <chan> invite sent to <nick>
+InviteAlreadyOnChan                   10,11 invt  <nick> is already on <chan>
+
+NoTopic                   10,11 err   no topic in <chan> set
+Topic                   10,11 topc  on <chan>                  10,11 topc  <topic>
+TopicBy                   10,11 topc  set by <nick> <date brackets="1">
+TopicChange                   10,11 topc  <nick>!<address>:<topic>
+
+Names                   10,11 name  <chan>: <names>
+NamesEnd                   10,11 name  end of listing
+
+UnknownCmd                   10,11 err   <cmd> is an unknown command
+NickInUse                   10,11 err   the nickname <nick> is already in use
+AwayStatus                   10,11 info  <nick> is away: <reason>
+ChanFull                   10,11 err   unable to join <chan>, it is full
+ChanInviteOnly                   10,11 err   unable to join <chan>, it is invite only
+ChanBanned                   10,11 err   unable to join <chan>, you're banned
+ChanKeyRequired                   10,11 err   unable to join <chan>, you need the correct key
+ChanRegOnly                   10,11 err   unable to join <chan>, registered users only
+NoSuchNick                   10,11 err   no user named <nick> online
+NoSuchChan                   10,11 err   no channel named <chan> formed
+
+RawDef                   10,11 raw   <text>
+
+Scheme0 Default 0 16777215 8323072 37632 255 127 10223772 32764 65535 64512 734352 1973790 16515072 16711935 7895160 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme1 Muddy 0 16777215 8323072 37632 255 127 10223772 32764 65535 64512 4549955 1973790 16515072 16711935 7895160 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme2 Sky 0 16777215 8323072 37632 255 127 10223772 32764 65535 64512 7552830 1973790 16515072 16711935 7895160 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme3 Dirty 0 16777215 8323072 37632 255 127 10223772 32764 65535 64512 4152946 1973790 16515072 16711935 7895160 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme4 Monochrome 0 16777215 8323072 37632 255 127 10223772 32764 65535 64512 5066061 1973790 16515072 16711935 7895160 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme5 Ocean 14211288 16777215 8323072 37632 255 127 10223772 32764 65535 64512 13672053 7684395 16515072 16711935 5910821 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 11 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme6 Plains 14805982 16777215 8323072 37632 255 127 10223772 32764 65535 64512 4504382 2188068 16515072 16711935 2447910 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 11 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme7 Lovely 14606059 16777215 8323072 37632 255 127 10223772 32764 65535 64512 5789895 2039653 16515072 16711935 1842248 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 11 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme8 Foul 13303806 16777215 8323072 37632 255 127 10223772 32764 65535 64512 5753015 2848115 16515072 16711935 2447961 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 11 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme9 Orange 13299455 16777215 8323072 37632 255 127 10223772 32764 65535 64512 2600429 1069967 16515072 16711935 2179423 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 11 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme10 Lady 16763647 16777215 8323072 37632 255 127 10223772 32764 65535 64512 14287084 10420383 16515072 16711935 6553692 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 11 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme11 Jungle 2443568 16777215 8323072 37632 255 127 10223772 32764 65535 64512 11851959 5281900 16515072 16711935 11396293 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 11 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme12 Greyscale 4276545 16777215 8323072 37632 255 127 10223772 32764 65535 64512 12829635 1973790 16515072 16711935 7895160 13816530 0 14 10 10 10 10 14 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme13 Teal 0 16777215 8323072 37632 255 127 10223772 32764 65535 64512 7692348 1973790 16515072 16711935 7895160 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14

@@ -1,0 +1,30 @@
+Car:me drives over $iif($$1 == $me,himself,$1)
+Chainsaw:me shreds $iif($$1 == $me,himself,$1) with a chainsaw
+Cookies:me steals $iif($$1 == $me,himself,$1) $+ 's cookies. Mwahaha!
+Crevasse:me pushes $iif($$1 == $me,himself,$1) into a crevasse
+Crowbar:me follows $iif($$1 == $me,himself,$1) into a dark avenue. Hey test my crowbar!
+Cyanide:me persuades $iif($$1 == $me,himself,$1) to eat the cyanide sandwich
+DDoS:me sends some DDoS in $iif($$1 == $me,himself,$1) $+ 's direction
+Default:me slaps $iif($$1 == $me,himself,$1) around a bit with a large trout
+Desert:me forgets $iif($$1 == $me,himself,$1) in the desert. awww
+Goatsex:me is searching for $iif($$1 == $me,himself,$1) + goatsex on yahoo. WEEE $rand(10,1000) hits!
+Halberd:me touches $iif($$1 == $me,himself,$1) with a twenty-foot rusty halberd
+House:me burns $iif($$1 == $me,himself,$1) $+ 's house down
+Keyboard:me throws a keyboard at $iif($$1 == $me,himself,$1)
+Knuckle duster:me beautifies $iif($$1 == $me,himself,$1) with some knuckle duster imprints
+Lemmings:me sends hordes of lemmings over $iif($$1 == $me,himself,$1)
+Macintosh:me slaps $iif($$1 == $me,himself,$1) around with a pink Macintosh
+Mouse cord:me whips $iif($$1 == $me,himself,$1) with a mouse cord
+Nuclear:me slaps $iif($$1 == $me,himself,$1) around with nuclear waste
+Ozzy:me slaps $iif($$1 == $me,himself,$1) with Ozzy Osbourne
+Plagues:me sends the seven plagues of Egypt to $iif($$1 == $me,himself,$1)
+Playstation:me throws a playstation at $iif($$1 == $me,himself,$1)
+Rick:me slaps $iif($$1 == $me,himself,$1) in the face and yells "I'm Rick James, bitch!"
+Riemann:me slaps $iif($$1 == $me,himself,$1) around with a Riemann rearrangement theorem
+Rotten.com:me prepares $iif($$1 == $me,himself,$1) to be shown on rotten.com
+Sneeze:me sneezes in $iif($$1 == $me,himself,$1) $+ 's face
+Stab:me stabs $iif($$1 == $me,himself,$1) in the face
+Stapler:me smacks $iif($$1 == $me,himself,$1) with a red Swingline stapler
+Stardestroyer:me slaps $iif($$1 == $me,himself,$1) around a bit with a small Imperial-Class Stardestroyer
+Uglypeople.com:me discovers $iif($$1 == $me,himself,$1) $+ 's picture at uglypeople.com
+Windows Me:me slaps $iif($$1 == $me,himself,$1) around with Windows Me

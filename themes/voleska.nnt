@@ -1,0 +1,142 @@
+Name voleska
+Version 1.41
+NNTVersion 1.03
+Author voks
+Email voks@nnscript.com
+Homepage http://www.markushenn.de
+Description voks' leet satisfying kewl anecdote
+
+Font ProFontWindows
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 00,14 HH:nn:ss 
+
+NickColSelf 7
+NickColOp 1
+NickColVoice 12
+NickColRegular 10
+NickColProtect 3
+NickColIgnore 4
+
+Brackets [<text>]
+LineSep 
+Prefix 
+
+GenEcho <text>
+GenError error: <text>
+GenHighlight <text>
+
+ChanText 15,15<lt>10<cmode align="1">01<nick align="15">15<gt> <text>
+ChanTextOwn 15,15<lt>10<cmode align="1">01<me align="15">15<gt> <text>
+ChanAction 15,15<lt>10<cmode align="1">14<nick align="15">15<gt> <text>
+ChanActionOwn 15,15<lt>10<cmode align="1">14<me align="15">15<gt> <text>
+
+QueryText 15,15<lt>01<nick align="15">15<gt> <text>
+QueryTextOwn 15,15<lt>01<me align="15">15<gt> <text>
+QueryAction 15,15<lt>14<nick align="15">15<gt> <text>
+QueryActionOwn 15,15<lt>14<me align="15">15<gt> <text>
+
+Msg <lt><nick><gt> <text>
+MsgOwn <lt><target><gt> <text>
+Action <lt><nick><gt> <text>
+ActionOwn • <lt><me><gt> <text>
+
+ChanNotice <lt><nick>:<chan><gt> <text>
+Notice <lt><nick><gt> <text>
+NoticeOwn • <lt><target><gt> <text>
+ServerNotice <lt><server><gt> <text>
+
+CTCP <lt><nick><gt> ?<ctcp>? <text>
+CTCPOwn • <lt><target><gt> ?<ctcp>? <text>
+ChanCTCP <lt><nick>:<chan><gt> ?<ctcp>? <text>
+CTCPReply <lt><nick><gt> !<ctcp>! <text>
+CTCPReplyOwn • <lt><target><gt> !<ctcp>! <text>
+
+Join 00,03 <gt>  <lt><nick><gt> <address>
+JoinOwn 00,03 <gt>  <chan>!if <topic> 00,03 10,00 topic: <topic>!if <topic> 00,03 00topic: 10,00 set by <lt><topicnick><gt> $iif(<topicdate>,$chr(91)<topicdate>$chr(93))00,03 <gt> 
+Part 00,05 <lt>  <lt><nick><gt> <address> <message brackets="1">
+Quit 00,05 X  <lt><nick><gt> <address> <message brackets="1">
+Nick 00,10 =  <lt><nick><gt> <lt><newnick><gt>
+NickOwn 00,10 =  <lt><me><gt> <lt><newnick><gt>
+Mode 00,10 •  <lt><nick><gt> <mode>
+UserMode 00,10 ·  <lt><me><gt> <mode>
+Kick 00,04 <lt>  <lt><kickednick><gt> <message brackets="1"> by <lt><nick><gt>
+KickOwn 00,04 <lt>  <lt><me><gt> <message brackets="1"> by <lt><nick><gt>
+WallOp <lt><nick><gt> <text>
+
+DNS dns: <address> ……
+DNSError dns: <address> [error]
+DNSResolve dns: <address> <raddress brackets="1">
+
+Notify <lt><nick><gt> online
+UnNotify <lt><nick><gt> offline
+
+LUsers1 <mynetwork> [<myserver>] stats Servers: <servers>   users: <users> visible          <invisible> invisible
+LUsers2           <operators> operator(s)
+LUsers3           <connections> unknown
+LUsers4 channels: <channels>
+LUsers5  clients: <clients> on <servers> server(s)
+
+Welcome1 Welcome to the Internet Relay Network, <nick>
+Welcome2 Host: <host>Version: <version>
+Welcome3 Created: <created>
+Welcome4 <server> <version brackets="1"> <usermodes> <chanmodes brackets="1">
+SupportedInfo Supported protocols: <protocols>
+
+ChannelModes Channel modes: <chan> <modes brackets="1">
+ChannelCreation Created: <chan> <created brackets="1">
+Bans Ban in <chan>: <ban> by <lt><nick><gt> <banned brackets="1">
+BansEnd !empty
+UnableToSend unable to message: <chan>
+NotOpped Not channel operator: <chan>
+HiddenHost Hidden host: <host>
+RegisterFirst Register/auth first!
+
+WhoisStart 00,06 ? 06 <lt><nick><gt> whois [start]
+WhoisAddress 06,06?   address: <address> <name brackets="1">
+WhoisChans 06,06?  channels: <chans hlcommon="1">
+WhoisServer 06,06?    server: <server> <info brackets="1">
+WhoisStatus 06,06?    status: <status>
+WhoisAway 06,06?      away: <reason brackets="1">
+WhoisAuth 06,06?      auth: <auth>
+WhoisRealIP 06,06?   real IP: <ip> <address brackets="1">
+WhoisIdle 06,06?      idle: <idle>06,06? signed on: <signontime> [<signonago> ago]
+WhoisEnd 00,06 ? 06 <lt><nick><gt> whois [end]
+
+WhowasStart 00,06 ? 06 <lt><nick><gt> whowas [start]
+WhowasAddress 06,06? address: <address> <name brackets="1">
+WhowasServer 06,06?  server: <server> <info brackets="1">
+WhowasAway 06,06?    away: <reason>
+WhowasEnd 00,06 ? 06 <lt><nick><gt> whowas [end]
+
+Who <chan> <nick brackets="1"> <status> <address brackets="1"> <name>
+WhoEnd !empty
+
+Invite <lt><nick><gt> <chan>
+InviteOwn • <lt><nick><gt> <chan>
+InviteAlreadyOnChan <lt><nick><gt> already on <chan>
+
+NoTopic No topic: <chan>
+Topic Topic: <topic>
+TopicBy 00,00topic: set by <lt><nick><gt> <date brackets="1"> on <chan>
+TopicChange 00,01 T  <lt><nick><gt> <topic>
+
+Names <chan> <names brackets="1">
+NamesEnd !empty
+
+UnknownCmd unknown command: <cmd>
+NickInUse Nickname in use: <nick>
+AwayStatus 00,10 â  <lt><nick><gt> <reason>
+ChanFull Can't join: <chan> [full]
+ChanInviteOnly Can't join: <chan> [invite only]
+ChanBanned Can't join: <chan> [banned]
+ChanKeyRequired Can't join: <chan> [incorrect key]
+ChanRegOnly Can't join: <chan> [registered/authed only]
+NoSuchNick No such nickname: <nick>
+NoSuchChan No such channel: <chan>
+
+RawDef <text>
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 16776960 16730880 16711935 8355711 13816530 0 14 6 7 10 10 3 3 4 10 10 1 12 6 10 1 5 5 10 3 10 0 1 0 1 14 10 0 0 1
+Scheme1 Dark 0 16777215 11141120 43520 1447670 170 11141290 25852 65535 64512 9671424 16757871 14437120 16711935 13816530 3289652 0 14 6 7 11 11 3 3 4 10 10 1 12 6 10 1 5 5 10 3 10 0 1 0 1 14 10 0 0 1

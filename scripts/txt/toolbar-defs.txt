@@ -1,0 +1,231 @@
+[Classic]
+Info box<infobox>tbinfo.click
+Lag bar<lagbar>lagbar.stats
+-
+Connect/disconnect<connect>"iconsets\classic\connect.ico"010
+-
+mIRC optionsmircopt"iconsets\classic\options.ico"000
+NoNameScript setupsetup"iconsets\classic\script.ico"000
+Theme setupthemes"iconsets\classic\colours.ico"000
+Channels listchanlist"iconsets\classic\channelslist.ico"000
+Channels folderchanfolder"iconsets\classic\channels.ico"000
+-
+Away system<away>"iconsets\classic\onlinetimer.ico"000
+Blacklistblack"iconsets\classic\notify.ico"000
+Log viewerviewlog $active"iconsets\classic\popups.ico"000
+Application quicklaunch<cprog>"iconsets\classic\finger.ico"010
+-
+Window arrangementwinarr"iconsets\classic\cascade.ico"011
+-
+Help files<help>"iconsets\classic\help.ico"010
+Aboutnnabout"iconsets\classic\about.ico"000
+[Default]
+Info box<infobox>tbinfo.click
+Lag bar<lagbar>lagbar.stats
+-
+Connect/disconnect<connect>"iconsets\default\connect.ico"010
+-
+mIRC optionsmircopt"iconsets\default\options.ico"000
+NoNameScript setupsetup"iconsets\default\nns_options.ico"000
+Theme setupthemes"iconsets\default\themes.ico"000
+Channels listchanlist"iconsets\default\channels_list.ico"000
+Channels folderchanfolder"iconsets\default\channels_folder.ico"000
+-
+Away system<away>"iconsets\default\away.ico"000
+Blacklistblack"iconsets\default\blacklist.ico"000
+Log viewerviewlog $active"iconsets\default\logview.ico"000
+Application quicklaunch<cprog>"iconsets\default\programs.ico"010
+-
+Window arrangementwinarr"iconsets\default\windows.ico"011
+-
+Help files<help>"iconsets\default\help.ico"010
+Aboutnnabout"iconsets\default\about.ico"000
+[Gartoon]
+Info box<infobox>tbinfo.click
+Lag bar<lagbar>lagbar.stats
+-
+Connect/disconnect<connect>"iconsets\gartoon\12.ico"010
+-
+mIRC optionsmircopt"iconsets\gartoon\33.ico"000
+NoNameScript setupsetup"iconsets\gartoon\52.ico"000
+Theme setupthemes"iconsets\gartoon\91.ico"000
+Channels listchanlist"iconsets\gartoon\39.ico"000
+Channels folderchanfolder"iconsets\gartoon\17.ico"000
+-
+Away system<away>"iconsets\gartoon\60.ico"000
+Blacklistblack"iconsets\gartoon\77.ico"000
+Log viewerviewlog $active"iconsets\gartoon\61.ico"000
+Application quicklaunch<cprog>"iconsets\gartoon\3.ico"010
+-
+Window arrangementwinarr"iconsets\gartoon\23.ico"011
+-
+Help files<help>"iconsets\gartoon\54.ico"010
+Aboutnnabout"iconsets\gartoon\7.ico"000
+[Jaffa]
+Info box<infobox>tbinfo.click
+Lag bar<lagbar>lagbar.stats
+-
+Connect/disconnect<connect>"iconsets\jaffa\Dial up networking.ico"010
+-
+mIRC optionsmircopt"iconsets\jaffa\Subscriptions.ico"000
+NoNameScript setupsetup"iconsets\jaffa\Batch file.ico"000
+Theme setupthemes"iconsets\jaffa\Bitmap image.ico"000
+Channels listchanlist"iconsets\jaffa\Documents.ico"000
+Channels folderchanfolder"iconsets\jaffa\My documents.ico"000
+-
+Away system<away>"iconsets\jaffa\Folder encrypted.ico"000
+Blacklistblack"iconsets\jaffa\Recycle bin full.ico"000
+Log viewerviewlog $active"iconsets\jaffa\Search.ico"000
+Application quicklaunch<cprog>"iconsets\jaffa\Folder favorites.ico"010
+-
+Window arrangementwinarr"iconsets\jaffa\Shutdown.ico"011
+-
+Help files<help>"iconsets\jaffa\Help.ico"010
+Aboutnnabout"iconsets\jaffa\File info.ico"000
+[kresky]
+Info box<infobox>tbinfo.click
+Lag bar<lagbar>lagbar.stats
+-
+Connect/disconnect<connect>"iconsets\kresky\glob2.ico"010
+-
+mIRC optionsmircopt"iconsets\kresky\config.ico"000
+NoNameScript setupsetup"iconsets\kresky\ini.ico"000
+Theme setupthemes"iconsets\kresky\png.ico"000
+Channels listchanlist"iconsets\kresky\viewFull.ico"000
+Channels folderchanfolder"iconsets\kresky\folderFavorite2.ico"000
+-
+Away system<away>"iconsets\kresky\back.ico"000
+Blacklistblack"iconsets\kresky\cross.ico"000
+Log viewerviewlog $active"iconsets\kresky\findFile.ico"000
+Application quicklaunch<cprog>"iconsets\kresky\dll.ico"010
+-
+Window arrangementwinarr"iconsets\kresky\inne4.ico"011
+-
+Help files<help>"iconsets\kresky\help1.ico"010
+Aboutnnabout"iconsets\kresky\find.ico"000
+[Metrox]
+Info box<infobox>tbinfo.click
+Lag bar<lagbar>lagbar.stats
+-
+Connect/disconnect<connect>"iconsets\metrox\Network Drive.ico"010
+-
+mIRC optionsmircopt"iconsets\metrox\Configuration Settings.ico"000
+NoNameScript setupsetup"iconsets\metrox\Control Panel.ico"000
+Theme setupthemes"iconsets\metrox\GIF Image.ico"000
+Channels listchanlist"iconsets\metrox\Default Document.ico"000
+Channels folderchanfolder"iconsets\metrox\My Documents.ico"000
+-
+Away system<away>"iconsets\metrox\My Briefcase.ico"000
+Blacklistblack"iconsets\metrox\Active X cache.ico"000
+Log viewerviewlog $active"iconsets\metrox\Documents.ico"000
+Application quicklaunch<cprog>"iconsets\metrox\Run.ico"010
+-
+Window arrangementwinarr"iconsets\metrox\Tasks.ico"011
+-
+Help files<help>"iconsets\metrox\Help.ico"010
+Aboutnnabout"iconsets\metrox\Registry.ico"000
+[Modern]
+Info box<infobox>tbinfo.click
+Lag bar<lagbar>lagbar.stats
+-
+Connect/disconnect<connect>"iconsets\modern\icon_40.ico"010
+-
+mIRC optionsmircopt"iconsets\modern\icon_43.ico"000
+NoNameScript setupsetup"iconsets\modern\icon_53.ico"000
+Theme setupthemes"iconsets\modern\icon_50.ico"000
+Channels listchanlist"iconsets\modern\icon_7.ico"000
+Channels folderchanfolder"iconsets\modern\icon_54.ico"000
+-
+Away system<away>"iconsets\modern\icon_49.ico"000
+Blacklistblack"iconsets\modern\icon_57.ico"000
+Log viewerviewlog $active"iconsets\modern\icon_55.ico"000
+Application quicklaunch<cprog>"iconsets\modern\icon_3.ico"010
+-
+Window arrangementwinarr"iconsets\modern\icon_62.ico"011
+-
+Help files<help>"iconsets\modern\icon_25.ico"010
+Aboutnnabout"iconsets\modern\icon_64.ico"000
+[Moonshine]
+Info box<infobox>tbinfo.click
+Lag bar<lagbar>lagbar.stats
+-
+Connect/disconnect<connect>"iconsets\moonshine\Network service.ico"010
+-
+mIRC optionsmircopt"iconsets\moonshine\Administrative Tools.ico"000
+NoNameScript setupsetup"iconsets\moonshine\My Computer.ico"000
+Theme setupthemes"iconsets\moonshine\My Pictures.ico"000
+Channels listchanlist"iconsets\moonshine\Text document.ico"000
+Channels folderchanfolder"iconsets\moonshine\Folder open.ico"000
+-
+Away system<away>"iconsets\moonshine\Log off.ico"000
+Blacklistblack"iconsets\moonshine\Recycle bin full.ico"000
+Log viewerviewlog $active"iconsets\moonshine\Search.ico"000
+Application quicklaunch<cprog>"iconsets\moonshine\MS-DOS Application.ico"010
+-
+Window arrangementwinarr"iconsets\moonshine\Tasks.ico"011
+-
+Help files<help>"iconsets\moonshine\Help.ico"010
+Aboutnnabout"iconsets\moonshine\Default Document.ico"000
+[MP]
+Info box<infobox>tbinfo.click
+Lag bar<lagbar>lagbar.stats
+-
+Connect/disconnect<connect>"iconsets\megapack\button.ico"010
+-
+mIRC optionsmircopt"iconsets\megapack\circuit.ico"000
+NoNameScript setupsetup"iconsets\megapack\controls.ico"000
+Theme setupthemes"iconsets\megapack\colour selection.ico"000
+Channels listchanlist"iconsets\megapack\calc.ico"000
+Channels folderchanfolder"iconsets\megapack\folder open.ico"000
+-
+Away system<away>"iconsets\megapack\UFO3.ico"000
+Blacklistblack"iconsets\megapack\skull & crossbones.ico"000
+Log viewerviewlog $active"iconsets\megapack\docs.ico"000
+Application quicklaunch<cprog>"iconsets\megapack\disk.ico"010
+-
+Window arrangementwinarr"iconsets\megapack\tasks.ico"011
+-
+Help files<help>"iconsets\megapack\Help.ico"010
+Aboutnnabout"iconsets\megapack\Info.ico"000
+[phoenity]
+Info box<infobox>tbinfo.click
+Lag bar<lagbar>lagbar.stats
+-
+Connect/disconnect<connect>"iconsets\phoenity\connect.ico"010
+-
+mIRC optionsmircopt"iconsets\phoenity\mirc_options.ico"000
+NoNameScript setupsetup"iconsets\phoenity\nns_options.ico"000
+Theme setupthemes"iconsets\phoenity\themes.ico"000
+Channels listchanlist"iconsets\phoenity\chanlist.ico"000
+Channels folderchanfolder"iconsets\phoenity\channels.ico"000
+-
+Away system<away>"iconsets\phoenity\away_system.ico"000
+Blacklistblack"iconsets\phoenity\blacklist.ico"000
+Log viewerviewlog $active"iconsets\phoenity\logviewer.ico"000
+Application quicklaunch<cprog>"iconsets\phoenity\custom_apps.ico"010
+-
+Window arrangementwinarr"iconsets\phoenity\window.ico"011
+-
+Help files<help>"iconsets\phoenity\help.ico"010
+Aboutnnabout"iconsets\phoenity\alarm.ico"000
+[buttons]
+Info box<infobox>tbinfo.click
+Lag bar<lagbar>lagbar.stats
+-
+Connect/disconnect<connect>"iconsets\buttons\silver\flash.ico"010
+-
+mIRC optionsmircopt"iconsets\buttons\silver\monitor.ico"000
+NoNameScript setupsetup"iconsets\buttons\silver\quadrent.ico"000
+Theme setupthemes"iconsets\buttons\silver\contrast.ico"000
+Channels listchanlist"iconsets\buttons\silver\list.ico"000
+Channels folderchanfolder"iconsets\buttons\silver\hash.ico"000
+-
+Away system<away>"iconsets\buttons\silver\clock.ico"000
+Blacklistblack"iconsets\buttons\silver\x.ico"000
+Log viewerviewlog $active"iconsets\buttons\silver\file.ico"000
+Application quicklaunch<cprog>"iconsets\buttons\silver\group.ico"010
+-
+Window arrangementwinarr"iconsets\buttons\silver\maximize.ico"011
+-
+Help files<help>"iconsets\buttons\silver\help.ico"010
+Aboutnnabout"iconsets\buttons\silver\info.ico"000

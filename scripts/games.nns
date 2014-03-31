@@ -1,0 +1,212 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - game stuff - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+on ^*:hotlink:?*.?*.?*.?*:*:{
+  if ($regex($strip($1),/^#|www\..+\.|https?://.+\.|s?ftp://.+\./i)) { halt }
+  var %s = ((?:\d{1,3}\.){3}\d{1,3}(?::\d{1,5})?)
+  if ($regex(iphl,$strip($1),%s)) {
+    tokenize 58 $regml(iphl,1)
+    if (!$longip($1)) || (($2 !isnum 1-65535) && ($2 != $null)) { halt }
+  }
+  else { halt }
+}
+on *:hotlink:?*.?*.?*.?*:*:{
+  var %s = ((?:\d{1,3}\.){3}\d{1,3}(?::\d{1,5})?)
+  noop $regex(iphl,$strip($1),%s)
+  set %hotlink.cip $regml(iphl,1)
+  tokenize 58 %hotlink.cip
+  if ($longip($1)) && (($2 isnum 1-65535) || ($2 == $null)) {
+    popdll.new
+    popdll.add 1	+g 1 0 $shorten(20,%hotlink.cip) $+ :
+    popdll.add 2	+ 2 0 -
+    var %t = 1,%i = $var(%game.*.added,0)
+    if (%i) {
+      popdll.add 3	+s 3 0 &Add to game favoritesaddfav
+      popdll.add 4	+s 4 0 &Connect with gamegames
+      while (%t <= %i) {
+        var %e = $gettok($var(%game.*.added,%t),2,46),%d = $decode(%e,m)
+        popdll.add 3 %t $+ 	+ $calc(15+ %i + %t) 0 & $+ %d $+ games.addfav %d
+        popdll.add 4 %t $+ 	+ $calc(15+ %t) 0 & $+ %d $+ games.conip $iif(%games.askpass,-p) %e
+        inc %t
+      }
+      popdll.add 5	+ 5 0 -
+      popdll.add 6	 $+ $iif(%games.askpass,+c,+) 6 0 &Ask for passwordtoggle games.askpass
+    }
+    popdll.add 7	+ 7 0 &Game setup...setup -c Games
+    popdll.add 8	+ 8 0 -
+    popdll.add 9	+ 9 0 C&ountry lookupgetcountry %hotlink.cip
+    popdll.add 10	+ 10 0 &IP2Nick...ip2nick $gettok(%hotlink.cip,1,58)
+    popdll.add 11	+ 11 0 &Ping...ping %hotlink.cip
+    popdll.add 12	+ 12 0 &Resolvedns $gettok(%hotlink.cip,1,58)
+    popdll.add 13	+ 13 0 &TraceRoute...tracert %hotlink.cip
+    popdll.add 14	+ 14 0 -
+    popdll.add 15	+ 15 0 &Copy to clipboardclipboard %hotlink.cip
+    popdll.disp
+  }
+}
+alias games.addfav {
+  var %g = $encode($1-,m)
+  if ($istok(%game. [ $+ [ %g ] $+ ] .favs,%hotlink.cip,1)) { errdialog the server %hotlink.cip is already in your favorites list for $1 $+ . }
+  elseif ($len(%game. [ $+ [ %g ] $+ ] .favs) > 3000) { errdialog you have already entered the maximum amount of favorite servers for $1 $+ . }
+  else {
+    var %p
+    if ($ydialog(Is the server %hotlink.cip password-protected?)) { var %p = $epdialog(Please enter the password for %hotlink.cip $+ .) }
+    set %game. [ $+ [ %g ] $+ ] .favs $addtok(%game. [ $+ [ %g ] $+ ] .favs,%hotlink.cip,1)
+    if (%p) { set %pass.game. [ $+ [ %g ] $+ ] . [ $+ [ %hotlink.cip ] ] $encode(%p,m) }
+    if ($dialog(settings)) && ($did(settings,331).seltext == $1-) {
+      did -a settings 348 %hotlink.cip
+      did -e settings 352
+    }
+    idialog The $1- server %hotlink.cip has been added to your favorites.
+  }
+}
+alias games.conip {
+  var %p = $decode(%pass.game. [ $+ [ $1 ] $+ ] . [ $+ [ %hotlink.cip ] ],m)
+  if ($1 == -p) && (!%p) {
+    var %p = $epdialog(Please enter a password for the server %hotlink.cip $+ . Press cancel if there is none.)
+    tokenize 32 $2-
+  }
+  open -g %game. [ $+ [ $1 ] $+ ] .path $cr $replace(%game. [ $+ [ $1 ] $+ ] .cmdline,<iponly>,$gettok(%hotlink.cip,1,58),<port>,$gettok(%hotlink.cip,2,58),<ip>,%hotlink.cip,<pass>,%p)
+  games.setaway $1 $chr(1) %hotlink.cip
+}
+alias games.setaway {
+  var %g = $gettok($1-,1,1),%ip = $gettok($1-,2,1)
+  if (%game. [ $+ [ %g ] $+ ] .setaway) {
+    var %r = $iif(%game. [ $+ [ %g ] $+ ] .awaymsg,$replace($v1,<game>,$decode(%g,m),<ip>,$iif(%ip,$v1,<unknown>)),$decode(%g,m))
+    if (%game. [ $+ [ %g ] $+ ] .awaynick) { aw -n $v1 %r }
+    else { aw %r }
+  }
+}
+alias games.cmdlinehelp { idialog You can add various identifiers to the command line. Here is a complete list:<ip>	: The IP and port<iponly>	: The IP without the port<port>	: The port only<pass>	: The server password (if specified) }
+alias games.loadsettings {
+  var %n = $did(settings,331).seltext,%e = $encode(%n,m)
+  if (%n) {
+    did -e settings 339,342,340,355,347,343,344,345,348,353,354,349,352
+    did -ra settings 343 %n
+    did -ra settings 344 %game. [ $+ [ %e ] $+ ] .path
+    did -ra settings 345 %game. [ $+ [ %e ] $+ ] .cmdline
+    if (%game. [ $+ [ %e ] $+ ] .setaway) {
+      did -c settings 355
+      did -e settings 341,346,356,357
+    }
+    else {
+      did -u settings 355
+      did -b settings 341,346,356,357
+    }
+    did -ra settings 346 %game. [ $+ [ %e ] $+ ] .awaynick
+    did -ra settings 357 %game. [ $+ [ %e ] $+ ] .awaymsg
+    did -r settings 348
+    didtok settings 348 1 %game. [ $+ [ $encode($did(settings,331).seltext,m) ] $+ ] .favs
+    did -b settings 350,358
+    did $iif($did(settings,348).lines,-e,-b) settings 352
+    set %game.oldtitle %n
+  }
+  else {
+    did -r settings 343,344,345,346,357,348
+    did -b settings 339,342,340,355,347,343,344,345,346,357,348,353,354,349,350,352,341,356,358
+    did -u settings 355,331
+  }
+}
+alias games.chgcmdline {
+  did -ra settings 345 $1-
+  set %game. $+ $encode($did(settings,331).seltext,m) $+ .cmdline $1-
+}
+alias games.open {
+  var %z
+  if ($1 == -i) {
+    %z = 1
+    tokenize 32 $2-
+  }
+  var %g = $1-,%p = %game. [ $+ [ $encode(%g,m) ] $+ ] .path,%c = %game. [ $+ [ $encode(%g,m) ] $+ ] .cmdline
+  if (%p) {
+    if (%z) {
+      window -h @addfavservsel
+      var %nm = $numtok(%game. [ $+ [ $encode(%g,m) ] $+ ] .favs,1)
+      while (%nm) {
+        aline @addfavservsel $gettok(%game. [ $+ [ $encode(%g,m) ] $+ ] .favs,%nm,1)
+        dec %nm
+      }
+      var %i = $$dddialog(Please enter an IP to connect to. If the server is password protected $+ $chr(44) simply type the password after the IP address.Example:127.0.0.1 m00cow,games.addfavservsel @addfavservsel)
+      tokenize 32 %i
+      open -g %p $cr $replace(%c,<iponly>,$gettok($1,1,58),<port>,$gettok($1,2,58),<ip>,$1,<pass>,$iif($2,$2,$decode(%pass.game. [ $+ [ $encode(%g,m) ] $+ ] . [ $+ [ $1 ] ],m)))
+    }
+    else { open -g %p }
+    games.setaway $encode(%g,m) $chr(1) %i
+  }
+  else { errdialog you haven't specified a path for $1- $+ . }
+}
+alias games.addfavservsel { did -a $wd(%geninp.filter,1) 3 $1- }
+dialog games.favadd {
+  title "Add favorite server"
+  size -1 -1 258 112
+  option pixels
+  icon scripts\pics\nntray.ico
+  text "Server IP", 6, 24 8 54 14
+  edit "", 1, 96 4 158 22, limit 15
+  text "Port", 7, 24 30 30 14
+  edit "", 8, 96 26 158 22, limit 5
+  check "Password", 2, 6 50 70 18
+  edit "", 10, 96 48 158 22, disable pass autohs limit 100
+  box "", 3, -24 70 360 88
+  button "&Ok", 5, 90 84 80 24
+  button "&Cancel", 4, 174 84 80 24, cancel
+}
+on *:dialog:games.favadd:*:*:{
+  if ($devent == init) {
+    if (%games.favaddedit) {
+      var %i = $did(settings,348).seltext
+      set %games.favaddedit %i
+      tokenize 58 %i
+      did -a $dname 1 $1
+      did -a $dname 8 $2
+      if ($decode(%pass.game. [ $+ [ $encode($did(settings,331).seltext,m) ] $+ ] . [ $+ [ %i ] ],m)) {
+        did -ea $dname 10 $v1
+        did -c $dname 2
+      }
+    }
+    elseif ($len(%game. [ $+ [ $encode($did(settings,331).seltext,m) ] $+ ] .favs) > 3000) {
+      errdialog you have already entered the maximum amount of favorite servers for $did(settings,331).seltext $+ .
+      dialog -c $dname
+    }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 2) { did $iif($did($did).state,-e,-b) $dname 10 }
+    elseif ($did == 5) {
+      var %ip = $remove($did(1),$chr(32))
+      if (. !isin %ip) { errdialog you have to enter an IP or hostname. }
+      elseif ($did(8) != $null) && ($did(8) !isnum 1-65535) { errdialog invalid port number. }
+      else {
+        var %p = $iif($did(2).state,$did(10)),%i = %ip $+ $iif($did(8),: $+ $v1),%cp
+        if (%i == %games.favaddedit) {
+          %cp = 1
+          dialog -c $dname
+        }
+        elseif (!$didwm(settings,348,%i)) {
+          %cp = 1
+          if (%games.favaddedit) {
+            set %game. [ $+ [ $encode($did(settings,331).seltext,m) ] $+ ] .favs $addtok($remtok(%game. [ $+ [ $encode($did(settings,331).seltext,m) ] $+ ] .favs,$wd($did(settings,348).seltext,1),1,1),%i,1)
+            unset %pass.game. [ $+ [ $encode($did(settings,331).seltext,m) ] $+ ] . [ $+ [ %games.favaddedit ] ]
+            did -oc settings 348 $did(settings,348).sel %i
+          }
+          else {
+            set %game. [ $+ [ $encode($did(settings,331).seltext,m) ] $+ ] .favs $addtok(%game. [ $+ [ $encode($did(settings,331).seltext,m) ] $+ ] .favs,%i,1)
+            did -a settings 348 %i
+            did -e settings 352
+          }
+          dialog -c $dname
+        }
+        else { errdialog this server is already in the list. }
+        if (%cp) {
+          if (%p) { set %pass.game. [ $+ [ $encode($did(settings,331).seltext,m) ] $+ ] . [ $+ [ %i ] ] $encode(%p,m) }
+          else { unset %pass.game. [ $+ [ $encode($did(settings,331).seltext,m) ] $+ ] . [ $+ [ %i ] ] }
+        }
+      }
+    }
+  }
+  elseif ($devent == edit) && ($did == 8) { numonlyedit $dname $did }
+  elseif ($devent == close) { unset %games.favaddedit }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

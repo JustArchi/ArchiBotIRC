@@ -1,0 +1,155 @@
+Name Zeppelin
+Version 1.0
+NNTVersion 1.03
+Author Vinzent Zeppelin
+Email Vinzent.Zeppelin@gmail.com
+Homepage n/a
+Description My first theme for NoNameScript, inspired in part by Brain's "Pulsar" and airjer's "Tribe" theme. Special credit to my girlfriend for the Viktoria scheme.
+
+Font Verdana
+FontSize 10
+
+TimestampEnabled 1
+Timestamp 05,05 01,00 HH:nn:ss 05,05 
+
+NickColSelf 10
+NickColOp 5
+NickColVoice 14
+NickColRegular 13
+NickColProtect 3
+NickColIgnore none
+
+Brackets 05(<text>05)
+LineSep 01————————————————————————
+Prefix 05•
+
+GenEcho <pre> <text>
+GenError 01[05!01] Error: <text>
+GenHighlight 01<text>
+
+ChanText 05[01<cmode><nick>05] <text>
+ChanTextOwn 05(01<cmode><me>05) <text>
+ChanAction 05° <cmode><nick> <text>
+ChanActionOwn 05° <cmode><me> <text>
+
+QueryText 05[01<nick>05] <text>
+QueryTextOwn 05(01<me>05) <text>
+QueryAction 05° <nick> <text>
+QueryActionOwn 05° <me> <text>
+
+Msg 05[01<nick>05] <text>
+MsgOwn <pre> To 05[01<target>05]: 01<text>
+Action 05° <nick> <text>
+ActionOwn 05° <me> <text>
+
+ChanNotice 05» 01Notice:<chan> 05[01<nick>05]: <text>
+Notice 05» 01Notice 05[01<nick>05]: <text>
+NoticeOwn 01—› 05[01<target>05]: <text>
+ServerNotice 05» 01Notice:<server>: $iif($gettok(<text>,1,32) == ***,$gettok(<text>,2-,32),<text>)
+
+CTCP 01[05§01] 01CTCP <ctcp> from 01<nick> <text brackets="1">
+CTCPOwn 01[05§01] 01CTCP <ctcp> sent to 01<target> <text brackets="1">
+ChanCTCP 01[05§01] 01CTCP:<chan> <ctcp> from 01<nick> <text brackets="1">
+CTCPReply 01[05§01] 01CTCP <ctcp> reply from 01<nick> <text brackets="1">
+CTCPReplyOwn 01[05§01] 01CTCP <ctcp> reply to 01<target> <text brackets="1">
+
+Join <pre> 01Joins: <nick> $replace(<address brackets="1">,@,05@)
+JoinOwn <linesep>01[05ø01] Joined: 05<chan><linesep>!if <topic> <pre> 01Topic: <topic>!if <topic> <pre> 01Set by: <topicnick> on 01<topicdate>!if <topic> <linesep>
+Part <pre> 01Parts: <nick> $replace(<address brackets="1">,@,05@) <message brackets="1">
+Quit <pre> 01Quits: <nick> $replace(<address brackets="1">,@,05@) <message brackets="1">
+Nick <pre> 01Nick: <nick> 05—› 01<newnick>
+NickOwn <pre> 01Nick: <nick> 05—› 01<newnick>
+Mode 01[05ø01] ChanMode: <nick> sets mode 05[01 $+ $gettok(<mode>,1,32) $+ 05] $iif($gettok(<mode>,2-,32),01 $+ $v1 $+ )
+UserMode 01[05ø01] UserMode: <me> 05[01<mode>05]
+Kick <pre> 01Kick: <kickednick> was kicked by 01<nick> <message brackets="1">
+KickOwn <pre> 01Kick: You were kicked from 01<chan> by 01<nick> <message brackets="1">
+WallOp 05» 01Wallop 05[01<nick>05]: <text>
+
+DNS 01[05¤01] DNS: Looking up 01<address> …
+DNSError 01[05¤01] DNS: Failed to resolve 01<address>
+DNSResolve 01[05¤01] DNS: Resolved 01<address> to 01<raddress>
+
+Notify 01[05?01] Notify: <nick> is now online <note brackets="1">
+UnNotify 01[05?01] Notify: <nick> has quit or changed nick
+
+LUsers1 01[05ø01] Info: <users> total users (01<invisible> invisible) on 01<servers> servers
+LUsers2 01[05ø01] Info: <operators> IRC operators online
+LUsers3 01[05ø01] Info: <connections> unknown connections
+LUsers4 01[05ø01] Info: <channels> channels
+LUsers5 01[05ø01] Info: <clients> clients on 01<servers> servers
+
+Welcome1 05» Welcome to the network, 01<nick>
+Welcome2 05» Now connected to 01<host> running 01<version>
+Welcome3 05» Created on 01<created>
+Welcome4 05» Server: 01<server> (01<version>)
+SupportedInfo 01[05ø01] Info: Supported protocols: <protocols>
+
+ChannelModes 01[05ø01] ChanModes:<chan>: 05[01<modes>05]
+ChannelCreation 01[05ø01] Info: <chan> created 01<created>
+Bans 05›01› Bans:<chan>: <ban> set by 01<nick> <banned brackets="1">
+BansEnd 05›01› Bans:<chan>: End of channel bans list.
+UnableToSend 01[05!01] Error: Cannot send to 01<chan> (channel is moderated)
+NotOpped 01[05!01] Error: You are not an operator on 01<chan>
+HiddenHost 01[05ø01] Info: <host> is now your hidden host
+RegisterFirst 01[05!01] Error: You must register first
+
+WhoisStart <linesep>01[05ø01] Whois: Report for 01<nick>
+WhoisAddress         05›01› Address: <ident>05@<host>        05›01› Name: <name>
+WhoisChans         05›01› Channels: <chans>
+WhoisServer         05›01› Server: <server> <info brackets="1">
+WhoisStatus         05›01› Status: <status>
+WhoisAway         05›01› Away: <reason>
+WhoisAuth         05›01› Auth: <auth>
+WhoisRealIP         05›01› Real address: <address> <ip brackets="1">
+WhoisIdle         05›01› Idle: <idle>        05›01› Connected: <signonago>
+WhoisEnd <linesep>
+
+WhowasStart <linesep>01[05ø01] Whowas: Report for 01<nick>
+WhowasAddress         05›01› Address: <ident>05@<host>        05›01› Name: <name>
+WhowasServer         05›01› Server: <server> <info brackets="1">
+WhowasAway         05›01› Away: <reason>
+WhowasEnd <linesep>
+
+Who 05›01› Who:<chan>: <nick>05!<ident>05@<host> <name brackets="1"> <status>
+WhoEnd 05›01› Who:<target>: End of WHO list
+
+Invite 05» 01Invite: <nick> invited you to 01<chan>
+InviteOwn 05» 01Invite: You invited 01<nick> to 01<chan>
+InviteAlreadyOnChan 01[05!01] Error: <nick> is already on 01<chan>
+
+NoTopic 01[05ø01] Info: No topic set for 01<chan>
+Topic !if <topic> <linesep>!if <topic> <pre> 01Topic: <topic>
+TopicBy !if <topic> <pre> 01Set by: <nick> on 01<date>!if <topic> <linesep>
+TopicChange <pre> 01Topic: <nick> changed it to: <topic>
+
+Names 05›01› Names:<chan>: <names>
+NamesEnd 05›01› Names:<chan>: End of NAMES list
+
+UnknownCmd 01[05!01] Error: Unknown command <cmd brackets="1">
+NickInUse 01[05!01] Error: <nick> is already in use
+AwayStatus 01[05ø01] Info: <nick> is away <reason brackets="1">
+ChanFull 01[05!01] Error: Cannot join 01<chan> (channel is full)
+ChanInviteOnly 01[05!01] Error: Cannot join 01<chan> (channel is invite-only)
+ChanBanned 01[05!01] Error: Cannot join 01<chan> (you're banned)
+ChanKeyRequired 01[05!01] Error: Cannot join 01<chan> (incorrect key)
+ChanRegOnly 01[05!01] Error: Cannot join 01<chan> (channel is registered users only)
+NoSuchNick 01[05!01] Error: <nick> is not on IRC
+NoSuchChan 01[05!01] Error: <chan> does not exist
+
+RawDef 01[05ø01] Info: RAW <numeric> <text brackets="1">
+CRaw671         05›01› Is using a secure connection
+CRaw402 01[05!01] Error: No such nickname or server
+CRaw379         05›01› UserModes: <text>
+CRaw378         05›01› Real address: $gettok(<text>,6,32) 05( $+ $gettok(<text>,7,32) $+ 05)
+CRaw310         05›01› Is available for help
+CRaw307         05›01› Is a registered nick
+
+Scheme0 Default 16777215 0 8323072 26112 255 153 10040217 39372 65535 6750054 12028251 16776960 16515072 7829367 4473924 15724527 15 1 14 5 14 14 14 14 14 14 14 14 14 14 14 1 14 14 14 1 14 15 1 15 1 14 1 15 15 1
+Scheme1 Vinzent 51 16777215 8323072 37632 255 204 13395660 39372 65535 6750054 12028251 16776960 16515072 7829367 13421772 0 15 1 14 5 14 14 14 14 14 14 14 14 14 14 14 1 14 14 14 1 14 15 1 15 1 14 1 15 15 1
+Scheme2 Viktoria 3342336 16750950 6684672 37632 255 16777215 13395660 32764 65535 6750054 16724736 16776960 16711680 7829367 13421772 0 15 1 14 5 14 14 14 14 14 14 14 14 14 14 14 5 14 14 14 5 14 15 5 15 9 14 5 15 15 5
+Scheme3 Imperium 102 10092543 8323072 37632 255 204 13395660 39372 65535 6750054 16777215 16776960 16515072 1144695 6737100 51 15 1 14 5 14 14 14 14 14 14 14 14 14 14 14 1 14 14 14 1 14 15 1 15 1 14 1 15 15 1
+Scheme4 Underground 2236962 6588827 8323072 37632 255 4609124 13395660 39372 65535 6750054 16777215 16776960 16515072 6710886 10066329 0 15 1 14 10 14 14 14 14 14 14 14 14 14 14 14 1 14 14 14 1 14 15 1 15 1 14 1 15 15 14
+Scheme5 Night 2232593 11180424 8323072 37632 255 7829401 13395660 39372 65535 6750054 16777215 16776960 16515072 6702148 8939110 0 15 1 14 10 14 14 14 14 14 14 14 14 14 14 14 1 14 14 14 1 14 15 1 15 1 14 1 15 15 14
+Scheme6 Dominion 6684672 10092543 102 37632 255 16750950 13395660 39372 65535 6750054 16777215 16776960 16515072 1144695 6737100 3342336 15 1 14 5 14 14 14 14 14 14 14 14 14 14 14 1 14 14 14 1 14 15 1 15 1 14 1 15 15 1
+Scheme7 Eclipse 1114146 14540253 8323072 37632 255 8952234 13395660 39372 65535 6750054 16777215 16776960 16515072 7825015 10721699 0 15 1 14 10 14 14 14 14 14 14 14 14 14 14 14 1 14 14 14 1 14 15 1 15 1 14 1 15 15 14
+Scheme8 Underwater 6697728 16772812 102 37632 255 16750950 13395660 39372 65535 6750054 16777215 16776960 16515072 10066329 13421772 4469504 15 1 14 5 14 14 14 14 14 14 14 14 14 14 14 1 14 14 14 1 14 15 1 15 1 14 1 15 15 1

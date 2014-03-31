@@ -1,0 +1,150 @@
+Name Nevada
+Version 1.02
+NNTVersion 1.03
+Author greeny
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font ProFontWindows
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 14,11 HHnn 
+
+NickColSelf none
+NickColOp 1
+NickColVoice 14
+NickColRegular 10
+NickColProtect 3
+NickColIgnore 4
+
+Brackets 14[<text>14]
+LineSep 
+Prefix •
+
+GenEcho info14: <text>
+GenError error14: <text>
+GenHighlight [10<text>14]
+
+ChanText <cmode align="1">10<nick align="15">: <text>
+ChanTextOwn <cmode align="1">10<me align="15">: <text>
+ChanAction 10•14 <cmode align="1">10<nick align="14"> <text>
+ChanActionOwn 10•14 <cmode align="1">10<me align="14"> <text>
+
+QueryText 10<nick align="16">: <text>
+QueryTextOwn 10<me align="16">: <text>
+QueryAction 10• <nick align="15"> <text>
+QueryActionOwn 10• <me align="15"> <text>
+
+Msg 10message from <nick>14 [10<address>14]: <text>
+MsgOwn 10message to <target>14: <text>
+Action 10action from <nick>14 [10<address>14]: <text>
+ActionOwn 10action to <target>14: <text>
+
+ChanNotice 10<chan> notice from <nick>14 [10<address>14]: <text>
+Notice 10notice from <nick>14 [10<address>14]: <text>
+NoticeOwn 10notice to <target>14: <text>
+ServerNotice 10notice from <server>14: <text>
+
+CTCP 10CTCP from <nick>14 [10<address>14]: <ctcp> <text>
+CTCPOwn 10CTCP to <target>14: <ctcp> <text>
+ChanCTCP 10<chan> CTCP from <nick>14 [10<address>14]: <ctcp> <text>
+CTCPReply 10CTCPreply from <nick>14 [10<address>14]: <ctcp> <text>
+CTCPReplyOwn 10CTCPreply to <target>14: <ctcp> <text>
+
+Join <nick> <address brackets="1"> has joined <chan>
+JoinOwn <linesep>•——  join14: <chan> ——•!if <topic>     topic14: <topic>!if <topic>    set by14: <topicnick>!if <topic>    set on14: <topicdate> [10<topicdateago> ago14]    users14: <users> total, <oppedusers> opped [10<oppeduserspercent>14], <voicedusers> voiced [10<voiceduserspercent>14], <regusers> normal [10<reguserspercent>14]sync time14: <synctime> seconds•——  join14: end ——•<linesep>
+Part <nick> <address brackets="1"> has left <chan> <message brackets="1">
+Quit <nick> <address brackets="1"> has quit IRC <message brackets="1">
+Nick <nick> is now known as <newnick>
+NickOwn you are now known as <newnick>
+Mode <nick> sets <chan> mode14: <mode>
+UserMode <me> sets mode14: <mode>
+Kick <kickednick> was kicked out of <chan> by <nick> <message brackets="1">
+KickOwn you were kicked from <chan> by <nick> <message brackets="1">
+WallOp <nick>14[wallop14]: <text>
+
+DNS dns14: resolving <address>...
+DNSError dns14: unable to resolve <address>
+DNSResolve dns14: resolved <address> to <raddress>
+
+Notify notify14: <nick> is now online!
+UnNotify unotify14: <nick> is now offline!
+
+LUsers1 <linesep>•—— stats14: <myserver> ——•    users14: <users>invisible14: <invisible>  servers14: <servers>
+LUsers2 operators14: <operators>
+LUsers3   unknown14: <connections>
+LUsers4  channels14: <channels>
+LUsers5   clients14: <clients>  servers14: <servers>•—— stats14: end ——•<linesep>
+
+Welcome1 welcome to the internet relay network!
+Welcome2 your host is14: <host> [v.<version>]
+Welcome3 this server was created14: <created>
+Welcome4 running version14: <version> on <server>usermodes14: <usermodes>channelmodes14: <chanmodes>
+SupportedInfo protocols supported14: <protocols>
+
+ChannelModes <chan> modes14: <modes>
+ChannelCreation <chan> created14: <created> [<createdago> ago]
+Bans <chan> ban14: <ban> set by <nick> on <banned>
+BansEnd end of <chan> ban list
+UnableToSend unable to message send message to14: <chan>
+NotOpped you're not channel operator in14: <chan>
+HiddenHost <host> is now your hidden host
+RegisterFirst register first!
+
+WhoisStart <linesep>•—— whois14: <nick> ——•
+WhoisAddress   address14: <address>     name14: <name>
+WhoisChans  channels14: <chans hlcommon="1">
+WhoisServer    server14: <server> <info brackets="1">
+WhoisStatus    status14: <status>
+WhoisAway      away14: <reason>
+WhoisAuth      auth14: <auth>
+WhoisRealIP   real IP14: <address> <ip brackets="1">
+WhoisIdle      idle14: <idle>signed on14: <signontime> <signonago brackets="1">
+WhoisEnd •—— whois14: end ——•<linesep>
+
+WhowasStart <linesep>•—— whowas14: <nick> ——•
+WhowasAddress    address14: <address>      name14: <name>
+WhowasServer     server14: <server> <info brackets="1">
+WhowasAway       away14: <reason>
+WhowasEnd •—— whowas14: end ——•<linesep>
+
+Who who channel14: <chan> 10nickname14: <nick> 10status14: <status> 10address14: <address> 10name14: <name>
+WhoEnd end of <target> who list
+
+Invite <nick> invites you to join14: <chan>
+InviteOwn <nick> has been invited to14: <chan>
+InviteAlreadyOnChan <nick> is already on <chan>!
+
+NoTopic no topic set14: <chan>
+Topic <linesep>•—— topic14: <chan> ——•     text14: <topic>
+TopicBy    set by14: <nick>   set on14: <date> [<dateago> ago]•—— topic14: end ——•<linesep>
+TopicChange <nick> changes topic to14: <topic>
+
+Names names on <chan>14: <names>
+NamesEnd end of <chan> names list
+
+UnknownCmd unknown command14: <cmd>
+NickInUse nickname is already in use14: <nick>
+AwayStatus <nick> is marked as being away14: <reason>
+ChanFull unable to join <chan>14: full [+l]
+ChanInviteOnly unable to join <chan>14: invite only [+i]
+ChanBanned unable to join <chan>14: you're banned [+b]
+ChanKeyRequired unable to join <chan>14: need correct key [+k]
+ChanRegOnly unable to join <chan>14: registered only [+r]
+NoSuchNick no such nickname14: <nick>
+NoSuchChan no such channel14: <chan>
+
+RawDef raw <numeric>14: <text>
+
+Scheme0 Default 15199986 0 8323072 37632 255 127 10223772 32764 65535 64512 11444876 15262685 16515072 16711935 6579300 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme1 Night 0 16777215 8323072 37632 255 127 10223772 32764 65535 64512 11179650 1973790 16515072 16711935 7895160 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme2 Lemon 15400953 0 8323072 37632 255 127 10223772 32764 65535 64512 6584420 13165512 16515072 16711935 6579300 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme3 Oasis 16773360 0 8323072 37632 255 127 10223772 32764 65535 64512 11503966 15979453 16515072 16711935 6579300 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme4 Red 15396607 0 8323072 37632 255 127 10223772 32764 65535 64512 1718783 12238847 16515072 16711935 3947650 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme5 Orange 14352127 0 8323072 37632 255 127 10223772 32764 65535 64512 2260479 6470655 16515072 16711935 13424 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme6 Platinum 13948116 0 8323072 37632 255 127 10223772 32764 65535 64512 1250240 11842740 16515072 16711935 4669494 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme7 Moss 0 16777215 8323072 37632 255 127 10223772 32764 65535 64512 1736032 1973790 16515072 16711935 7895160 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme8 Ruby 0 16777215 8323072 37632 255 127 10223772 32764 65535 64512 734352 1973790 16515072 16711935 7895160 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14
+Scheme9 NNS4 3026478 16777215 8323072 37632 255 127 10223772 32764 65535 64512 1316045 2763306 16515072 16711935 11908533 13816530 0 14 10 10 10 10 10 10 10 10 10 14 10 10 10 1 10 10 10 10 10 0 14 0 14 14 14 0 0 14

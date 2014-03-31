@@ -1,0 +1,143 @@
+Name Pulsar
+Version 1.1
+NNTVersion 1.03
+Author Brain (ported by Roniez)
+Email brain@iol.pt
+Homepage n/a
+Description None.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 14(15HH:nn:ss14)
+
+NickColSelf 4
+NickColOp 4
+NickColVoice 15
+NickColRegular 14
+NickColProtect none
+NickColIgnore none
+
+Brackets 4(<text>4)
+LineSep 14—————————————————————————————————
+Prefix  05::04::
+
+GenEcho  14[4ø14] Info:15 <text>
+GenError  14[4ø14] Error:15 <text>
+GenHighlight 4(<text>4)
+
+ChanText 4(<cmode><nick>4)15 <text>
+ChanTextOwn 4(<cmode><me>4) <text>
+ChanAction 4! <cmode><nick> <text>
+ChanActionOwn 4! <cmode><me> <text>
+
+QueryText 4(<nick>4)15 <text>
+QueryTextOwn 4(<me>4) <text>
+QueryAction 4! <nick> <text>
+QueryActionOwn 4! <me> <text>
+
+Msg 4(<nick>4)15 <text>
+MsgOwn 5›4› Msg: to 4[ <target> 4] :15 <text>
+Action 4! <nick> <text>
+ActionOwn 5›4› Action: to 4[ <target> 4] :15 <text>
+
+ChanNotice  5›4› 4[<cmode><nick> 4(<chan>4)]15 <text>
+Notice  5›4› 4[<nick> 4(<address>4)]15 <text>
+NoticeOwn  5›4› Notice: to 4[ <target> 4] :15 <text>
+ServerNotice  5›4› Server:15 $iif($gettok(<text>,1,32) == ***,$gettok(<text>,2-,32),<text>)
+
+CTCP  4(ø4) Ctcp: 4[ $+ $lower(<ctcp>) $+ 4] requested by4 <nick>  <text>
+CTCPOwn  4(ø4) Ctcp: 4[ $+ $lower(<ctcp>) $+ 4] to4 <target>
+ChanCTCP  4(ø4) Ctcp: 4[ $+ $lower(<ctcp>) $+ 4] requested at4 <chan> by4 <nick>
+CTCPReply  4(ø4) Reply: 4[ $+ $lower(<ctcp>) $+ 4] from4 <nick> : [  <text> 4 ]
+CTCPReplyOwn  4(ø4) Reply: 4[ $+ $lower(<ctcp>) $+ 4] sent to4 <target> : [  <text> 4 ]
+
+Join 5• Joins:4 <nick> <address brackets="1">
+JoinOwn <linesep><pre> Now in <chan><linesep>!if <topic> 5• Topic 04: <topic>!if <topic> 5• By 04: <topicnick> on04 <topicdate>5• Sync 04: <synctime> seconds<linesep>
+Part 5• Parts:4 <nick> <address brackets="1">
+Quit 5• Quits:4 <nick> <address brackets="1"> : 4[ <message> 4]
+Nick <pre> Nick:04 <nick> : 4[ <newnick> 4]
+NickOwn <pre> Nick:04 <nick> : 4[ <newnick> 4]
+Mode 14[4ø14] ChanMode:4 <nick> sets mode: 4[ $+ $gettok(<mode>,1,32) $+ 4] $iif($gettok(<mode>,2-,32),$v1 $+ )
+UserMode 14[4ø14] UserMode: 4[<mode>4]
+Kick <pre> Kicks: <kickednick> was kicked from4 <chan> by4 <nick> : 4[ <message> 4]
+KickOwn <pre> Kicks: You were kicked from4 <chan> by4 <nick> : 4[ <message> 4] : 4[ <chan> 4]
+WallOp 4(<nick>4)15 <text>
+
+DNS 5• Looking up host of4 <address> ...
+DNSError  5• Failed to resolve<address> : 4[no such host4 ]
+DNSResolve  5• Resolved4 <address> : <ip brackets="1"> to <raddress>
+
+Notify  5›4› Notify:4 <nick> ($address(<nick>)4) is online <note>
+UnNotify  5‹4‹ Notify:4 <nick> ($address(<nick>)4) is offline <note brackets="1">
+
+LUsers1  14[4ø14] Users: There are4 <users> users and4 <invisible> invisible on4 <servers> servers
+LUsers2  14[4ø14] Users: There are4 <operators> operator(s) online
+LUsers3  14[4ø14] Users: There are4 <connections> unknown connection(s)
+LUsers4  14[4ø14] Users: There are4 <channels> channels formed
+LUsers5  14[4ø14] Users: I have4 <clients> clients and4 <servers> servers
+
+Welcome1 !empty
+Welcome2  14[4ø14] Host:15 <host> running15 <version>
+Welcome3  14[4ø14] Created on:15 <created>
+Welcome4  14[4ø14] Usermodes:15 <usermodes> · Chanmodes:15 <chanmodes>
+SupportedInfo 14[4ø14] Protocols:15 <protocols>
+
+ChannelModes <pre> Modes: at 4<chan> : 4[<modes>4]
+ChannelCreation <pre> Created: <created>
+Bans  14[4ø14] Bans:4 <nick> set4 <chan> ban : 4[ <ban> 4]
+BansEnd  14[4ø14] Bans: end of4 <chan> ban list
+UnableToSend  14[4ø14] Error: Cannot send to4 <chan>
+NotOpped  14[4ø14] Error: You are not channel operator on4 <chan>
+HiddenHost <pre> <host> is now your hidden host
+RegisterFirst  14[4ø14] Error: Register first!
+
+WhoisStart     5• /Whois 4: <nick> 14————————————
+WhoisAddress          14›15› 4Address: 14(15<address>14)
+WhoisChans          14›15› 4Channels: <chans>
+WhoisServer          14›15› 4Server: <server> 14(15<info>14)
+WhoisStatus          14›15› 4Status: is $iif(<status> != is,not) a registered nick
+WhoisAway          14›15› 4Away: <reason>
+WhoisAuth          14›15› 4Auth: <auth>
+WhoisRealIP          14›15› 4Real Hostname:15 <address> 14(15<ip>14)
+WhoisIdle          14›15› 4Idle: <idle> 14[15Sign on <signontime>14] 15O14nline · <signonago>
+WhoisEnd     5• End of /Whois info 14————————————————
+
+WhowasStart     5• /Whowas 4: <nick> 14——————————
+WhowasAddress          14›15› 4Address: 14(15<address>14)
+WhowasServer          14›15› 4Server: <server> 14(15<info>14)
+WhowasAway          14›15› 4Was Away: <reason>
+WhowasEnd     5• End of /Whowas info 14————————————————
+
+Who  5›4› <nick> · 14(15<address>14) · <name> ·4 <server> ·4 <status>
+WhoEnd  5›4› End of /Who for4 <target>
+
+Invite <pre> 4[Invite4 (<chan>4)] by15 <nick>
+InviteOwn  5• Invite: to4 <nick> to join4 <chan>
+InviteAlreadyOnChan  14[4ø14] Error 4: <nick> is already on4 <chan>
+
+NoTopic  14[4ø14] Topic: No Topic : 4[ <chan> 4]
+Topic 14————————————————————————————————————————————5• Topic 04: <topic>
+TopicBy 5• By 04: <nick> on04 <date>14—————————————————————————————————
+TopicChange <pre> Topic:4 <nick> changed it to '<topic>'
+
+Names  5• /Names 4: <chan> 14 <names>
+NamesEnd  5• End of /Names info 14————————————————
+
+UnknownCmd  14[4ø14] Error:4 $+(/,$lower(<cmd>)) is an unknown command
+NickInUse  14[4ø14] Error: nick4 <nick> is already in use
+AwayStatus          14›15› 4Away: <reason>
+ChanFull  14[4ø14] Error: Cannot join4 <chan> : 4[ channel is full4 ]
+ChanInviteOnly  14[4ø14] Error: Cannot join4 <chan> : 4[ invite required4 ]
+ChanBanned  14[4ø14] Error: Cannot join4 <chan> : 4[ you're banned4 ]
+ChanKeyRequired  14[4ø14] Error: Cannot join4 <chan> : 4[ key required4 ]
+ChanRegOnly  14[4ø14] Error: Cannot join4 <chan> : 4[ registered only4 ]
+NoSuchNick  14[4ø14] Error: No such nick : 4[ <nick> 4]
+NoSuchChan  14[4ø14] Error: No such channel : 4[ <chan> 4]
+
+RawDef  14[4ø14] 4(<numeric>4) <text>
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 14 1 1 1 0
+Scheme1 Blue 16777215 0 8323072 37632 16749312 8409088 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 14 1 1 1 0
+Scheme2 Green 16777215 0 8323072 37632 65446 40303 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 14 1 1 1 0

@@ -1,0 +1,865 @@
+; ññññññññññññññññññññññññññññññññññññññññ
+; NNScript by ESNation v4.22 - popups - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ññññññññññññññññññññññññññññññññññññññññ
+on ^$*:hotlink:/[a-z]/i:*:{ if ($mouse.key !& 4) { halt } }
+on $*:hotlink:/[a-z]/i:*:{
+  var %g
+  noop $regsub($1,/[^\wˆ¸‰÷‹ƒÍÈË‚·‡ÙÛÚ …»¬¡¿‘”“]/g,,%g)
+  popdll.new
+  popdll.add 1	+g 1 0 $shorten(12,%g) $+ :
+  popdll.add 2	+ 2 0 -
+  popdll.add 3	+ 3 0 &Acronym lookupacro %g
+  popdll.add 4	+ 4 0 &Dictionarydict %g
+  popdll.add 5	+ 5 0 &Googlegoogle %g
+  popdll.add 6	+ 6 0 &IMDBimdb %g
+  popdll.add 7	+ 7 0 &Wikipediawiki %g
+  popdll.disp
+}
+alias pclones {
+  var %a = 1,%i = $ialchan($1,$chan,0),%r
+  while (%a <= %i) {
+    var %n = $ialchan($1,$chan,%a).nick
+    if (%n != $me) {
+      %r = %r %n
+      if ($len(%r) > $iif($prop == short,40,500)) {
+        %r = %r ...
+        break
+      }
+    }
+    inc %a
+  }
+  return $replace(%r,$chr(32),$chr(44) $+ $chr(32))
+}
+menu nicklist {
+  $iif($1 != $null,$shorten(12,$1) $+ $chr(58))
+  .&Quickinfo	 $1:pcb Quickinfo $cr $1
+  .-
+  .&Channel	 $chan:pcb Channel $cr $chan
+  .&Usermode	 $pumd($1):pcb $1 $+ 's usermode in $chan $cr $pumd($1)
+  .&Idle time	 $pidle($1):pcb $1 $+ 's idle time in $chan $cr $pidle($1)
+  .C&om. ch.	 $comchans($1):pcb Common channels with $1 $cr $comchans($1,1)
+  .I&dent	 $pident($1):pcb $1 $+ 's ident $cr $pident($1)
+  .&Host	 $phost($1):pcb $1 $+ 's hostname $cr $phost($1)
+  .$iif($ialchan($address($1,2),$chan,0) > 1,C&lones	 $pclones($address($1,2)).short):pcb $1 $+ 's clones $nbr($gettok($address($1,2),2,64)) $cr $pclones($address($1,2))
+  .-
+  .&Settings...:qinfo.setup
+  -
+  $iif($1 != $null,&Information)
+  .$iif(!$isfile($mklogfn($1)),$style(2)) &View query log:viewlog $mklogfn($1)
+  .$iif(!$isfile($mklogfn($1)),$style(2)) &Search query log
+  ..&Default Search:lview.rem rf $mklogfn($1)
+  ..&LookAround Search:lview.rem rfl $mklogfn($1)
+  .-
+  .&Whois:w $1
+  .&Extended whois:we $1
+  .&UWho:uwho $1
+  .$iif($q.net,&Q $iif($1 == $me,whoami,whois)):.msg q $iif($1 == $me,whoami,whois) $1
+  .-
+  .&DNS:dns $1
+  .$iif(!$ial($1),$style(2)) &Ping...:ping $gettok($ial($1),2,64)
+  .$iif(!$ial($1),$style(2)) &Traceroute...:tracert $gettok($ial($1),2,64)
+  .-
+  .$iif(!$ial($1),$style(2)) &Country:getcountry $1
+  $iif($1 != $null,&CTCP/DCC)
+  .&Finger:ctcp $1 finger
+  .&Page:ctcp $1 page $$eddialog(Please enter the away page you want to send.)
+  .P&ing:ctcp $1 ping
+  .&Time:ctcp $1 time
+  .&Version:ctcp $1 version
+  .-
+  .&Chat:dcc chat $1
+  .&Send...:dcc send $1
+  -
+  $iif($1 != $null,C&ontrol)
+  .$iif(o isin $usermode,IRCOp)
+  ..&Kill...:.raw kill $1 $chr(58) $+ $$eddialog(Please enter a reason for killing $1 $+ .)
+  ..&G-line...:.raw gline $1 $chr(58) $+ $$eddialog(Please enter reason for G-lining $1 $+ .)
+  ..-
+  ..&Quote...:.raw $$eddialog(Please enter a raw command.)
+  ..&Wallop...:.raw wallops $1 $chr(58) $+ $$eddialog(Please enter a wallop message you want to send.)
+  .$iif($notify($notify($1)),$style(1)) &Notify list:.notify $iif($notify($notify($1)),-r) $1 $network
+  .-
+  .$iif($ial($snick($active,1)) isignore,$style(1)) Ig&nore
+  ..&Partial ignore
+  ...&Channel:thmignore -c $1
+  ...C&ontrol codes:thmignore -k $1
+  ...C&TCP:thmignore -t $1
+  ...&DCC:thmignore -d $1
+  ...&Notice:thmignore -n $1
+  ...&Private:thmignore -p $1
+  ..&Timelimited ignore
+  ...&5 minutes
+  ....$submenu($tignore.sub($1,$snick($chan,1),300))
+  ...&30 minutes
+  ....$submenu($tignore.sub($1,$snick($chan,1),1800))
+  ...&2 hours
+  ....$submenu($tignore.sub($1,$snick($chan,1),7200))
+  ...&5 hours
+  ....$submenu($tignore.sub($1,$snick($chan,1),18000))
+  ...-
+  ...&Custom
+  ....$submenu($tignore.sub($1,$snick($chan,1)))
+  ..&Ignore completely:thmignore $1
+  ..-
+  ..&Remove ignore:remignore $1
+  ..-
+  ..Ignore ma&sk
+  ...$submenu($mask.sub($1,ignore,$ial($snick($chan,1))))
+  .$iif(!$ial($1) || $address($1,%ban.mask) iswm $address($me,5),$style(2),$iif($hfind(black,$address($1,5),0,W),$style(1))) &Blacklist
+  ..&Add user:black.adduser $iif($address($1,%ban.mask),$v1,$1 $+ !*@*) You suck
+  ..$iif(!$hfind(black,$address($1,5),0,W),$style(2)) &Remove user:black.remuser $iif($address($1,%ban.mask),$v1,$1 $+ !*@*)
+  ..-
+  ..&Edit blacklist...:black
+  $iif($1 != $null,$iif(!$ccontrol($chan),$style(2)) &Kick/ban)
+  .&Ban:b $1
+  .$iif($q.net,$iif(Q !ison $chan,$style(2)) &Q Ban):qb $1
+  .&Timed ban:tb $1
+  .-
+  .&Kick:k $1 $kick.msg
+  .Kickb&an:kb $1 $kick.msg
+  .T&imed kickban:tkb $1 $kick.msg
+  .-
+  .Ki&ck...:k $1 $$dddialog(Please enter a reason for kicking $1 $+ .,dddialog.df scripts\txt\kickmsg.txt)
+  .Kickba&n...:kb $1 $$dddialog(Please enter a reason for kickbanning $1 $+ .,dddialog.df scripts\txt\kickmsg.txt)
+  .Ti&med kickban...:tkb $1 $$dddialog(Please enter a reason for time kickbanning $1 $+ .,dddialog.df scripts\txt\kickmsg.txt)
+  .-
+  .Ban ma&sk
+  ..$submenu($mask.sub($1,ban,$ial($snick($active,1))))
+  $iif($1 != $null,$iif(!$ccontrol($chan),$style(2)) &Usermodes)
+  .A&uto modes
+  ..Give auto &op:giveaop $1 $chan
+  ..Give auto &voice:giveavoice $1 $chan
+  ..-
+  ..&Take auto op:takeaop $1 $chan
+  ..T&ake auto voice:takeavoice $1 $chan
+  ..Ta&ke all auto modes:takemodes $1 $chan
+  .&Mass modes
+  ..$submenu($psetmmode($1,+))
+  ..-
+  ..$submenu($psetmmode($1,-))
+  .Mas&k modes
+  ..$submenu($psetmkmode($1,+))
+  ..-
+  ..$submenu($psetmkmode($1,-))
+  .-
+  .$submenu($psetumode($1,+))
+  .-
+  .$submenu($psetumode($1,-))
+  .-
+  .T&ake all modes:md - $+ $nickmode $str($1 $+ $chr(32),$len($nickmode))
+  $iif($1 != $null && $q.net && L ison $chan,&L access...):l.uc $1 $chan
+  $iif($1 != $null && $q.net && Q ison $chan,&Q access...):q.uc $1 $chan
+  $iif($1 != $null && $u.net,&X bot)
+  .&Access:.msg X@channels.undernet.org access $chan = $+ $1
+  .&User info:.msg X@channels.undernet.org info = $+ $1
+  .&Verify:.msg X@channels.undernet.org verify $1
+  -
+  $iif($1 != $null,&Slap)
+  .&Random:randslap $1
+  .-
+  .$submenu($pslaps($1))
+  .-
+  .&Edit...:setup -c Messages|Slaps
+}
+alias giveaop {
+  .aop on
+  .aop $1-2 3 $network
+  mode $2 +o $1
+  thmecho -a $thmhl($1) has been added to the auto-op list on $thmhl($2) $+ .
+}
+alias giveavoice {
+  .avoice on
+  .avoice $1-2 3 $network
+  mode $2 +v $1
+  thmecho -a $thmhl($1) has been added to the auto-voice list on $thmhl($2) $+ .
+}
+alias takeaop {
+  .aop -r $1-2 3
+  thmecho -a $thmhl($1) has been removed from the auto-op list on $thmhl($2) $+ .
+}
+alias takeavoice {
+  .avoice -r $1-2 3
+  thmecho -a $thmhl($1) has been removed from the auto-voice list on $thmhl($2) $+ .
+}
+alias takemodes {
+  .avoice -r $1-2 3
+  .aop -r $1-2 3
+  thmecho -a $thmhl($1) has been removed from the auto-voice and auto-op lists on $thmhl($2) $+ .
+}
+alias chan.bans { if ($1 isnum) && ($chan($2).ibl) && ($ibl($2,$1)) { return $+($1,. $remove($v1,:),	by $ibl($2,$1).by,:pcb) Ban $chr(35) $+ $1 in $2 $cr $ibl($2,$1) set by $ibl($2,$1).by } }
+alias sub.away { if ($1 isnum) && ($hget(awaypreset,$1).item) { return $+(&,$replace($v1,_,$chr(32)),:aw) $v1 } }
+menu channel {
+  $shorten(12,$chan)
+  .&Quickinfo	 $chan:pcb Quickinfo $cr $chan
+  .-
+  .&Modes	 $chan($chan).mode:pcb $chan modes $cr $chan($chan).mode
+  .&Users	 $pusers(a):pcb Users in $chan $cr $pusers(a)
+  .&Peak	 $ppeak:pcb User peak in $chan $cr $ppeak
+  .&Opped	 $pusers(o):pcb Opped users in $chan $cr $pusers(o)
+  .&Voiced	 $pusers(v):pcb Voiced users in $chan $cr $pusers(v)
+  .&Regulars	 $pusers(r):pcb Regular users in $chan $cr $pusers(r)
+  .&Ban list
+  ..$iif(!$chan($chan).ibl,$style(2) &Unknown):cc
+  ..$iif(!$ibl($chan,0) && $chan($chan).ibl,$style(2) &Empty):cc
+  ..$submenu($chan.bans($1,$chan))
+  .-
+  .&Chan. central...:cc
+  .&Settings...:qinfo.setup
+  -
+  &Away system
+  .$iif(!$hget(awaypreset,0).item,$iif($status != connected,$style(2)) &Set away):a gone
+  .$iif($hget(awaypreset,0).item,$iif($status != connected,$style(2)) &Set away)
+  ..$submenu($sub.away($1))
+  ..-
+  ..&Presets...:a
+  .$iif($away,$iif($status != connected,$style(2)) Set &back):re
+  .$iif($away,$iif($status != connected,$style(2)) &Change away reason...):a
+  .-
+  .$iif($status != connected || !$nick.away,$style(2)) &Away nick $nbr($nick.away):nick.away
+  .$iif($status != connected || !$nick.def,$style(2)) &Default nick $nbr($nick.def):nick.def
+  .-
+  .Away &pager...:pager
+  .-
+  .S&etup...:setup -c Awaysystem
+  &Control
+  .$iif(!$ccontrol($chan),$style(2)) &Auto modes
+  ..$iif(*!*@* isaop $chan,$style(1)) Auto &op {
+    .aop on
+    .aop $iif(*!*@* isaop $chan,-r) *!*@* $chan
+    thmecho -a $thmhl($chan) $iif(*!*@* isaop $chan,added to,removed from) auto-op list.
+  }
+  ..$iif(*!*@* isavoice $chan,$style(1)) Auto &voice {
+    .avoice on
+    .avoice $iif(*!*@* isavoice $chan,-r) *!*@* $chan
+    thmecho -a $thmhl($chan) $iif(*!*@* isavoice $chan,added to,removed from) auto-voice list.
+  }
+  .$iif(!$ccontrol($chan),$style(2)) &Mass modes
+  ..$submenu($psetmmode($1,+))
+  ..-
+  ..$submenu($psetmmode($1,-))
+  .$iif(!$ccontrol($chan),$style(2)) Mas&k modes
+  ..$submenu($psetmkmode($1,+))
+  ..-
+  ..$submenu($psetmkmode($1,-))
+  .&Channel central...:cc
+  .&Show topic:t
+  .-
+  .&Update addresses:ialupdate $chan
+  $iif($q.net && Q ison $chan,&Q bot)
+  .&Channel commands
+  ..&Channel statistics:.msg q chanstat $chan
+  ..&List users:.msg q users $chan
+  ..-
+  ..Re&fresh topic:.msg q settopic $chan
+  ..&Set topic:.msg q settopic $chan $$eddialog(Please enter a new topic for $chan $+ .)
+  ..-
+  ..$iif($me isop $chan || !%q.authed. [ $+ [ $cid ] ],$style(2)) Request &op:.msg q op $chan
+  ..$iif($me isvo $chan || !%q.authed. [ $+ [ $cid ] ],$style(2)) Request &voice:.msg q voice $chan
+  ..-
+  ..$iif(!$nick($chan,0,o),$style(2)) &Deop all:.msg q deopall $chan
+  ..$iif(!$nick($chan,0,v),$style(2)) D&evoice all:.msg q devoiceall $chan
+  ..-
+  ..List &bans:.msg q banlist $chan
+  ..&Remove all bans:.msg q banclear $chan
+  .$iif(%q.authed. [ $+ [ $cid ] ],$style(2)) &Register {
+    var %e = $$eddialog(Please enter your e-mail address,$emailaddr)
+    .msg q hello %e %e
+  }
+  .$iif(%q.authed. [ $+ [ $cid ] ],$style(2)) &Auth:q.doauth
+  .$iif(%q.authed. [ $+ [ $cid ] ],$style(2)) &Request password:.msg q requestpassword $$eddialog(Please enter your e-mail address.,$emailaddr)
+  .-
+  .&Command list:cmdlist -q
+  .-
+  .$iif($q.net && Q ison $chan,&Q control...):q.cc $chan
+  $iif($u.net,&X bot)
+  .$iif(x !ison $chan,$style(2)) &Ban list:.msg X@channels.undernet.org lbanlist $chan *
+  .$iif(x !ison $chan,$style(2)) &Channel info:.msg X@channels.undernet.org chaninfo $chan
+  .-
+  .&Login:x.doauth
+  .&Show ignores:.msg X@channels.undernet.org showignore
+  $iif(!$q.net && !$u.net && !$gsurge,&Chan/NickServ)
+  .&Identify:ns.doauth
+  ..-
+  ..&Register:!.nickserv register $$epdialog(Please enter a password.) $$eddialog(Please enter your e-mail address.,$emailaddr)
+  ..Request &PW:!.nickserv sendpass $$eddialog(Please enter the nickname you want to recover the password from.,%ns.auth.nick) $$eddialog(Please enter your e-mail address.,$emailaddr)
+  $iif(%sbnc.info. [ $+ [ $cid ] ],&sBNC)
+  .&Private log
+  ..&Show:sbnc.getprivlog
+  ..&Erase {
+    if ($ydialog(Do you really want to delete the sBNC log?)) {
+      .raw sbnc erase
+    }
+  }
+  .&sBNC control...:s-bnc
+  $iif(%psybnc.info. [ $+ [ $cid ] ],&psyBNC)
+  .&Ignore control
+  ..&Add:.raw addignore $$eddialog(Enter an ignore filter $+ $chr(44) wildcards are allowed.,*) :*!*@*
+  ..&Delete:.raw delignore $$eddialog(Which ignore number do you want to delete? You can use /listignores to view all your ignores and ignore numbers.)
+  ..&List:.raw listignores
+  .-
+  .&Private log
+  ..&Show:psybnc.getprivlog
+  ..&Erase {
+    if ($ydialog(Do you really want to delete the psyBNC log?)) {
+      .raw eraseprivatelog
+    }
+  }
+  .-
+  .&psyBNC control...:psybnc
+  &Tools
+  .$iif($window($chan).logfile,View channel &log,&Log viewer):viewlog -a
+  .$iif($window($chan).logfile,Search channel &log)
+  ..&Default Search..:lview.rem rf $window($chan).logfile
+  ..&LookAround Search..:lview.rem rfl $window($chan).logfile
+  .&Search...:.com.sendkeys ^F
+  .-
+  .&Histories
+  ..&DCC history...:dcchist
+  ..&Kick/ban history...:kbhist
+  .&Misc. tools
+  ..&ASCII code list...:ascii
+  ..&RGB code list...:nn.rgb
+  ..-
+  ..A&larm timer...:alarm
+  ..&Clipboard editor...:cbedit
+  ..C&ommand list...:cmdlist
+  ..&DCC monitor...:dccs
+  ..&IP2Nick...:ip2nick
+  ..&Statistics...:stat
+  ..S&ystem info...:sysinfo
+  .&Games
+  ..&Connect to IP
+  ...$submenu($sub.games($1).ip)
+  ..&Just run
+  ...$submenu($sub.games($1))
+  ..&Setup...:setup -c Games
+  .&Blacklist...:black
+  .&Clone scanner...:cscan
+  .M&inIRC:minirc
+  -
+  &Rejoin:hop
+  &Leave:part
+}
+menu status {
+  $iif($status != connected,$style(2)) $shorten(12,$curconserv) $+ $chr(58)
+  .&Quickinfo	 $curconserv:pcb Quickinfo $cr $curconserv
+  .-
+  .&Server	 $server:pcb Server $cr $server
+  .&IP/port	 $+($serverip,$chr(58),$port):pcb Server IP/port $cr $+($serverip,$chr(58),$port)
+  .&Connected	 $sduration($uptime(server,3)).nosec:pcb Connected to server for $cr $sduration($uptime(server,3))
+  .I&dle	 $sduration($idle):pcb Idle time on server $cr $sduration($idle)
+  .-
+  .&Settings...:qinfo.setup
+  -
+  &Away system
+  .$iif(!$hget(awaypreset,0).item,$iif($status != connected,$style(2)) &Set away):a gone
+  .$iif($hget(awaypreset,0).item,$iif($status != connected,$style(2)) &Set away)
+  ..$submenu($sub.away($1))
+  ..-
+  ..&Presets...:a
+  .$iif($away,$iif($status != connected,$style(2)) Set &back):re
+  .$iif($away,$iif($status != connected,$style(2)) &Change away reason...):a
+  .-
+  .$iif($status != connected || !$nick.away,$style(2)) &Away nick $nbr($nick.away):nick.away
+  .$iif($status != connected || !$nick.def,$style(2)) &Default nick $nbr($nick.def):nick.def
+  .-
+  .Away &pager...:pager
+  .-
+  .S&etup...:setup -c Awaysystem
+  $iif($status != connected,$style(2)) &Information
+  .&List channels
+  ..&All:list
+  ..&Wildcard search...:list $$eddialog(Please enter a word you want to search for. Wildcards are allowed.)
+  ..-
+  ..&More than 200 users...:list -min 200
+  ..M&ore than 100 users...:list -min 100
+  ..Mo&re than 50 users...:list -min 50
+  ..Mor&e than 10 users...:list -min 10
+  .&Show MOTD:motd
+  .S&how info:info
+  .Sh&ow links:links
+  &Server
+  .&History
+  ..$submenu($pservhist($1))
+  .&Favorites
+  ..S&ame connection
+  ...$submenu($pfavserv($1))
+  ..&New connection
+  ...$submenu($pfavserv($1,-m))
+  ..&Setup...:setup -c Favorite networks
+  .$iif($status != connected,$style(2)) &Re-execute perform:reperform
+  .-
+  .&New server...:server.dlg -m
+  .$iif($status != connected,$style(2)) &Change server...:server.dlg
+  .$iif($status != connected,$style(2)) R&econnect:reconnect
+  .-
+  .$iif($status != connected,$style(2)) &Disconnect:disconnect
+  $iif(%sbnc.info. [ $+ [ $cid ] ],&sBNC)
+  .&Private log
+  ..&Show:sbnc.getprivlog
+  ..&Erase {
+    if ($ydialog(Do you really want to delete the sBNC log?)) {
+      .raw sbnc erase
+    }
+  }
+  .&sBNC control...:s-bnc
+  $iif(%psybnc.info. [ $+ [ $cid ] ],&psyBNC)
+  .&Ignore control
+  ..&Add:.raw addignore $$eddialog(Enter an ignore filter $+ $chr(44) wildcards are allowed.,*) :*!*@*
+  ..&Delete:.raw delignore $$eddialog(Which ignore number do you want to delete? You can use /listignores to view all your ignores and ignore numbers.)
+  ..&List:.raw listignores
+  .-
+  .&Private log
+  ..&Show:psybnc.getprivlog
+  ..&Erase {
+    if ($ydialog(Do you really want to delete the psyBNC log?)) {
+      .raw eraseprivatelog
+    }
+  }
+  .-
+  .&psyBNC control...:psybnc
+  $iif($q.net,&Q bot)
+  .$iif(%q.authed. [ $+ [ $cid ] ],$style(2)) &Register {
+    var %e = $$eddialog(Please enter your e-mail address,$emailaddr)
+    .msg q hello %e %e
+  }
+  .$iif(%q.authed. [ $+ [ $cid ] ],$style(2)) &Auth:q.doauth
+  .$iif(%q.authed. [ $+ [ $cid ] ],$style(2)) &Request password:.msg q requestpassword $$eddialog(Please enter your e-mail address.,$emailaddr)
+  .-
+  .&Command list:cmdlist -q
+  $iif($u.net,&Identify with X):x.doauth
+  $iif($gsurge,&Identify):gs.doauth
+  $iif(!$q.net && !$u.net && !$gsurge && $status == connected,&Identify):ns.doauth
+  $iif($status != connected,$style(2)) Sile&nce list...:slnc
+  $iif($status != connected,$style(2)) &Usermodes...:umoded
+  -
+  &Clear
+  .&Active window:clr -a
+  .A&ll windows:clr -e
+  .All &windows on all servers:clr -c
+  -
+  $iif($status != connected,$style(2)) &Quit connection:quit
+}
+alias sub.schemes {
+  if ($1 == begin) {
+    window -h @schmload
+    filter -fwgt 2 32 %thm.current @schmload ^Scheme\d+ .+ (?:\d+ ){45}\d+$
+    set %schmlines $iif($line(@schmload,0) < 200,$v1,200)
+  }
+  elseif ($1 isnum 1- $+ %schmlines) {
+    tokenize 32 $gettok($line(@schmload,$1),1-2,32)
+    return $iif(%thm.scheme == $mid($1,7) || (!%thm.scheme && !$mid($1,7)),$style(1)) & $+ $replace($2-,_,$chr(32)) $+ :thmload -s $+ $mid($1,7) %thm.current
+  }
+  elseif ($1 == end) {
+    unset %schmlines
+    close -@ @schmload
+  }
+}
+menu menubar {
+  &Setup...:setup
+  Th&emes
+  .&Change scheme
+  ..$submenu($sub.schemes($1))
+  .&Load default theme:thm.ldef
+  .-
+  .&Theme setup...:themes
+  -
+  &Away system
+  .$iif(!$hget(awaypreset,0).item,$iif($status != connected,$style(2)) &Set away):a gone
+  .$iif($hget(awaypreset,0).item,$iif($status != connected,$style(2)) &Set away)
+  ..$submenu($sub.away($1))
+  ..-
+  ..&Presets...:a
+  .$iif($away,$iif($status != connected,$style(2)) Set &back):re
+  .$iif($away,$iif($status != connected,$style(2)) &Change away reason...):a
+  .-
+  .$iif($status != connected || !$nick.away,$style(2)) &Away nick $nbr($nick.away):nick.away
+  .$iif($status != connected || !$nick.def,$style(2)) &Default nick $nbr($nick.def):nick.def
+  .-
+  .Away &pager...:pager
+  .-
+  .S&etup...:setup -c Awaysystem
+  &Tools
+  .$iif($window($active).logfile,View &log,&Log viewer):viewlog -a
+  .-
+  .&Games
+  ..&Connect to IP
+  ...$submenu($sub.games($1).ip)
+  ..&Just run
+  ...$submenu($sub.games($1))
+  ..&Setup...:setup -c Games
+  .&Histories
+  ..&DCC history...:dcchist
+  ..&Kick/ban history...:kbhist
+  .&Misc. tools
+  ..&ASCII code list...:ascii
+  ..&RGB code list...:nn.rgb
+  ..-
+  ..A&larm timer...:alarm
+  ..&Clipboard editor...:cbedit
+  ..C&ommand list...:cmdlist
+  ..&DCC monitor...:dccs
+  ..&IP2Nick...:ip2nick
+  ..&Statistics...:stat
+  ..S&ystem info...:sysinfo
+  .&Blacklist...:black
+  .&Clone scanner...:cscan
+  -
+  &Clear
+  .&Active window:clr -a
+  .A&ll windows:clr -e
+  .All &windows on all servers:clr -c
+  C&lose
+  .&All queries:scid -a close -m
+  .A&ll DCCs:close -cfgis
+  .All @&windows:closewins
+  &Mark all read:markread
+  -
+  C&ontact
+  .&Forums
+  ..&Overview...:forum
+  ..-
+  ..&Bug reports...:forum 1
+  ..&Suggestions/Feedback...:forum 2
+  ..&General questions/talk...:forum 3
+  ..&Addons...:forum 9
+  ..&Themes...:forum 8
+  ..&mIRC scripting help...:forum 6
+  .&Homepage...:url -an http://www.nnscript.com/
+  .&IRC:jnnch
+  Update-c&heck...:checkver
+  $iif($nomsg,$style(2)) A&dvertise:advertise
+  -
+  A&bout...:nnabout
+}
+menu query {
+  $setqueryvar($1)
+  $iif(!$bncnick($1),$shorten(12,$1) $+ $chr(58))
+  .&Quickinfo	 $1:pcb Quickinfo $cr $1
+  .-
+  .&Com. ch.	 $comchans($1):pcb Common channels with $1 $cr $comchans($1,1)
+  .&Ident	 $pident($1):pcb $1 $+ 's ident $cr $pident($1)
+  .&Host	 $phost($1):pcb $1 $+ 's hostname $cr $phost($1)
+  .-
+  .&Settings...:qinfo.setup
+  -
+  $iif(!$bncnick($1),I&nformation)
+  .$iif($window($1).logfile,View query &log,&Log viewer):viewlog -a
+  .$iif(!$isfile($mklogfn($1)),$style(2)) &Search query log
+  ..&Default Search:lview.rem rf $window($1).logfile
+  ..&LookAround Search:lview.rem rfl $window($1).logfile
+  .&Search...:.com.sendkeys ^F
+  .-
+  .&Whois:w $1
+  .&Extended whois:we $1
+  .&UWho:uwho $1
+  .$iif($q.net,&Q $iif($1 == $me,whoami,whois)):.msg q $iif($1 == $me,whoami,whois) $1
+  .-
+  .&DNS:dns $1
+  .$iif(!$ial($1),$style(2)) &Ping...:ping $gettok($ial($1),2,64)
+  .$iif(!$ial($1),$style(2)) &Traceroute...:tracert $gettok($ial($1),2,64)
+  .-
+  .$iif(!$ial($1),$style(2)) &Country:getcountry $1
+  $iif(!$bncnick($1),&CTCP/DCC)
+  .&Finger:ctcp $1 finger
+  .&Page:ctcp $1 page $$eddialog(Please enter the away page you want to send.)
+  .P&ing:ctcp $1 ping
+  .&Time:ctcp $1 time
+  .&Version:ctcp $1 version
+  .-
+  .&Chat:dcc chat $1
+  .&Send...:dcc send $1
+  -
+  $iif(!$bncnick($1),C&ontrol)
+  .$iif($notify($notify($1)),$style(1)) &Notify list:.notify $iif($notify($notify($1)),-r) $1 $network
+  .-
+  .$iif($ial($1) isignore,$style(1)) &Ignore
+  ..&Partial ignore
+  ...&Channel:thmignore -c $1
+  ...C&ontrol codes:thmignore -k $1
+  ...C&TCP:thmignore -t $1
+  ...&DCC:thmignore -d $1
+  ...&Notice:thmignore -n $1
+  ...&Private:thmignore -p $1
+  ..&Timelimited ignore
+  ...&5 minutes
+  ....$submenu($tignore.sub($1,%query.popnick,300))
+  ...&30 minutes
+  ....$submenu($tignore.sub($1,%query.popnick,1800))
+  ...&2 hours
+  ....$submenu($tignore.sub($1,%query.popnick,7200))
+  ...&5 hours
+  ....$submenu($tignore.sub($1,%query.popnick,18000))
+  ...-
+  ...&Custom
+  ....$submenu($tignore.sub($1,%query.popnick))
+  ..&Ignore completely:thmignore $1
+  ..-
+  ..&Remove ignore:remignore $1
+  ..-
+  ..Ignore ma&sk
+  ...$submenu($mask.sub($1,ignore,$ial(%query.popnick)))
+  .$iif(!$ial($1) || $address($1,%ban.mask) iswm $address($me,5),$style(2),$iif($hfind(black,$address($1,5),0,W),$style(1))) &Blacklist
+  ..&Add user:black.adduser $iif($address($1,%ban.mask),$v1,$1 $+ !*@*) You suck
+  ..$iif(!$hfind(black,$address($1,5),0,W),$style(2)) &Remove user:black.remuser $iif($address($1,%ban.mask),$v1,$1 $+ !*@*)
+  ..-
+  ..&Edit blacklist...:black
+  -
+  $iif(!$bncnick($1),&Tools)
+  .$iif($window($1).logfile,View query &log,&Log viewer):viewlog -a
+  .-
+  .&Games
+  ..&Connect to IP
+  ...$submenu($sub.games($1).ip)
+  ..&Just run
+  ...$submenu($sub.games($1))
+  ..&Setup...:setup -c Games
+  .&Histories
+  ..&DCC history...:dcchist
+  ..&Kick/ban history...:kbhist
+  .&Misc. tools
+  ..&ASCII code list...:ascii
+  ..&RGB code list...:nn.rgb
+  ..-
+  ..A&larm timer...:alarm
+  ..&Clipboard editor...:cbedit
+  ..C&ommand list...:cmdlist
+  ..&DCC monitor...:dccs
+  ..&IP2Nick...:ip2nick
+  ..&Statistics...:stat
+  ..S&ystem info...:sysinfo
+  .&Blacklist...:black
+  .&Clone scanner...:cscan
+  .&MinIRC:minirc
+  $iif($sbnc.nick($1) && %sbnc.info. [ $+ [ $cid ] ],$style(2) sBNC $+ $chr(58)):return
+  $iif($sbnc.nick($1) && %sbnc.info. [ $+ [ $cid ] ],-)
+  $iif($sbnc.nick($1) && %sbnc.info. [ $+ [ $cid ] ],&Get private log):sbnc.getprivlog
+  $iif($sbnc.nick($1) && %sbnc.info. [ $+ [ $cid ] ],&sBNC control...):s-bnc
+  $iif($psybnc.nick($1) && %psybnc.info. [ $+ [ $cid ] ],$style(2) psyBNC $+ $chr(58)):return
+  $iif($psybnc.nick($1) && %psybnc.info. [ $+ [ $cid ] ],-)
+  $iif($psybnc.nick($1) && %psybnc.info. [ $+ [ $cid ] ],&Get private log):psybnc.getprivlog
+  $iif($psybnc.nick($1) && %psybnc.info. [ $+ [ $cid ] ],&psyBNC control...):psybnc
+  $iif(!$bncnick($1),&Slap)
+  .&Random:randslap $1
+  .-
+  .$submenu($pslaps($1))
+  .-
+  .&Edit...:setup -c Messages|Slaps
+  -
+  C&lose:window -c $iif($chr(32) isin $active,$qt($active),$active)
+  $setqueryvar($1,u)
+}
+alias setqueryvar { $iif($2 == u,unset,set) %query.popnick $1 }
+alias pslaps {
+  if ($1 == begin) { .fopen slaps scripts\txt\slaps.txt }
+  elseif ($1 == end) { .fclose slaps }
+  elseif ($fread(slaps)) { return & $+ $v1 }
+}
+alias sub.games {
+  if ($1 isnum) {
+    var %g = $decode($gettok($var(%game.*.added,$1),2,46),m)
+    if (%g != $null) {
+      var %d = $replace(%g,:,;,$chr(123),[,$chr(125),])
+      if ($prop != ip) { return %d $+ :games.open %g }
+      else { return %d $+ :games.open -i %g }
+    }
+  }
+}
+alias remignore {
+  .ignore -r $$1- 5
+  thmecho -a Removed $thmhl($1) from ignore list.
+}
+alias thmignore {
+  .ignore on
+  .ignore $$1- %ignore.mask
+  thmecho -a Now ignoring $thmhl($wd($1-,-1)) $+ .
+  if (p isincs $1) && ($window($wd($1-,-1))) { window -c $v1 }
+}
+alias tignore {
+  .ignore on
+  var %m
+  if ($regex(igntime,$1,/-[^ ]*u(\d+)[^ ]*/)) {
+    .ignore $1- %ignore.mask
+    thmecho -a Now ignoring $thmhl($2-) for $thmhl($duration($regml(igntime,1))) $+ .
+  }
+  else {
+    %m = $int($$eddialog(Please enter an ignore time in minutes.))
+    if (%m !isnum) {
+      errdialog please enter a number.
+      return
+    }
+    .ignore $1 $+ $calc(%m *60) $$2- %ignore.mask
+    thmecho -a Now ignoring $thmhl($2-) for $thmhl($duration($calc(%m *60))) $+ .
+  }
+  if (p isincs $1) && ($window($wd($1-,-1))) { window -c $v1 }
+}
+alias tignore.sub {
+  if ($1 == 1) { return &Complete:tignore -u $+ $3 $2 }
+  elseif ($1 == 2) { return - }
+  elseif ($1 == 3) { return C&hannel:tignore -cu $+ $3 $2 }
+  elseif ($1 == 4) { return C&ontrol codes:tignore -ku $+ $3 $2 }
+  elseif ($1 == 5) { return C&TCP:tignore -tu $+ $3 $2 }
+  elseif ($1 == 6) { return &DCC:tignore -du $+ $3 $2 }
+  elseif ($1 == 7) { return &Notice:tignore -nu $+ $3 $2 }
+  elseif ($1 == 8) { return &Private:tignore -pu $+ $3 $2 }
+}
+alias reperform {
+  if ($1 == -a) { _do scon -at1 reperform }
+  else {
+    if ($status != connected) { thmerror -a You are not connected. }
+    elseif ($isfile(perform.ini)) {
+      unset %rpfrm.done
+      filter -kg perform.ini rpfrm.filter $+(/^n\d+=,$curconserv,$chr(44),.+/i)
+      if (%rpfrm.done) {
+        unset %rpfrm.done
+        thmecho -a Re-executed perform list on $thmhl($curconserv) $+ .
+      }
+      else { thmerror -a Perform list for $thmhl($curconserv) is empty. }
+    }
+    else { thmerror -a perform.ini file not found. }
+  }
+}
+alias mask.sub { if ($1 isnum 0-9) { return $iif($1 == % [ $+ [ $2 ] $+ ] .mask,$style(1)) $+([&,$1,] $mask($iif($3,$3,nick!ident@some.host.com),$1),:chg,$2,mask) $1 } }
+alias chgbanmask {
+  set %ban.mask $1
+  if ($dialog(settings)) { did -c $v1 1377 $calc($1 +1) }
+  thmecho -a Ban mask changed to $thmhl($mask(nick!ident@some.host.com,$1)) $+ .
+}
+alias chgignoremask {
+  set %ignore.mask $1
+  if ($dialog(settings)) { did -c $v1 1376 $calc($1 +1) }
+  thmecho -a Ignore mask changed to $thmhl($mask(nick!ident@some.host.com,$1)) $+ .
+}
+alias pcb {
+  noop $regex(pcb,$1-,^(.+) \x0D (.+)$)
+  var %1 = $regml(pcb,1),%2 = $regml(pcb,2)
+  if (%qinfo.action == 1) {
+    clipboard %1 $+ : %2
+    thmecho -a Information copied to clipboard: %1 $+ : %2
+  }
+  elseif (%qinfo.action == 2) {
+    clipboard %2
+    thmecho -a Information copied to clipboard: %2
+  }
+  elseif (%qinfo.action == 3) { say $sbr(%1) %2 }
+  elseif (%qinfo.action == 4) { thmecho -a %1 $+ : %2 }
+}
+alias massmode {
+  if ($1 ischan) {
+    var %i,%cn
+    if ($2 == +) { %i = $nick($1,0,a,$3) }
+    else { %i = $nick($1,0,$3) }
+    var %d = 0,%x,%r = $mid($prefix,$pos($nickmode,$3),1)
+    if (%i) {
+      if (!$ydialog(You are about to give mode $2 $+ $3 to %i user(s) on $1 $+ . Continue?)) { return }
+      while (%i) {
+        if ($2 == +) { %cn = $nick($1,%i,a,$3) }
+        else { %cn = $nick($1,%i,$3) }
+        if ($me != %cn) || ($2 == +) {
+          %x = $addtok(%x,%cn,32)
+          if ($numtok(%x,32) == $modespl) {
+            $iif(%d,.timer 1 %d) mode $1-2 $+ $str($3,$modespl) %x
+            %x = ""
+            inc %d
+          }
+        }
+        dec %i
+      }
+      if (%x) { $iif(%d,.timer 1 %d) mode $1-2 $+ $str($3,$numtok(%x,32)) %x }
+    }
+    else { thmerror -a There aren't any users on $thmhl($1) who could be given mode $+($2,$3,.) }
+  }
+  else { thmerror -a Wrong parameters. }
+}
+alias mmode {
+  var %i = $snick($1,0),%d = 0,%x,%r = $mid($prefix,$pos($nickmode,$3),1)
+  while (%i) {
+    if (%r $iif($2 == +,!) $+ isin $nick($1,$snick($1,%i)).pnick) {
+      %x = $addtok(%x,$snick($1,%i),32)
+      if ($numtok(%x,32) == $modespl) {
+        $iif(%d,.timer 1 %d) mode $1-2 $+ $str($3,$modespl) %x
+        %x = ""
+        inc %d
+      }
+    }
+    dec %i
+  }
+  if (%x) { $iif(%d,.timer 1 %d) mode $1-2 $+ $str($3,$numtok(%x,32)) %x }
+}
+alias pfavserv {
+  var %x = $wd(%autoconservs,$1)
+  if ($1 isnum) && (%x) { return $iif($network == $v1,$style(1)) $+(&,$1,. %x,:server) $2 %x }
+}
+alias pservhist {
+  var %x = $gettok(%serv.hist,$1,124)
+  if ($1 isnum 1-5) && (%x) { return $iif($server == $gettok(%x,1,9),$style(1)) $+(&,$1,. %x,:server) $iif($status == connected,-m) $gettok(%x,1,9) }
+}
+alias pident { return $iif($ial($1),$gettok($gettok($v1,2,33),1,64),Unknown) }
+alias phost { return $iif($ial($1),$gettok($v1,2-,64),Unknown) }
+alias pidle { return $sduration($nick($chan,$1).idle) }
+alias pumd {
+  var %x = $left($nick($chan,$1).pnick,1),%c = Unknown
+  if ($1 !isreg $chan) {
+    if (%x == @) { %c = Operator }
+    elseif (%x == %) { %c = Half operator }
+    elseif (%x == +) { %c = Voiced }
+    return %x $nbr(%c)
+  }
+  else { return None }
+}
+alias comchans {
+  var %i = 1,%t,%r
+  while ($comchan($1,%i)) {
+    %t = $v1
+    if (%t != $chan) { %r = $addtok(%r,%t,32) }
+    if ($len(%r) > 30) && (!$2) {
+      %r = %r $+ ... $nbr($comchan($1,0))
+      break
+    }
+    inc %i
+  }
+  if (%r) { return %r }
+  else { return None }
+}
+alias repmodename { return $replacex($1-,~,owner,.,owner,@,op,%,halfop,+,voice,&,protected) }
+alias psetumode { if ($1 <= $len($nickmode)) { return $iif($2 == +,&Give,&Take) $+($repmodename($mid($prefix,$1,1)),	,$nbr($2 $+ $mid($nickmode,$1,1)),:mmode) $chan $2 $mid($nickmode,$1,1) } }
+alias psetmmode { if ($1 <= $len($nickmode)) { return Mass $+($iif($2 == -,de),&,$repmodename($mid($prefix,$1,1)),	,$nbr($2 $+ $mid($nickmode,$1,1)),:massmode) $chan $2 $mid($nickmode,$1,1) } }
+alias psetmkmode { if ($1 <= $len($nickmode)) { return Masked $+($iif($2 == -,de),&,$repmodename($mid($prefix,$1,1)),	,$nbr($2 $+ $mid($nickmode,$1,1)),:smode.popup) $mid($prefix,$1,1) $2 $mid($nickmode,$1,1) $chan } }
+alias smode.popup { smode $2- $$eddialog(Please enter a hostmask you want to $iif($2 == -,de) $+ $repmodename($1) $+ .,nickname!ident@host.com) }
+alias pusers { return $nick($chan,0,$1) $iif($1 != a,$nbr($percent($nick($chan,0,$1),$nick($chan,0),0))) }
+alias ppeak {
+  if ($hget(peaks,$chan)) {
+    tokenize 32 $v1
+    return $1 $nbr($asctime($2,%dateformat))
+  }
+  else { return Unknown }
+}
+alias qinfo.setup { nndlg -m qinfo.setup }
+dialog qinfo.setup {
+  title "Quickinfo setup [/qinfo.setup]"
+  size -1 -1 272 134
+  option pixels
+  icon scripts\pics\nntray.ico
+  box "When clicking on an item, do the following", 1, 4 4 264 96
+  radio "&Post text && description to active channel/query", 6, 12 20 248 18
+  radio "&Echo text && description to active channel/query", 7, 12 38 250 18
+  radio "Cop&y text && description to clipboard", 4, 12 56 198 18
+  radio "Copy &text to clipboard", 5, 12 74 132 18
+  button "&Ok", 2, 104 106 80 24, ok
+  button "&Cancel", 3, 188 106 80 24, cancel
+}
+on *:dialog:qinfo.setup:*:*:{
+  if ($devent == init) { did -c $dname $calc(%qinfo.action +3) }
+  elseif ($devent == sclick) && ($did == 2) {
+    var %x
+    if ($did(4).state) { %x = 1 }
+    elseif ($did(5).state) { %x = 2 }
+    elseif ($did(6).state) { %x = 3 }
+    else { %x = 4 }
+    set %qinfo.action %x
+  }
+}
+; ññññññññññññññññññññññññññññññññññññññññ
+; End of file
+; ññññññññññññññññññññññññññññññññññññññññ

@@ -1,0 +1,141 @@
+Name Black and White
+Version 1.0
+NNTVersion 1.03
+Author swarfega
+Email sw4rfega@googlemail.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font Tahoma
+FontSize 12
+
+TimestampEnabled 1
+Timestamp 11(HH:nn)
+
+NickColSelf 0
+NickColOp 11
+NickColVoice 15
+NickColRegular 14
+NickColProtect 5
+NickColIgnore 4
+
+Brackets 11(00<text>11)
+LineSep -
+Prefix 14•15•14•
+
+GenEcho <pre> <text>
+GenError <pre> Error: <text>
+GenHighlight <text>
+
+ChanText 11<lt><cnickcolor><cmode>14<nick>11<gt> <text>
+ChanTextOwn 11<lt><cmecolor><cmode>14<me>11<gt> <text>
+ChanAction <pre> <cmode><nick> <text>
+ChanActionOwn <pre> <cmode><me> <text>
+
+QueryText <lt><nick><gt> <text>
+QueryTextOwn <lt><me><gt> <text>
+QueryAction <pre> <nick> <text>
+QueryActionOwn <pre> <me> <text>
+
+Msg <pre><nick><pre> <text>
+MsgOwn -<gt> <pre><target><pre> <text>
+Action <pre><nick><pre> <text>
+ActionOwn -<gt> <pre><target><pre> <text>
+
+ChanNotice -<nick>@<chan>- <text>
+Notice -<nick>- <text>
+NoticeOwn -<gt> -<target>- <text>
+ServerNotice -<server>- <text>
+
+CTCP [<nick> <ctcp>] <text>
+CTCPOwn -<gt> [<target>] <ctcp> <text>
+ChanCTCP [<nick>:<chan> <ctcp>] <text>
+CTCPReply [<nick> <ctcp> reply] <text>
+CTCPReplyOwn -<gt> [<target>] <ctcp> <text>
+
+Join <pre> Join: <nick brackets="1"> $replace(<address brackets="1">,@,14@00,.,14.00,~,14~00,-,14-00)
+JoinOwn <pre> Now talking in <chan brackets="1">!if <topic> <pre> Topic is <topic brackets="1">!if <topic> <pre> Set by <topicnick brackets="1"> on <topicdate brackets="1">
+Part !if <message> <pre> Part: <nick brackets="1"> $replace(<address brackets="1">,@,14@00,.,14.00,~,14~00,-,14-00) <message brackets="1">
+Quit !if <message> <pre> Quit: <nick brackets="1"> $replace(<address brackets="1">,@,14@00,.,14.00,~,14~00,-,14-00) <message brackets="1">
+Nick <pre> <nick brackets="1"> changes nick to <newnick brackets="1">
+NickOwn <pre> You are now known as <newnick brackets="1">
+Mode <pre> <nick brackets="1"> sets mode: <mode brackets="1">
+UserMode <pre> <me brackets="1"> sets umode: <mode brackets="1">
+Kick !if <message> <pre> <kickednick brackets="1"> was kicked by <nick brackets="1"> <message brackets="1">
+KickOwn !if <message> <pre> You were kicked from <chan brackets="1"> by <nick brackets="1"> <message brackets="1">
+WallOp 11!<nick>11! <text>
+
+DNS <pre> [DNS] <pre>01••01• Dns resolving <address brackets="1">
+DNSError 01••01• DNS unable to resolve <address brackets="1"><pre> [DNS:end] <pre>
+DNSResolve 01••01• DNS resolved <address brackets="1"> to <raddress brackets="1"><pre> [DNS:end] <pre>
+
+Notify <pre> <nick> is now online
+UnNotify <pre> <nick> is now offline
+
+LUsers1 01••01• There are <users> users and <invisible> invisible on <servers> servers
+LUsers2 01••01• <operators> operator(s) online
+LUsers3 01••01• <connections> unknown connection(s)
+LUsers4 01••01• <channels> channels formed
+LUsers5 01••01• I have <clients> clients and <servers> servers
+
+Welcome1 <pre> Welcome to the Internet Relay Network, <nick>
+Welcome2 01••01• Your host is <host>, running version <version>
+Welcome3 01••01• This server was created <created>
+Welcome4 01••01• <server> <version> <usermodes> <chanmodes>
+SupportedInfo 01••01• <protocols> are supported by this server
+
+ChannelModes <pre> <chan> <modes brackets="1">
+ChannelCreation <pre> <chan> created on <created brackets="1">
+Bans <pre> [bans] <pre>01••01• <chan> <ban> set by <nick> <banned brackets="1">
+BansEnd <pre> [bans:end] <pre>
+UnableToSend <pre> Unable to message <chan>
+NotOpped <pre> <pre> <chan>: you're not channel operator
+HiddenHost <pre> $replace(<host brackets="1">,.,14.00) is now your hidden host
+RegisterFirst <pre> Register first!
+
+WhoisStart <pre> [whois] <pre>
+WhoisAddress 01••01• 00<nick> is $replace(<address brackets="1">,@,14@00,.,14.00,~,14~00,-,14-00) • <name>
+WhoisChans 01••01• 01<nick> on $replace(<chans hlcommon="1">,#,00#15,@,14@15,+,14+15,&,14&15,%,14%15,~,14~15,$chr(31),$chr(2))
+WhoisServer 01••01• 01<nick> using $replace(<server brackets="1">,.,14.00) <info>
+WhoisStatus 01••01• 01<nick> is an <status>
+WhoisAway 01••01• 01<nick> is away: <reason>
+WhoisAuth 01••01• 01<nick> is authed as <auth>
+WhoisRealIP 01••01• 01<nick> is actually $replace(<address>,@,14@11,.,14.11,~,14~11,-,14-11) ( $+ $replace(<ip>,.,14.11) $+ )
+WhoisIdle 01••01• 01<nick> has been idle <idle>, signed on <signontime>
+WhoisEnd <pre> [whois:end] <pre>
+
+WhowasStart <pre> [whowas] <pre>
+WhowasAddress 01••01• 00<nick> is $replace(<address brackets="1">,@,14@00,.,14.00,~,14~00,-,14-00) • <name>
+WhowasServer 01••01• 01<nick> using $replace(<server brackets="1">,.,14.00) <info>
+WhowasAway 01••01• 01<nick> is away: <reason>
+WhowasEnd <pre> [whowas:end] <pre>
+
+Who <pre> [who] <pre>01••01• <chan> <nick> <status> $replace(<address>,@,14@15,.,14.15,~,14~15,-,14-15) <name>
+WhoEnd <pre> [who:end] <pre>
+
+Invite <pre> <nick> invites you to join <chan>
+InviteOwn <pre> <nick> has been invited to <chan>
+InviteAlreadyOnChan <pre> <nick> is already on channel
+
+NoTopic <pre> <chan> No topic is set.
+Topic <pre> Topic is '<topic>'
+TopicBy <pre> Set by <nick> on <date>
+TopicChange <pre> <nick brackets="1"> changes topic to <topic brackets="1">'
+
+Names <pre> [names] <pre>01••01• <chan> <names>
+NamesEnd <pre> [names:end] <pre>
+
+UnknownCmd <pre> <cmd> Unknown command
+NickInUse <pre> <nick> Nickname is already in use.
+AwayStatus <pre> <nick> is marked as being away: <reason>
+ChanFull <pre> <chan> unable to join channel (full)
+ChanInviteOnly <pre> <chan> unable to join channel (invite only)
+ChanBanned <pre> <chan> unable to join channel (banned)
+ChanKeyRequired <pre> <chan> unable to join channel (need correct key)
+ChanRegOnly <pre> <chan> unable to join channel (registered only)
+NoSuchNick <pre> <nick> No such nick
+NoSuchChan <pre> <chan> No such channel
+
+RawDef <text>
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 12368306 16515072 16711935 8355711 13816530 1 11 11 4 11 0 11 11 11 11 11 14 11 11 14 0 11 11 11 14 15 1 14 1 14 15 14 0 1 11

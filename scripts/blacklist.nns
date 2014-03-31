@@ -1,0 +1,202 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - blacklist - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias bkacs {
+  var %b = 0,%i = $chan(0)
+  while (%i) {
+    var %cc = $ccontrol($chan(%i)),%k = $nick($chan(%i),0)
+    while (%k) {
+      if (%cc) && ($nick($chan(%i),%k) != $me) && ($hfind(black,$address($nick($chan(%i),%k),5),1,W)) {
+        .timer 1 %b black.punish $chan(%i) $nick($chan(%i),%k) $v1
+        inc %b
+      }
+      dec %k
+    }
+    dec %i
+  }
+}
+alias black.kick.all {
+  var %i = 1
+  while (%i <= $nick($1,0)) {
+    if ($nick($1,%i) != $me) && ($hfind(black,$address($nick($1,%i),5),1,W)) { .timer 1 %i black.punish $1 $nick($1,%i) $v1 }
+    inc %i
+  }
+}
+alias black.kick { if ($2 != $me) && ($hfind(black,$address($2,5),1,W)) { black.punish $1-2 $v1 } }
+alias black.punish {
+  if ($2 ison $1) {
+    var %r = $hget(black,$3)
+    .raw mode $1 -o+b $+($2-3,$crlf,kick $1-2 :,$iif(%r && %r != n/a,%r $+ $chr(44) blacklisted,Blacklisted)) $kc
+    inc %black.kicked
+  }
+}
+alias black.edit {
+  tokenize 9 $did(black,5).seltext
+  set %black.edit $wd($1,6-) $wd($2,5-)
+  noop $dialog(black.add,black.add,-4)
+  if (%black.addy) && (%black.comm) {
+    hdel black $wd($1,6-)
+    hadd black %black.addy %black.comm
+    did -oc black 5 $did(black,5).sel 0 + 0 0 0 %black.addy $+ 	+ 0 0 0 %black.comm
+    hsave -ob black scripts\tables\black.tbl
+    scon -at1 bkacs
+  }
+  unset %black.comm %black.addy
+}
+dialog black {
+  title "Blacklist [/black]"
+  size -1 -1 320 200
+  option pixels
+  icon scripts\pics\nntray.ico
+  list 5, 2 2 316 166, size extsel
+  button "&Ok", 3, 236 172 80 24, ok
+  menu "&File", 8
+  item "&Close", 11, 8
+  menu "&Edit blacklist", 9
+  item "&Add entry", 12, 9
+  item break, 13, 9
+  item "&Edit entry", 14, 9
+  item break, 15, 9
+  item "&Remove entry", 16, 9
+  item "&Clear list", 17, 9
+  menu "&Information", 10
+  item "&Show blacklist info", 18, 10
+}
+dialog black.add {
+  title "Edit blacklist"
+  size -1 -1 234 90
+  option pixels
+  icon scripts\pics\nntray.ico
+  text "Address", 1, 6 8 60 16
+  text "Comment", 2, 6 30 60 16
+  edit "", 3, 70 4 160 22, autohs limit 100
+  edit "", 4, 70 26 160 22, autohs limit 50
+  box "", 5, -10 48 250 8
+  button "&Cancel", 7, 66 62 80 24, cancel
+  button "&Ok", 6, 150 62 80 24
+}
+alias black.loadlist {
+  did -r black 5
+  var %i = $hget(black,0).item
+  if (!%i) { did -b black 17 }
+  while (%i) {
+    did -a black 5 0 + 0 0 0 $hget(black,%i).item $+ 	+ 0 0 0 $hget(black,%i).data
+    dec %i
+  }
+  did -b black 14,16
+}
+on *:dialog:black:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 5 ListView report showsel rowselect > $mdxfile(views)
+    did -i $dname 5 1 headerdims 160:1 120:2
+    did -i $dname 5 1 headertext + 0 Mask	+ 0 Comment
+    black.loadlist
+    if (!%ialupdate) { idialog Warning: the feature that gets all user addresses when you join a channel is currently disabled. Only this feature ensures that all blacklisted users will be kicked after you join/get opped on a channel. If you want to enable it enter /setup and go to "Miscellaneous", "Part II". }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 5) {
+      sortmdx $dname $did
+      did $iif($did($did).sel,-e,-b) $dname 14,16
+      if (rclick * iswm $did($did,1)) {
+        popdll.new
+        popdll.add 1	+ 1 0 &Add entryblack.add
+        popdll.add 2	+ 2 0 -
+        popdll.add 3	 $+ $iif(!$did($did).sel,+g,+) 3 0 &Edit entryblack.edit
+        popdll.add 4	+ 4 0 -
+        popdll.add 5	 $+ $iif(!$did($did).sel,+g,+) 5 0 &Remove entryblack.remsel
+        popdll.add 6	 $+ $iif($did($did).lines == 1,+g,+) 6 0 &Clear listblack.clear
+        popdll.disp
+      }
+    }
+  }
+  elseif ($devent == menu) {
+    if ($did == 17) { black.clear }
+    elseif ($did == 18) { idialog Blacklist entries: $hget(black,0).item $+ Blacklist kicks: %black.kicked }
+    elseif ($did == 14) { black.edit }
+    elseif ($did == 16) { black.remsel }
+    elseif ($did == 12) { black.add }
+    elseif ($did == 11) { dialog -c $dname }
+  }
+  elseif ($devent == dclick) && ($did == 5) { black.edit }
+}
+alias black { nndlg -m black }
+alias black.clear {
+  if ($ydialog(Do you really want to clear the blacklist?)) {
+    did -r black 5
+    hdel -w black *
+    hsave -ob black scripts\tables\black.tbl
+    did -b black 14,16,17
+  }
+}
+alias black.add {
+  noop $dialog(black.add,black.add,-4)
+  if (%black.addy) && (%black.comm) {
+    if (%black.addy == *!*@*) { errdialog please be more specific. You can't blacklist everyone! }
+    elseif (%black.addy iswm $address($me,5)) { errdialog you cannot add yourself to the list! }
+    else {
+      hadd black %black.addy %black.comm
+      hsave -ob black scripts\tables\black.tbl
+      scon -at1 bkacs
+      if ($dialog(black)) {
+        did -a black 5 0 + 0 0 0 %black.addy $+ 	+ 0 0 0 %black.comm
+        did -e black 17
+      }
+      else { idialog %black.addy has been added to the blacklist. }
+    }
+    unset %black.addy %black.comm
+  }
+}
+alias black.remsel {
+  while ($did(black,5).sel) {
+    hdel black $cell(black,5,1)
+    did -d black 5 $did(black,5).sel
+  }
+  did -b black 14,16
+  if ($did(black,5).lines == 1) { did -b black 17 }
+  hsave -ob black scripts\tables\black.tbl
+  if (!$did(black,5).lines) { did -b black 6 }
+}
+on *:dialog:black.add:*:*:{
+  if ($devent == init) {
+    unset %black.addy %black.comm
+    if (%black.edit) {
+      tokenize 32 $v1
+      did -a $dname 3 $1
+      did -a $dname 4 $2-
+      unset %black.edit
+    }
+  }
+  elseif ($devent == sclick) {
+    if ($did == 6) {
+      if (!$did(3)) { errdialog you did not enter an address! }
+      else {
+        set %black.addy $c.add($did(3))
+        set %black.comm $iif($did(4),$did(4),n/a)
+        dialog -c $dname
+      }
+    }
+  }
+}
+alias black.remuser {
+  if ($1) {
+    var %x = 0
+    while ($hfind(black,$1,1,Ww)) {
+      hdel black $v1
+      inc %x
+    }
+    if ($dialog(black)) { black.loadlist }
+    idialog %x user(s) removed from the blacklist.
+  }
+  else { errdialog insufficient parameters. }
+}
+alias black.adduser {
+  set %black.edit $1-
+  black.add
+}
+raw 315:*:{ if ($ccontrol($2)) { black.kick.all $2 } }
+on *:op:#:{ if ($opnick == $me) { black.kick.all $chan } }
+on *:help:#:{ if ($hnick == $me) { black.kick.all $chan } }
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

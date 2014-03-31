@@ -1,0 +1,147 @@
+Name LookSharp
+Version 1.11
+NNTVersion 1.03
+Author greeny (ported by Roniez)
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com
+Description A theme inspired by the LookSharp script.
+
+Font Tahoma
+FontSize 11
+
+TimestampEnabled 1
+Timestamp 14[HH14:nn14:ss14]
+
+NickColSelf 7
+NickColOp 4
+NickColVoice 15
+NickColRegular 14
+NickColProtect none
+NickColIgnore 9
+
+Brackets 14(<text>14)
+LineSep 04•››››››››››››››››››››››››››››››››› ››››› ››› ›› ›› ›› › ›
+Prefix 04•
+
+GenEcho <pre> 04Info:14 <text>
+GenError <pre> 04Error:14 <text>
+GenHighlight 14(<text>14)
+
+ChanText 15[14<cmode>15<nick>15] <text>
+ChanTextOwn 15[14<cmode>15<me>15] <text>
+ChanAction 15• 14<cmode>15<nick> <text>
+ChanActionOwn 15• 14<cmode>15<me> <text>
+
+QueryText 15[<nick>15] <text>
+QueryTextOwn 15[<me>15] <text>
+QueryAction 15• <nick> <text>
+QueryActionOwn 15• <me> <text>
+
+Msg 15*<nick>15!<address>15* <text>
+MsgOwn —› 15*<target>15* <text>
+Action 15* <nick>15!<address> <text>
+ActionOwn —› 15* <target> <text>
+
+ChanNotice 04-<nick>04@<chan>04- <text>
+Notice 04-<nick>04- <text>
+NoticeOwn —› 04-<target>04- <text>
+ServerNotice 04-<server>04- <text>
+
+CTCP 04?<nick>04? <ctcp> <text>
+CTCPOwn —› 04?<target>04? <ctcp> <text>
+ChanCTCP 04?<nick>04@<chan>04? <ctcp> <text>
+CTCPReply 04!<nick>04! <ctcp> <text>
+CTCPReplyOwn —› 04!<target>04! <ctcp> <text>
+
+Join <pre> Join: <nick brackets="1"> <address brackets="1">
+JoinOwn <linesep><pre> Joined <chan brackets="1"><linesep>!if <topic> <pre> Topic:14 <Topic>!if <topic> <pre> Set by: <topicnick brackets="1"> 14on <topicdate brackets="1"><pre> Users:14 <users> users, <oppedusers> ops <oppeduserspercent brackets="1">14, <voicedusers> voiced <voiceduserspercent brackets="1">14, <regusers> regulars <reguserspercent brackets="1"><pre> Join synched in:14 <synctime brackets="1"> 14second(s)<linesep>
+Part <pre> Part: <nick brackets="1"> <address brackets="1"> <message brackets="1">
+Quit <pre> Quit: <nick brackets="1"> <address brackets="1"> <message brackets="1">
+Nick <pre> Nick: <nick brackets="1"> 14is now known as <newnick brackets="1">
+NickOwn <pre> Nick: <me brackets="1"> 14is now known as <newnick brackets="1">
+Mode <pre> Mode: <nick brackets="1"> 14sets <mode brackets="1">
+UserMode <pre> UserMode14 set to <mode brackets="1">
+Kick <pre> Kick: <kickednick brackets="1"> 14was kicked by <nick brackets="1"> <message brackets="1">
+KickOwn <pre> Kick: <me brackets="1"> 14was kicked by <nick brackets="1"> <message brackets="1">
+WallOp <pre> Wallop: <nick brackets="1"> <text>
+
+DNS <pre> DNS:14 resolving <address brackets="1">14...
+DNSError <pre> DNS:14 unable to resolve <address brackets="1">
+DNSResolve <pre> DNS:14 resolved <address brackets="1"> 14to <raddress brackets="1">
+
+Notify <pre> Notify: <nick brackets="1"> 14is now online!
+UnNotify <pre> UnNotify: <nick brackets="1"> 14is now offline!
+
+LUsers1 <pre> Users: 14there are <users brackets="1"> 14users and <invisible brackets="1"> 14invisible on <servers brackets="1"> 14servers
+LUsers2 <pre> Users: 14<operators brackets="1"> 14operator(s) online
+LUsers3 <pre> Users: 14<connections brackets="1"> 14unknown connection(s)
+LUsers4 <pre> Users: 14<channels brackets="1"> 14channels formed
+LUsers5 <pre> Users: 14I have <clients brackets="1"> 14clients and <servers brackets="1"> 14servers
+
+Welcome1 <pre> Welcome14 to the Internet Relay Network, <nick brackets="1">
+Welcome2 <pre> Your14 host is <host brackets="1">14, running version <version brackets="1">
+Welcome3 <pre> This14 server was created <created brackets="1">
+Welcome4 <pre> Version:14 <server brackets="1">: 14<version> <usermodes> <chanmodes>
+SupportedInfo <pre> Protocols: <protocols brackets="1"> are supported by this server
+
+ChannelModes <pre> Modes14 in 14(<chan>14):14 <modes>
+ChannelCreation <pre> Channel14 created on <created brackets="1">
+Bans <pre> Ban: <ban brackets="1"> 14set by <nick> <banned brackets="1">
+BansEnd <pre> Ban:14 end of <chan brackets="1"> 14ban list
+UnableToSend <pre> Unable14 to send message to <chan brackets="1">
+NotOpped <pre> You're14 not opped on <chan brackets="1">
+HiddenHost <pre> Host: <host brackets="1"> 14is now your hidden host
+RegisterFirst <pre> Register14 first!
+
+WhoisStart 04•››››››››››››››››››››››››››››››››› ››››› ››› ›› ›› ›› › ›
+WhoisAddress <pre> Whois report for <nick brackets="1"> <address brackets="1">
+WhoisChans <pre> Channels:14 $replace(<chans>,$chr(35),15#14,@,15@14,%,15%14,+,15+14)
+WhoisServer <pre> Server:14 <server>, <info>
+WhoisStatus <pre> Status:14 IRC Operator
+WhoisAway <pre> Away:14 <reason>
+WhoisAuth <pre> Auth:14 <auth>
+WhoisRealIP <pre> Real IP:14 <address> <ip brackets="1">
+WhoisIdle <pre> Idle:14 <idle><pre> Sign on:14 <signontime>
+WhoisEnd 04•››››››››››››››››››››››››››››››››› ››››› ››› ›› ›› ›› › ›
+
+WhowasStart 04•››››››››››››››››››››››››››››››››› ››››› ››› ›› ›› ›› › ›
+WhowasAddress <pre> Address:14 <nick> <address>
+WhowasServer <pre> Server:14 <server>
+WhowasAway <pre> Away:14 <reason>
+WhowasEnd 04•››››››››››››››››››››››››››››››››› ››››› ››› ›› ›› ›› › ›
+
+Who <pre> /who:14 <nick> <address brackets="1"> 14<name>
+WhoEnd <pre> 04End14 of (/who14) list for <target brackets="1">
+
+Invite <pre> Invite: <nick brackets="1"> 14has invited you to join <chan brackets="1">
+InviteOwn <pre> Invite: <nick brackets="1"> 14has been invited to join <chan brackets="1">
+InviteAlreadyOnChan <pre> User <nick brackets="1"> 14is already on <chan brackets="1">
+
+NoTopic <pre> No topic14 on <chan brackets="1"> 14set!
+Topic <pre> Topic:14 <Topic>
+TopicBy <pre> Set by: <nick brackets="1"> 14on <date brackets="1">
+TopicChange <pre> Topic: <nick brackets="1"> 14changes topic to <topic brackets="1">
+
+Names <pre> /names: <chan brackets="1"> 14<names>
+NamesEnd <pre> End14 of 14(/names14) list for <chan brackets="1">
+
+UnknownCmd <pre> <cmd brackets="1"> 14invalid command
+NickInUse <pre> <nick brackets="1"> 14nickname in use
+AwayStatus <pre> Away: <nick brackets="1"> 14is marked as being away: <reason brackets="1">
+ChanFull <pre> Cannot14 join <chan> 14(channel is full14)
+ChanInviteOnly <pre> Cannot14 join <chan> 14(invite only14)
+ChanBanned <pre> Cannot14 join <chan> 14(banned14)
+ChanKeyRequired <pre> Cannot14 join <chan> 14(requires key14)
+ChanRegOnly <pre> Cannot14 join <chan> 14(registered only14)
+NoSuchNick <pre> <nick brackets="1"> 14no such nickname
+NoSuchChan <pre> <chan brackets="1"> 14no such channel
+
+RawDef <pre> 14<text>
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 1 0
+Scheme1 Green 16777215 0 8323072 37632 53902 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 1 0
+Scheme2 Blue 16777215 0 8323072 37632 16744448 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 1 0
+Scheme3 Teal 16777215 0 8323072 37632 11977283 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 1 0
+Scheme4 Bright 0 16777215 8323072 37632 166 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 4802889 9474192 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 1 0
+Scheme5 Orange 16777215 0 8323072 37632 449279 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 1 0
+Scheme6 Bright_blue 0 16777215 8323072 37632 8872735 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 4802889 9474192 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 0 0 1 1 0

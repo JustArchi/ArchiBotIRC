@@ -1,0 +1,147 @@
+Name BitchX Classic
+Version 1.0.4
+NNTVersion 1.03
+Author blackwind
+Email support@xenostasis.com
+Homepage http://www.xenostasis.com/
+Description Semi-accurate BitchX poser theme for NNS4. Keep it to yourself!
+
+Font Terminal
+FontSize 12
+
+TimestampEnabled 0
+Timestamp [HH:nn]
+
+NickColSelf 0
+NickColOp 8
+NickColVoice 8
+NickColRegular 8
+NickColProtect 9
+NickColIgnore 14
+
+Brackets 14[00<text>14]
+LineSep !empty
+Prefix 04ù00í04ù
+
+GenEcho <pre> <text>
+GenError <pre> BitchX: <text>
+GenHighlight 9[03<text>9]
+
+ChanText 12<lt><nick>12<gt>15 <text>
+ChanTextOwn 13<lt><me>13<gt>15 <text>
+ChanAction 14ð 08<nick>15 <text>
+ChanActionOwn 14ð 00<me>15 <text>
+
+QueryText 12<lt><nick>12<gt>15 <text>
+QueryTextOwn 13<lt><me>13<gt>15 <text>
+QueryAction 14ð 08<nick>15 <text>
+QueryActionOwn 14ð 00<me>15 <text>
+
+Msg 12<lt><nick>!<address>12<gt>15 <text>
+MsgOwn 14[05msg14(04<target>14)]15 <text>
+Action 14ð 08<nick>!<address>15 <text>
+ActionOwn 14[05action14(04<target>14)]15 <text>
+
+ChanNotice 14-13<nick>14:06<chan>14- <text>
+Notice 14-13<nick>14(6<address>14)- <text>
+NoticeOwn 14[05notice14(04<target>14)] <text>
+ServerNotice 09!03<server> <text>
+
+CTCP 14<gt>15<gt>00<gt> 09<nick> 14[03<address>14]03 requested $upper(<ctcp>) from <me>
+CTCPOwn 14[05ctcp14(04<target>14)]15 $upper(<ctcp>) <text>
+ChanCTCP 14<gt>15<gt>00<gt> 09<nick> 14[03<address>14]03 requested $upper(<ctcp>) from <chan>
+CTCPReply <pre> CTCP 00<ctcp> reply from <nick>14: <text>
+CTCPReplyOwn <pre> CTCP 00<ctcp> reply from <me>14: <text>
+
+Join <pre> 11<nick> 14[10<address>14] has joined <chan>
+JoinOwn <pre> 11<me> 14[10<myaddress>14] has joined <chan>!if <topic> <pre> Topic 14(10<chan>14):15 <topic>!if <topic> <pre> Topic 14(10<chan>14):15 set by 10<topicnick> at 10<topicdate><pre> BitchX: Join to <chan> was synched in <synctime> secs!!
+Part <pre> <nick> 14[<address>14] has left <chan> 14[<message>14]
+Quit <pre> SignOff 00<nick>: 14(<message>14)
+Nick <pre> 00<nick> is now known as 10<newnick>
+NickOwn 14<gt>15<gt>00<gt> 00You14(<nick>14) are now known as 10<newnick>
+Mode <pre> mode14/10<chan> <mode brackets="1"> by 00<nick>
+UserMode <pre> Mode change <mode brackets="1"> for user 10<me>
+Kick <pre> 00<kickednick> was kicked off <chan> by 10<nick> 14(<message>14)
+KickOwn 14<gt>15<gt>00<gt> 10You were kicked off 10<chan> by 10<nick> 14(<message>14)
+WallOp 14-13<nick>14:06WallOP14-15 <text>
+
+DNS <pre> Looking up 10<address>...
+DNSError <pre> Unable to resolve 10<address>.
+DNSResolve <pre> Resolved 10<address> to 10<raddress>.
+
+Notify <pre> 9SignOn by 4<nick>!4 $+ $ial(<nick>).user $+ @ $+ $ial(<nick>).host $+  at $asctime($ctime,hh:nntt)
+UnNotify <pre> 9SignOff by 4<nick>!4 $+ $ial(<nick>).user $+ @ $+ $ial(<nick>).host $+  at $asctime($ctime,hh:nntt)
+
+LUsers1 <pre> There are <users brackets="1"> users and <invisible brackets="1"> invisible on <servers brackets="1"> servers.
+LUsers2 <pre> There are <operators brackets="1"> operator(s) online.
+LUsers3 <pre> There are <connections brackets="1"> unknown connection(s).
+LUsers4 <pre> There are <channels brackets="1"> channels formed.
+LUsers5 <pre> I have <clients brackets="1"> clients and <servers brackets="1"> servers.
+
+Welcome1 <pre> Welcome to the <mynetwork> Internet Relay Chat Network, 10<me>!
+Welcome2 <pre> Your host is 10<host>, running version <version brackets="1">.
+Welcome3 <pre> This server was created 10<created>.
+Welcome4 <pre> Supported modes: <chanmodes brackets="1">
+SupportedInfo <pre> Supported protocols: <protocols brackets="1">
+
+ChannelModes <pre> Channel modes for 10<chan>14: <modes brackets="1">
+ChannelCreation <pre> Channel 10<chan> was created at 10<created>.
+Bans <pre> Bans 14(10<chan>14): 00<ban> set on 10<banned> by 10<nick>.
+BansEnd <pre> End of ban list for 10<chan>.
+UnableToSend <pre> Cannot send to channel.
+NotOpped <pre> You're not opped on 10<chan>!
+HiddenHost <pre> Hidden host set to <host brackets="1">!
+RegisterFirst <pre> You have not registered.
+
+WhoisStart 09ÚÄÄÄÄÄ---03Ä09--03ÄÄ09-03ÄÄÄÄÄÄ---14Ä03--14ÄÄ03-14ÄÄÄÄÄÄÄÄÄ--- -- -
+WhoisAddress 09| 00<nick> 14(<ident>@<host>14) (00 $+ $country($gettok(<host>,$numtok(<host>,46),46)) $+ 14)09³ 00ircname $chr(3) :15 <name>
+WhoisChans 03| 00channels : <chans>
+WhoisServer 14³ 00server $chr(3) $chr(3) : <server> (<info>)
+WhoisStatus 14| 00operator : <nick> is an <status>
+WhoisAway 14| 00away $chr(3) $chr(3) $chr(3) $chr(3) : <reason>
+WhoisAuth !empty
+WhoisRealIP !empty
+WhoisIdle 14: 00idle $chr(3) $chr(3) $chr(3) $chr(3) : $replacex(<idle>,secs,$chr(3) secs,sec,$chr(3) sec,mins,$chr(3) mins,min,$chr(3) min,hrs,$chr(3) hrs,hr,$chr(3) hr,days,$chr(3) days,day,$chr(3) day,wks,$chr(3) wks,wk,$chr(3) wk) (signon: <signontime>)
+WhoisEnd !empty
+
+WhowasStart 09ÚÄÄÄÄÄ---03Ä09--03ÄÄ09-03ÄÄÄÄÄÄ---14Ä03--14ÄÄ03-14ÄÄÄÄÄÄÄÄÄ--- -- -
+WhowasAddress 09| 00<nick> 14(<ident>@<host>14) (00 $+ $country($gettok(<host>,$numtok(<host>,46),46)) $+ 14)09³ 00ircname $chr(3) :15 <name>
+WhowasServer 14³ 00server $chr(3) $chr(3) : <server> (<info>)
+WhowasAway 14| 00away $chr(3) $chr(3) $chr(3) $chr(3) : <reason>
+WhowasEnd !empty
+
+Who <pre> WHO: 10<nick>!<address> 14(00<chan> @ 00<server>14) -<gt> <name>
+WhoEnd <pre> End of /WHO list for 10<target>.
+
+Invite 14<gt>15<gt>00<gt> 00<nick> invited you to 10<chan> at 10 $+ $asctime($ctime,hh:nntt) $+ .
+InviteOwn <pre> Invited 00<nick> to 10<chan> at 10$asctime($ctime,hh:nntt).
+InviteAlreadyOnChan <pre> Invite failed. 00<nick> is already on 10<chan>.
+
+NoTopic !empty
+Topic !empty
+TopicBy !empty
+TopicChange <pre> 00<nick> has changed the topic on channel <chan> to14: <topic>
+
+Names <pre> Users 14(10<chan>14): <names>
+NamesEnd <pre> End of /NAMES list for 10<chan>.
+
+UnknownCmd <pre> BitchX: Unknown command "<cmd>"
+NickInUse <pre> Nickname 10<nick> is already in use!
+AwayStatus <pre> 00<nick> is away14: <reason>
+ChanFull <pre> Cannot join channel 10<chan> (Full!)
+ChanInviteOnly <pre> Cannot join channel 10<chan> (Invite Only!)
+ChanBanned <pre> Cannot join channel 10<chan> (Banned!)
+ChanKeyRequired <pre> Cannot join channel 10<chan> (Key Required!)
+ChanRegOnly <pre> Cannot join channel 10<chan> (Auth Only!)
+NoSuchNick <pre> No such user 10<nick> on IRC.
+NoSuchChan <pre> No such channel 10<chan> on IRC.
+
+RawDef <pre> RAW <numeric brackets="1">: <text>
+CRaw718 14-13 $+ $gettok(<text>,2,32) $+ 14(6 $+ $gettok(<text>,3,32) $+ 14)- Received a private message from this user, but dropped it due to umode +g.
+CRaw378 !empty
+CRaw402 <pre> No such user 10 $+ $gettok(<text>,2,32) $+  on IRC.
+CRaw250 !empty
+CRaw266 !empty
+CRaw265 !empty
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 8355711 13816530 1 15 15 8 15 8 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 2 9 5 8 15 15 2 1 0

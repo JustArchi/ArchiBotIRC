@@ -1,0 +1,142 @@
+Name DOS
+Version 1.1
+NNTVersion 1.03
+Author greeny
+Email greeny@nnscript.com
+Homepage http://www.nnscript.com
+Description None.
+
+Font Lucida Console
+FontSize 10
+
+TimestampEnabled 0
+Timestamp [HH:nn]
+
+NickColSelf none
+NickColOp none
+NickColVoice none
+NickColRegular none
+NickColProtect none
+NickColIgnore none
+
+Brackets \<text>
+LineSep 
+Prefix <gt>
+
+GenEcho ..\Info\<text>
+GenError ..\Error\<text>
+GenHighlight \<text>
+
+ChanText <cmode align="-5"><nick align="20"> <text>
+ChanTextOwn <cmode align="-5"><me align="20"> <text>
+ChanAction ! <cmode align="-3"><nick align="20"> <text>
+ChanActionOwn ! <cmode align="-3"><me align="20"> <text>
+
+QueryText      <nick align="20"> <text>
+QueryTextOwn      <me align="20"> <text>
+QueryAction !    <nick align="20"> <text>
+QueryActionOwn !    <me align="20"> <text>
+
+Msg <gt> <gt>  <nick align="20"> <text>
+MsgOwn <gt> <gt>  <me align="20"> <text>
+Action <gt> !  <nick align="20"> <text>
+ActionOwn <gt> !  <me align="20"> <text>
+
+ChanNotice    -<cmode align="1"><nick align="19">:<chan>- <text>
+Notice     -<nick align="19">- <text>
+NoticeOwn <gt> ! -<me align="19">- <text>
+ServerNotice     -<server align="19">- <text>
+
+CTCP     !<nick align="19">! <text>
+CTCPOwn <gt> ! !<me align="19">! <text>
+ChanCTCP     !<nick align="19">:<chan>! <text>
+CTCPReply     ?<nick align="19">? <text>
+CTCPReplyOwn <gt> ! ?<me align="19">? <text>
+
+Join ..\Join\<chan>\<nick>\<address>
+JoinOwn NoNameScript mIRC script [Version %version $+ ](C) Copyright 2000-2006 greeny & mute<linesep>..\<chan>\!if <topic> ..\<chan>\Topic\<topic>!if <topic> ..\<chan>\SetBy\<topicnick>\<topicdate>..\<chan>\SyncTime\<synctime>s<linesep>
+Part ..\Part\<chan>\<cmode><nick>\<address>
+Quit ..\Quit\<chan>\<cmode><nick>\<address><message brackets="1">
+Nick ..\Nick\<chan>\<cmode><nick>\<cmode><newnick>
+NickOwn ..\Nick\<me>\<newnick>
+Mode ..\Mode\<chan>\<cmode><nick>\<mode>
+UserMode ..\Usermode\<me>\<mode>
+Kick ..\Kick\<chan>\<cmode><nick>\<kickedcmode><kickednick>\<message>
+KickOwn ..\Kick\<chan>\<cmode><me>\<kickedcmode><kickednick>\<message>
+WallOp      <nick align="20"> <text>
+
+DNS ..\DNS\Resolving\<address>
+DNSError ..\DNS\Error\<address>
+DNSResolve ..\DNS\Resolved\<address>\<raddress>
+
+Notify ..\Notify\Online\<nick>
+UnNotify ..\Notify\Offline\<nick>
+
+LUsers1 ..\LUsers\Start..\LUsers\<users>users\<invisible>invisible\<servers>servers
+LUsers2 ..\LUsers\<operators>operators
+LUsers3 ..\LUsers\<connections>unknownconnections
+LUsers4 ..\LUsers\<channels>channels
+LUsers5 ..\LUsers\<clients>clients\<servers>servers
+
+Welcome1 ..\Welcome\<nick>
+Welcome2 ..\Welcome\Host\<host>\<version>
+Welcome3 ..\Welcome\Created\<created>
+Welcome4 ..\Welcome\Server\<server>\<version>\<usermodes>\<chanmodes>
+SupportedInfo ..\Supported\<protocols>
+
+ChannelModes ..\Modes\<chan>\<modes>
+ChannelCreation ..\Created\<chan>\<created>
+Bans ..\Banlist\<chan>\<ban>\<nick>\<banned>
+BansEnd ..\Banlist\<chan>\End
+UnableToSend ..\UnableToSendTo\<chan>
+NotOpped ..\NotOpped\<chan>
+HiddenHost ..\HiddenHost\<host>
+RegisterFirst ..\RegisterFirst
+
+WhoisStart ..\Whois\<nick>\Start
+WhoisAddress ..\Whois\<nick>\Address\<address>\<name>
+WhoisChans ..\Whois\<nick>\Channels\<chans>
+WhoisServer ..\Whois\<nick>\Server\<server>\<info>
+WhoisStatus ..\Whois\<nick>\Status\<status>
+WhoisAway ..\Whois\<nick>\Away\<reason>
+WhoisAuth ..\Whois\<nick>\Auth\<auth>
+WhoisRealIP ..\Whois\<nick>\RealIP\<address>\<ip>
+WhoisIdle ..\Whois\<nick>\Idle\<idle>..\Whois\<nick>\SignOn\<signontime>
+WhoisEnd ..\Whois\<nick>\End
+
+WhowasStart ..\Whowas\<nick>\Start
+WhowasAddress ..\Whowas\<nick>\Address\<address>\<name>
+WhowasServer ..\Whowas\<nick>\Server\<server>\<info>
+WhowasAway ..\Whowas\<nick>\Away\<reason>
+WhowasEnd ..\Whowas\<nick>\End
+
+Who ..\Who\<nick>!<address>\<chan>\<status>\<name>
+WhoEnd ..\Who\End
+
+Invite ..\Invitation\<nick>\<chan>
+InviteOwn ..\Invited\<nick>\<chan>
+InviteAlreadyOnChan ..\AlreadyJoined\<chan>\<nick>
+
+NoTopic ..\Topic\<chan>\empty
+Topic ..\Topic\<chan>\Start..\Topic\<chan>\<topic>
+TopicBy ..\Topic\<chan>\SetBy\<nick>\<date>
+TopicChange ..\Topic\<chan>\<cmode><nick>\<topic>
+
+Names ..\Names\<chan>\<names>
+NamesEnd ..\Names\<chan>\End
+
+UnknownCmd ..\UnknownCommand\<cmd>
+NickInUse ..\NickInUse\<nick>
+AwayStatus ..\Away\<nick>\<reason>
+ChanFull ..\CannotJoin\<chan>\Full
+ChanInviteOnly ..\CannotJoin\<chan>\InviteOnly
+ChanBanned ..\CannotJoin\<chan>\Banned
+ChanKeyRequired ..\CannotJoin\<chan>\KeyRequired
+ChanRegOnly ..\CannotJoin\<chan>\RegisteredOnly
+NoSuchNick ..\NoSuchNick\<nick>
+NoSuchChan ..\NoSuchChan\<chan>
+
+RawDef ..\Raw\<numeric>\<text>
+
+Scheme0 Default 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 9211020 13816530 1 15 14 4 14 14 14 14 14 14 14 15 15 14 14 0 14 14 14 14 14 1 0 1 14 14 14 1 1 15
+Scheme1 Inverted 16777215 0 8323072 37632 255 127 10223772 32764 65535 64512 9671424 16776960 16515072 16711935 4276545 6710886 0 15 14 4 14 14 14 14 14 14 14 15 15 14 14 1 14 14 14 14 14 0 1 0 14 14 14 0 0 15

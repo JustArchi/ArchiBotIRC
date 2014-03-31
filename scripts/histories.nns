@@ -1,0 +1,216 @@
+; ––––––––––––––––––––––––––––––––––––––––
+; NNScript by ESNation v4.22 - DCC and kick/ban histories - coded by greeny & mute
+; Don't edit anything in here unless you REALLY know what you're doing!
+; ––––––––––––––––––––––––––––––––––––––––
+alias dcchist { nndlg -mh dcchist }
+dialog dcchist {
+  title "DCC history [/dcchist]"
+  size -1 -1 461 297
+  option pixels
+  icon scripts\pics\nntray.ico
+  tab "Files received", 1002, 4 2 452 264
+  list 2, 9 28 442 228, tab 1002 size
+  tab "Files sent", 1003
+  list 3, 9 28 442 228, tab 1003 size
+  tab "Incomplete gets", 1012
+  list 12, 9 28 442 228, tab 1012 size
+  tab "Incomplete sends", 1013
+  list 13, 9 28 442 228, tab 1013 size
+  button "C&lose", 1, 377 269 80 24, ok
+  menu "&File", 8
+  item "&Close", 10, 8
+  menu "&Edit history", 9
+  item "&Refresh", 11, 9
+  item break, 14, 9
+  item "R&emove selected", 15, 9
+  item "&Clear lists", 16, 9
+  menu "&Information", 17
+  item "&Post selected in active", 18, 17
+  item "&Display DCC history info", 4, 17
+}
+on *:dialog:dcchist:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 2,3,12,13 ListView report showsel rowselect infotip > $mdxfile(views)
+    did -i $dname 2,3,12,13 1 headerdims 140:1 80:2 80:3 130:4 70:5 60:6 120:7
+    did -i $dname 2 1 headertext + 0 Filename	+ 0 Filesize	+ 0 From	+ 0 Time received	+ 0 Speed received	+ 0 Get duration	+ 0 User's IP address
+    did -i $dname 3 1 headertext + 0 Filename	+ 0 Filesize	+ 0 To	+ 0 Time sent	+ 0 Speed sent	+ 0 Send duration	+ 0 User's IP address
+    did -i $dname 12 1 headertext + 0 Filename	+ 0 Received (%)	+ 0 From	+ 0 Time of error	+ 0 Speed received	+ 0 Get duration	+ 0 User's IP address
+    did -i $dname 13 1 headertext + 0 Filename	+ 0 Sent (%)	+ 0 To	+ 0 Time of error	+ 0 Speed sent	+ 0 Send duration	+ 0 User's IP address
+    did -b $dname 15,18
+    dcchist.ref
+  }
+  elseif ($devent == sclick) {
+    if ($istok(1002 1003 1012 1013,$did,32)) { did $iif($did($calc($dialog($dname).tab -1000)).sel && !$nomsg,-e,-b) $dname 15,18 }
+    elseif ($istok(2 3 12 13,$did,32)) {
+      did $iif(!$did($did).sel || $cell($did,1) == No entries.,-b,-e) $dname 15
+      did $iif(!$did($did).sel || $nomsg || $cell($did,1) == No entries.,-b,-e) $dname 18
+      if (rclick recent * iswm $did($did,1)) {
+        popdll.new
+        popdll.add 1	+ 1 0 &Refreshdcchist.ref
+        popdll.add 2	+ 2 0 -
+        popdll.add 3	 $+ $iif(!$did($did).sel || $cell($did,1) == No entries.,+g,+) 3 0 R&emove selecteddcchist.remsel
+        popdll.add 4	 $+ $iif($did($did).lines == 1,+g,+) 4 0 &Clear listsdcchist.clear
+        popdll.add 5	+ 5 0 -
+        popdll.add 6	 $+ $iif(!$did($did).sel || $nomsg || $cell($did,1) == No entries.,+g,+) 6 0 &Post in activedcchist.say $active
+        popdll.disp
+      }
+      else { sortmdx $dname $did }
+    }
+  }
+  elseif ($devent == menu) {
+    if ($did == 10) { dialog -c $dname }
+    elseif ($did == 11) { dcchist.ref }
+    elseif ($did == 15) { dcchist.remsel }
+    elseif ($did == 16) { dcchist.clear }
+    elseif ($did == 18) { dcchist.say $active }
+    elseif ($did == 4) { idialog DCC history entries: $dcchist.entries }
+  }
+  elseif ($devent == dclick) && ($did == 2) { open $getdir $+ $cell($did,1) }
+}
+alias dcchist.entries { return $calc($lines(scripts\txt\dcchist-g.txt) + $lines(scripts\txt\dcchist-ig.txt) + $lines(scripts\txt\dcchist-s.txt) + $lines(scripts\txt\dcchist-is.txt)) }
+alias dcchist.clear {
+  if ($ydialog(Are you sure you want to clear the DCC history?)) {
+    write -c scripts\txt\dcchist-g.txt
+    write -c scripts\txt\dcchist-ig.txt
+    write -c scripts\txt\dcchist-s.txt
+    write -c scripts\txt\dcchist-is.txt
+    dcchist.ref
+  }
+}
+alias dcchist.ref {
+  did -r dcchist 2,3,12,13
+  var %i = 4,%f = g s ig is,%x = 2 3 12 13
+  while (%i) {
+    var %v = $wd(%x,%i),%z = $+(scripts\txt\dcchist-,$wd(%f,%i),.txt)
+    if (!$lines(%z)) { did -a dcchist %v 1 + 0 0 0 No entries. }
+    else { loadbuf -o dcchist %v %z }
+    dec %i
+  }
+}
+alias dcchist.say {
+  var %p = $calc($dialog(dcchist).tab -1000),%n = $1
+  tokenize 9 $did(dcchist,%p).seltext
+  msg %n $sbr(DCC) $wd($1,6-) $nbr($wd($2,5-)) $replace(%p,12,incompletely received from,13,incompletely sent to,2,received from,3,sent to) $wd($3,5-) on $wd($4,5-) at $wd($5,5-) $nbr($wd($6,5-) transfer time)
+}
+alias dcchist.remsel {
+  var %d = $calc($dialog(dcchist).tab -1000)
+  while ($did(dcchist,%d).sel) { did -d dcchist %d $v1 }
+  savebuf -o 2- $+ $did(dcchist,%d).lines dcchist %d $+(scripts\txt\dcchist-,$replace(%d,12,ig,13,is,2,g,3,s),.txt)
+  dcchist.ref
+}
+on *:filercvd:*:{ write -il1 scripts\txt\dcchist-g.txt 1 + 0 0 0 $+($get(-1).file,	+ 0 0 0 $bytes($get(-1).size,3).suf $iif($get(-1).resumed,$nbr(resumed at $bytes($v1,3).suf)),	+ 0 0 0 $get(-1),	+ 0 0 0 $time(dd.mm.yyyy $+ $chr(44) HH:nn:ss),	+ 0 0 0 $bytes($get(-1).cps,3).suf,/s	+ 0 0 0 $sduration($get(-1).secs),	+) 0 0 0 $get(-1).ip }
+on *:filesent:*:{ write -il1 scripts\txt\dcchist-s.txt 1 + 0 0 0 $+($send(-1).file,	+ 0 0 0 $bytes($send(-1).size,3).suf $iif($send(-1).resumed,$nbr(resumed at $bytes($v1,3).suf)),	+ 0 0 0 $send(-1),	+ 0 0 0 $time(dd.mm.yyyy $+ $chr(44) HH:nn:ss),	+ 0 0 0 $bytes($send(-1).cps,3).suf,/s	+ 0 0 0 $sduration($send(-1).secs),	+) 0 0 0 $send(-1).ip }
+on *:getfail:*:{ write -il1 scripts\txt\dcchist-ig.txt 1 + 0 0 0 $+($get(-1).file,	+ 0 0 0 $bytes($get(-1).rcvd,3).suf,/,$bytes($get(-1).size,3).suf $nbr($get(-1).pc $+ %) $iif($get(-1).resumed,$nbr(resumed at $bytes($v1,3).suf)),	+ 0 0 0 $get(-1),	+ 0 0 0 $time(dd.mm.yyyy $+ $chr(44) HH:nn:ss),	+ 0 0 0 $bytes($get(-1).cps,3).suf,/s	+ 0 0 0 $sduration($get(-1).secs),	+) 0 0 0 $get(-1).ip }
+on *:sendfail:*:{ write -il1 scripts\txt\dcchist-is.txt 1 + 0 0 0 $+($send(-1).file,	+ 0 0 0 $bytes($send(-1).sent,3).suf,/,$bytes($send(-1).size,3).suf $nbr($send(-1).pc $+ %) $iif($send(-1).resumed,$nbr(resumed at $bytes($v1,3).suf)),	+ 0 0 0 $send(-1),	+ 0 0 0 $time(dd.mm.yyyy $+ $chr(44) HH:nn:ss),	+ 0 0 0 $bytes($send(-1).cps,3).suf,/s	+ 0 0 0 $sduration($send(-1).secs),	+) 0 0 0 $send(-1).ip }
+alias kbhist { nndlg -m kbhist }
+dialog kbhist {
+  title "Kick/ban history [/kbhist]"
+  size -1 -1 461 297
+  option pixels
+  icon scripts\pics\nntray.ico
+  tab "Kicks", 1002, 4 2 452 264
+  list 2, 10 28 441 228, tab 1002 size
+  tab "Bans", 1008
+  list 8, 10 28 441 228, tab 1008 size
+  button "C&lose", 1, 377 269 80 24, ok
+  menu "&File", 5
+  item "&Close", 10, 5
+  menu "&Edit history", 9
+  item "&Refresh", 11, 9
+  item break, 12, 9
+  item "R&emove selected", 13, 9
+  item "&Clear lists", 7, 9
+  menu "&Information", 3
+  item "&Post selected in active", 6, 3
+  item "&Display kick/ban history info", 4, 3
+}
+on *:dialog:kbhist:*:*:{
+  if ($devent == init) {
+    mdx SetControlMDX $dname 2,8 ListView report showsel rowselect > $mdxfile(views)
+    did -i $dname 2,8 1 headerdims 110:1 80:2 80:3 140:4
+    did -i $dname 2 1 headertext + 0 Date	+ 0 Channel	+ 0 Nick	+ 0 Reason
+    did -i $dname 8 1 headertext + 0 Date	+ 0 Channel	+ 0 Affected users	+ 0 Mask
+    did -b $dname 13,6
+    kbhist.refresh
+  }
+  elseif ($devent == sclick) {
+    if ($istok(1002 1008,$did,32)) { did $iif($did($calc($dialog($dname).tab -1000)).sel && !$nomsg,-e,-b) $dname 13,6 }
+    elseif ($istok(2 8,$did,32)) {
+      did $iif(!$did($did).sel || $cell($did,1) == No entries.,-b,-e) $dname 13
+      did $iif(!$did($did).sel || $nomsg || $cell($did,1) == No entries.,-b,-e) $dname 6
+      if (rclick * iswm $did($did,1)) {
+        popdll.new
+        popdll.add 1	+ 1 0 &Refreshkbhist.refresh
+        popdll.add 2	+ 2 0 -
+        popdll.add 3	 $+ $iif(!$did($did).sel || $cell($did,1) == No entries.,+g,+) 3 0 R&emove selectedkbhist.remsel
+        popdll.add 4	 $+ $iif($did($did).lines == 1,+g,+) 4 0 &Clear listskbhist.clear
+        popdll.add 5	+ 5 0 -
+        popdll.add 6	 $+ $iif(!$did($did).sel || $nomsg || $cell($did,1) == No entries.,+g,+) 6 0 &Post in activekbhist.say $active
+        popdll.disp
+      }
+      else { sortmdx }
+    }
+  }
+  elseif ($devent == menu) {
+    if ($did == 7) { kbhist.clear }
+    elseif ($did == 11) { kbhist.refresh }
+    elseif ($did == 4) { idialog Kick/ban history entries: $kbhist.entries }
+    elseif ($did == 6) { kbhist.say $active }
+    elseif ($did == 13) { kbhist.remsel }
+    elseif ($did == 10) { dialog -c $dname }
+  }
+}
+alias kbhist.say {
+  var %p = $calc($dialog(kbhist).tab -1000),%n = $1
+  tokenize 9 $did(kbhist,%p).seltext
+  msg %n $sbr($replace(%p,2,Kicked,8,Banned)) $iif($wd($3,5-),$v1,no one) in $wd($2,5-) on $wd($1,6-) $nbr($replace(%p,2,reason:,8,mask:) $wd($4,5-))
+}
+alias kbhist.clear {
+  if ($ydialog(Do you really want to clear the kick/ban history?)) {
+    write -c scripts\txt\kickhist.txt
+    write -c scripts\txt\banhist.txt
+    kbhist.refresh
+  }
+}
+alias kbhist.refresh {
+  if ($lines(scripts\txt\kickhist.txt)) { loadbuf -ro kbhist 2 scripts\txt\kickhist.txt }
+  else { did -ra kbhist 2 1 + 0 0 0 No entries. }
+  if ($lines(scripts\txt\banhist.txt)) { loadbuf -ro kbhist 8 scripts\txt\banhist.txt }
+  else { did -ra kbhist 8 1 + 0 0 0 No entries. }
+  did $iif($did(kbhist,4),-e,-b) kbhist 3
+}
+alias kbhist.entries { return $calc($lines(scripts\txt\kickhist.txt) + $lines(scripts\txt\banhist.txt)) }
+alias kbhist.remsel {
+  var %d = $calc($dialog(kbhist).tab -1000)
+  while ($did(kbhist,%d).sel) { did -d kbhist %d $v1 }
+  savebuf -o 2- $+ $did(kbhist,%d).lines kbhist %d $+(scripts\txt\,$replace(%d,2,kick,8,ban),hist.txt)
+  kbhist.refresh
+}
+on *:ban:#:{
+  if ($nick == $me) {
+    var %i = $ialchan($banmask,$chan,0),%r
+    while (%i) {
+      %r = %r $ialchan($banmask,$chan,%i).nick
+      if ($len(%r) > 500) {
+        %r = %r $+ ...
+        break
+      }
+      dec %i
+    }
+    write -il1 scripts\txt\banhist.txt 1 + 0 0 0 $+($asctime(%timeformat),	+ 0 0 0 $chan,	+ 0 0 0 $replace(%r,$chr(32),$chr(44) $+ $chr(32)),	+ 0 0 0 $banmask)
+  }
+}
+on *:kick:#:{ if ($nick == $me) { write -il1 scripts\txt\kickhist.txt 1 + 0 0 0 $+($asctime(%timeformat),	+ 0 0 0 $chan,	+ 0 0 0 $knick,	+ 0 0 0 $strip($1-)) } }
+on *:active:*:{
+  if ($dialog(dcchist)) {
+    var %d = $calc($dialog($v1).tab -1000)
+    did $iif(!$did(dcchist,%d).sel || $nomsg || $cell(dcchist,%d,1) == No entries.,-b,-e) dcchist 18
+  }
+  if ($dialog(kbhist)) {
+    var %d = $calc($dialog($v1).tab -1000)
+    did $iif(!$did(kbhist,%d).sel || $nomsg || $cell(kbhist,%d,1) == No entries.,-b,-e) kbhist 6
+  }
+}
+; ––––––––––––––––––––––––––––––––––––––––
+; End of file
+; ––––––––––––––––––––––––––––––––––––––––

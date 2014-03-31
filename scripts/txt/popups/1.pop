@@ -1,0 +1,9 @@
+&None:winarr.apply
+-
+&Cascade:winarr.apply -c
+&Hybrid:winarr.apply -s
+&Inflate:winarr.apply -i
+&Maximize:winarr.apply -m
+&Tile:winarr.apply -t
+-
+&Setup...:winarr
